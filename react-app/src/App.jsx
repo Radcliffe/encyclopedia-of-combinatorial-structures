@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, Info, Database, AlertCircle, Filter, ListFilter, Loader2, Hash, SigmaSquare, BookOpen, Layers, Sparkles, ChevronRight, RefreshCw } from "lucide-react";
+import { Search, Info, Database, AlertCircle, Filter, ListFilter, Loader2, Hash, SigmaSquare, BookOpen, Layers, ChevronRight, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -11,8 +11,6 @@ import ExternalLink from "./components/ExternalLink";
 import PropTypes from "prop-types";
 
 const CodeUrl = "https://codeberg.org/Radcliffe/encyclopedia-of-combinatorial-structures";
-
-
 
 // --- Minimal helpers ---
 const prettyNumber = (n) => n.toLocaleString();
@@ -27,25 +25,25 @@ function normalize(s) {
 }
 
 function parseTermsQuery(q) {
-	// Accepts: "0,1,0,0,1" or "0 1 0 0 1" -> [0n, 1n, 0n, 0n, 1n]
-	if (!q) return [];
-	return q
-		.split(/[\s,]+/)
-		.map((x) => x.trim())
-		.filter(Boolean)
-		.map((x) => BigInt(x)); // Convert to BigInt
+  // Accepts: "0,1,0,0,1" or "0 1 0 0 1" -> [0n, 1n, 0n, 0n, 1n]
+  if (!q) return [];
+  return q
+    .split(/[\s,]+/)
+    .map((x) => x.trim())
+    .filter(Boolean)
+    .map((x) => BigInt(x)); // Convert to BigInt
 }
 
 function makeLink(r) {
-	const m = r.match(/^EIS\s+A(\d{1,6})$/i);
-	if (m) {
-		const num = m[1].padStart(6, "0");
-		return `https://oeis.org/A${num}`;
-	}
-	if (/^https?:\/\//i.test(r)) {
-		return r;
-	}
-	return '#';
+  const m = r.match(/^EIS\s+A(\d{1,6})$/i);
+  if (m) {
+    const num = m[1].padStart(6, "0");
+    return `https://oeis.org/A${num}`;
+  }
+  if (/^https?:\/\//i.test(r)) {
+    return r;
+  }
+  return '#';
 }
 
 function prefixMatchesSequence(seq, prefix) {
@@ -184,7 +182,7 @@ export default function App() {
         <header className="sticky top-0 z-40 backdrop-blur bg-white/70 border-b">
           <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
             <div className="flex items-center gap-3">
-              <Sparkles className="w-6 h-6" />
+              <img src="/binarytree.svg" height="48" width="48" alt="ECS logo" />
               <h1 className="text-xl sm:text-2xl font-semibold">Encyclopedia of Combinatorial Structures</h1>
               <Badge variant="secondary" className="ml-1">Prototype</Badge>
             </div>
@@ -428,7 +426,7 @@ function SidePanel({ view, setView, selected, clearSelection }) {
                         {selected.references.map((r, idx) => (
                           <li key={idx} className="flex items-center gap-1">
                             <ExternalLink className="w-3.5 h-3.5 opacity-60"/>
-                            <span><a href={makeLink(r)} target="_blank" rel="noreferrer">{r}</a></span>
+                            <span><a href={makeLink(r)} target="_blank" rel="noreferrer" className="underline">{r}</a></span>
                           </li>
                         ))}
                       </ul>
@@ -455,15 +453,15 @@ function SidePanel({ view, setView, selected, clearSelection }) {
           </CardHeader>
           <CardContent className="space-y-3 text-sm text-slate-700">
             <p>
-				This app is a modern re-implementation of the Encyclopedia of Combinatorial Structures,
-				a database of combinatorial structures and their associated integer sequences,
-				with an emphasis on sequences that arise in the context of decomposable combinatorial structures.
-			</p>
-			<p>
-			  The database can be searched by the first terms in the sequence, keywords, generating functions, or closed forms.
+              This app is a modern re-implementation of the Encyclopedia of Combinatorial Structures,
+              a database of combinatorial structures and their associated integer sequences,
+              with an emphasis on sequences that arise in the context of decomposable combinatorial structures.
             </p>
-			  <p>The code is available on <a href={CodeUrl} target="_blank" rel="noreferrer">Codeberg</a>.</p>
-		  </CardContent>
+            <p>
+              The database can be searched by the first terms in the sequence, keywords, generating functions, or closed forms.
+            </p>
+            <p>The code is available on <a href={CodeUrl} target="_blank" rel="noreferrer" className="underline">Codeberg</a>.</p>
+          </CardContent>
         </Card>
       </TabsContent>
     </Tabs>

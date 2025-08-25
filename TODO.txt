@@ -1,6 +1,5 @@
 TODO:
 
-Remove upload feature
 Add deep linking
 Verify sequence data for entries linked to OEIS
 Insert commas in specifications
