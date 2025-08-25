@@ -9,6 +9,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import ExternalLink from "./components/ExternalLink";
 import PropTypes from "prop-types";
+import { useSearchParams } from "react-router-dom";
 
 const CodeUrl = "https://codeberg.org/Radcliffe/encyclopedia-of-combinatorial-structures";
 
@@ -86,6 +87,18 @@ export default function App() {
   const [sortBy, setSortBy] = useState("id"); // id | name
   const [view, setView] = useState("results"); // results | about
   const [selected, setSelected] = useState(null);
+  const [searchParams] = useSearchParams();
+
+  useEffect(() => {
+    const nbr = searchParams.get("nbr");
+    if (nbr && items.length > 0) {
+      const structure = items.find((item) => item.id === Number(nbr));
+      if (structure) {
+        setSelected(structure);
+        setView("results");
+      }
+    }
+  }, [searchParams, items]);
 
   // Load ecs.json
   useEffect(() => {

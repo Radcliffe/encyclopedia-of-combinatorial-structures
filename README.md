@@ -8,6 +8,7 @@ that arise in the context of decomposable combinatorial structures.
 
 The database can be searched by the first terms in the sequence, keywords, generating functions, or closed forms.
 
+The ECS is currently deployed at http://combstruct.netlify.app.
 # Getting Started (Developer Installation)
 
 ## Prerequisites
