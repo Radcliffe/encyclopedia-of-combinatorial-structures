@@ -1,16 +1,17 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, Info, Database, AlertCircle, Filter, ListFilter, Upload, Loader2, Hash, SigmaSquare, BookOpen, Layers, Sparkles, ChevronRight, ExternalLink, RefreshCw } from "lucide-react";
+import { Search, Info, Database, AlertCircle, Filter, ListFilter, Upload, Loader2, Hash, SigmaSquare, BookOpen, Layers, Sparkles, ChevronRight, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import ExternalLink from "./components/ExternalLink";
 
 // --- Minimal helpers ---
 const prettyNumber = (n) => n.toLocaleString();
-const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+// const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 
 // --- Small, simple in-memory search engine ---
 function normalize(s) {
@@ -22,14 +23,25 @@ function normalize(s) {
 }
 
 function parseTermsQuery(q) {
-  // Accepts: "0,1,0,0,1" or "0 1 0 0 1" -> [0,1,0,0,1]
-  if (!q) return [];
-  return q
-    .split(/[\s,]+/)
-    .map((x) => x.trim())
-    .filter(Boolean)
-    .map((x) => Number(x))
-    .filter((x) => !Number.isNaN(x));
+	// Accepts: "0,1,0,0,1" or "0 1 0 0 1" -> [0n, 1n, 0n, 0n, 1n]
+	if (!q) return [];
+	return q
+		.split(/[\s,]+/)
+		.map((x) => x.trim())
+		.filter(Boolean)
+		.map((x) => BigInt(x)); // Convert to BigInt
+}
+
+function makeLink(r) {
+	const m = r.match(/^EIS\s+A(\d{1,6})$/i);
+	if (m) {
+		const num = m[1].padStart(6, "0");
+		return `https://oeis.org/A${num}`;
+	}
+	if (/^https?:\/\//i.test(r)) {
+		return r;
+	}
+	return '#';
 }
 
 function prefixMatchesSequence(seq, prefix) {
@@ -110,8 +122,8 @@ export default function App() {
       specification: rec.specification ?? rec.spec ?? "",
       labeled: Boolean(rec.labeled ?? rec.is_labeled ?? rec.labelled),
       symbol: rec.symbol ?? rec.sym ?? "",
-      terms: Array.isArray(rec.terms) ? rec.terms : [],
-      generating_function: rec.generating_function ?? rec.gf ?? rec.genfun ?? "",
+		terms: Array.isArray(rec.terms) ? rec.terms.map((term) => BigInt(term)) : [],
+		generating_function: rec.generating_function ?? rec.gf ?? rec.genfun ?? "",
       closed_form: rec.closed_form ?? rec.cf ?? "",
       references: Array.isArray(rec.references) ? rec.references : [],
     };
@@ -322,7 +334,7 @@ function ResultsList({ items, onSelect, queries }) {
       {items.length === 0 && (
         <div className="p-6 text-sm text-slate-600">No results. Try relaxing a filter.</div>
       )}
-      {items.map((it) => (
+      {items.slice(0, 20).map((it) => (
         <button
           key={it.key}
           onClick={() => onSelect(it)}
@@ -419,7 +431,7 @@ function SidePanel({ view, setView, selected, clearSelection }) {
                         {selected.references.map((r, idx) => (
                           <li key={idx} className="flex items-center gap-1">
                             <ExternalLink className="w-3.5 h-3.5 opacity-60"/>
-                            <span>{r}</span>
+                            <span><a href={makeLink(r)} target="_blank">{r}</a></span>
                           </li>
                         ))}
                       </ul>
