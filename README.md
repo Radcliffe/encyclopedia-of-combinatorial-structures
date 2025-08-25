@@ -2,7 +2,7 @@
 
 # Overview
 
-This repository is a modern re-implementation of the Encyclopedia of Combinatorial Structures, a database of combinatorial 
+This is a modern re-implementation of the Encyclopedia of Combinatorial Structures, a database of combinatorial 
 structures and their associated integer sequences, with an emphasis on sequences
 that arise in the context of decomposable combinatorial structures. 
 
@@ -18,7 +18,7 @@ The database can be searched by the first terms in the sequence, keywords, gener
 
 1. Clone this repository:
    ```sh
-   git clone https://github.com/jlumbroso/encyclopedia-of-combinatorial-structures.git
+   git clone https://codeberg.org/Radcliffe/encyclopedia-of-combinatorial-structures.git
    cd encyclopedia-of-combinatorial-structures/react-app
    ```
 2. Install dependencies:
@@ -50,6 +50,9 @@ yarn build
 
 The output will be in the `dist/` directory.
 
+# Deployment
+
+This is a static website and can be deployed to any static hosting service, such as GitHub Pages, Netlify, or Vercel.
 # Result format
 
 The result of a successful search is a list of combinatorial structures with, 
@@ -57,7 +60,7 @@ for each of them:
 
   * Its [combstruct](https://www.maplesoft.com/support/help/Maple/view.aspx?path=combstruct) 
    [grammar specification](https://maplesoft.com/support/help/maple/view.aspx?path=combstruct%2fspecification); 
-  * A sequence of integers: the $(n+1)$st term of this sequence is the number of objects 
+  * A sequence of integers: the $n$-th term (counting from 0) is the number of objects 
     of size $n$ defined by the specification. 
     This sequence is computed by the [Maple](https://www.maplesoft.com/products/Maple/) 
     function combstruct[count] which you can use to compute more terms; 

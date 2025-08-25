@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, Info, Database, AlertCircle, Filter, ListFilter, Upload, Loader2, Hash, SigmaSquare, BookOpen, Layers, Sparkles, ChevronRight, RefreshCw } from "lucide-react";
+import { Search, Info, Database, AlertCircle, Filter, ListFilter, Loader2, Hash, SigmaSquare, BookOpen, Layers, Sparkles, ChevronRight, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -8,10 +8,14 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import ExternalLink from "./components/ExternalLink";
+import PropTypes from "prop-types";
+
+const CodeUrl = "https://codeberg.org/Radcliffe/encyclopedia-of-combinatorial-structures";
+
+
 
 // --- Minimal helpers ---
 const prettyNumber = (n) => n.toLocaleString();
-// const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 
 // --- Small, simple in-memory search engine ---
 function normalize(s) {
@@ -85,9 +89,7 @@ export default function App() {
   const [view, setView] = useState("results"); // results | about
   const [selected, setSelected] = useState(null);
 
-  const fileInputRef = useRef(null);
-
-  // Load ecs.json from the same origin (public root). If it fails, we allow manual upload.
+  // Load ecs.json
   useEffect(() => {
     const controller = new AbortController();
     async function boot() {
@@ -112,42 +114,20 @@ export default function App() {
   }, []);
 
   function normalizeRecord(rec) {
-    // Be generous about field names to accommodate historical/legacy dumps.
-    const id = Number(rec.id ?? rec.ID ?? rec.number ?? rec.idx);
+    const id = Number(rec.id);
     return {
       id,
       key: String(id),
-      name: rec.name ?? rec.title ?? "Unnamed structure",
-      description: rec.description ?? rec.desc ?? "",
-      specification: rec.specification ?? rec.spec ?? "",
-      labeled: Boolean(rec.labeled ?? rec.is_labeled ?? rec.labelled),
-      symbol: rec.symbol ?? rec.sym ?? "",
-		terms: Array.isArray(rec.terms) ? rec.terms.map((term) => BigInt(term)) : [],
-		generating_function: rec.generating_function ?? rec.gf ?? rec.genfun ?? "",
-      closed_form: rec.closed_form ?? rec.cf ?? "",
+      name: rec.name ?? "Unnamed structure",
+      description: rec.description ?? "",
+      specification: rec.specification ?? "",
+      labeled: Boolean(rec.labeled),
+      symbol: rec.symbol ?? "",
+      terms: Array.isArray(rec.terms) ? rec.terms.map((term) => BigInt(term)) : [],
+      generating_function: rec.gf ?? "",
+      closed_form: rec.closedform ?? "",
       references: Array.isArray(rec.references) ? rec.references : [],
     };
-  }
-
-  function handleUpload(ev) {
-    const file = ev.target.files?.[0];
-    if (!file) return;
-    const reader = new FileReader();
-    setLoadState("loading");
-    reader.onload = () => {
-      try {
-        const json = JSON.parse(reader.result);
-        setData(json);
-        const arr = Object.values(json).map((rec) => normalizeRecord(rec));
-        setItems(arr);
-        setLoadState("ready");
-        setError("");
-      } catch (e) {
-        setLoadState("error");
-        setError("Invalid JSON file.");
-      }
-    };
-    reader.readAsText(file);
   }
 
   // Derived search params
@@ -240,17 +220,11 @@ export default function App() {
                           <span className="inline-flex items-center gap-2"><Loader2 className="w-4 h-4 animate-spin"/> Loading <code>ecs.json</code>…</span>
                         )}
                         {loadState === "error" && (
-                          <span className="inline-flex items-center gap-2 text-amber-700"><AlertCircle className="w-4 h-4"/> Couldn't fetch <code>/ecs.json</code>. Upload it below.</span>
+                          <span className="inline-flex items-center gap-2 text-amber-700"><AlertCircle className="w-4 h-4"/> Couldn&apos;t fetch <code>/ecs.json</code>. Upload it below.</span>
                         )}
                         {loadState === "idle" && (
                           <span>Ready to load <code>ecs.json</code>.</span>
                         )}
-                      </div>
-                      <div className="ml-auto flex items-center gap-2">
-                        <input ref={fileInputRef} type="file" accept="application/json" className="hidden" onChange={handleUpload} />
-                        <Button size="sm" onClick={() => fileInputRef.current?.click()}>
-                          <Upload className="w-4 h-4 mr-1"/> Upload ecs.json (≈3 MB)
-                        </Button>
                       </div>
                     </div>
                   )}
@@ -327,6 +301,17 @@ export default function App() {
   );
 }
 
+ResultsList.propTypes = {
+  items: PropTypes.array.isRequired,
+  onSelect: PropTypes.func.isRequired,
+  queries: PropTypes.shape({
+    qId: PropTypes.string,
+    qName: PropTypes.string,
+    qGF: PropTypes.string,
+    qCF: PropTypes.string,
+  }).isRequired,
+};
+
 function ResultsList({ items, onSelect, queries }) {
   const listRef = useRef(null);
   return (
@@ -363,6 +348,11 @@ function ResultsList({ items, onSelect, queries }) {
   );
 }
 
+FieldRow.propTypes = {
+  label: PropTypes.node.isRequired,
+  children: PropTypes.node,
+};
+
 function FieldRow({ label, children }) {
   return (
     <div className="space-y-1">
@@ -371,6 +361,13 @@ function FieldRow({ label, children }) {
     </div>
   );
 }
+
+SidePanel.propTypes = {
+  view: PropTypes.string.isRequired,
+  setView: PropTypes.func.isRequired,
+  selected: PropTypes.object,
+  clearSelection: PropTypes.func.isRequired,
+};
 
 function SidePanel({ view, setView, selected, clearSelection }) {
   return (
@@ -431,7 +428,7 @@ function SidePanel({ view, setView, selected, clearSelection }) {
                         {selected.references.map((r, idx) => (
                           <li key={idx} className="flex items-center gap-1">
                             <ExternalLink className="w-3.5 h-3.5 opacity-60"/>
-                            <span><a href={makeLink(r)} target="_blank">{r}</a></span>
+                            <span><a href={makeLink(r)} target="_blank" rel="noreferrer">{r}</a></span>
                           </li>
                         ))}
                       </ul>
@@ -453,25 +450,20 @@ function SidePanel({ view, setView, selected, clearSelection }) {
         <Card className="shadow-sm">
           <CardHeader className="pb-2">
             <CardTitle className="text-lg flex items-center gap-2">
-              <Info className="w-5 h-5"/> About this POC
+              <Info className="w-5 h-5"/> About this App
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-3 text-sm text-slate-700">
             <p>
-              This is a modern replacement for the historic “Encyclopedia of Combinatorial Structures.”
-              It ships as a static, client‑only web app: no server or database is required. The full dataset of 1,075 structures
-              is provided as a ~3 MB JSON file (<code>ecs.json</code>) that loads in the browser.
+				This app is a modern re-implementation of the Encyclopedia of Combinatorial Structures,
+				a database of combinatorial structures and their associated integer sequences,
+				with an emphasis on sequences that arise in the context of decomposable combinatorial structures.
+			</p>
+			<p>
+			  The database can be searched by the first terms in the sequence, keywords, generating functions, or closed forms.
             </p>
-            <ul className="list-disc list-inside space-y-1">
-              <li>Search by structure number, keywords in the name, a prefix of the first terms, or substrings in the generating function or closed form.</li>
-              <li>Sort results by ID or name.</li>
-              <li>If fetching <code>/ecs.json</code> fails (e.g., local preview), you can upload the file manually.</li>
-              <li>The UI is responsive, accessible, and powered by React + Tailwind + shadcn/ui + Framer Motion.</li>
-            </ul>
-            <p className="opacity-80">
-              Notes: generating function and closed form fields are optional in the JSON — the app handles their absence gracefully. Field aliases are supported for older dumps (e.g., <code>gf</code>, <code>genfun</code>, <code>cf</code>).
-            </p>
-          </CardContent>
+			  <p>The code is available on <a href={CodeUrl} target="_blank" rel="noreferrer">Codeberg</a>.</p>
+		  </CardContent>
         </Card>
       </TabsContent>
     </Tabs>
