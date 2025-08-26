@@ -1,14 +1,14 @@
 <svg width="100" height="100" xmlns="http://www.w3.org/2000/svg">
     <g stroke="black" stroke-width="5" fill="none">
-        <path d="M 38 75 L 25 50 L 50 25 L 75 50 L 63 75" />
-        <path d="M 12 75 L 25 50" />
-        <path d="M 88 75 L 75 50" />
-        <circle cx="50" cy="25" r="6" fill="white" />
-        <circle cx="25" cy="50" r="6" fill="white" />
-        <circle cx="75" cy="50" r="6" fill="white" />
-        <circle cx="13" cy="75" r="6" fill="white" />
-        <circle cx="38" cy="75" r="6" fill="white" />
-        <circle cx="63" cy="75" r="6" fill="white" />
-        <circle cx="88" cy="75" r="6" fill="white" />
+        <path d="M 37.5 75.0 L 25.0 50.0 L 50.0 25.0 L 75.0 50.0 L 62.5 75.0" />
+        <path d="M 12.5 75.0 L 25.0 50.0" />
+        <path d="M 87.5 75.0 L 75.0 50.0" />
+        <circle cx="50.0" cy="25.0" r="6" fill="white" />
+        <circle cx="25.0" cy="50.0" r="6" fill="white" />
+        <circle cx="75.0" cy="50.0" r="6" fill="white" />
+        <circle cx="12.5" cy="75.0" r="6" fill="white" />
+        <circle cx="37.5" cy="75.0" r="6" fill="white" />
+        <circle cx="62.5" cy="75.0" r="6" fill="white" />
+        <circle cx="87.5" cy="75.0" r="6" fill="white" />
     </g>
 </svg>
