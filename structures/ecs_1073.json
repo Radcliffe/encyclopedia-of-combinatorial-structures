@@ -1,0 +1,38 @@
+{
+    "id": 1073,
+    "name": "Period 2: repeat (2,4)",
+    "description": "Period 2: repeat (2,4)",
+    "specification": "{S = Prod(Union(Sequence(Prod(Z,Z)),Sequence(Z)),Union(Z,Z))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        4,
+        2,
+        4,
+        2,
+        4,
+        2,
+        4,
+        2,
+        4,
+        2,
+        4,
+        2,
+        4,
+        2,
+        4,
+        2,
+        4,
+        2,
+        4,
+        2
+    ],
+    "references": [
+        "EIS A010694"
+    ],
+    "gf": "-2*(_x+2)*_x/(_x^2-1)",
+    "rec": "{-_f(_n)-_f(_n+1)+6, _f(0) = 0, _f(1) =4, _f(2) = 2}",
+    "closedform": "Sum((_alpha+2)*_alpha^(-1-_n),_alpha = RootOf(_Z^2-1))+piecewise(_n = 0,-2,0)",
+    "equiv": "3+exp(Complex(1)*Pi*_n)"
+}

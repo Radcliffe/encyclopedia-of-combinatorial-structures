@@ -1,0 +1,38 @@
+{
+    "id": 943,
+    "name": "Arithmetic sequence",
+    "description": "5 n + 3",
+    "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z,Z),Sequence(Z)))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        8,
+        13,
+        18,
+        23,
+        28,
+        33,
+        38,
+        43,
+        48,
+        53,
+        58,
+        63,
+        68,
+        73,
+        78,
+        83,
+        88,
+        93,
+        98,
+        103
+    ],
+    "references": [
+        "EIS A016885"
+    ],
+    "gf": "-_x*(-8+3*_x)/(-1+_x)^2",
+    "rec": "{_f(_n)-5*_n-3, _f(0) = 0, _f(1) = 8, _f(2) = 13}",
+    "closedform": "3+5*_n+piecewise(_n = 0,-3,0)",
+    "equiv": "5*_n"
+}

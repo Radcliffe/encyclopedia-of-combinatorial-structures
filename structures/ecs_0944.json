@@ -1,0 +1,38 @@
+{
+    "id": 944,
+    "name": "Arithmetic sequence",
+    "description": "5 n + 4",
+    "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z,Z,Z),Sequence(Z)))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        9,
+        14,
+        19,
+        24,
+        29,
+        34,
+        39,
+        44,
+        49,
+        54,
+        59,
+        64,
+        69,
+        74,
+        79,
+        84,
+        89,
+        94,
+        99,
+        104
+    ],
+    "references": [
+        "EIS A016897"
+    ],
+    "gf": "-_x*(-9+4*_x)/(-1+_x)^2",
+    "rec": "{_f(_n)-5*_n-4, _f(0) = 0, _f(1) = 9, _f(2) = 14}",
+    "closedform": "5*_n+4+piecewise(_n = 0,-4,0)",
+    "equiv": "5*_n"
+}

@@ -1,0 +1,38 @@
+{
+    "id": 377,
+    "name": "a(n) = a(n-1) + a(n-4) with a(0) = 0, a(1) = a(2) = a(3) = 1",
+    "description": "a(n) = a(n-1) + a(n-4) with a(0) = 0, a(1) = a(2) = a(3) = 1",
+    "specification": "{S= Sequence(Prod(Z,Sequence(Prod(Z,Z,Z,Z))))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        2,
+        3,
+        4,
+        5,
+        7,
+        10,
+        14,
+        19,
+        26,
+        36,
+        50,
+        69,
+        95,
+        131,
+        181,
+        250
+    ],
+    "references": [
+        "EIS A003269"
+    ],
+    "gf": "(_x^4-1)/(_x^4+_x-1)",
+    "rec": "{_f(_n)+_f(_n+3)-_f(_n+4), _f(0) = 1, _f(1) = 1, _f(2) = 1, _f(3) = 1, _f(4)= 1}",
+    "closedform": "Sum(1/283*(48*_alpha^3+64*_alpha^2-9*_alpha+36)*_alpha^(-1-_n),_alpha = RootOf(_Z^4+_Z-1))+piecewise(_n = 0,1,0)",
+    "equiv": "(RootOf(_Z^4+_Z-1,.724491959000516)^4-1)/(-4*RootOf(_Z^4+_Z-1,.724491959000516)^4-RootOf(_Z^4+_Z-1,.724491959000516))*(RootOf(_Z^4+_Z-1,.724491959000516)^3+1)^(-ln(exp(-_n)))"
+}

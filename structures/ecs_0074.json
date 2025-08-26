@@ -1,0 +1,35 @@
+{
+    "id": 74,
+    "name": "Balls and Urns",
+    "description": "Ways to place balls into urns: indistinguishable balls and indistinguishable urns",
+    "specification": "{S = Set(U), U= Sequence(Z,1 <= card)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        1,
+        2,
+        3,
+        5,
+        7,
+        11,
+        15,
+        22,
+        30,
+        42,
+        56,
+        77,
+        101,
+        135,
+        176,
+        231,
+        297,
+        385,
+        490,
+        627
+    ],
+    "references": [
+        "EIS A000041"
+    ],
+    "gf": "exp(Sum(-_x^j[1]/(_x^j[1]-1)/j[1],j[1] = 1 .. infinity))"
+}

@@ -1,0 +1,38 @@
+{
+    "id": 386,
+    "name": "Central polygonal numbers (the Lazy Caterer's sequence): n(n+1)/2 + 1; or, maximal number of pieces formed when slicing a pancake with n cuts",
+    "description": "Central polygonal numbers (the Lazy Caterer's sequence): n(n+1)/2 + 1; or, maximal number of pieces formed when slicing a pancake with n cuts",
+    "specification": "{S = Union(Sequence(Z),Prod(Z,Sequence(Z),Sequence(Z),Sequence(Z)))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        2,
+        4,
+        7,
+        11,
+        16,
+        22,
+        29,
+        37,
+        46,
+        56,
+        67,
+        79,
+        92,
+        106,
+        121,
+        137,
+        154,
+        172,
+        191,
+        211
+    ],
+    "references": [
+        "EIS A000124"
+    ],
+    "gf": "-(_x^2-_x+1)/(-1+_x)^3",
+    "rec": "{-2*_f(_n)+_n^2+_n+2, _f(0) = 1, _f(1) = 2, _f(2) = 4}",
+    "closedform": "1/2*_n^2+1/2*_n+1",
+    "equiv": "1/2*_n^2"
+}

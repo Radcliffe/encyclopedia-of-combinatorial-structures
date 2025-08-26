@@ -1,0 +1,34 @@
+{
+    "id": 387,
+    "name": "Number of oriented rooted trees with n nodes. Also rooted trees with n nodes and 2-colored non-root nodes",
+    "description": "Number of oriented rooted trees with n nodes. Also rooted trees with n nodes and 2-colored non-root nodes",
+    "specification": "{B = Set(S), S = Prod(Z,B,B)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        1,
+        2,
+        7,
+        26,
+        107,
+        458,
+        2058,
+        9498,
+        44947,
+        216598,
+        1059952,
+        5251806,
+        26297238,
+        132856766,
+        676398395,
+        3466799104,
+        17873508798,
+        92630098886,
+        482292684506,
+        2521610175006
+    ],
+    "references": [
+        "EIS A000151"
+    ]
+}

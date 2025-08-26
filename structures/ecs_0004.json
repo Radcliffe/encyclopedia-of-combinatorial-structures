@@ -1,0 +1,35 @@
+{
+    "id": 4,
+    "name": "Necklaces of 4 colours",
+    "description": "Necklaces of 4 colours",
+    "specification": "{S = Cycle(Union(c1,c2,c3,c4)), c1 = Atom, c2 = Atom, c3 = Atom, c4 = Atom}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        4,
+        10,
+        24,
+        70,
+        208,
+        700,
+        2344,
+        8230,
+        29144,
+        104968,
+        381304,
+        1398500,
+        5162224,
+        19175140,
+        71582944,
+        268439590,
+        1010580544,
+        3817763740,
+        14467258264,
+        54975633976
+    ],
+    "references": [
+        "EIS A001868"
+    ],
+    "gf": "Sum(numtheory:-phi(j[1])/j[1]*ln(-1/(-1+4*_x^j[1])),j[1] = 1 .. infinity)"
+}

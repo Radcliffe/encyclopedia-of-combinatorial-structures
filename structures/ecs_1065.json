@@ -1,0 +1,38 @@
+{
+    "id": 1065,
+    "name": "Expansion of 1/((1 - x)*(1 - 2*x - x^2))",
+    "description": "Expansion of 1/((1 - x)*(1 - 2*x - x^2))",
+    "specification": "{S = Prod(Sequence(Union(Z,Z,Prod(Z,Z))),Sequence(Z))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        3,
+        8,
+        20,
+        49,
+        119,
+        288,
+        696,
+        1681,
+        4059,
+        9800,
+        23660,
+        57121,
+        137903,
+        332928,
+        803760,
+        1940449,
+        4684659,
+        11309768,
+        27304196,
+        65918161
+    ],
+    "references": [
+        "EIS A048739"
+    ],
+    "gf": "1/(_x^2+2*_x-1)/(-1+_x)",
+    "rec": "{-_f(_n)-2*_f(_n+1)+_f(_n+2)-1, _f(0) = 1, _f(1) = 3}",
+    "closedform": "-1/2+Sum(1/4*(_alpha+2)*_alpha^(-1-_n),_alpha = RootOf(_Z^2+2*_Z-1))",
+    "equiv": "1/(-2*RootOf(_Z^2+2*_Z-1,.4142135624)^2-2*RootOf(_Z^2+2*_Z-1,.4142135624))/(-1+RootOf(_Z^2+2*_Z-1,.4142135624))*(2+RootOf(_Z^2+2*_Z-1,.4142135624))^(-ln(exp(-_n)))"
+}

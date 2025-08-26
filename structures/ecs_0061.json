@@ -1,0 +1,35 @@
+{
+    "id": 61,
+    "name": "Trees",
+    "description": "Unlabelled trees of height 2",
+    "specification": "{S = Prod(Z,Set(T1)), T1 = Prod(Z,Set(T2)), T2 = Z}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        1,
+        1,
+        2,
+        3,
+        5,
+        7,
+        11,
+        15,
+        22,
+        30,
+        42,
+        56,
+        77,
+        101,
+        135,
+        176,
+        231,
+        297,
+        385,
+        490
+    ],
+    "references": [
+        "EIS A000041"
+    ],
+    "gf": "_x*exp(Sum(_x^j[1]*exp(Sum((_x^j[1])^j[2]/j[2],j[2] = 1 ..infinity))/j[1],j[1] = 1 .. infinity))"
+}

@@ -1,0 +1,34 @@
+{
+    "id": 385,
+    "name": "2nd power of rooted tree enumerator; number of linear forests of 2 rooted trees",
+    "description": "2nd power of rooted tree enumerator; number of linear forests of 2 rooted trees",
+    "specification": "{B = Set(C), C = Prod(Z,B), S = Prod(C,B)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        1,
+        2,
+        5,
+        12,
+        30,
+        74,
+        188,
+        478,
+        1235,
+        3214,
+        8450,
+        22370,
+        59676,
+        160140,
+        432237,
+        1172436,
+        3194870,
+        8741442,
+        24007045,
+        66154654
+    ],
+    "references": [
+        "EIS A000106"
+    ]
+}

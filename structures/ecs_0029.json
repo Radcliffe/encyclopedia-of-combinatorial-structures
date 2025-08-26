@@ -1,0 +1,38 @@
+{
+    "id": 29,
+    "name": "Cycles set without fixed point",
+    "description": "permutations Sigma without fixed point such that Sigma^5=Id",
+    "specification": "{S = Set(Union(Cycle(Z,card = 5)))}",
+    "labeled": true,
+    "symbol": "S",
+    "terms": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        24,
+        0,
+        0,
+        0,
+        0,
+        72576,
+        0,
+        0,
+        0,
+        0,
+        1743565824,
+        0,
+        0,
+        0,
+        0,
+        162193467211776
+    ],
+    "references": [
+        "EIS A052504"
+    ],
+    "gf": "exp(1/5*_x^5)",
+    "rec": "{(-_n^4-10*_n^3-35*_n^2-50*_n-24)*_f(_n)+_f(_n+5), _f(0) = 1, _f(1) = 0, _f(2) = 0, _f(3)= 0, _f(4) = 0}",
+    "closedform": "piecewise(irem(_n,5) = 0,1/2*5^(4/5*_n)*GAMMA(1/5*_n+1/5)*GAMMA(1/5*_n+2/5)*GAMMA(1/5*_n+3/5)*GAMMA(1/5*_n+4/5)*(cos(1/5*Pi)+cos(2/5*Pi))/Pi^2,irem(_n-1,5) = 0,0,irem(_n-2,5) = 0,0,irem(_n-3,5) = 0,0,irem(_n-4,5) =0,0)",
+    "equiv": "1/10*2^(1/2)/Pi^(1/2)*5^(1/2)*(1/_n)^(1/2)/exp(-_n)^(1/5)*(_n^(-_n))^(1/5)"
+}

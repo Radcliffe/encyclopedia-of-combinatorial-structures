@@ -1,0 +1,35 @@
+{
+    "id": 102,
+    "name": "Number of partitions of an n-set into boxes of size >2",
+    "description": "Number of partitions of an n-set into boxes of size >2",
+    "specification": "{S = Set(Set(Z,3 <= card))}",
+    "labeled": true,
+    "symbol": "S",
+    "terms": [
+        1,
+        0,
+        0,
+        1,
+        1,
+        1,
+        11,
+        36,
+        92,
+        491,
+        2557,
+        11353,
+        60105,
+        362506,
+        2169246,
+        13580815,
+        91927435,
+        650078097,
+        4762023647,
+        36508923530,
+        292117087090
+    ],
+    "references": [
+        "EIS A006505"
+    ],
+    "gf": "exp(exp(_x)-1-_x-1/2*_x^2)"
+}

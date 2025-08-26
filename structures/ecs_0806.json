@@ -1,0 +1,35 @@
+{
+    "id": 806,
+    "name": "Number of partitions of n into distinct summands (A000009), plus 1 (apart from the first term)",
+    "description": "Number of partitions of n into distinct summands (A000009), plus 1 (apart from the first term)",
+    "specification": "{B = PowerSet(C), C = Sequence(Z,1 <= card), S = Union(B,C)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        2,
+        2,
+        3,
+        3,
+        4,
+        5,
+        6,
+        7,
+        9,
+        11,
+        13,
+        16,
+        19,
+        23,
+        28,
+        33,
+        39,
+        47,
+        55,
+        65
+    ],
+    "references": [
+        "EIS A052839"
+    ],
+    "gf": "(exp(Sum((-1)^j[1]*_x^j[1]/(_x^j[1]-1)/j[1],j[1] = 1 .. infinity))*_x-exp(Sum((-1)^j[1]*_x^j[1]/(_x^j[1]-1)/j[1],j[1] = 1 .. infinity))-_x)/(-1+_x)"
+}

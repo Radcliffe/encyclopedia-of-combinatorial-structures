@@ -1,0 +1,34 @@
+{
+    "id": 430,
+    "name": "Number of planted identity matched trees with n nodes",
+    "description": "Number of planted identity matched trees with n nodes",
+    "specification": "{B = PowerSet(C), C = Prod(S,B), S = Prod(Z,B)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        1,
+        1,
+        2,
+        7,
+        24,
+        95,
+        388,
+        1650,
+        7183,
+        31965,
+        144502,
+        662241,
+        3068942,
+        14358678,
+        67729973,
+        321759461,
+        1538076291,
+        7392775328,
+        35707198905,
+        173221206284
+    ],
+    "references": [
+        "EIS A005754"
+    ]
+}

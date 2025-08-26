@@ -1,0 +1,34 @@
+{
+    "id": 840,
+    "name": "A simple grammar",
+    "description": "A simple grammar",
+    "specification": "{B = PowerSet(S), C = Prod(Z,B), S = Set(C,1 <= card)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        1,
+        2,
+        4,
+        11,
+        29,
+        88,
+        271,
+        876,
+        2880,
+        9699,
+        33106,
+        114575,
+        400547,
+        1413333,
+        5025026,
+        17987892,
+        64769123,
+        234438337,
+        852519108,
+        3113091384
+    ],
+    "references": [
+        "EIS A052869"
+    ]
+}

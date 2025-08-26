@@ -1,0 +1,38 @@
+{
+    "id": 242,
+    "name": "Denumerant",
+    "description": "number of ways to make n cents with coins of 1 4 6 12 cents",
+    "specification": "{S = Prod(Sequence(Z),Sequence(Prod(Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        1,
+        1,
+        1,
+        2,
+        2,
+        3,
+        3,
+        4,
+        4,
+        5,
+        5,
+        8,
+        8,
+        9,
+        9,
+        12,
+        12,
+        15,
+        15,
+        18
+    ],
+    "references": [
+        "EIS A008719"
+    ],
+    "gf": "1/(-1+_x)/(_x^4-1)/(_x^6-1)/(_x^12-1)",
+    "rec": "{6*_f(_n)+18*_f(_n+1)+36*_f(_n+2)+60*_f(_n+3)+84*_f(_n+4)+108*_f(_n+5)+126*_f(_n+6)+138*_f(_n+7)+144*_f(_n+8)+144*_f(_n+9)+144*_f(_n+10)+144*_f(_n+11)+138*_f(_n+12)+126*_f(_n+13)+108*_f(_n+14)+84*_f(_n+15)+60*_f(_n+16)+36*_f(_n+17)+18*_f(_n+18)+6*_f(_n+19)-_n^3-63*_n^2-1322*_n-9240, _f(0) = 1, _f(1) = 1, _f(2) = 1, _f(3) = 1, _f(4) = 2, _f(5) = 2, _f(6) = 3, _f(7) = 3, _f(8) = 4, _f(9) = 4, _f(10) = 5, _f(11) = 5, _f(12) = 8, _f(13) = 8, _f(14) = 9, _f(15) = 9, _f(16) = 12, _f(17) =12, _f(18) = 15}",
+    "closedform": "Sum(1/5184*(41*_alpha^5-22*_alpha^4+57*_alpha^3+210*_alpha^2+313*_alpha-38)*_alpha^(-1-_n),_alpha = RootOf(_Z^6+2*_Z^4+2*_Z^2+1))+Sum(-1/1728*(_alpha^5+_alpha^4-7*_alpha^3-7*_alpha^2+_alpha+1)*_alpha^(-_n-2)*(_n+1),_alpha = RootOf(_Z^6+2*_Z^4+2*_Z^2+1))+Sum(1/72*(2*_alpha^3+_alpha^2-_alpha-2)*_alpha^(-1-_n),_alpha = RootOf(_Z^4-_Z^2+1))+1/3456*(3*_n^2+69*_n+347)*(-1)^(-_n)+1/1728*_n^3+23/1152*_n^2+695/3456*_n+1909/3456",
+    "equiv": "1/1728*_n^3"
+}

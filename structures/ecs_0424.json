@@ -1,0 +1,38 @@
+{
+    "id": 424,
+    "name": "a(n) = Sum_{k=0..floor(n/4)} binomial(n-2k,2k)",
+    "description": "a(n) = Sum_{k=0..floor(n/4)} binomial(n-2k,2k)",
+    "specification": "{S = Sequence(Union(Z,Prod(Z,Z,Z,Z,Sequence(Z))))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        1,
+        1,
+        1,
+        2,
+        4,
+        7,
+        11,
+        17,
+        27,
+        44,
+        72,
+        117,
+        189,
+        305,
+        493,
+        798,
+        1292,
+        2091,
+        3383,
+        5473
+    ],
+    "references": [
+        "EIS A005252"
+    ],
+    "gf": "(-1+_x)/(_x^4-_x^2+2*_x-1)",
+    "rec": "{_f(_n)-_f(_n+2)+2*_f(_n+3)-_f(_n+4), _f(0) = 1, _f(1) = 1, _f(2) = 1, _f(3) = 1}",
+    "closedform": "Sum(1/30*(2*_alpha^3+4*_alpha^2+6*_alpha+1)*_alpha^(-1-_n),_alpha = RootOf(_Z^4-_Z^2+2*_Z-1))",
+    "equiv": "(-1+RootOf(_Z^2+_Z-1,.618033988749895))/(-4*RootOf(_Z^2+_Z-1,.618033988749895)^4+2*RootOf(_Z^2+_Z-1,.618033988749895)^2-2*RootOf(_Z^2+_Z-1,.618033988749895))*(1+RootOf(_Z^2+_Z-1,.618033988749895))^(-ln(exp(-_n)))"
+}

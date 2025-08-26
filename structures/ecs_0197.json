@@ -1,0 +1,38 @@
+{
+    "id": 197,
+    "name": "Denumerant",
+    "description": "number of ways to make n cents with coins of 1 1 2 4 cents",
+    "specification": "{S = Prod(Sequence(Z),Sequence(Z),Sequence(Prod(Z,Z)),Sequence(Prod(Z,Z,Z,Z)))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        2,
+        4,
+        6,
+        10,
+        14,
+        20,
+        26,
+        35,
+        44,
+        56,
+        68,
+        84,
+        100,
+        120,
+        140,
+        165,
+        190,
+        220,
+        250,
+        286
+    ],
+    "references": [
+        "EIS A008804"
+    ],
+    "gf": "1/(-1+_x)^2/(_x^2-1)/(_x^4-1)",
+    "rec": "{6*_f(_n)+12*_f(_n+1)+12*_f(_n+2)+12*_f(_n+3)+6*_f(_n+4)-_n^3-18*_n^2-107*_n-210, _f(0) = 1, _f(1) = 2, _f(2) = 4, _f(3) = 6}",
+    "closedform": "Sum(-1/16*_alpha^(-1-_n),_alpha = RootOf(_Z^2+1))+1/96*(3*_n+12)*(-1)^(-_n)+1/48*_n^3+1/4*_n^2+85/96*_n+7/8",
+    "equiv": "1/48*_n^3"
+}

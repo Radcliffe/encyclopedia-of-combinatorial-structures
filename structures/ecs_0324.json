@@ -1,0 +1,38 @@
+{
+    "id": 324,
+    "name": "Multiples of 12",
+    "description": "Multiples of 12",
+    "specification": "{S = Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        12,
+        24,
+        36,
+        48,
+        60,
+        72,
+        84,
+        96,
+        108,
+        120,
+        132,
+        144,
+        156,
+        168,
+        180,
+        192,
+        204,
+        216,
+        228,
+        240
+    ],
+    "references": [
+        "EIS A008594"
+    ],
+    "gf": "12*_x/(-1+_x)^2",
+    "rec": "{_f(_n)-12*_n, _f(0) = 0, _f(1) = 12}",
+    "closedform": "12*_n",
+    "equiv": "12*_n"
+}

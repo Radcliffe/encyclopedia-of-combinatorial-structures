@@ -1,0 +1,38 @@
+{
+    "id": 1022,
+    "name": "Number of reversible strings with n beads of 2 colors. If more than 1 bead, not palindromic",
+    "description": "Number of reversible strings with n beads of 2 colors. If more than 1 bead, not palindromic",
+    "specification": "{S = Prod(Sequence(Prod(Union(Z,Z),Z)),Sequence(Union(Z,Z)))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        2,
+        6,
+        12,
+        28,
+        56,
+        120,
+        240,
+        496,
+        992,
+        2016,
+        4032,
+        8128,
+        16256,
+        32640,
+        65280,
+        130816,
+        261632,
+        523776,
+        1047552,
+        2096128
+    ],
+    "references": [
+        "EIS A032085"
+    ],
+    "gf": "1/(2*_x^2-1)/(-1+2*_x)",
+    "rec": "{4*_f(_n)-2*_f(_n+1)-2*_f(_n+2)+_f(_n+3), _f(0) = 1, _f(1) = 2, _f(2) = 6}",
+    "closedform": "Sum(-1/2*(1+_alpha)*_alpha^(-1-_n),_alpha = RootOf(2*_Z^2-1))+2^(_n+1)",
+    "equiv": "2*exp(-_n)^(-ln(2))"
+}

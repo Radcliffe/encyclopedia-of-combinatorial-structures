@@ -1,0 +1,38 @@
+{
+    "id": 1011,
+    "name": "Constant sequence",
+    "description": "All 3's",
+    "specification": "{S = Prod(Union(Z,Z,Z),Sequence(Z))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3
+    ],
+    "references": [
+        "EIS A010701"
+    ],
+    "gf": "-3*_x/(-1+_x)",
+    "rec": "{-_f(_n)+3, _f(0) = 0, _f(1) = 3}",
+    "closedform": "3+piecewise(_n = 0,-3,0)",
+    "equiv": "3"
+}

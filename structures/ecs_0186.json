@@ -1,0 +1,38 @@
+{
+    "id": 186,
+    "name": "Denumerant",
+    "description": "number of ways to make n cents with coins of 1 2 4 10 cents",
+    "specification": "{S = Prod(Sequence(Z),Sequence(Prod(Z,Z)),Sequence(Prod(Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        1,
+        2,
+        2,
+        4,
+        4,
+        6,
+        6,
+        9,
+        9,
+        13,
+        13,
+        18,
+        18,
+        24,
+        24,
+        31,
+        31,
+        39,
+        39,
+        49
+    ],
+    "references": [
+        "EIS A001362"
+    ],
+    "gf": "1/(-1+_x)/(_x^2-1)/(_x^4-1)/(_x^10-1)",
+    "rec": "{6*_f(_n)+18*_f(_n+1)+30*_f(_n+2)+42*_f(_n+3)+48*_f(_n+4)+48*_f(_n+5)+48*_f(_n+6)+48*_f(_n+7)+48*_f(_n+8)+48*_f(_n+9)+42*_f(_n+10)+30*_f(_n+11)+18*_f(_n+12)+6*_f(_n+13)-_n^3-45*_n^2-674*_n-3360, _f(0) = 1, _f(1) = 1, _f(2) = 2, _f(3) = 2, _f(4) = 4, _f(5) = 4, _f(6) = 6, _f(7) = 6, _f(8) = 9, _f(9) = 9, _f(10) = 13, _f(11) = 13, _f(12)= 18}",
+    "closedform": "Sum(1/50*(_alpha^7+_alpha^6+2*_alpha^5+_alpha^3+_alpha-1)*_alpha^(-1-_n),_alpha = RootOf(_Z^8+_Z^6+_Z^4+_Z^2+1))+Sum(1/32*(_alpha-1)*_alpha^(-1-_n),_alpha = RootOf(_Z^2+1))+1/960*(3*_n^2+51*_n+186)*(-1)^(-_n)+1/480*_n^3+17/320*_n^2+373/960*_n+119/160",
+    "equiv": "1/480*_n^3"
+}

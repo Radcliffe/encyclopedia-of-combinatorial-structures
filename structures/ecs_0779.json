@@ -1,0 +1,34 @@
+{
+    "id": 779,
+    "name": "A simple grammar",
+    "description": "A simple grammar",
+    "specification": "{B = PowerSet(C), C = Cycle(S), S = Prod(B,Z)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        1,
+        1,
+        2,
+        6,
+        16,
+        49,
+        156,
+        511,
+        1723,
+        5942,
+        20817,
+        73938,
+        265611,
+        963225,
+        3521667,
+        12966696,
+        48037862,
+        178936340,
+        669748197,
+        2517688316
+    ],
+    "references": [
+        "EIS A052814"
+    ]
+}

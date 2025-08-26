@@ -1,0 +1,35 @@
+{
+    "id": 16,
+    "name": "Set partitions",
+    "description": "Set partitions with all blocks of size >=2; expansion of exp(exp(x)-1-x)",
+    "specification": "{S = Set(Set(Z,2 <= card))}",
+    "labeled": true,
+    "symbol": "S",
+    "terms": [
+        1,
+        0,
+        1,
+        1,
+        4,
+        11,
+        41,
+        162,
+        715,
+        3425,
+        17722,
+        98253,
+        580317,
+        3633280,
+        24011157,
+        166888165,
+        1216070380,
+        9264071767,
+        73600798037,
+        608476008122,
+        5224266196935
+    ],
+    "references": [
+        "EIS A000296"
+    ],
+    "gf": "exp(exp(_x)-1-_x)"
+}

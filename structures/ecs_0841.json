@@ -1,0 +1,34 @@
+{
+    "id": 841,
+    "name": "First differences of A052829",
+    "description": "First differences of A052829",
+    "specification": "{B = Prod(C,S), C = Sequence(Z,1 <= card), S = PowerSet(B)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        1,
+        2,
+        6,
+        15,
+        44,
+        128,
+        386,
+        1179,
+        3679,
+        11601,
+        37030,
+        119262,
+        387325,
+        1266647,
+        4168264,
+        13791565,
+        45856091,
+        153134306,
+        513403575,
+        1727395042
+    ],
+    "references": [
+        "EIS A052870"
+    ]
+}

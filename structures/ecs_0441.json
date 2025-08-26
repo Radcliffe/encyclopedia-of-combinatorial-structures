@@ -1,0 +1,37 @@
+{
+    "id": 441,
+    "name": "Shifts 2 places left when convolved with itself",
+    "description": "Shifts 2 places left when convolved with itself",
+    "specification": "{S = Union(Z,Prod(Z,Union(Z,Prod(S,S))))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        1,
+        1,
+        1,
+        2,
+        3,
+        6,
+        11,
+        22,
+        44,
+        90,
+        187,
+        392,
+        832,
+        1778,
+        3831,
+        8304,
+        18104,
+        39666,
+        87296,
+        192896
+    ],
+    "references": [
+        "EIS A007477"
+    ],
+    "gf": "-1/2*(-1+(-4*_x^3-4*_x^2+1)^(1/2))/_x",
+    "rec": "{(-2+4*_n)*_f(_n)+(4*_n+4)*_f(_n+1)+(-_n-4)*_f(_n+3), _f(0) = 0, _f(1) = 1, _f(2) = 1}",
+    "equiv": "1/4/Pi^(1/2)/RootOf(4*_Z^3+4*_Z^2-1,.419643377607081)*(12*RootOf(4*_Z^3+4*_Z^2-1,.419643377607081)^3+8*RootOf(4*_Z^3+4*_Z^2-1,.419643377607081)^2)^(1/2)*(1/_n)^(3/2)*(4*RootOf(4*_Z^3+4*_Z^2-1,.419643377607081)^2+4*RootOf(4*_Z^3+4*_Z^2-1,.419643377607081))^(-ln(exp(-_n)))"
+}

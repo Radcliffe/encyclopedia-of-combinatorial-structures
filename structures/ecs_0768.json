@@ -1,0 +1,34 @@
+{
+    "id": 768,
+    "name": "Number of rooted trees of nonempty sets with n points. (Each node is a set of 1 or more points.)",
+    "description": "Number of rooted trees of nonempty sets with n points. (Each node is a set of 1 or more points.)",
+    "specification": "{B = Sequence(Z,1 <= card), C = Set(S), S = Prod(C,B)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        1,
+        2,
+        5,
+        13,
+        37,
+        108,
+        332,
+        1042,
+        3360,
+        11019,
+        36722,
+        123875,
+        422449,
+        1453553,
+        5040816,
+        17599468,
+        61814275,
+        218252584,
+        774226549,
+        2758043727
+    ],
+    "references": [
+        "EIS A036249"
+    ]
+}

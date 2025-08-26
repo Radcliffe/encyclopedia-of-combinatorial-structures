@@ -1,0 +1,38 @@
+{
+    "id": 12,
+    "name": "Words with at most 4 consecutive b-letters",
+    "description": "Words with at most 4 consecutive b-letters; Pentanacci numbers",
+    "specification": "{S = Prod(X,Sequence(Prod(a,X))), X = Sequence(b,card <= 4), a = Atom, b = Atom}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        31,
+        61,
+        120,
+        236,
+        464,
+        912,
+        1793,
+        3525,
+        6930,
+        13624,
+        26784,
+        52656,
+        103519,
+        203513,
+        400096,
+        786568
+    ],
+    "references": [
+        "EIS A001591"
+    ],
+    "gf": "-(_x^4+_x^3+_x^2+_x+1)/(_x^5+_x^4+_x^3+_x^2+_x-1)",
+    "rec": "{_f(_n)+_f(_n+1)+_f(_n+2)+_f(_n+3)+_f(_n+4)-_f(_n+5), _f(0) = 1, _f(1) = 2, _f(2) = 4, _f(3) = 8, _f(4) = 16}",
+    "closedform": "Sum(1/1198*(125*_alpha^4+200*_alpha^3+245*_alpha^2+272*_alpha+408)*_alpha^(-1-_n),_alpha = RootOf(_Z^5+_Z^4+_Z^3+_Z^2+_Z-1))",
+    "equiv": "-(RootOf(_Z^5+_Z^4+_Z^3+_Z^2+_Z-1,.508660391642004)^4+RootOf(_Z^5+_Z^4+_Z^3+_Z^2+_Z-1,.508660391642004)^3+RootOf(_Z^5+_Z^4+_Z^3+_Z^2+_Z-1,.508660391642004)^2+RootOf(_Z^5+_Z^4+_Z^3+_Z^2+_Z-1,.508660391642004)+1)/(-5*RootOf(_Z^5+_Z^4+_Z^3+_Z^2+_Z-1,.508660391642004)^5-4*RootOf(_Z^5+_Z^4+_Z^3+_Z^2+_Z-1,.508660391642004)^4-3*RootOf(_Z^5+_Z^4+_Z^3+_Z^2+_Z-1,.508660391642004)^3-2*RootOf(_Z^5+_Z^4+_Z^3+_Z^2+_Z-1,.508660391642004)^2-RootOf(_Z^5+_Z^4+_Z^3+_Z^2+_Z-1,.508660391642004))*(RootOf(_Z^5+_Z^4+_Z^3+_Z^2+_Z-1,.508660391642004)^4+RootOf(_Z^5+_Z^4+_Z^3+_Z^2+_Z-1,.508660391642004)^3+RootOf(_Z^5+_Z^4+_Z^3+_Z^2+_Z-1,.508660391642004)^2+RootOf(_Z^5+_Z^4+_Z^3+_Z^2+_Z-1,.508660391642004)+1)^(-ln(exp(-_n)))"
+}

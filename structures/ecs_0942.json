@@ -1,0 +1,38 @@
+{
+    "id": 942,
+    "name": "Arithmetic sequence",
+    "description": "5 n + 2",
+    "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z),Sequence(Z)))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        7,
+        12,
+        17,
+        22,
+        27,
+        32,
+        37,
+        42,
+        47,
+        52,
+        57,
+        62,
+        67,
+        72,
+        77,
+        82,
+        87,
+        92,
+        97,
+        102
+    ],
+    "references": [
+        "EIS A016873"
+    ],
+    "gf": "-_x*(-7+2*_x)/(-1+_x)^2",
+    "rec": "{_f(_n)-2-5*_n, _f(0) = 0, _f(1) = 7,_f(2) = 12}",
+    "closedform": "2+5*_n+piecewise(_n = 0,-2,0)",
+    "equiv": "5*_n"
+}

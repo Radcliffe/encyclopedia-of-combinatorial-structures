@@ -1,0 +1,38 @@
+{
+    "id": 1015,
+    "name": "Constant sequence",
+    "description": "All 7's",
+    "specification": "{S = Prod(Union(Z,Z,Z,Z,Z,Z,Z),Sequence(Z))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        7,
+        7,
+        7,
+        7,
+        7,
+        7,
+        7,
+        7,
+        7,
+        7,
+        7,
+        7,
+        7,
+        7,
+        7,
+        7,
+        7,
+        7,
+        7,
+        7
+    ],
+    "references": [
+        "EIS A010727"
+    ],
+    "gf": "-7*_x/(-1+_x)",
+    "rec": "{-_f(_n)+7, _f(0) = 0, _f(1) =7}",
+    "closedform": "7+piecewise(_n = 0,-7,0)",
+    "equiv": "7"
+}

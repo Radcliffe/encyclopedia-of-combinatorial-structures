@@ -1,0 +1,38 @@
+{
+    "id": 1017,
+    "name": "Constant sequence",
+    "description": "All 9's",
+    "specification": "{S = Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9
+    ],
+    "references": [
+        "EIS A010734"
+    ],
+    "gf": "-9*_x/(-1+_x)",
+    "rec": "{-_f(_n)+9, _f(0) = 0, _f(1) = 9}",
+    "closedform": "9+piecewise(_n = 0,-9,0)",
+    "equiv": "9"
+}

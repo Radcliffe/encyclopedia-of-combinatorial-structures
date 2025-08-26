@@ -1,0 +1,38 @@
+{
+    "id": 8,
+    "name": "Words",
+    "description": "Words of n letters in a four letters alphabet",
+    "specification": "{S = Sequence(Union(a,b,c,d)), a = Atom, b = Atom, c = Atom, d = Atom}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        4,
+        16,
+        64,
+        256,
+        1024,
+        4096,
+        16384,
+        65536,
+        262144,
+        1048576,
+        4194304,
+        16777216,
+        67108864,
+        268435456,
+        1073741824,
+        4294967296,
+        17179869184,
+        68719476736,
+        274877906944,
+        1099511627776
+    ],
+    "references": [
+        "EIS A000302"
+    ],
+    "gf": "-1/(-1+4*_x)",
+    "rec": "{4*_f(_n)-_f(_n+1), _f(0) = 1}",
+    "closedform": "4^_n",
+    "equiv": "exp(-_n)^(-2*ln(2))"
+}

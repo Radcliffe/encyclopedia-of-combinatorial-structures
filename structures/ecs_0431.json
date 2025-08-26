@@ -1,0 +1,38 @@
+{
+    "id": 431,
+    "name": "Sum of adjacent Catalan numbers",
+    "description": "Sum of adjacent Catalan numbers",
+    "specification": "{B = Sequence(C), C = Prod(Z,B), S = Union(C,B)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        2,
+        3,
+        7,
+        19,
+        56,
+        174,
+        561,
+        1859,
+        6292,
+        21658,
+        75582,
+        266798,
+        950912,
+        3417340,
+        12369285,
+        45052515,
+        165002460,
+        607283490,
+        2244901890,
+        8331383610
+    ],
+    "references": [
+        "EIS A005807"
+    ],
+    "gf": "1/2-1/2*(1-4*_x)^(1/2)-1/2*(-1+(1-4*_x)^(1/2))/_x",
+    "rec": "{(-2+4*_n)*_f(_n)+(5+3*_n)*_f(_n+1)+(-_n-3)*_f(_n+2), _f(0) = 1, _f(1) = 2, _f(2) = 3}",
+    "closedform": "2^(2*_n-2)*(5*_n-1)/Pi^(1/2)*GAMMA(_n-1/2)/GAMMA(_n+2)",
+    "equiv": "5/4/Pi^(1/2)*(1/_n)^(3/2)*exp(-_n)^(-2*ln(2))"
+}

@@ -1,0 +1,34 @@
+{
+    "id": 404,
+    "name": "Number of series-reduced planted trees with n nodes",
+    "description": "Number of series-reduced planted trees with n nodes",
+    "specification": "{B = Prod(C,Z), C = Union(Z,S), S = Set(B,1 <= card)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        3,
+        6,
+        10,
+        19,
+        35,
+        67,
+        127,
+        248,
+        482,
+        952,
+        1885,
+        3765,
+        7546,
+        15221,
+        30802,
+        62620
+    ],
+    "references": [
+        "EIS A001678"
+    ]
+}

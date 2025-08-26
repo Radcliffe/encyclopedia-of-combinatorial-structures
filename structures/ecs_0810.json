@@ -1,0 +1,36 @@
+{
+    "id": 810,
+    "name": "Number of labeled spanning trees in the complete hypergraph on n vertices (all hyperedges having cardinality 2 or greater)",
+    "description": "Number of labeled spanning trees in the complete hypergraph on n vertices (all hyperedges having cardinality 2 or greater)",
+    "specification": "{B = Set(C,1 <=card), C = Prod(Z,S), S = Set(B)}",
+    "labeled": true,
+    "symbol": "S",
+    "terms": [
+        1,
+        1,
+        4,
+        29,
+        311,
+        4447,
+        79745,
+        1722681,
+        43578820,
+        1264185051,
+        41381702275,
+        1509114454597,
+        60681141052273,
+        2667370764248023,
+        127258109992533616,
+        6549338612837162225,
+        361680134713529977507,
+        21333858798449021030515,
+        1338681172839439064846881,
+        89041976162350618062483261,
+        6258035936941300341991881112
+    ],
+    "references": [
+        "EIS A030019"
+    ],
+    "gf": "exp(RootOf(_Z-exp(exp(_Z)*_x)+1))",
+    "equiv": "-1/2/Pi^(1/2)*exp(exp(LambertW(1)*exp(RootOf(_Z-exp(exp((_Z*LambertW(1)+LambertW(1)-1)/LambertW(1))*LambertW(1))+1)-1/LambertW(1)+1))-1)*(-exp(LambertW(1)*exp(RootOf(_Z-exp(exp((_Z*LambertW(1)+LambertW(1)-1)/LambertW(1))*LambertW(1))+1)-1/LambertW(1)+1))+1)*(exp(1/LambertW(1)*(-1+LambertW(1)))*LambertW(1)*exp(exp(LambertW(1)*exp(RootOf(_Z-exp(exp((_Z*LambertW(1)+LambertW(1)-1)/LambertW(1))*LambertW(1))+1)-1/LambertW(1)+1))-1)/(1/2*exp(1/LambertW(1)*(-1+LambertW(1)))*LambertW(1)*exp(exp(LambertW(1)*exp(RootOf(_Z-exp(exp((_Z*LambertW(1)+LambertW(1)-1)/LambertW(1))*LambertW(1))+1)-1/LambertW(1)+1))-1)*(-exp(LambertW(1)*exp(RootOf(_Z-exp(exp((_Z*LambertW(1)+LambertW(1)-1)/LambertW(1))*LambertW(1))+1)-1/LambertW(1)+1))+1)^2+1/2/exp(LambertW(1)*exp(RootOf(_Z-exp(exp((_Z*LambertW(1)+LambertW(1)-1)/LambertW(1))*LambertW(1))+1)-1/LambertW(1)+1))^2*(-exp(LambertW(1)*exp(RootOf(_Z-exp(exp((_Z*LambertW(1)+LambertW(1)-1)/LambertW(1))*LambertW(1))+1)-1/LambertW(1)+1))+1)^2))^(1/2)*(1/_n)^(3/2)*(1/LambertW(1)*exp((1-LambertW(1))/LambertW(1)))^(-ln(exp(-_n)))"
+}

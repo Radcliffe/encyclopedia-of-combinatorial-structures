@@ -1,0 +1,35 @@
+{
+    "id": 96,
+    "name": "Non-planar trees",
+    "description": "Non-planar labelled trees with neither unary nor binary nodes",
+    "specification": "{B = Union(S,Z), S = Set(B,3 <= card)}",
+    "labeled": true,
+    "symbol": "S",
+    "terms": [
+        0,
+        0,
+        0,
+        1,
+        1,
+        11,
+        36,
+        372,
+        2311,
+        26252,
+        243893,
+        3173281,
+        38916879,
+        583922418,
+        8808814262,
+        151530476047,
+        2694658394356,
+        52607648010035,
+        1072975736368359,
+        23516009286474813,
+        539838208864165036
+    ],
+    "references": [
+        "EIS A052526"
+    ],
+    "gf": "RootOf(-_Z^2+2*exp(_Z)-4*_Z+2*_x-2)-_x"
+}

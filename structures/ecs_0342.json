@@ -1,0 +1,38 @@
+{
+    "id": 342,
+    "name": "k-gonal numbers",
+    "description": "5-gonal numbers",
+    "specification": "{B = Prod(C,C,C), C = Sequence(Z), E = Prod(Z,B), S = Union(B,E,E,E,E,E)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        8,
+        21,
+        40,
+        65,
+        96,
+        133,
+        176,
+        225,
+        280,
+        341,
+        408,
+        481,
+        560,
+        645,
+        736,
+        833,
+        936,
+        1045,
+        1160,
+        1281
+    ],
+    "references": [
+        "EIS A000567"
+    ],
+    "gf": "-(5*_x+1)/(-1+_x)^3",
+    "rec": "{-_f(_n)+3*_n^2+4*_n+1, _f(0) = 1, _f(1) = 8}",
+    "closedform": "3*_n^2+4*_n+1",
+    "equiv": "3*_n^2"
+}

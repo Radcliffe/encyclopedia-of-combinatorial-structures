@@ -1,0 +1,38 @@
+{
+    "id": 1075,
+    "name": "Expansion of (1+x-x^3)/((1-2*x)*(1-x^2))",
+    "description": "Expansion of (1+x-x^3)/((1-2*x)*(1-x^2))",
+    "specification": "{S = Prod(Union(Sequence(Prod(Z,Z)),Z),Sequence(Union(Z,Z)))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        3,
+        7,
+        14,
+        29,
+        58,
+        117,
+        234,
+        469,
+        938,
+        1877,
+        3754,
+        7509,
+        15018,
+        30037,
+        60074,
+        120149,
+        240298,
+        480597,
+        961194,
+        1922389
+    ],
+    "references": [
+        "EIS A052997"
+    ],
+    "gf": "-(_x^3-_x-1)/(_x^2-1)/(-1+2*_x)",
+    "rec": "{-2*_f(_n)-_f(_n+1)+_f(_n+2)-1, _f(0) = 1, _f(1) = 3, _f(2) = 7, _f(3) = 14}",
+    "closedform": "Sum(-1/6*(_alpha+2)*_alpha^(-1-_n),_alpha =RootOf(_Z^2-1))+11/6*2^_n+piecewise(_n = 0,-1/2,0)",
+    "equiv": "11/6*exp(-_n)^(-ln(2))"
+}

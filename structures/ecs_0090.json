@@ -1,0 +1,35 @@
+{
+    "id": 90,
+    "name": "Labelled mobile",
+    "description": "Labelled mobile with cycles of length at least 3",
+    "specification": "{B = Cycle(S,3 <= card), S = Union(B,Z)}",
+    "labeled": true,
+    "symbol": "S",
+    "terms": [
+        0,
+        1,
+        0,
+        2,
+        6,
+        64,
+        540,
+        6908,
+        93744,
+        1542616,
+        28057800,
+        576840032,
+        13029824016,
+        323152349584,
+        8698499671680,
+        252998272144928,
+        7900336700736864,
+        263731233726459136,
+        9370598887948893120,
+        353114271843930110912,
+        14065897924340889129216
+    ],
+    "references": [
+        "EIS A052522"
+    ],
+    "gf": "(exp(RootOf(2*_Z*exp(_Z)^2+2*_x*exp(_Z)^2-5*exp(_Z)^2+6*exp(_Z)-1))-1)/exp(RootOf(2*_Z*exp(_Z)^2+2*_x*exp(_Z)^2-5*exp(_Z)^2+6*exp(_Z)-1))"
+}

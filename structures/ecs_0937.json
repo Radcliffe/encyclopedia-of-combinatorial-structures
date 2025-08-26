@@ -1,0 +1,38 @@
+{
+    "id": 937,
+    "name": "Arithmetic sequence",
+    "description": "3 n + 2",
+    "specification": "{S = Union(Prod(Union(Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z),Sequence(Z)))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        5,
+        8,
+        11,
+        14,
+        17,
+        20,
+        23,
+        26,
+        29,
+        32,
+        35,
+        38,
+        41,
+        44,
+        47,
+        50,
+        53,
+        56,
+        59,
+        62
+    ],
+    "references": [
+        "EIS A016789"
+    ],
+    "gf": "-_x*(2*_x-5)/(-1+_x)^2",
+    "rec": "{_f(_n)-3*_n-2, _f(0) = 0, _f(1) =5, _f(2) = 8}",
+    "closedform": "3*_n+2+piecewise(_n = 0,-2,0)",
+    "equiv": "3*_n"
+}

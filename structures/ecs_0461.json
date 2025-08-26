@@ -1,0 +1,38 @@
+{
+    "id": 461,
+    "name": "If n is even then 2^n+1 otherwise 2^n",
+    "description": "If n is even then 2^n+1 otherwise 2^n",
+    "specification": "{S = Union(Sequence(Union(Z,Z)),Sequence(Prod(Z,Z)))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        2,
+        2,
+        5,
+        8,
+        17,
+        32,
+        65,
+        128,
+        257,
+        512,
+        1025,
+        2048,
+        4097,
+        8192,
+        16385,
+        32768,
+        65537,
+        131072,
+        262145,
+        524288,
+        1048577
+    ],
+    "references": [
+        "EIS A052531"
+    ],
+    "gf": "-(_x^2+2*_x-2)/(-1+2*_x)/(_x^2-1)",
+    "rec": "{-2*_f(_n)-_f(_n+1)+_f(_n+2)+1, _f(0) = 2, _f(1) = 2, _f(2) = 5}",
+    "closedform": "Sum(1/2*_alpha^(-_n),_alpha = RootOf(_Z^2-1))+2^_n",
+    "equiv": "exp(-_n)^(-ln(2))"
+}

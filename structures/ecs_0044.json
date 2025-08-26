@@ -1,0 +1,34 @@
+{
+    "id": 44,
+    "name": "Non plane trees",
+    "description": "Unlabelled non plane trees with degree >=2 (series-reduced planted trees)",
+    "specification": "{S = Union(Z,Set(S,2 <=card))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        1,
+        1,
+        2,
+        5,
+        12,
+        33,
+        90,
+        261,
+        766,
+        2312,
+        7068,
+        21965,
+        68954,
+        218751,
+        699534,
+        2253676,
+        7305788,
+        23816743,
+        78023602,
+        256738751
+    ],
+    "references": [
+        "EIS A000669"
+    ]
+}

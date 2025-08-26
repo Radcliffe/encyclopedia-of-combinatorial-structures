@@ -1,0 +1,38 @@
+{
+    "id": 132,
+    "name": "The simplest sequence of positive numbers: the all 1's sequence",
+    "description": "The simplest sequence of positive numbers: the all 1's sequence",
+    "specification": "{S = Sequence(Z)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+    ],
+    "references": [
+        "EIS A000012"
+    ],
+    "gf": "-1/(-1+_x)",
+    "rec": "{-_f(_n)+1, _f(0) = 1}",
+    "closedform": "1",
+    "equiv": "1"
+}

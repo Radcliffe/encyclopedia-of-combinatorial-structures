@@ -1,0 +1,38 @@
+{
+    "id": 425,
+    "name": "Number of binary words of length n in which the ones occur only in blocks of length at least 4",
+    "description": "Number of binary words of length n in which the ones occur only in blocks of length at least 4",
+    "specification": "{S =Sequence(Union(Z,Prod(Z,Z,Z,Z,Z,Sequence(Z))))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        2,
+        4,
+        7,
+        11,
+        16,
+        23,
+        34,
+        52,
+        81,
+        126,
+        194,
+        296,
+        450,
+        685,
+        1046,
+        1601
+    ],
+    "references": [
+        "EIS A005253"
+    ],
+    "gf": "(-1+_x)/(_x^5-_x^2+2*_x-1)",
+    "rec": "{_f(_n)-_f(_n+3)+2*_f(_n+4)-_f(_n+5), _f(0) = 1, _f(1) = 1,_f(2) = 1, _f(3) = 1, _f(4) = 1}",
+    "closedform": "Sum(1/3017*(135*_alpha^4+225*_alpha^3+375*_alpha^2+490*_alpha+81)*_alpha^(-1-_n),_alpha = RootOf(_Z^5-_Z^2+2*_Z-1))",
+    "equiv": "(-1+RootOf(_Z^5-_Z^2+2*_Z-1,.654045184151758))/(-5*RootOf(_Z^5-_Z^2+2*_Z-1,.654045184151758)^5+2*RootOf(_Z^5-_Z^2+2*_Z-1,.654045184151758)^2-2*RootOf(_Z^5-_Z^2+2*_Z-1,.654045184151758))*(RootOf(_Z^5-_Z^2+2*_Z-1,.654045184151758)^4-RootOf(_Z^5-_Z^2+2*_Z-1,.654045184151758)+2)^(-ln(exp(-_n)))"
+}

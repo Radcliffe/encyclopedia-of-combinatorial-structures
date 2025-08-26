@@ -1,0 +1,38 @@
+{
+    "id": 718,
+    "name": "a(n) = 3!*n*S(n-1,3), where S denotes the Stirling numbers of second kind",
+    "description": "a(n) = 3!*n*S(n-1,3), where S denotes the Stirling numbers of second kind",
+    "specification": "{B = Set(Z,1 <= card), S = Prod(B,B,B,Z)}",
+    "labeled": true,
+    "symbol": "S",
+    "terms": [
+        0,
+        0,
+        0,
+        0,
+        24,
+        180,
+        900,
+        3780,
+        14448,
+        52164,
+        181500,
+        615780,
+        2052072,
+        6749028,
+        21976500,
+        71007300,
+        228009696,
+        728451972,
+        2317445100,
+        7346047140,
+        23213772120
+    ],
+    "references": [
+        "EIS A052761"
+    ],
+    "gf": "exp(_x)^3*_x-3*exp(_x)^2*_x+3*_x*exp(_x)-_x",
+    "rec": "{(-6*_n^3-36*_n^2-66*_n-36)*_f(_n)+(11*_n^3+55*_n^2+66*_n)*_f(_n+1)+(-6*_n^3-24*_n^2-18*_n)*_f(_n+2)+(_n^3+3*_n^2+2*_n)*_f(_n+3), _f(0) = 0, _f(1) = 0, _f(2) = 0, _f(3) = 0, _f(4) = 24}",
+    "closedform": "3*_n*(3^(_n-2)-2^(_n-1)+1)",
+    "equiv": "1/6/Pi^(1/2)*2^(1/2)*exp(-1/3)^3*exp(1)/(1/_n)^(1/2)*exp(-_n)^(-1-ln(3))*_n^(-_n)"
+}

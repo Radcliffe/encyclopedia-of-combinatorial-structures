@@ -1,0 +1,37 @@
+{
+    "id": 26,
+    "name": "Cycles set",
+    "description": "permutations Sigma such that Sigma^5=Id; degree n permutations of order dividing 5",
+    "specification": "{S = Set(Union(Cycle(Z,card = 1),Cycle(Z,card = 5)))}",
+    "labeled": true,
+    "symbol": "S",
+    "terms": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        25,
+        145,
+        505,
+        1345,
+        3025,
+        78625,
+        809425,
+        4809025,
+        20787625,
+        72696625,
+        1961583625,
+        28478346625,
+        238536558625,
+        1425925698625,
+        6764765838625,
+        189239120970625
+    ],
+    "references": [
+        "EIS A052501"
+    ],
+    "gf": "exp(_x+1/5*_x^5)",
+    "rec": "{(-_n^4-10*_n^3-35*_n^2-50*_n-24)*_f(_n)-_f(_n+4)+_f(_n+5), _f(0) = 1, _f(1) = 1, _f(2) = 1, _f(3) = 1, _f(4) = 1}",
+    "equiv": "1/10*2^(1/2)/Pi^(1/2)*5^(1/2)*(1/_n)^(1/2)*exp(1/(1/_n)^(1/5))/exp(-_n)^(1/5)*(_n^(-_n))^(1/5)"
+}

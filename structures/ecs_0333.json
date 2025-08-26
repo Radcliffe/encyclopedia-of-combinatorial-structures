@@ -1,0 +1,38 @@
+{
+    "id": 333,
+    "name": "Multiples of 21",
+    "description": "Multiples of 21",
+    "specification": "{S = Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        21,
+        42,
+        63,
+        84,
+        105,
+        126,
+        147,
+        168,
+        189,
+        210,
+        231,
+        252,
+        273,
+        294,
+        315,
+        336,
+        357,
+        378,
+        399,
+        420
+    ],
+    "references": [
+        "EIS A008603"
+    ],
+    "gf": "21*_x/(-1+_x)^2",
+    "rec": "{_f(_n)-21*_n, _f(0) = 0, _f(1) = 21}",
+    "closedform": "21*_n",
+    "equiv": "21*_n"
+}

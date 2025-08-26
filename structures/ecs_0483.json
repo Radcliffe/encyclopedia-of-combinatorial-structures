@@ -1,0 +1,38 @@
+{
+    "id": 483,
+    "name": "Expansion of (1-x)/(1-x-2*x^2+x^3)",
+    "description": "Expansion of (1-x)/(1-x-2*x^2+x^3)",
+    "specification": "{S = Sequence(Prod(Z,Union(Z,Prod(Z,Sequence(Z)))))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        0,
+        2,
+        1,
+        5,
+        5,
+        14,
+        19,
+        42,
+        66,
+        131,
+        221,
+        417,
+        728,
+        1341,
+        2380,
+        4334,
+        7753,
+        14041,
+        25213,
+        45542
+    ],
+    "references": [
+        "EIS A052547"
+    ],
+    "gf": "-(-1+_x)/(_x^3-2*_x^2-_x+1)",
+    "rec": "{_f(_n)-2*_f(_n+1)-_f(_n+2)+_f(_n+3), _f(0) = 1, _f(1) = 0, _f(2) = 2}",
+    "closedform": "Sum(-1/7*_alpha*(_alpha-3)*_alpha^(-1-_n),_alpha = RootOf(_Z^3-2*_Z^2-_Z+1))",
+    "equiv": "-(-1+RootOf(_Z^3-2*_Z^2-_Z+1,.554958132087371))/(-3*RootOf(_Z^3-2*_Z^2-_Z+1,.554958132087371)^3+4*RootOf(_Z^3-2*_Z^2-_Z+1,.554958132087371)^2+RootOf(_Z^3-2*_Z^2-_Z+1,.554958132087371))*(-RootOf(_Z^3-2*_Z^2-_Z+1,.554958132087371)^2+2*RootOf(_Z^3-2*_Z^2-_Z+1,.554958132087371)+1)^(-ln(exp(-_n)))"
+}

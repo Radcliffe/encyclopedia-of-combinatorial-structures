@@ -1,0 +1,38 @@
+{
+    "id": 112,
+    "name": "Sociable numbers: smallest member of each cycle (conjectured)",
+    "description": "Sociable numbers: smallest member of each cycle (conjectured)",
+    "specification": "{B = Sequence(C), C = Sequence(Z,0 < card), S =Prod(B,B)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        2,
+        5,
+        12,
+        28,
+        64,
+        144,
+        320,
+        704,
+        1536,
+        3328,
+        7168,
+        15360,
+        32768,
+        69632,
+        147456,
+        311296,
+        655360,
+        1376256,
+        2883584,
+        6029312
+    ],
+    "references": [
+        "EIS A003416"
+    ],
+    "gf": "(-1+_x)^2/(-1+2*_x)^2",
+    "rec": "{4*_f(_n)-4*_f(_n+1)+_f(_n+2), _f(0) = 1, _f(1) = 2, _f(2) = 5}",
+    "closedform": "1/4*2^_n*(_n+1)+2^(_n-1)+piecewise(_n = 0,1/4,0)",
+    "equiv": "1/4*_n*exp(-_n)^(-ln(2))"
+}

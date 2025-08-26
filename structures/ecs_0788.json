@@ -1,0 +1,35 @@
+{
+    "id": 788,
+    "name": "A simple grammar",
+    "description": "Cycles of pairs of Sequences",
+    "specification": "{B = Sequence(Z,1 <= card), C = Prod(B,B), S =Cycle(C)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        0,
+        1,
+        2,
+        4,
+        6,
+        12,
+        18,
+        34,
+        58,
+        106,
+        186,
+        350,
+        630,
+        1180,
+        2190,
+        4114,
+        7710,
+        14600,
+        27594,
+        52486
+    ],
+    "references": [
+        "EIS A052823"
+    ],
+    "gf": "Sum(numtheory:-phi(j[1])/j[1]*ln(-(_x^j[1]-1)^2/(2*_x^j[1]-1)),j[1] = 1 .. infinity)"
+}

@@ -1,0 +1,38 @@
+{
+    "id": 319,
+    "name": "Multiples of 7",
+    "description": "Multiples of 7",
+    "specification": "{S = Prod(Union(Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        7,
+        14,
+        21,
+        28,
+        35,
+        42,
+        49,
+        56,
+        63,
+        70,
+        77,
+        84,
+        91,
+        98,
+        105,
+        112,
+        119,
+        126,
+        133,
+        140
+    ],
+    "references": [
+        "EIS A008589"
+    ],
+    "gf": "7*_x/(-1+_x)^2",
+    "rec": "{_f(_n)-7*_n, _f(0) = 0, _f(1) = 7}",
+    "closedform": "7*_n",
+    "equiv": "7*_n"
+}

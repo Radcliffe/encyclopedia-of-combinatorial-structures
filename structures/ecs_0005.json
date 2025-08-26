@@ -1,0 +1,35 @@
+{
+    "id": 5,
+    "name": "Necklaces of 5 colours",
+    "description": "Necklaces of 5 colours",
+    "specification": "{S = Cycle(Union(c1,c2,c3,c4,c5)), c1 = Atom, c2 = Atom, c3 = Atom, c4 = Atom, c5 = Atom}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        5,
+        15,
+        45,
+        165,
+        629,
+        2635,
+        11165,
+        48915,
+        217045,
+        976887,
+        4438925,
+        20346485,
+        93900245,
+        435970995,
+        2034505661,
+        9536767665,
+        44878791365,
+        211927736135,
+        1003867701485,
+        4768372070757
+    ],
+    "references": [
+        "EIS A001869"
+    ],
+    "gf": "Sum(numtheory:-phi(j[1])/j[1]*ln(-1/(-1+5*_x^j[1])),j[1] = 1 .. infinity)"
+}

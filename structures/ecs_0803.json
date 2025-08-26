@@ -1,0 +1,34 @@
+{
+    "id": 803,
+    "name": "INVERT transform of A052879",
+    "description": "INVERT transform of A052879",
+    "specification": "{B = Prod(Z,C), C = PowerSet(S), S = Sequence(B,1 <= card)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        1,
+        2,
+        5,
+        16,
+        54,
+        197,
+        746,
+        2916,
+        11650,
+        47418,
+        195794,
+        818347,
+        3455173,
+        14715502,
+        63143438,
+        272721871,
+        1184697735,
+        5172610484,
+        22687623448,
+        99918182347
+    ],
+    "references": [
+        "EIS A052836"
+    ]
+}

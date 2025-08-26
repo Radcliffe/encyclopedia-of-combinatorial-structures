@@ -1,0 +1,38 @@
+{
+    "id": 192,
+    "name": "Denumerant",
+    "description": "number of ways to make n cents with coins of 1 1 9 cents",
+    "specification": "{S = Prod(Sequence(Z),Sequence(Z),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z)))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        11,
+        13,
+        15,
+        17,
+        19,
+        21,
+        23,
+        25,
+        27,
+        30,
+        33,
+        36
+    ],
+    "references": [
+        "EIS A008727"
+    ],
+    "gf": "-1/(-1+_x)^2/(_x^9-1)",
+    "rec": "{-2*_f(_n)-2*_f(_n+1)-2*_f(_n+2)-2*_f(_n+3)-2*_f(_n+4)-2*_f(_n+5)-2*_f(_n+6)-2*_f(_n+7)-2*_f(_n+8)+_n^2+19*_n+90,_f(0) = 1, _f(1) = 2, _f(2) = 3, _f(3) = 4, _f(4) = 5, _f(5) = 6, _f(6) = 7, _f(7) = 8}",
+    "closedform": "35/27+1/18*_n^2+11/18*_n+Sum(1/81*(3*_alpha^7+5*_alpha^6+6*_alpha^5+6*_alpha^4+5*_alpha^3+3*_alpha^2-4)*_alpha^(-1-_n),_alpha = RootOf(_Z^8+_Z^7+_Z^6+_Z^5+_Z^4+_Z^3+_Z^2+_Z+1))",
+    "equiv": "1/18*_n^2"
+}

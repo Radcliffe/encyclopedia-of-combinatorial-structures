@@ -1,0 +1,38 @@
+{
+    "id": 46,
+    "name": "Labelled Non Plane Binary Trees",
+    "description": "Labelled Non Plane Binary Trees",
+    "specification": "{S = Union(Z,Prod(Z,Set(S,card = 2)))}",
+    "labeled": true,
+    "symbol": "S",
+    "terms": [
+        0,
+        1,
+        0,
+        3,
+        0,
+        60,
+        0,
+        3150,
+        0,
+        317520,
+        0,
+        52390800,
+        0,
+        12843230400,
+        0,
+        4382752374000,
+        0,
+        1986847742880000,
+        0,
+        1155153277710432000,
+        0
+    ],
+    "references": [
+        "EIS A036770"
+    ],
+    "gf": "-(-1+(-2*_x^2+1)^(1/2))/_x",
+    "rec": "{(-2*_n^3-6*_n^2-4*_n)*_f(_n)+(_n+3)*_f(_n+2), _f(0) = 0, _f(1) = 1}",
+    "closedform": "piecewise(_n::even,0,_n::odd,8*2^(3/2*_n-3/2)*GAMMA(1/2*_n+1)^2/Pi/_n/(_n+1))",
+    "equiv": "(1/Pi^(1/2)-exp(Complex(1)*Pi*_n)/Pi^(1/2))*(1/_n)^(3/2)*exp(-_n)^(-1/2*ln(2))"
+}

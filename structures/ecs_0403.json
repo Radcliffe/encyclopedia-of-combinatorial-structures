@@ -1,0 +1,38 @@
+{
+    "id": 403,
+    "name": "Numbers k such that 2*k^2 - 1 is a square",
+    "description": "Numbers k such that 2*k^2 - 1 is a square",
+    "specification": "{S = Sequence(Union(Z,Prod(Union(Z,Z,Z,Z),Sequence(Z))))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        5,
+        29,
+        169,
+        985,
+        5741,
+        33461,
+        195025,
+        1136689,
+        6625109,
+        38613965,
+        225058681,
+        1311738121,
+        7645370045,
+        44560482149,
+        259717522849,
+        1513744654945,
+        8822750406821,
+        51422757785981,
+        299713796309065,
+        1746860020068409
+    ],
+    "references": [
+        "EIS A001653"
+    ],
+    "gf": "-(-1+_x)/(_x^2-6*_x+1)",
+    "rec": "{_f(_n)-6*_f(_n+1)+_f(_n+2), _f(0) =1, _f(1) = 5}",
+    "closedform": "Sum(1/8*(1+_alpha)*_alpha^(-1-_n),_alpha = RootOf(_Z^2-6*_Z+1))",
+    "equiv": "-(2-2*2^(1/2))/(-2*(3-2*2^(1/2))^2+18-12*2^(1/2))*exp(-_n)^ln(3-2*2^(1/2))"
+}

@@ -1,0 +1,39 @@
+{
+    "id": 55,
+    "name": "Unlabelled Plane Binary Trees",
+    "description": "Unlabelled Binary Trees of n elements (external nodes or internal nodes) with two branches",
+    "specification": "{S = Union(Z,Prod(Z,S,S))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        1,
+        0,
+        1,
+        0,
+        2,
+        0,
+        5,
+        0,
+        14,
+        0,
+        42,
+        0,
+        132,
+        0,
+        429,
+        0,
+        1430,
+        0,
+        4862,
+        0
+    ],
+    "references": [
+        "Odd terms are the Catalan numbers",
+        "EIS A000108"
+    ],
+    "gf": "-1/2*(-1+(-4*_x^2+1)^(1/2))/_x",
+    "rec": "{4*_f(_n)*_n+(-_n-3)*_f(_n+2), _f(0) = 0, _f(1) = 1}",
+    "closedform": "piecewise(_n::even,0,_n::odd,1/Pi^(1/2)*2^(_n-1)*GAMMA(1/2*_n)/GAMMA(1/2*_n+3/2))",
+    "equiv": "(1/4/Pi^(1/2)*4^(1/2)*2^(1/2)-1/4*exp(Complex(1)*Pi*_n)/Pi^(1/2)*4^(1/2)*2^(1/2))*(1/_n)^(3/2)*exp(-_n)^(-ln(2))"
+}

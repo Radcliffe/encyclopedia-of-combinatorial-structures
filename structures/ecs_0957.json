@@ -1,0 +1,38 @@
+{
+    "id": 957,
+    "name": "Arithmetic sequence",
+    "description": "8 n + 2",
+    "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z),Sequence(Z)))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        10,
+        18,
+        26,
+        34,
+        42,
+        50,
+        58,
+        66,
+        74,
+        82,
+        90,
+        98,
+        106,
+        114,
+        122,
+        130,
+        138,
+        146,
+        154,
+        162
+    ],
+    "references": [
+        "EIS A017089"
+    ],
+    "gf": "-2*_x*(-5+_x)/(-1+_x)^2",
+    "rec": "{_f(_n)-8*_n-2, _f(0) = 0, _f(1) = 10, _f(2) = 18}",
+    "closedform": "2+8*_n+piecewise(_n = 0,-2,0)",
+    "equiv": "8*_n"
+}

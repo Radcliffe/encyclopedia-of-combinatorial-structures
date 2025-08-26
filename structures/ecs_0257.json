@@ -1,0 +1,38 @@
+{
+    "id": 257,
+    "name": "Binomial coefficients",
+    "description": "Arrangements of n unlabelled objects in 8 rows",
+    "specification": "{B = Sequence(Z), S = Prod(B,B,B,B,B,B,B,B)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        8,
+        36,
+        120,
+        330,
+        792,
+        1716,
+        3432,
+        6435,
+        11440,
+        19448,
+        31824,
+        50388,
+        77520,
+        116280,
+        170544,
+        245157,
+        346104,
+        480700,
+        657800,
+        888030
+    ],
+    "references": [
+        "EIS A000580"
+    ],
+    "gf": "1/(-1+_x)^8",
+    "rec": "{5040*_f(_n)-_n^7-28*_n^6-322*_n^5-1960*_n^4-6769*_n^3-13132*_n^2-13068*_n-5040, _f(0) = 1}",
+    "closedform": "1/5040*(_n+1)*(_n+2)*(_n+3)*(_n+4)*(_n+5)*(_n+6)*(_n+7)",
+    "equiv": "1/5040*_n^7"
+}

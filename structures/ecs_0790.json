@@ -1,0 +1,35 @@
+{
+    "id": 790,
+    "name": "A simple grammar: partial sums of A008965",
+    "description": "A simple grammar: partial sums of A008965",
+    "specification": "{B= Cycle(C), C = Sequence(Z,1 <= card), S = Prod(C,B)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        0,
+        1,
+        3,
+        6,
+        11,
+        18,
+        31,
+        50,
+        85,
+        144,
+        251,
+        438,
+        789,
+        1420,
+        2601,
+        4792,
+        8907,
+        16618,
+        31219,
+        58814
+    ],
+    "references": [
+        "EIS A052825"
+    ],
+    "gf": "-Sum(numtheory:-phi(j[1])/j[1]*ln((_x^j[1]-1)/(2*_x^j[1]-1)),j[1] = 1 .. infinity)*_x/(-1+_x)"
+}

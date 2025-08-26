@@ -1,0 +1,38 @@
+{
+    "id": 326,
+    "name": "Multiples of 14",
+    "description": "Multiples of 14",
+    "specification": "{S = Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        14,
+        28,
+        42,
+        56,
+        70,
+        84,
+        98,
+        112,
+        126,
+        140,
+        154,
+        168,
+        182,
+        196,
+        210,
+        224,
+        238,
+        252,
+        266,
+        280
+    ],
+    "references": [
+        "EIS A008596"
+    ],
+    "gf": "14*_x/(-1+_x)^2",
+    "rec": "{_f(_n)-14*_n, _f(0) = 0, _f(1) = 14}",
+    "closedform": "14*_n",
+    "equiv": "14*_n"
+}

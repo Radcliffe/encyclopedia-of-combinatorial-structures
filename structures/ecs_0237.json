@@ -1,0 +1,38 @@
+{
+    "id": 237,
+    "name": "Denumerant",
+    "description": "number of ways to make n cents with coins of 3 4 5 6 cents",
+    "specification": "{S= Prod(Sequence(Prod(Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z)))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        0,
+        0,
+        1,
+        1,
+        1,
+        2,
+        1,
+        2,
+        3,
+        3,
+        3,
+        5,
+        4,
+        5,
+        7,
+        7,
+        7,
+        10,
+        9,
+        11
+    ],
+    "references": [
+        "EIS A008681"
+    ],
+    "gf": "1/(_x^3-1)/(_x^4-1)/(_x^5-1)/(_x^6-1)",
+    "rec": "{6*_f(_n)+24*_f(_n+1)+60*_f(_n+2)+114*_f(_n+3)+180*_f(_n+4)+246*_f(_n+5)+294*_f(_n+6)+312*_f(_n+7)+294*_f(_n+8)+246*_f(_n+9)+180*_f(_n+10)+114*_f(_n+11)+60*_f(_n+12)+24*_f(_n+13)+6*_f(_n+14)-_n^3-48*_n^2-767*_n-4080, _f(0) = 1, _f(1) = 0, _f(2) = 0, _f(3) = 1, _f(4) = 1, _f(5) = 1, _f(6) = 2, _f(7) = 1, _f(8) = 2, _f(9) = 3, _f(10) = 3, _f(11) = 3, _f(12) = 5, _f(13) = 4}",
+    "closedform": "119/480+1/80*_n^2+443/4320*_n+1/2160*_n^3+Sum(1/864*(9*_alpha^2-7*_alpha-7)*_alpha^(-_n-2)*(_n+1),_alpha = RootOf(_Z^3+2*_Z^2+2*_Z+1))+Sum(1/324*(22*_alpha^2+69*_alpha+20)*_alpha^(-1-_n),_alpha = RootOf(_Z^3+2*_Z^2+2*_Z+1))+Sum(1/25*(-_alpha^3+_alpha)*_alpha^(-1-_n),_alpha = RootOf(_Z^4+_Z^3+_Z^2+_Z+1))+Sum(1/16*_alpha^(-_n),_alpha = RootOf(_Z^2+1))+Sum(-1/36*(_alpha-2)*_alpha^(-1-_n),_alpha = RootOf(_Z^2-_Z+1))",
+    "equiv": "(1/18*exp(Complex(1)*(-arctan(RootOf(4*_Z^2-3,-.866025403784439)/(-1-RootOf(2*_Z^3+3*_Z^2+3*_Z+1,-.5)))+Pi)*_n)/RootOf(_Z^2+_Z+1,Complex(-.5,-.866025403784439))^9/(RootOf(_Z^2+_Z+1,Complex(-.5,-.866025403784439))^4-1)/(RootOf(_Z^2+_Z+1,Complex(-.5,-.866025403784439))^5-1)+1/18*exp(Complex(-1)*(-arctan(RootOf(4*_Z^2-3,-.866025403784439)/(-1-RootOf(2*_Z^3+3*_Z^2+3*_Z+1,-.5)))+Pi)*conjugate(_n))/RootOf(_Z^2+_Z+1,Complex(-.5,.866025403784439))^9/(RootOf(_Z^2+_Z+1,Complex(-.5,.866025403784439))^4-1)/(RootOf(_Z^2+_Z+1,Complex(-.5,.866025403784439))^5-1))*_n*(RootOf(4*_Z^2-3,-.866025403784439)^2+RootOf(2*_Z^3+3*_Z^2+3*_Z+1,-.5)^2+2*RootOf(2*_Z^3+3*_Z^2+3*_Z+1,-.5)+1)^(-1/2*ln(exp(-_n)))"
+}

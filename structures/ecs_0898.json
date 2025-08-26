@@ -1,0 +1,38 @@
+{
+    "id": 898,
+    "name": "Number of binary vectors of length n containing no singletons",
+    "description": "Number of binary vectors of length n containing no singletons",
+    "specification": "{S= Prod(Union(Z,Z),Sequence(Union(Z,Prod(Z,Z))))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        2,
+        2,
+        4,
+        6,
+        10,
+        16,
+        26,
+        42,
+        68,
+        110,
+        178,
+        288,
+        466,
+        754,
+        1220,
+        1974,
+        3194,
+        5168,
+        8362,
+        13530
+    ],
+    "references": [
+        "EIS A006355"
+    ],
+    "gf": "-2*_x/(_x^2+_x-1)",
+    "rec": "{_f(_n)+_f(_n+1)-_f(_n+2), _f(0) = 0, _f(1) = 2}",
+    "closedform": "Sum(-2/5*(_alpha-2)*_alpha^(-1-_n),_alpha = RootOf(_Z^2+_Z-1))",
+    "equiv": "-2*(1/2*5^(1/2)-1/2)/(-2*(1/2*5^(1/2)-1/2)^2-1/2*5^(1/2)+1/2)*exp(-_n)^(-ln(2)+ln(5^(1/2)-1))"
+}

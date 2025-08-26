@@ -1,0 +1,38 @@
+{
+    "id": 335,
+    "name": "Multiples of 23",
+    "description": "Multiples of 23",
+    "specification": "{S = Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        23,
+        46,
+        69,
+        92,
+        115,
+        138,
+        161,
+        184,
+        207,
+        230,
+        253,
+        276,
+        299,
+        322,
+        345,
+        368,
+        391,
+        414,
+        437,
+        460
+    ],
+    "references": [
+        "EIS A008605"
+    ],
+    "gf": "23*_x/(-1+_x)^2",
+    "rec": "{_f(_n)-23*_n, _f(0) = 0, _f(1) = 23}",
+    "closedform": "23*_n",
+    "equiv": "23*_n"
+}

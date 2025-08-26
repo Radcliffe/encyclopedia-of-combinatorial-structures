@@ -1,0 +1,38 @@
+{
+    "id": 880,
+    "name": "a(n) = 2^n - 1. (Sometimes called Mersenne numbers, although that name is usually reserved for A001348.)",
+    "description": "a(n) = 2^n - 1. (Sometimes called Mersenne numbers, although that name is usually reserved for A001348.)",
+    "specification": "{S = Prod(Sequence(Z),Sequence(Prod(Union(Z,Z),Z,Z)))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        1,
+        1,
+        3,
+        3,
+        3,
+        7,
+        7,
+        7,
+        15,
+        15,
+        15,
+        31,
+        31,
+        31,
+        63,
+        63,
+        63,
+        127,
+        127,
+        127
+    ],
+    "references": [
+        "EIS A000225"
+    ],
+    "gf": "1/(-1+_x)/(2*_x^3-1)",
+    "rec": "{-2*_f(_n)+_f(_n+3)-1, _f(0) = 1, _f(1) = 1, _f(2) = 1}",
+    "closedform": "-1+Sum(1/3*(2*_alpha^2+2*_alpha+1)*_alpha^(-1-_n),_alpha = RootOf(2*_Z^3-1))",
+    "equiv": "(-1/6/(-1+RootOf(2*_Z^3-1,.7937005259841))/RootOf(2*_Z^3-1,.7937005259841)^3-1/6*exp(Complex(1)*(arctan(2*RootOf(32*_Z^6-14*_Z^3-1,-.39685026299205)*RootOf(256*_Z^6-27,-.687364818499301)/(-RootOf(256*_Z^6-27,-.687364818499301)^2+RootOf(32*_Z^6-14*_Z^3-1,-.39685026299205)^2))+Pi)*_n)/(-1+RootOf(2*_Z^3-1,Complex(-.39685026299205,-.687364818499301)))/RootOf(2*_Z^3-1,Complex(-.39685026299205,-.687364818499301))^3-1/6*exp(Complex(1)*(arctan(2*RootOf(32*_Z^6-14*_Z^3-1,-.39685026299205)*RootOf(256*_Z^6-27,.687364818499301)/(-RootOf(256*_Z^6-27,.687364818499301)^2+RootOf(32*_Z^6-14*_Z^3-1,-.39685026299205)^2))-Pi)*_n)/(-1+RootOf(2*_Z^3-1,Complex(-.39685026299205,.687364818499301)))/RootOf(2*_Z^3-1,Complex(-.39685026299205,.687364818499301))^3)*exp(-_n)^(-ln(2)-ln(RootOf(2*_Z^3-1,.7937005259841)^2))"
+}

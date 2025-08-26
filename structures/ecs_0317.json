@@ -1,0 +1,38 @@
+{
+    "id": 317,
+    "name": "Multiples of 5",
+    "description": "Multiples of 5",
+    "specification": "{S = Prod(Union(Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        5,
+        10,
+        15,
+        20,
+        25,
+        30,
+        35,
+        40,
+        45,
+        50,
+        55,
+        60,
+        65,
+        70,
+        75,
+        80,
+        85,
+        90,
+        95,
+        100
+    ],
+    "references": [
+        "EIS A008587"
+    ],
+    "gf": "5*_x/(-1+_x)^2",
+    "rec": "{_f(_n)-5*_n, _f(0) = 0, _f(1) = 5}",
+    "closedform": "5*_n",
+    "equiv": "5*_n"
+}

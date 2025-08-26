@@ -1,0 +1,38 @@
+{
+    "id": 35,
+    "name": "Arrangements",
+    "description": "Arrangements; partial permutations (Permutations of n thing)",
+    "specification": "{S = Prod(Sequence(Z),Set(Z))}",
+    "labeled": true,
+    "symbol": "S",
+    "terms": [
+        1,
+        2,
+        5,
+        16,
+        65,
+        326,
+        1957,
+        13700,
+        109601,
+        986410,
+        9864101,
+        108505112,
+        1302061345,
+        16926797486,
+        236975164805,
+        3554627472076,
+        56874039553217,
+        966858672404690,
+        17403456103284421,
+        330665665962404000,
+        6613313319248080001
+    ],
+    "references": [
+        "EIS A000522"
+    ],
+    "gf": "-exp(_x)/(-1+_x)",
+    "rec": "{(_n+1)*_f(_n)+(-_n-3)*_f(_n+1)+_f(_n+2), _f(0) = 1, _f(1) = 2}",
+    "closedform": "exp(1)*GAMMA(_n+1,1)",
+    "equiv": "exp(1)"
+}

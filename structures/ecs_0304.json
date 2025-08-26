@@ -1,0 +1,38 @@
+{
+    "id": 304,
+    "name": "Expansion of g.f. (1+x)/(1-2*x)",
+    "description": "Expansion of g.f. (1+x)/(1-2*x)",
+    "specification": "{S = Prod(Union(Epsilon,Z),Sequence(Union(Z,Z)))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        3,
+        6,
+        12,
+        24,
+        48,
+        96,
+        192,
+        384,
+        768,
+        1536,
+        3072,
+        6144,
+        12288,
+        24576,
+        49152,
+        98304,
+        196608,
+        393216,
+        786432,
+        1572864
+    ],
+    "references": [
+        "EIS A003945"
+    ],
+    "gf": "-(1+_x)/(-1+2*_x)",
+    "rec": "{2*_f(_n)-_f(_n+1), _f(0) = 1, _f(1) = 3}",
+    "closedform": "3*2^(_n-1)+piecewise(_n = 0,-1/2,0)",
+    "equiv": "3/2*exp(-_n)^(-ln(2))"
+}

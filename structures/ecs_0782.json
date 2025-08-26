@@ -1,0 +1,34 @@
+{
+    "id": 782,
+    "name": "Cycles of rooted trees t where for each t all subtrees at root are distinct. n is total number of nodes",
+    "description": "Cycles of rooted trees t where for each t all subtrees at root are distinct. n is total number of nodes",
+    "specification": "{B = PowerSet(C), C =Prod(B,Z), S = Cycle(C)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        1,
+        2,
+        3,
+        6,
+        10,
+        22,
+        43,
+        97,
+        211,
+        481,
+        1090,
+        2535,
+        5870,
+        13774,
+        32383,
+        76607,
+        181709,
+        432865,
+        1033657,
+        2475869
+    ],
+    "references": [
+        "EIS A052817"
+    ]
+}

@@ -1,0 +1,38 @@
+{
+    "id": 1035,
+    "name": "Expansion of (1-x)/((1-2x)(1+x-x^2))",
+    "description": "Expansion of (1-x)/((1-2x)(1+x-x^2))",
+    "specification": "{S = Sequence(Prod(Union(Prod(Sequence(Z),Z),Z,Z),Z))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        0,
+        3,
+        1,
+        10,
+        7,
+        35,
+        36,
+        127,
+        165,
+        474,
+        715,
+        1807,
+        3004,
+        6995,
+        12393,
+        27370,
+        50559,
+        107883,
+        204820,
+        427351
+    ],
+    "references": [
+        "EIS A052964"
+    ],
+    "gf": "-(-1+_x)/(2*_x^3-3*_x^2-_x+1)",
+    "rec": "{2*_f(_n)-3*_f(_n+1)-_f(_n+2)+_f(_n+3), _f(0) = 1, _f(1) = 0, _f(2) =3}",
+    "closedform": "Sum(-1/25*(6*_alpha^2-11*_alpha-1)*_alpha^(-1-_n),_alpha = RootOf(2*_Z^3-3*_Z^2-_Z+1))",
+    "equiv": "2/5*exp(-_n)^(-ln(2))"
+}

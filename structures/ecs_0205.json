@@ -1,0 +1,38 @@
+{
+    "id": 205,
+    "name": "Denumerant",
+    "description": "number of ways to make n cents with coins of 1 1 1 2 2 3 cents",
+    "specification": "{S = Prod(Sequence(Z),Sequence(Z),Sequence(Z),Sequence(Prod(Z,Z)),Sequence(Prod(Z,Z)),Sequence(Prod(Z,Z,Z)))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        3,
+        8,
+        17,
+        33,
+        58,
+        97,
+        153,
+        233,
+        342,
+        489,
+        681,
+        930,
+        1245,
+        1641,
+        2130,
+        2730,
+        3456,
+        4330,
+        5370,
+        6602
+    ],
+    "references": [
+        "EIS A002625"
+    ],
+    "gf": "1/(-1+_x)^3/(_x^2-1)^2/(_x^3-1)",
+    "rec": "{120*_f(_n)+360*_f(_n+1)+480*_f(_n+2)+360*_f(_n+3)+120*_f(_n+4)-_n^5-35*_n^4-485*_n^3-3325*_n^2-11274*_n-15120, _f(0) = 1, _f(1) = 3, _f(2) = 8, _f(3) = 17}",
+    "closedform": "1529/1728+25/36*_n^2+427/320*_n+5/288*_n^4+35/216*_n^3+1/1440*_n^5+Sum(1/81*(_alpha-1)*_alpha^(-1-_n),_alpha = RootOf(_Z^2+_Z+1))+5/64*(-1)^(-_n)+1/64*(-1)^(-_n)*_n",
+    "equiv": "(-1/3*exp(Complex(1)*(-arctan(RootOf(4*_Z^2-3,-.866025403784439)/(-1-RootOf(2*_Z^3+3*_Z^2+3*_Z+1,-.5)))+Pi)*_n)/(-1+RootOf(_Z^2+_Z+1,Complex(-.5,-.866025403784439)))^3/(RootOf(_Z^2+_Z+1,Complex(-.5,-.866025403784439))^2-1)^2/RootOf(_Z^2+_Z+1,Complex(-.5,-.866025403784439))^3-1/3*exp(Complex(-1)*(-arctan(RootOf(4*_Z^2-3,-.866025403784439)/(-1-RootOf(2*_Z^3+3*_Z^2+3*_Z+1,-.5)))+Pi)*conjugate(_n))/(-1+RootOf(_Z^2+_Z+1,Complex(-.5,.866025403784439)))^3/(RootOf(_Z^2+_Z+1,Complex(-.5,.866025403784439))^2-1)^2/RootOf(_Z^2+_Z+1,Complex(-.5,.866025403784439))^3)*(RootOf(4*_Z^2-3,-.866025403784439)^2+RootOf(2*_Z^3+3*_Z^2+3*_Z+1,-.5)^2+2*RootOf(2*_Z^3+3*_Z^2+3*_Z+1,-.5)+1)^(-1/2*ln(exp(-_n)))"
+}

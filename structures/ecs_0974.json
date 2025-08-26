@@ -1,0 +1,38 @@
+{
+    "id": 974,
+    "name": "Arithmetic sequence",
+    "description": "10 n + 4",
+    "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z,Z,Z),Sequence(Z)))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        14,
+        24,
+        34,
+        44,
+        54,
+        64,
+        74,
+        84,
+        94,
+        104,
+        114,
+        124,
+        134,
+        144,
+        154,
+        164,
+        174,
+        184,
+        194,
+        204
+    ],
+    "references": [
+        "EIS A017317"
+    ],
+    "gf": "-2*_x*(-7+2*_x)/(-1+_x)^2",
+    "rec": "{_f(_n)-10*_n-4, _f(0) = 0, _f(1) =14, _f(2) = 24}",
+    "closedform": "4+10*_n+piecewise(_n = 0,-4,0)",
+    "equiv": "10*_n"
+}

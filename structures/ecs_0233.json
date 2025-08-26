@@ -1,0 +1,38 @@
+{
+    "id": 233,
+    "name": "Denumerant",
+    "description": "number of ways to make n cents with coins of 1 2 4 8 cents",
+    "specification": "{S = Prod(Sequence(Z),Sequence(Prod(Z,Z)),Sequence(Prod(Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z)))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        1,
+        2,
+        2,
+        4,
+        4,
+        6,
+        6,
+        10,
+        10,
+        14,
+        14,
+        20,
+        20,
+        26,
+        26,
+        35,
+        35,
+        44,
+        44,
+        56
+    ],
+    "references": [
+        "EIS A008643"
+    ],
+    "gf": "1/(-1+_x)/(_x^2-1)/(_x^4-1)/(_x^8-1)",
+    "rec": "{6*_f(_n)+18*_f(_n+1)+30*_f(_n+2)+42*_f(_n+3)+48*_f(_n+4)+48*_f(_n+5)+48*_f(_n+6)+48*_f(_n+7)+42*_f(_n+8)+30*_f(_n+9)+18*_f(_n+10)+6*_f(_n+11)-_n^3-39*_n^2-506*_n-2184, _f(0) = 1, _f(1) = 1, _f(2) = 2, _f(3) = 2, _f(4) = 4, _f(5) = 4, _f(6) = 6, _f(7) = 6, _f(8)= 10, _f(9) = 10, _f(10) = 14}",
+    "closedform": "Sum(1/32*(_alpha^3-1)*_alpha^(-1-_n),_alpha = RootOf(_Z^4+1))+Sum(-1/128*(1+_alpha)*_alpha^(-_n-2)*(_n+1),_alpha = RootOf(_Z^2+1))+Sum(1/128*(7*_alpha-6)*_alpha^(-1-_n),_alpha = RootOf(_Z^2+1))+1/768*(3*_n^2+45*_n+147)*(-1)^(-_n)+1/384*_n^3+15/256*_n^2+295/768*_n+175/256",
+    "equiv": "1/384*_n^3"
+}

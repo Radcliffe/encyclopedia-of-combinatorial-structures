@@ -1,0 +1,35 @@
+{
+    "id": 774,
+    "name": "Partial sums of A000009 (partitions into distinct parts)",
+    "description": "Partial sums of A000009 (partitions into distinct parts)",
+    "specification": "{B = PowerSet(C), C = Sequence(Z,1 <= card), S = Prod(C,B)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        1,
+        2,
+        3,
+        5,
+        7,
+        10,
+        14,
+        19,
+        25,
+        33,
+        43,
+        55,
+        70,
+        88,
+        110,
+        137,
+        169,
+        207,
+        253,
+        307
+    ],
+    "references": [
+        "EIS A036469"
+    ],
+    "gf": "-exp(Sum((-1)^j[1]*_x^j[1]/(_x^j[1]-1)/j[1],j[1] = 1 .. infinity))*_x/(-1+_x)"
+}

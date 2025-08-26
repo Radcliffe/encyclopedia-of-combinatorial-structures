@@ -1,0 +1,38 @@
+{
+    "id": 485,
+    "name": "a(n) = 2^n + 2",
+    "description": "a(n) = 2^n + 2",
+    "specification": "{S = Union(Sequence(Union(Z,Z)),Sequence(Z),Sequence(Z))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        3,
+        4,
+        6,
+        10,
+        18,
+        34,
+        66,
+        130,
+        258,
+        514,
+        1026,
+        2050,
+        4098,
+        8194,
+        16386,
+        32770,
+        65538,
+        131074,
+        262146,
+        524290,
+        1048578
+    ],
+    "references": [
+        "EIS A052548"
+    ],
+    "gf": "-(-3+5*_x)/(-1+2*_x)/(-1+_x)",
+    "rec": "{_f(_n+1)-2*_f(_n)+2, _f(0) = 3, _f(1) =4}",
+    "closedform": "2+2^_n",
+    "equiv": "exp(-_n)^(-ln(2))"
+}

@@ -1,0 +1,38 @@
+{
+    "id": 258,
+    "name": "Binomial coefficients",
+    "description": "Arrangements of n unlabelled objects in 9 rows",
+    "specification": "{B = Sequence(Z), S = Prod(B,B,B,B,B,B,B,B,B)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        9,
+        45,
+        165,
+        495,
+        1287,
+        3003,
+        6435,
+        12870,
+        24310,
+        43758,
+        75582,
+        125970,
+        203490,
+        319770,
+        490314,
+        735471,
+        1081575,
+        1562275,
+        2220075,
+        3108105
+    ],
+    "references": [
+        "EIS A000581"
+    ],
+    "gf": "-1/(-1+_x)^9",
+    "rec": "{-40320*_f(_n)+_n^8+36*_n^7+546*_n^6+4536*_n^5+22449*_n^4+67284*_n^3+118124*_n^2+109584*_n+40320, _f(0) = 1}",
+    "closedform": "1/40320*(_n+1)*(_n+2)*(_n+3)*(_n+4)*(_n+5)*(_n+6)*(_n+7)*(_n+8)",
+    "equiv": "1/40320*_n^8"
+}

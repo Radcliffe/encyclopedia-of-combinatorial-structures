@@ -1,0 +1,38 @@
+{
+    "id": 394,
+    "name": "a(2n) = 2*a(2n-1), a(2n+1) = 2*a(2n)+1 (also a(n) is the n-th number without consecutive equal binary digits)",
+    "description": "a(2n) = 2*a(2n-1), a(2n+1) = 2*a(2n)+1 (also a(n) is the n-th number without consecutive equal binary digits)",
+    "specification": "{S = Prod(Sequence(Union(Z,Z)),Sequence(Prod(Z,Z)))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        2,
+        5,
+        10,
+        21,
+        42,
+        85,
+        170,
+        341,
+        682,
+        1365,
+        2730,
+        5461,
+        10922,
+        21845,
+        43690,
+        87381,
+        174762,
+        349525,
+        699050,
+        1398101
+    ],
+    "references": [
+        "EIS A000975"
+    ],
+    "gf": "1/(-1+2*_x)/(_x^2-1)",
+    "rec": "{-2*_f(_n)-_f(_n+1)+_f(_n+2)-1, _f(0) = 1, _f(1) = 2}",
+    "closedform": "Sum(-1/6*(_alpha+2)*_alpha^(-1-_n),_alpha = RootOf(_Z^2-1))+4/3*2^_n",
+    "equiv": "4/3*exp(-_n)^(-ln(2))"
+}

@@ -1,0 +1,35 @@
+{
+    "id": 148,
+    "name": "Functional determinants; partitions of partitions; Euler transform applied twice to all 1's sequence",
+    "description": "Functional determinants; partitions of partitions; Euler transform applied twice to all 1's sequence",
+    "specification": "{B = Prod(Z,E), C = Set(B,1 <= card), E = Sequence(Z), S =Set(C,1 <= card)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        1,
+        3,
+        6,
+        14,
+        27,
+        58,
+        111,
+        223,
+        424,
+        817,
+        1527,
+        2870,
+        5279,
+        9710,
+        17622,
+        31877,
+        57100,
+        101887,
+        180406,
+        318106
+    ],
+    "references": [
+        "EIS A001970"
+    ],
+    "gf": "exp(Sum((exp(Sum(-(_x^j[2])^j[1]/((_x^j[2])^j[1]-1)/j[1],j[1] = 1 .. infinity))-1)/j[2],j[2] = 1 .. infinity))-1"
+}

@@ -1,0 +1,37 @@
+{
+    "id": 25,
+    "name": "Cycles set",
+    "description": "permutations Sigma such that Sigma^4=Id; degree n permutations of order dividing 4",
+    "specification": "{S = Set(Union(Cycle(Z,card =1),Cycle(Z,card = 2),Cycle(Z,card = 4)))}",
+    "labeled": true,
+    "symbol": "S",
+    "terms": [
+        1,
+        1,
+        2,
+        4,
+        16,
+        56,
+        256,
+        1072,
+        6224,
+        33616,
+        218656,
+        1326656,
+        9893632,
+        70186624,
+        574017536,
+        4454046976,
+        40073925376,
+        347165733632,
+        3370414011904,
+        31426411211776,
+        328454079574016
+    ],
+    "references": [
+        "EIS A001472"
+    ],
+    "gf": "exp(_x+1/2*_x^2+1/4*_x^4)",
+    "rec": "{(-_n^3-6*_n^2-11*_n-6)*_f(_n)+(-_n-3)*_f(_n+2)-_f(_n+3)+_f(_n+4), _f(0) = 1, _f(1) = 1, _f(2) = 2, _f(3) = 4}",
+    "equiv": "1/8/Pi^(1/2)*2^(1/2)*exp(-1/8)*4^(1/2)*(1/_n)^(1/2)*exp(1/(1/_n)^(1/4))/exp(-1/(1/_n)^(1/2))^(1/2)/exp(-_n)^(1/4)*(_n^(-_n))^(1/4)"
+}

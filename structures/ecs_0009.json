@@ -1,0 +1,40 @@
+{
+    "id": 9,
+    "name": "Words with at most 1 consecutive b-letters",
+    "description": "Words with at most 1 consecutive b-letters; Fibonacci numbers; integer F(n) such that F(n)=F(n-1)+F(n-2), F(0)=F(1)=1",
+    "specification": "{S = Prod(X,Sequence(Prod(a,X))), X = Sequence(b,card <= 1), a = Atom, b = Atom}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        2,
+        3,
+        5,
+        8,
+        13,
+        21,
+        34,
+        55,
+        89,
+        144,
+        233,
+        377,
+        610,
+        987,
+        1597,
+        2584,
+        4181,
+        6765,
+        10946,
+        17711
+    ],
+    "references": [
+        "Fibonacci",
+        "EIS A000045",
+        "http://www.ee.surrey.ac.uk/Personal/R.Knott/Fibonacci/fib.html"
+    ],
+    "gf": "-(1+_x)/(_x^2+_x-1)",
+    "rec": "{_f(_n)+_f(_n+1)-_f(_n+2), _f(0) = 1, _f(1) = 2}",
+    "closedform": "Sum(1/5*(_alpha+3)*_alpha^(-1-_n),_alpha = RootOf(_Z^2+_Z-1))",
+    "equiv": "-(1/2+1/2*5^(1/2))/(-2*(1/2*5^(1/2)-1/2)^2-1/2*5^(1/2)+1/2)*exp(-_n)^(-ln(2)+ln(5^(1/2)-1))"
+}

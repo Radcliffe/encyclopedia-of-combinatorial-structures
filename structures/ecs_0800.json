@@ -1,0 +1,35 @@
+{
+    "id": 800,
+    "name": "Partial sums of the partition numbers A000041 of the positive integers",
+    "description": "Partial sums of the partition numbers A000041 of the positive integers",
+    "specification": "{B = Sequence(Z,1 <= card), C = Set(B,1 <= card), S = Prod(B,C)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        0,
+        1,
+        3,
+        6,
+        11,
+        18,
+        29,
+        44,
+        66,
+        96,
+        138,
+        194,
+        271,
+        372,
+        507,
+        683,
+        914,
+        1211,
+        1596,
+        2086
+    ],
+    "references": [
+        "EIS A026905"
+    ],
+    "gf": "-_x/(-1+_x)*(exp(Sum(-_x^j[1]/(_x^j[1]-1)/j[1],j[1] = 1 .. infinity))-1)"
+}

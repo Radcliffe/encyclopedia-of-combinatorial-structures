@@ -1,0 +1,36 @@
+{
+    "id": 868,
+    "name": "E.g.f. is series reversion of log(1+x)*(1-x)",
+    "description": "E.g.f. is series reversion of log(1+x)*(1-x)",
+    "specification": "{B = Sequence(S), C = Prod(Z,B), S = Set(C,1 <= card)}",
+    "labeled": true,
+    "symbol": "S",
+    "terms": [
+        0,
+        1,
+        3,
+        22,
+        269,
+        4606,
+        101407,
+        2728818,
+        86783769,
+        3184595686,
+        132443395091,
+        6156200036746,
+        316272966462565,
+        17795937622944846,
+        1088410048965734055,
+        71893314170319604066,
+        5100574859506418167601,
+        386824334429004242804086,
+        31229208329663841200670619,
+        2674006753623089888383955898,
+        242045993996438391558263442621
+    ],
+    "references": [
+        "EIS A052892"
+    ],
+    "gf": "exp(RootOf(_Z*exp(_Z*_x)-2*_Z+1)*_x)-1",
+    "equiv": "1/Pi^(1/2)*exp(2/LambertW(2*exp(1))*(LambertW(2*exp(1))-1)^2*RootOf(_Z*exp(2*(LambertW(2*exp(1))-1)^2*_Z/LambertW(2*exp(1)))-2*_Z+1))/LambertW(2*exp(1))*(LambertW(2*exp(1))-1)^2*RootOf(_Z*exp(2*(LambertW(2*exp(1))-1)^2*_Z/LambertW(2*exp(1)))-2*_Z+1)*2^(1/2)*((LambertW(2*exp(1))^2-2*LambertW(2*exp(1))+1)*RootOf(_Z*exp(2*(LambertW(2*exp(1))-1)^2*_Z/LambertW(2*exp(1)))-2*_Z+1)/LambertW(2*exp(1))/(1/2/(-1+2*RootOf(_Z*exp(2*(LambertW(2*exp(1))-1)^2*_Z/LambertW(2*exp(1)))-2*_Z+1))^2*RootOf(_Z*exp(2*(LambertW(2*exp(1))-1)^2*_Z/LambertW(2*exp(1)))-2*_Z+1)^2*(-2+(-1+2*RootOf(_Z*exp(2*(LambertW(2*exp(1))-1)^2*_Z/LambertW(2*exp(1)))-2*_Z+1))/RootOf(_Z*exp(2*(LambertW(2*exp(1))-1)^2*_Z/LambertW(2*exp(1)))-2*_Z+1))^2+1/(-1+2*RootOf(_Z*exp(2*(LambertW(2*exp(1))-1)^2*_Z/LambertW(2*exp(1)))-2*_Z+1))))^(1/2)*(1/_n)^(3/2)*exp(-_n)^(2*ln(LambertW(2*exp(1))-1)-1+LambertW(2*exp(1)))"
+}

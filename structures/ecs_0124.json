@@ -1,0 +1,37 @@
+{
+    "id": 124,
+    "name": "Binomial transform of Catalan numbers",
+    "description": "Binomial transform of Catalan numbers",
+    "specification": "{B = Sequence(S), C = Sequence(Z,1 <= card), S = Prod(C,B)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        1,
+        2,
+        5,
+        15,
+        51,
+        188,
+        731,
+        2950,
+        12235,
+        51822,
+        223191,
+        974427,
+        4302645,
+        19181100,
+        86211885,
+        390248055,
+        1777495635,
+        8140539950,
+        37463689775,
+        173164232965
+    ],
+    "references": [
+        "EIS A007317"
+    ],
+    "gf": "1/2/(-1+_x)*(-1+_x+(5*_x^2-6*_x+1)^(1/2))",
+    "rec": "{5*_f(_n)*_n+(-4-6*_n)*_f(_n+1)+(_n+2)*_f(_n+2), _f(0) = 0, _f(1) = 1}",
+    "equiv": "1/16/Pi^(1/2)*4^(1/2)*5^(1/2)*(1/_n)^(3/2)*exp(-_n)^(-ln(5))"
+}

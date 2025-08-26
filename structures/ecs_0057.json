@@ -1,0 +1,34 @@
+{
+    "id": 57,
+    "name": "Trees",
+    "description": "Rooted, non plane, unlabelled Trees",
+    "specification": "{S = Prod(Z,Set(S))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        1,
+        1,
+        2,
+        4,
+        9,
+        20,
+        48,
+        115,
+        286,
+        719,
+        1842,
+        4766,
+        12486,
+        32973,
+        87811,
+        235381,
+        634847,
+        1721159,
+        4688676,
+        12826228
+    ],
+    "references": [
+        "EIS A000081"
+    ]
+}

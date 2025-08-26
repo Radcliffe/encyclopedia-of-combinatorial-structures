@@ -1,0 +1,38 @@
+{
+    "id": 1006,
+    "name": "Expansion of 1/(1-x^2-2*x^3)",
+    "description": "Expansion of 1/(1-x^2-2*x^3)",
+    "specification": "{S = Sequence(Prod(Union(Prod(Union(Z,Z),Z),Z),Z))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        0,
+        1,
+        2,
+        1,
+        4,
+        5,
+        6,
+        13,
+        16,
+        25,
+        42,
+        57,
+        92,
+        141,
+        206,
+        325,
+        488,
+        737,
+        1138,
+        1713
+    ],
+    "references": [
+        "EIS A052947"
+    ],
+    "gf": "-1/(2*_x^3+_x^2-1)",
+    "rec": "{2*_f(_n)+_f(_n+1)-_f(_n+3), _f(0) = 1, _f(1) = 0, _f(2) = 1}",
+    "closedform": "Sum(-1/52*(2*_alpha^2-17*_alpha-3)*_alpha^(-1-_n),_alpha = RootOf(2*_Z^3+_Z^2-1))",
+    "equiv": "-1/(-6*RootOf(2*_Z^3+_Z^2-1,.657298106138376)^3-2*RootOf(2*_Z^3+_Z^2-1,.657298106138376)^2)*(2*RootOf(2*_Z^3+_Z^2-1,.657298106138376)^2+RootOf(2*_Z^3+_Z^2-1,.657298106138376))^(-ln(exp(-_n)))"
+}

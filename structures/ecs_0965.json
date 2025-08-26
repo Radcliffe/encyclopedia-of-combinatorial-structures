@@ -1,0 +1,38 @@
+{
+    "id": 965,
+    "name": "Arithmetic sequence",
+    "description": "9 n + 3",
+    "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z,Z),Sequence(Z)))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        12,
+        21,
+        30,
+        39,
+        48,
+        57,
+        66,
+        75,
+        84,
+        93,
+        102,
+        111,
+        120,
+        129,
+        138,
+        147,
+        156,
+        165,
+        174,
+        183
+    ],
+    "references": [
+        "EIS A017197"
+    ],
+    "gf": "-3*_x*(_x-4)/(-1+_x)^2",
+    "rec": "{_f(_n)-9*_n-3, _f(0) = 0, _f(1) = 12, _f(2) = 21}",
+    "closedform": "3+9*_n+piecewise(_n = 0,-3,0)",
+    "equiv": "9*_n"
+}

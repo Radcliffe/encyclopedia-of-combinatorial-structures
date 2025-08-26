@@ -1,0 +1,38 @@
+{
+    "id": 334,
+    "name": "Multiples of 22",
+    "description": "Multiples of 22",
+    "specification": "{S = Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        22,
+        44,
+        66,
+        88,
+        110,
+        132,
+        154,
+        176,
+        198,
+        220,
+        242,
+        264,
+        286,
+        308,
+        330,
+        352,
+        374,
+        396,
+        418,
+        440
+    ],
+    "references": [
+        "EIS A008604"
+    ],
+    "gf": "22*_x/(-1+_x)^2",
+    "rec": "{_f(_n)-22*_n, _f(0) = 0, _f(1) = 22}",
+    "closedform": "22*_n",
+    "equiv": "22*_n"
+}

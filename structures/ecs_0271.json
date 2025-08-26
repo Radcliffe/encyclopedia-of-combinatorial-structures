@@ -1,0 +1,38 @@
+{
+    "id": 271,
+    "name": "Powers of 6",
+    "description": "Arrangement of n distinguishable objects in 6distinguishable urns",
+    "specification": "{B = Set(Z),S = Prod(B,B,B,B,B,B)}",
+    "labeled": true,
+    "symbol": "S",
+    "terms": [
+        1,
+        6,
+        36,
+        216,
+        1296,
+        7776,
+        46656,
+        279936,
+        1679616,
+        10077696,
+        60466176,
+        362797056,
+        2176782336,
+        13060694016,
+        78364164096,
+        470184984576,
+        2821109907456,
+        16926659444736,
+        101559956668416,
+        609359740010496,
+        3656158440062976
+    ],
+    "references": [
+        "EIS A000400"
+    ],
+    "gf": "exp(_x)^6",
+    "rec": "{_f(_n+1)-6*_f(_n), _f(0) = 1}",
+    "closedform": "6^_n",
+    "equiv": "1/2*2^(1/2)/Pi^(1/2)*(1/_n)^(1/2)*exp(-_n)^(-1-ln(2)-ln(3))*_n^(-_n)"
+}

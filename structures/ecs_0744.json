@@ -1,0 +1,38 @@
+{
+    "id": 744,
+    "name": "Product of 5 consecutive integers",
+    "description": "Product of 5 consecutive integers",
+    "specification": "{B = Set(Z), S = Prod(Z,Z,Z,Z,Z,B)}",
+    "labeled": true,
+    "symbol": "S",
+    "terms": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        120,
+        720,
+        2520,
+        6720,
+        15120,
+        30240,
+        55440,
+        95040,
+        154440,
+        240240,
+        360360,
+        524160,
+        742560,
+        1028160,
+        1395360,
+        1860480
+    ],
+    "references": [
+        "EIS A052787"
+    ],
+    "gf": "_x^5*exp(_x)",
+    "rec": "{(-1-_n)*_f(_n)+(_n-4)*_f(_n+1), _f(0) = 0, _f(1) = 0, _f(2) = 0, _f(3) = 0,_f(4) = 0, _f(5) = 120}",
+    "closedform": "GAMMA(_n+1)/GAMMA(_n-4)",
+    "equiv": "1/2/Pi^(1/2)*2^(1/2)*exp(-5)*exp(5)/(1/_n)^(9/2)*exp(_n)*_n^(-_n)"
+}

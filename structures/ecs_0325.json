@@ -1,0 +1,38 @@
+{
+    "id": 325,
+    "name": "Multiples of 13",
+    "description": "Multiples of 13",
+    "specification": "{S = Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        13,
+        26,
+        39,
+        52,
+        65,
+        78,
+        91,
+        104,
+        117,
+        130,
+        143,
+        156,
+        169,
+        182,
+        195,
+        208,
+        221,
+        234,
+        247,
+        260
+    ],
+    "references": [
+        "EIS A008595"
+    ],
+    "gf": "13*_x/(-1+_x)^2",
+    "rec": "{_f(_n)-13*_n, _f(0) = 0, _f(1) = 13}",
+    "closedform": "13*_n",
+    "equiv": "13*_n"
+}

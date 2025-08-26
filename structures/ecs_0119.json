@@ -1,0 +1,35 @@
+{
+    "id": 119,
+    "name": "Number of binary necklaces of length n with no subsequence 00, excluding the necklace \"0\"",
+    "description": "Number of binary necklaces of length n with no subsequence 00, excluding the necklace \"0\"",
+    "specification": "{B = Union(Epsilon,Z), C = Prod(B,Z), S = Cycle(C)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        1,
+        2,
+        2,
+        3,
+        3,
+        5,
+        5,
+        8,
+        10,
+        15,
+        19,
+        31,
+        41,
+        64,
+        94,
+        143,
+        211,
+        329,
+        493,
+        766
+    ],
+    "references": [
+        "EIS A000358"
+    ],
+    "gf": "Sum(numtheory:-phi(j[1])/j[1]*ln(-1/(-1+_x^j[1]+(_x^j[1])^2)),j[1] = 1 .. infinity)"
+}

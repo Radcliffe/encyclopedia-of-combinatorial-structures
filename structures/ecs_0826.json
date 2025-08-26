@@ -1,0 +1,36 @@
+{
+    "id": 826,
+    "name": "Expansion of e.g.f. log(-1/(-1+x*exp(x)-x))",
+    "description": "Expansion of e.g.f. log(-1/(-1+x*exp(x)-x))",
+    "specification": "{B = Set(Z,1 <= card), C = Prod(Z,B), S = Cycle(C)}",
+    "labeled": true,
+    "symbol": "S",
+    "terms": [
+        0,
+        0,
+        2,
+        3,
+        16,
+        65,
+        456,
+        3157,
+        28624,
+        276705,
+        3136240,
+        38531141,
+        528468744,
+        7837577761,
+        126588882616,
+        2194957583925,
+        40854219413536,
+        810192673705793,
+        17082845929433952,
+        381225135102420997,
+        8982308880915293080
+    ],
+    "references": [
+        "EIS A052858"
+    ],
+    "gf": "ln(-1/(-1+_x*exp(_x)-_x))",
+    "equiv": "exp(Complex(1)*Pi*_n)/_n*exp(-_n)^ln(-RootOf(_Z*exp(_Z)-_Z-1,-1.349976485))"
+}

@@ -1,0 +1,38 @@
+{
+    "id": 1004,
+    "name": "Number of compositions of n when each odd part can be of two kinds",
+    "description": "Number of compositions of n when each odd part can be of two kinds",
+    "specification": "{S = Sequence(Prod(Union(Sequence(Prod(Z,Z)),Sequence(Z)),Z))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        2,
+        5,
+        14,
+        38,
+        104,
+        284,
+        776,
+        2120,
+        5792,
+        15824,
+        43232,
+        118112,
+        322688,
+        881600,
+        2408576,
+        6580352,
+        17977856,
+        49116416,
+        134188544,
+        366609920
+    ],
+    "references": [
+        "EIS A052945"
+    ],
+    "gf": "(_x^2-1)/(2*_x^2+2*_x-1)",
+    "rec": "{2*_f(_n)+2*_f(_n+1)-_f(_n+2), _f(0) = 1, _f(1) = 2, _f(2) = 5}",
+    "closedform": "Sum(1/4*_alpha^(-1-_n),_alpha = RootOf(2*_Z^2+2*_Z-1))+piecewise(_n = 0,1/2,0)",
+    "equiv": "((1/2*3^(1/2)-1/2)^2-1)/(-4*(1/2*3^(1/2)-1/2)^2-3^(1/2)+1)*exp(-_n)^(-ln(2)+ln(3^(1/2)-1))"
+}

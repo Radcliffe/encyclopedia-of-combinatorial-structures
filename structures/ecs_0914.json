@@ -1,0 +1,38 @@
+{
+    "id": 914,
+    "name": "The even numbers repeated",
+    "description": "The even numbers repeated",
+    "specification": "{S = Union(Sequence(Prod(Z,Z)),Prod(Sequence(Z),Sequence(Z)))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        2,
+        2,
+        4,
+        4,
+        6,
+        6,
+        8,
+        8,
+        10,
+        10,
+        12,
+        12,
+        14,
+        14,
+        16,
+        16,
+        18,
+        18,
+        20,
+        20,
+        22
+    ],
+    "references": [
+        "EIS A052928"
+    ],
+    "gf": "2/(-1+_x)^2/(1+_x)",
+    "rec": "{_f(_n)+_f(_n+1)-2*_n-4, _f(0) = 2}",
+    "closedform": "3/2+1/2*(-1)^(-_n)+_n",
+    "equiv": "_n"
+}

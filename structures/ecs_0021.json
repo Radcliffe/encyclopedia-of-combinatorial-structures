@@ -1,0 +1,38 @@
+{
+    "id": 21,
+    "name": "derangements",
+    "description": "Cycles >=2, permutations of n element with no fixed points; derangements (subfactorial or rencontre numbers)",
+    "specification": "{S = Set(Cycle(Z,2 <= card))}",
+    "labeled": true,
+    "symbol": "S",
+    "terms": [
+        1,
+        0,
+        1,
+        2,
+        9,
+        44,
+        265,
+        1854,
+        14833,
+        133496,
+        1334961,
+        14684570,
+        176214841,
+        2290792932,
+        32071101049,
+        481066515734,
+        7697064251745,
+        130850092279664,
+        2355301661033953,
+        44750731559645106,
+        895014631192902121
+    ],
+    "references": [
+        "EIS A000166"
+    ],
+    "gf": "exp(ln(1/(1-_x))-_x)",
+    "rec": "{(-1-_n)*_f(_n)+(-1-_n)*_f(_n+1)+_f(_n+2), _f(0) = 1, _f(1) = 0}",
+    "closedform": "-exp(1)*exp(-1)*GAMMA(_n)*_n+exp(-1)*GAMMA(_n+1,-1)+GAMMA(_n+1)",
+    "equiv": "exp(-1)"
+}

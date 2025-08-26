@@ -1,0 +1,35 @@
+{
+    "id": 3,
+    "name": "Necklaces of 3 colours",
+    "description": "Necklaces of 3 colours",
+    "specification": "{S= Cycle(Union(c1,c2,c3)), c1 = Atom, c2 = Atom, c3 = Atom}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        3,
+        6,
+        11,
+        24,
+        51,
+        130,
+        315,
+        834,
+        2195,
+        5934,
+        16107,
+        44368,
+        122643,
+        341802,
+        956635,
+        2690844,
+        7596483,
+        21524542,
+        61171659,
+        174342216
+    ],
+    "references": [
+        "EIS A001867"
+    ],
+    "gf": "Sum(numtheory:-phi(j[1])/j[1]*ln(-1/(-1+3*_x^j[1])),j[1] = 1 .. infinity)"
+}

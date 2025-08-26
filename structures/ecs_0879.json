@@ -1,0 +1,38 @@
+{
+    "id": 879,
+    "name": "Define the sequence S(a(0),a(1)) by a(n+2) is the least integer such that a(n+2)/a(n+1) > a(n+1)/a(n) for n >= 0. This is S(1,5)",
+    "description": "Define the sequence S(a(0),a(1)) by a(n+2) is the least integer such that a(n+2)/a(n+1) > a(n+1)/a(n) for n >= 0. This is S(1,5)",
+    "specification": "{S = Sequence(Union(Prod(Sequence(Z),Z),Z,Z,Z,Z))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        5,
+        26,
+        136,
+        712,
+        3728,
+        19520,
+        102208,
+        535168,
+        2802176,
+        14672384,
+        76825600,
+        402264064,
+        2106281984,
+        11028635648,
+        57746685952,
+        302365573120,
+        1583206694912,
+        8289777876992,
+        43405840482304,
+        227275931385856
+    ],
+    "references": [
+        "EIS A018903"
+    ],
+    "gf": "-(-1+_x)/(4*_x^2-6*_x+1)",
+    "rec": "{4*_f(_n)-6*_f(_n+1)+_f(_n+2), _f(0) = 1, _f(1) = 5}",
+    "closedform": "Sum(-1/10*(_alpha-2)*_alpha^(-1-_n),_alpha = RootOf(4*_Z^2-6*_Z+1))",
+    "equiv": "-(-1/4*5^(1/2)-1/4)/(-8*(3/4-1/4*5^(1/2))^2+9/2-3/2*5^(1/2))*exp(-_n)^(-2*ln(2)+ln(3-5^(1/2)))"
+}

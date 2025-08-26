@@ -1,0 +1,38 @@
+{
+    "id": 899,
+    "name": "Expansion of (1-x)/(1 - x - 2*x^3 + x^4)",
+    "description": "Expansion of (1-x)/(1 - x - 2*x^3 + x^4)",
+    "specification": "{S = Sequence(Prod(Z,Z,Union(Prod(Sequence(Z),Z),Z)))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        0,
+        0,
+        2,
+        1,
+        1,
+        5,
+        5,
+        6,
+        15,
+        20,
+        27,
+        51,
+        76,
+        110,
+        185,
+        286,
+        430,
+        690,
+        1077,
+        1651
+    ],
+    "references": [
+        "EIS A052916"
+    ],
+    "gf": "-(-1+_x)/(_x^4-2*_x^3-_x+1)",
+    "rec": "{_f(_n)-2*_f(_n+1)-_f(_n+3)+_f(_n+4), _f(0) = 1, _f(1) = 0, _f(2) = 0, _f(3) = 2}",
+    "closedform": "Sum(-1/643*(18*_alpha^3+38*_alpha^2-201*_alpha+13)*_alpha^(-1-_n),_alpha = RootOf(_Z^4-2*_Z^3-_Z+1))",
+    "equiv": "-(-1+RootOf(_Z^4-2*_Z^3-_Z+1,.641445097607415))/(-4*RootOf(_Z^4-2*_Z^3-_Z+1,.641445097607415)^4+6*RootOf(_Z^4-2*_Z^3-_Z+1,.641445097607415)^3+RootOf(_Z^4-2*_Z^3-_Z+1,.641445097607415))*(-RootOf(_Z^4-2*_Z^3-_Z+1,.641445097607415)^3+2*RootOf(_Z^4-2*_Z^3-_Z+1,.641445097607415)^2+1)^(-ln(exp(-_n)))"
+}

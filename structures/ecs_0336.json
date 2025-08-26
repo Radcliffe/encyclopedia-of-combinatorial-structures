@@ -1,0 +1,38 @@
+{
+    "id": 336,
+    "name": "Multiples of 24",
+    "description": "Multiples of 24",
+    "specification": "{S = Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        24,
+        48,
+        72,
+        96,
+        120,
+        144,
+        168,
+        192,
+        216,
+        240,
+        264,
+        288,
+        312,
+        336,
+        360,
+        384,
+        408,
+        432,
+        456,
+        480
+    ],
+    "references": [
+        "EIS A008606"
+    ],
+    "gf": "24*_x/(-1+_x)^2",
+    "rec": "{_f(_n)-24*_n, _f(0) = 0, _f(1) = 24}",
+    "closedform": "24*_n",
+    "equiv": "24*_n"
+}

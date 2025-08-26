@@ -1,0 +1,38 @@
+{
+    "id": 352,
+    "name": "Integer partition",
+    "description": "Partition of n in at most 3 parts",
+    "specification": "{S = Set(Sequence(Z,1<= card),card <= 3)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        1,
+        2,
+        3,
+        4,
+        5,
+        7,
+        8,
+        10,
+        12,
+        14,
+        16,
+        19,
+        21,
+        24,
+        27,
+        30,
+        33,
+        37,
+        40,
+        44
+    ],
+    "references": [
+        "EIS A001399"
+    ],
+    "gf": "-1/(1+_x)/(-1+_x)^3/(_x^2+_x+1)",
+    "rec": "{-2*_f(_n)-4*_f(_n+1)-4*_f(_n+2)-2*_f(_n+3)+_n^2+9*_n+20, _f(0) = 1, _f(1) = 1, _f(2) = 2}",
+    "closedform": "47/72+1/12*_n^2+1/2*_n+Sum(1/9*_alpha^(-_n),_alpha = RootOf(_Z^2+_Z+1))+1/8*(-1)^(-_n)",
+    "equiv": "1/12*_n^2"
+}

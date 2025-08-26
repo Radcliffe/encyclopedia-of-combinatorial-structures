@@ -1,0 +1,38 @@
+{
+    "id": 979,
+    "name": "Arithmetic sequence",
+    "description": "10 n + 9",
+    "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z)))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        19,
+        29,
+        39,
+        49,
+        59,
+        69,
+        79,
+        89,
+        99,
+        109,
+        119,
+        129,
+        139,
+        149,
+        159,
+        169,
+        179,
+        189,
+        199,
+        209
+    ],
+    "references": [
+        "EIS A017377"
+    ],
+    "gf": "-_x*(-19+9*_x)/(-1+_x)^2",
+    "rec": "{_f(_n)-10*_n-9, _f(0)= 0, _f(1) = 19, _f(2) = 29}",
+    "closedform": "9+10*_n+piecewise(_n = 0,-9,0)",
+    "equiv": "10*_n"
+}

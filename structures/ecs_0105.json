@@ -1,0 +1,38 @@
+{
+    "id": 105,
+    "name": "Quarter-squares: a(n) = floor(n/2)*ceiling(n/2). Equivalently, a(n) = floor(n^2/4)",
+    "description": "Quarter-squares: a(n) = floor(n/2)*ceiling(n/2). Equivalently, a(n) = floor(n^2/4)",
+    "specification": "{B = Sequence(Z,1 <=card), C = Set(B,card = 2), S = Prod(B,C)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        0,
+        0,
+        1,
+        2,
+        4,
+        6,
+        9,
+        12,
+        16,
+        20,
+        25,
+        30,
+        36,
+        42,
+        49,
+        56,
+        64,
+        72,
+        81,
+        90
+    ],
+    "references": [
+        "EIS A002620"
+    ],
+    "gf": "-_x^3/(-1+_x)/(_x^3-_x^2-_x+1)",
+    "rec": "{-2*_f(_n)-2*_f(_n+1)+_n^2-_n, _f(0) = 0, _f(1) = 0, _f(2) = 0, _f(3)= 1}",
+    "closedform": "1/8-1/2*_n+1/4*_n^2+1/8*(-1)^(1-_n)",
+    "equiv": "1/4*_n^2"
+}

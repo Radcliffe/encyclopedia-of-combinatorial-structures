@@ -1,0 +1,35 @@
+{
+    "id": 129,
+    "name": "Generating function = Product_{m>=1} 1/(1 - x^m)^2; a(n) = number of partitions of n into parts of 2 kinds",
+    "description": "Generating function = Product_{m>=1} 1/(1 - x^m)^2; a(n) = number of partitions of n into parts of 2 kinds",
+    "specification": "{B = Set(C), C = Sequence(Z,0 < card), S = Prod(B,B)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        2,
+        5,
+        10,
+        20,
+        36,
+        65,
+        110,
+        185,
+        300,
+        481,
+        752,
+        1165,
+        1770,
+        2665,
+        3956,
+        5822,
+        8470,
+        12230,
+        17490,
+        24842
+    ],
+    "references": [
+        "EIS A000712"
+    ],
+    "gf": "exp(Sum(-_x^j[1]/(_x^j[1]-1)/j[1],j[1] = 1 .. infinity))^2"
+}

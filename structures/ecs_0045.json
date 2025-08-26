@@ -1,0 +1,34 @@
+{
+    "id": 45,
+    "name": "Unlabelled Non Plane Binary Trees",
+    "description": "Unlabelled Non Plane Binary Trees",
+    "specification": "{S = Union(Z,Prod(Z,Set(S,card = 2)))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        1,
+        0,
+        1,
+        0,
+        1,
+        0,
+        2,
+        0,
+        3,
+        0,
+        6,
+        0,
+        11,
+        0,
+        23,
+        0,
+        46,
+        0,
+        98,
+        0
+    ],
+    "references": [
+        "EIS A001190"
+    ]
+}

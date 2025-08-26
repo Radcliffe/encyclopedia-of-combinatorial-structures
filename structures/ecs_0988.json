@@ -1,0 +1,38 @@
+{
+    "id": 988,
+    "name": "Arithmetic sequence",
+    "description": "11 n + 9",
+    "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z)))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        20,
+        31,
+        42,
+        53,
+        64,
+        75,
+        86,
+        97,
+        108,
+        119,
+        130,
+        141,
+        152,
+        163,
+        174,
+        185,
+        196,
+        207,
+        218,
+        229
+    ],
+    "references": [
+        "EIS A017497"
+    ],
+    "gf": "-_x*(-20+9*_x)/(-1+_x)^2",
+    "rec": "{_f(_n)-11*_n-9, _f(0)= 0, _f(1) = 20, _f(2) = 31}",
+    "closedform": "9+11*_n+piecewise(_n = 0,-9,0)",
+    "equiv": "11*_n"
+}

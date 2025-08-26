@@ -1,0 +1,35 @@
+{
+    "id": 766,
+    "name": "If B is a collection in which there are C(n-1) [Catalan numbers, A000108] things with n points, a(n) is the number of subsets without repetition of B with a total of n points",
+    "description": "If B is a collection in which there are C(n-1) [Catalan numbers, A000108] things with n points, a(n) is the number of subsets without repetition of B with a total of n points",
+    "specification": "{B = Prod(C,Z), C = Sequence(B), S = PowerSet(B)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        1,
+        1,
+        3,
+        7,
+        21,
+        64,
+        204,
+        666,
+        2236,
+        7625,
+        26419,
+        92644,
+        328370,
+        1174234,
+        4231898,
+        15354424,
+        56042372,
+        205626906,
+        758021598,
+        2806143522
+    ],
+    "references": [
+        "EIS A052805"
+    ],
+    "gf": "exp(Sum(1/2*(-1)^j[1]*(-1+(1-4*_x^j[1])^(1/2))/j[1],j[1] = 1 .. infinity))"
+}

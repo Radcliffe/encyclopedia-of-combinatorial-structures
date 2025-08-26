@@ -1,0 +1,34 @@
+{
+    "id": 862,
+    "name": "Number of sets of rooted connected graphs where every block is a complete graph",
+    "description": "Number of sets of rooted connected graphs where every block is a complete graph",
+    "specification": "{B = Set(S), C = Prod(Z,B), S = Set(C,1 <= card)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        1,
+        2,
+        5,
+        14,
+        42,
+        134,
+        444,
+        1518,
+        5318,
+        18989,
+        68856,
+        252901,
+        938847,
+        3517082,
+        13278844,
+        50475876,
+        193014868,
+        741963015,
+        2865552848,
+        11113696421
+    ],
+    "references": [
+        "EIS A035052"
+    ]
+}

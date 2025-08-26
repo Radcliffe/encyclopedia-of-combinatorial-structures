@@ -1,0 +1,38 @@
+{
+    "id": 982,
+    "name": "Arithmetic sequence",
+    "description": "11 n + 3",
+    "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z,Z),Sequence(Z)))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        14,
+        25,
+        36,
+        47,
+        58,
+        69,
+        80,
+        91,
+        102,
+        113,
+        124,
+        135,
+        146,
+        157,
+        168,
+        179,
+        190,
+        201,
+        212,
+        223
+    ],
+    "references": [
+        "EIS A017425"
+    ],
+    "gf": "-_x*(-14+3*_x)/(-1+_x)^2",
+    "rec": "{_f(_n)-11*_n-3, _f(0) = 0, _f(1) =14, _f(2) = 25}",
+    "closedform": "3+11*_n+piecewise(_n = 0,-3,0)",
+    "equiv": "11*_n"
+}

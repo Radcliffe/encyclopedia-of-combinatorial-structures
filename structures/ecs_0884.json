@@ -1,0 +1,38 @@
+{
+    "id": 884,
+    "name": "a(n) = (n^2 + 7*n + 2)/2",
+    "description": "a(n) = (n^2 + 7*n + 2)/2",
+    "specification": "{S = Prod(Sequence(Z),Sequence(Z),Union(Sequence(Z),Z,Z))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        5,
+        10,
+        16,
+        23,
+        31,
+        40,
+        50,
+        61,
+        73,
+        86,
+        100,
+        115,
+        131,
+        148,
+        166,
+        185,
+        205,
+        226,
+        248,
+        271
+    ],
+    "references": [
+        "EIS A052905"
+    ],
+    "gf": "(2*_x^2-2*_x-1)/(-1+_x)^3",
+    "rec": "{-2*_f(_n)+_n^2+7*_n+2, _f(0) = 1, _f(1) = 5, _f(2)= 10}",
+    "closedform": "1/2*_n^2+7/2*_n+1",
+    "equiv": "1/2*_n^2"
+}

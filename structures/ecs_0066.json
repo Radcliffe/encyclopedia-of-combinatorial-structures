@@ -1,0 +1,35 @@
+{
+    "id": 66,
+    "name": "maps",
+    "description": "Increasing (nonstrict) injective partial maps",
+    "specification": "{S = Set(Union(Set(Z,1 <= card),Set(Z,1 <= card)))}",
+    "labeled": true,
+    "symbol": "S",
+    "terms": [
+        1,
+        2,
+        6,
+        22,
+        94,
+        454,
+        2430,
+        14214,
+        89918,
+        610182,
+        4412798,
+        33827974,
+        273646526,
+        2326980998,
+        20732504062,
+        192982729350,
+        1871953992254,
+        18880288847750,
+        197601208474238,
+        2142184050841734,
+        24016181943732414
+    ],
+    "references": [
+        "EIS A001861"
+    ],
+    "gf": "exp(2*exp(_x)-2)"
+}

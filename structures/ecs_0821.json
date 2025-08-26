@@ -1,0 +1,34 @@
+{
+    "id": 821,
+    "name": "A simple grammar",
+    "description": "A simple grammar",
+    "specification": "{B = Set(S), C = Prod(Z,B), S = Cycle(C)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        1,
+        2,
+        5,
+        14,
+        42,
+        138,
+        466,
+        1643,
+        5919,
+        21773,
+        81279,
+        307483,
+        1175352,
+        4534161,
+        17626999,
+        68992703,
+        271641249,
+        1075144364,
+        4275274867,
+        17071822275
+    ],
+    "references": [
+        "EIS A052853"
+    ]
+}

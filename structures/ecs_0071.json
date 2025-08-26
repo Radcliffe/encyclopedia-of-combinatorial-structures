@@ -1,0 +1,39 @@
+{
+    "id": 71,
+    "name": "Euler's counting of triangulations",
+    "description": "Euler's counting of triangulations: number of ways of cutting up a convex(n+2)-gon into n triangles by means of (n-1) non-intersecting diagonals; Catalan numbers",
+    "specification": "{S = Union(Z,Prod(U,Z,S),Prod(S,Z,U),Prod(S,Z,S)), U = Epsilon}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        1,
+        2,
+        5,
+        14,
+        42,
+        132,
+        429,
+        1430,
+        4862,
+        16796,
+        58786,
+        208012,
+        742900,
+        2674440,
+        9694845,
+        35357670,
+        129644790,
+        477638700,
+        1767263190,
+        6564120420
+    ],
+    "references": [
+        "Euler, 1753",
+        "EIS A000108"
+    ],
+    "gf": "-1/2*(-1+2*_x+(1-4*_x)^(1/2))/_x",
+    "rec": "{(2+4*_n)*_f(_n)+(-_n-2)*_f(_n+1), _f(0) = 0, _f(1) = 1}",
+    "closedform": "4/Pi^(1/2)*2^(2*_n-2)*GAMMA(_n+1/2)/GAMMA(_n+2)",
+    "equiv": "1/Pi^(1/2)*(1/_n)^(3/2)*exp(-_n)^(-2*ln(2))"
+}

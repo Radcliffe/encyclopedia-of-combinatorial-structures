@@ -1,0 +1,38 @@
+{
+    "id": 323,
+    "name": "Multiples of 11",
+    "description": "Multiples of 11",
+    "specification": "{S = Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        11,
+        22,
+        33,
+        44,
+        55,
+        66,
+        77,
+        88,
+        99,
+        110,
+        121,
+        132,
+        143,
+        154,
+        165,
+        176,
+        187,
+        198,
+        209,
+        220
+    ],
+    "references": [
+        "EIS A008593"
+    ],
+    "gf": "11*_x/(-1+_x)^2",
+    "rec": "{_f(_n)-11*_n, _f(0) = 0, _f(1) = 11}",
+    "closedform": "11*_n",
+    "equiv": "11*_n"
+}

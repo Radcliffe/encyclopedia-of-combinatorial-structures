@@ -1,0 +1,38 @@
+{
+    "id": 466,
+    "name": "Periodic sequence: Repeat 2,3",
+    "description": "Periodic sequence: Repeat 2,3",
+    "specification": "{S = Union(Sequence(Prod(Z,Z)),Sequence(Z),Sequence(Z))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        3,
+        2,
+        3,
+        2,
+        3,
+        2,
+        3,
+        2,
+        3,
+        2,
+        3,
+        2,
+        3,
+        2,
+        3,
+        2,
+        3,
+        2,
+        3,
+        2,
+        3
+    ],
+    "references": [
+        "EIS A010693"
+    ],
+    "gf": "-(2*_x+3)/(-1+_x)/(1+_x)",
+    "rec": "{-_f(_n)-_f(_n+1)+5, _f(0) = 3, _f(1) = 2}",
+    "closedform": "5/2+1/2*(-1)^(-_n)",
+    "equiv": "5/2-1/2*exp(Complex(1)*Pi*_n)"
+}

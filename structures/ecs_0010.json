@@ -1,0 +1,38 @@
+{
+    "id": 10,
+    "name": "Words with at most 2 consecutive b-letters",
+    "description": "Words with at most 2 consecutive b-letters; Tribonacci numbers",
+    "specification": "{S = Prod(X,Sequence(Prod(a,X))), X = Sequence(b,card <= 2), a = Atom, b =Atom}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        2,
+        4,
+        7,
+        13,
+        24,
+        44,
+        81,
+        149,
+        274,
+        504,
+        927,
+        1705,
+        3136,
+        5768,
+        10609,
+        19513,
+        35890,
+        66012,
+        121415,
+        223317
+    ],
+    "references": [
+        "EIS A000073"
+    ],
+    "gf": "-(_x^2+_x+1)/(_x^3+_x^2+_x-1)",
+    "rec": "{_f(_n)+_f(_n+1)+_f(_n+2)-_f(_n+3), _f(0) = 1, _f(1) = 2, _f(2) = 4}",
+    "closedform": "Sum(1/22*(3*_alpha^2+5*_alpha+10)*_alpha^(-1-_n),_alpha = RootOf(_Z^3+_Z^2+_Z-1))",
+    "equiv": "-(RootOf(_Z^3+_Z^2+_Z-1,.543689012692078)^2+RootOf(_Z^3+_Z^2+_Z-1,.543689012692078)+1)/(-3*RootOf(_Z^3+_Z^2+_Z-1,.543689012692078)^3-2*RootOf(_Z^3+_Z^2+_Z-1,.543689012692078)^2-RootOf(_Z^3+_Z^2+_Z-1,.543689012692078))*(RootOf(_Z^3+_Z^2+_Z-1,.543689012692078)^2+RootOf(_Z^3+_Z^2+_Z-1,.543689012692078)+1)^(-ln(exp(-_n)))"
+}

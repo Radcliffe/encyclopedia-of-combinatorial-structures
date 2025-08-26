@@ -1,0 +1,35 @@
+{
+    "id": 450,
+    "name": "Expansion of g.f.: x^4/((1-x)*(1-x^2)^2*(1-x^3))",
+    "description": "Expansion of g.f.: x^4/((1-x)*(1-x^2)^2*(1-x^3))",
+    "specification": "{B = Union(Epsilon,Z), C = Prod(Z,B,B), S = Set(C)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        1,
+        3,
+        4,
+        7,
+        9,
+        14,
+        17,
+        24,
+        29,
+        38,
+        45,
+        57,
+        66,
+        81,
+        93,
+        111,
+        126,
+        148,
+        166,
+        192
+    ],
+    "references": [
+        "EIS A008763"
+    ],
+    "gf": "exp(Sum(_x^j[1]*((_x^j[1])^2+2*_x^j[1]+1)/j[1],j[1] = 1 .. infinity))"
+}

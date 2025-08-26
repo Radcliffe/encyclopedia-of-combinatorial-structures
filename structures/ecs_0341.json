@@ -1,0 +1,38 @@
+{
+    "id": 341,
+    "name": "k-gonal numbers",
+    "description": "4-gonal numbers",
+    "specification": "{B = Prod(C,C,C), C = Sequence(Z), E = Prod(Z,B), S = Union(B,E,E,E,E)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        7,
+        18,
+        34,
+        55,
+        81,
+        112,
+        148,
+        189,
+        235,
+        286,
+        342,
+        403,
+        469,
+        540,
+        616,
+        697,
+        783,
+        874,
+        970,
+        1071
+    ],
+    "references": [
+        "EIS A000566"
+    ],
+    "gf": "-(4*_x+1)/(-1+_x)^3",
+    "rec": "{-2*_f(_n)+5*_n^2+7*_n+2, _f(0) = 1, _f(1) = 7}",
+    "closedform": "5/2*_n^2+7/2*_n+1",
+    "equiv": "5/2*_n^2"
+}

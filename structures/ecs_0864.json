@@ -1,0 +1,36 @@
+{
+    "id": 864,
+    "name": "Number of labeled rooted connected graphs where every block is a complete graph",
+    "description": "Number of labeled rooted connected graphs where every block is a complete graph",
+    "specification": "{B = Set(S,1 <= card),C = Set(B), S = Prod(Z,C)}",
+    "labeled": true,
+    "symbol": "S",
+    "terms": [
+        0,
+        1,
+        2,
+        12,
+        116,
+        1555,
+        26682,
+        558215,
+        13781448,
+        392209380,
+        12641850510,
+        455198725025,
+        18109373455164,
+        788854833679549,
+        37343190699472322,
+        1908871649888004240,
+        104789417805394595600,
+        6148562290130009617619,
+        384009458372082378549270,
+        25434942283949342232090739,
+        1780839523247012361249665220
+    ],
+    "references": [
+        "EIS A035051"
+    ],
+    "gf": "exp(RootOf(_Z-exp(exp(_Z)*_x)+1))*_x",
+    "equiv": "-1/2/Pi^(1/2)*exp(1/LambertW(1)*(-1+LambertW(1)))*LambertW(1)*exp(exp(LambertW(1)*exp(RootOf(_Z-exp(exp((_Z*LambertW(1)+LambertW(1)-1)/LambertW(1))*LambertW(1))+1)-1/LambertW(1)+1))-1)*(-exp(LambertW(1)*exp(RootOf(_Z-exp(exp((_Z*LambertW(1)+LambertW(1)-1)/LambertW(1))*LambertW(1))+1)-1/LambertW(1)+1))+1)*(exp(1/LambertW(1)*(-1+LambertW(1)))*LambertW(1)*exp(exp(LambertW(1)*exp(RootOf(_Z-exp(exp((_Z*LambertW(1)+LambertW(1)-1)/LambertW(1))*LambertW(1))+1)-1/LambertW(1)+1))-1)/(1/2*exp(1/LambertW(1)*(-1+LambertW(1)))*LambertW(1)*exp(exp(LambertW(1)*exp(RootOf(_Z-exp(exp((_Z*LambertW(1)+LambertW(1)-1)/LambertW(1))*LambertW(1))+1)-1/LambertW(1)+1))-1)*(-exp(LambertW(1)*exp(RootOf(_Z-exp(exp((_Z*LambertW(1)+LambertW(1)-1)/LambertW(1))*LambertW(1))+1)-1/LambertW(1)+1))+1)^2+1/2/exp(LambertW(1)*exp(RootOf(_Z-exp(exp((_Z*LambertW(1)+LambertW(1)-1)/LambertW(1))*LambertW(1))+1)-1/LambertW(1)+1))^2*(-exp(LambertW(1)*exp(RootOf(_Z-exp(exp((_Z*LambertW(1)+LambertW(1)-1)/LambertW(1))*LambertW(1))+1)-1/LambertW(1)+1))+1)^2))^(1/2)*(1/_n)^(3/2)*(1/LambertW(1)*exp((1-LambertW(1))/LambertW(1)))^(-ln(exp(-_n)))"
+}

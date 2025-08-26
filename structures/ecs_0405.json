@@ -1,0 +1,38 @@
+{
+    "id": 405,
+    "name": "a(n) = a(n-2) + a(n-5)",
+    "description": "a(n) = a(n-2) + a(n-5)",
+    "specification": "{S = Sequence(Prod(Union(Z,Prod(Z,Z,Z,Z)),Z))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        0,
+        1,
+        0,
+        1,
+        1,
+        1,
+        2,
+        1,
+        3,
+        2,
+        4,
+        4,
+        5,
+        7,
+        7,
+        11,
+        11,
+        16,
+        18,
+        23
+    ],
+    "references": [
+        "EIS A001687"
+    ],
+    "gf": "-1/(_x^5+_x^2-1)",
+    "rec": "{_f(_n)+_f(_n+3)-_f(_n+5), _f(0) = 1, _f(1) = 0, _f(2) = 1, _f(3) = 0, _f(4) = 1}",
+    "closedform": "Sum(-1/3017*(54*_alpha^4-375*_alpha^3+90*_alpha^2-571*_alpha-225)*_alpha^(-1-_n),_alpha = RootOf(_Z^5+_Z^2-1))",
+    "equiv": "-1/(-5*RootOf(_Z^5+_Z^2-1,.808730600479392)^5-2*RootOf(_Z^5+_Z^2-1,.808730600479392)^2)*(RootOf(_Z^5+_Z^2-1,.808730600479392)^4+RootOf(_Z^5+_Z^2-1,.808730600479392))^(-ln(exp(-_n)))"
+}

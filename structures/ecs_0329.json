@@ -1,0 +1,38 @@
+{
+    "id": 329,
+    "name": "Multiples of 17",
+    "description": "Multiples of 17",
+    "specification": "{S = Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        17,
+        34,
+        51,
+        68,
+        85,
+        102,
+        119,
+        136,
+        153,
+        170,
+        187,
+        204,
+        221,
+        238,
+        255,
+        272,
+        289,
+        306,
+        323,
+        340
+    ],
+    "references": [
+        "EIS A008599"
+    ],
+    "gf": "17*_x/(-1+_x)^2",
+    "rec": "{_f(_n)-17*_n, _f(0) = 0,_f(1) = 17}",
+    "closedform": "17*_n",
+    "equiv": "17*_n"
+}

@@ -1,0 +1,36 @@
+{
+    "id": 149,
+    "name": "Number of simplices in barycentric subdivision of n-simplex",
+    "description": "Number of simplices in barycentric subdivision of n-simplex",
+    "specification": "{B = Set(Z,1 <= card), C = Set(Z), E = Sequence(B,1<= card), S = Prod(C,E)}",
+    "labeled": true,
+    "symbol": "S",
+    "terms": [
+        0,
+        1,
+        5,
+        25,
+        149,
+        1081,
+        9365,
+        94585,
+        1091669,
+        14174521,
+        204495125,
+        3245265145,
+        56183135189,
+        1053716696761,
+        21282685940885,
+        460566381955705,
+        10631309363962709,
+        260741534058271801,
+        6771069326513690645,
+        185603174638656822265,
+        5355375592488768406229
+    ],
+    "references": [
+        "EIS A002050"
+    ],
+    "gf": "-exp(_x)*(exp(_x)-1)/(-2+exp(_x))",
+    "equiv": "1/ln(2)*exp(-_n)^ln(ln(2))"
+}

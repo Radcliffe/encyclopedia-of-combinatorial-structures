@@ -1,0 +1,38 @@
+{
+    "id": 345,
+    "name": "Stirling numbers of the second kind",
+    "description": "Partitions of a set of size n into 2 non-empty subsets",
+    "specification": "{S= Prod(Sequence(Z),Sequence(Union(Z,Z)))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        3,
+        7,
+        15,
+        31,
+        63,
+        127,
+        255,
+        511,
+        1023,
+        2047,
+        4095,
+        8191,
+        16383,
+        32767,
+        65535,
+        131071,
+        262143,
+        524287,
+        1048575,
+        2097151
+    ],
+    "references": [
+        "EIS A000225"
+    ],
+    "gf": "1/(-1+_x)/(-1+2*_x)",
+    "rec": "{-2*_f(_n)+_f(_n+1)-1, _f(0) = 1}",
+    "closedform": "-1+2^(_n+1)",
+    "equiv": "2*exp(-_n)^(-ln(2))"
+}

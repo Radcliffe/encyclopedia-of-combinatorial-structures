@@ -1,0 +1,38 @@
+{
+    "id": 1067,
+    "name": "a(n) = 2^floor(n/2)",
+    "description": "a(n) = 2^floor(n/2)",
+    "specification": "{S = Prod(Union(Sequence(Prod(Union(Z,Z),Z)),Z),Sequence(Z))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        2,
+        4,
+        4,
+        8,
+        8,
+        16,
+        16,
+        32,
+        32,
+        64,
+        64,
+        128,
+        128,
+        256,
+        256,
+        512,
+        512,
+        1024,
+        1024,
+        2048
+    ],
+    "references": [
+        "EIS A016116"
+    ],
+    "gf": "-(2*_x^2+2*_x+1)/(2*_x^2-1)",
+    "rec": "{2*_f(_n)-_f(_n+2), _f(0) = 1, _f(1) = 2, _f(2) =4}",
+    "closedform": "Sum(1/2*(1+2*_alpha)*_alpha^(-1-_n),_alpha = RootOf(2*_Z^2-1))+piecewise(_n= 0,-1,0)",
+    "equiv": "(1+1/2*2^(1/2)+exp(Complex(1)*Pi*_n)*(1-1/2*2^(1/2)))*exp(-_n)^(-1/2*ln(2))"
+}

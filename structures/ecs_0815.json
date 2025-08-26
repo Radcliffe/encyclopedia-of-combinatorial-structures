@@ -1,0 +1,35 @@
+{
+    "id": 815,
+    "name": "G.f.: 1 / Product_{k>=1} (1-x^k)^(k-1)",
+    "description": "G.f.: 1 / Product_{k>=1} (1-x^k)^(k-1)",
+    "specification": "{B = Sequence(Z,1 <= card), C = Prod(B,B), S = Set(C)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        0,
+        1,
+        2,
+        4,
+        6,
+        12,
+        18,
+        33,
+        52,
+        88,
+        138,
+        229,
+        354,
+        568,
+        880,
+        1378,
+        2110,
+        3260,
+        4942,
+        7527
+    ],
+    "references": [
+        "EIS A052847"
+    ],
+    "gf": "exp(Sum((_x^j[1])^2/(_x^j[1]-1)^2/j[1],j[1] = 1 .. infinity))"
+}

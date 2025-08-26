@@ -1,0 +1,38 @@
+{
+    "id": 320,
+    "name": "Multiples of 8",
+    "description": "Multiples of 8",
+    "specification": "{S = Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        8,
+        16,
+        24,
+        32,
+        40,
+        48,
+        56,
+        64,
+        72,
+        80,
+        88,
+        96,
+        104,
+        112,
+        120,
+        128,
+        136,
+        144,
+        152,
+        160
+    ],
+    "references": [
+        "EIS A008590"
+    ],
+    "gf": "8*_x/(-1+_x)^2",
+    "rec": "{_f(_n)-8*_n, _f(0)= 0, _f(1) = 8}",
+    "closedform": "8*_n",
+    "equiv": "8*_n"
+}

@@ -1,0 +1,34 @@
+{
+    "id": 79,
+    "name": "Number of series-reduced planted compound windmills with n leaves",
+    "description": "Number of series-reduced planted compound windmills with n leaves",
+    "specification": "{B = Union(S,Z), S = Cycle(B,2 <= card)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        0,
+        1,
+        2,
+        5,
+        12,
+        36,
+        104,
+        331,
+        1062,
+        3519,
+        11809,
+        40327,
+        139066,
+        484698,
+        1702819,
+        6026452,
+        21460248,
+        76846950,
+        276524978,
+        999423375
+    ],
+    "references": [
+        "EIS A032203"
+    ]
+}

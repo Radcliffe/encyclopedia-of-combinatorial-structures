@@ -1,0 +1,34 @@
+{
+    "id": 794,
+    "name": "A simple grammar: partial sums of A052870",
+    "description": "A simple grammar: partial sums of A052870",
+    "specification": "{B = Sequence(Z,1 <= card), C = PowerSet(S), S = Prod(C,B)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        1,
+        2,
+        4,
+        10,
+        25,
+        69,
+        197,
+        583,
+        1762,
+        5441,
+        17042,
+        54072,
+        173334,
+        560659,
+        1827306,
+        5995570,
+        19787135,
+        65643226,
+        218777532,
+        732181107
+    ],
+    "references": [
+        "EIS A052829"
+    ]
+}

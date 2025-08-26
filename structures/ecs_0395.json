@@ -1,0 +1,37 @@
+{
+    "id": 395,
+    "name": "Number of dissections of a convex (n+2)-gon into triangles and quadrilaterals by nonintersecting diagonals",
+    "description": "Number of dissections of a convex (n+2)-gon into triangles and quadrilaterals by nonintersecting diagonals",
+    "specification": "{B = Prod(S,S), C = Prod(S,B), S =Union(B,C,Z)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        1,
+        1,
+        3,
+        10,
+        38,
+        154,
+        654,
+        2871,
+        12925,
+        59345,
+        276835,
+        1308320,
+        6250832,
+        30142360,
+        146510216,
+        717061938,
+        3530808798,
+        17478955570,
+        86941210950,
+        434299921440
+    ],
+    "references": [
+        "EIS A001002"
+    ],
+    "gf": "RootOf(_Z^3+_Z^2-_Z+_x)",
+    "rec": "{(27*_n^2-3)*_f(_n)+(22*_n^2+33*_n+11)*_f(_n+1)+(-5*_n^2-15*_n-10)*_f(_n+2), _f(0) = 0, _f(1) = 1, _f(2) = 1}",
+    "equiv": "-1/2/Pi^(1/2)*RootOf(54*_Z^2-5)*(1/_n)^(3/2)*exp(-_n)^(-3*ln(3)+ln(5))"
+}

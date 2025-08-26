@@ -1,0 +1,38 @@
+{
+    "id": 331,
+    "name": "Multiples of 19",
+    "description": "Multiples of 19",
+    "specification": "{S =Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        19,
+        38,
+        57,
+        76,
+        95,
+        114,
+        133,
+        152,
+        171,
+        190,
+        209,
+        228,
+        247,
+        266,
+        285,
+        304,
+        323,
+        342,
+        361,
+        380
+    ],
+    "references": [
+        "EIS A008601"
+    ],
+    "gf": "19*_x/(-1+_x)^2",
+    "rec": "{_f(_n)-19*_n, _f(0) = 0, _f(1) = 19}",
+    "closedform": "19*_n",
+    "equiv": "19*_n"
+}

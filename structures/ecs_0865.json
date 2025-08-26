@@ -1,0 +1,35 @@
+{
+    "id": 865,
+    "name": "A simple grammar",
+    "description": "rooted set partitions",
+    "specification": "{B = Set(C), C = Set(Z,1 <= card), S = Prod(Z,B)}",
+    "labeled": true,
+    "symbol": "S",
+    "terms": [
+        0,
+        1,
+        2,
+        6,
+        20,
+        75,
+        312,
+        1421,
+        7016,
+        37260,
+        211470,
+        1275725,
+        8142840,
+        54776761,
+        387022118,
+        2863489830,
+        22127336720,
+        178162416499,
+        1491567656472,
+        12959459317021,
+        116654844101140
+    ],
+    "references": [
+        "EIS A052889"
+    ],
+    "gf": "exp(exp(_x)-1)*_x"
+}

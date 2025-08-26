@@ -1,0 +1,38 @@
+{
+    "id": 340,
+    "name": "k-gonal numbers",
+    "description": "3-gonal numbers",
+    "specification": "{B = Prod(C,C,C), C = Sequence(Z), E = Prod(Z,B), S = Union(B,E,E,E)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        6,
+        15,
+        28,
+        45,
+        66,
+        91,
+        120,
+        153,
+        190,
+        231,
+        276,
+        325,
+        378,
+        435,
+        496,
+        561,
+        630,
+        703,
+        780,
+        861
+    ],
+    "references": [
+        "EIS A000384"
+    ],
+    "gf": "-(3*_x+1)/(-1+_x)^3",
+    "rec": "{-_f(_n)+2*_n^2+3*_n+1, _f(0) = 1, _f(1) = 6}",
+    "closedform": "2*_n^2+3*_n+1",
+    "equiv": "2*_n^2"
+}

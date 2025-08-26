@@ -1,0 +1,38 @@
+{
+    "id": 998,
+    "name": "Arithmetic sequence",
+    "description": "12 n + 9",
+    "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z)))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        21,
+        33,
+        45,
+        57,
+        69,
+        81,
+        93,
+        105,
+        117,
+        129,
+        141,
+        153,
+        165,
+        177,
+        189,
+        201,
+        213,
+        225,
+        237,
+        249
+    ],
+    "references": [
+        "EIS A017629"
+    ],
+    "gf": "-3*_x*(-7+3*_x)/(-1+_x)^2",
+    "rec": "{_f(_n)-12*_n-9, _f(0)= 0, _f(1) = 21, _f(2) = 33}",
+    "closedform": "9+12*_n+piecewise(_n = 0,-9,0)",
+    "equiv": "12*_n"
+}

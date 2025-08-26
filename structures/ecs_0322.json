@@ -1,0 +1,38 @@
+{
+    "id": 322,
+    "name": "Multiples of 10",
+    "description": "Multiples of 10",
+    "specification": "{S = Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        10,
+        20,
+        30,
+        40,
+        50,
+        60,
+        70,
+        80,
+        90,
+        100,
+        110,
+        120,
+        130,
+        140,
+        150,
+        160,
+        170,
+        180,
+        190,
+        200
+    ],
+    "references": [
+        "EIS A008592"
+    ],
+    "gf": "10*_x/(-1+_x)^2",
+    "rec": "{_f(_n)-10*_n, _f(0) = 0, _f(1) = 10}",
+    "closedform": "10*_n",
+    "equiv": "10*_n"
+}

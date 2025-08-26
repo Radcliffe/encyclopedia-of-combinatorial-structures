@@ -1,0 +1,35 @@
+{
+    "id": 852,
+    "name": "Expansion of Product_{m>=1} (1+x^m)^2",
+    "description": "Expansion of Product_{m>=1} (1+x^m)^2",
+    "specification": "{B = Sequence(Z,1 <= card), C = PowerSet(B), S = Prod(C,C)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        2,
+        3,
+        6,
+        9,
+        14,
+        22,
+        32,
+        46,
+        66,
+        93,
+        128,
+        176,
+        238,
+        319,
+        426,
+        562,
+        736,
+        960,
+        1242,
+        1598
+    ],
+    "references": [
+        "EIS A022567"
+    ],
+    "gf": "exp(Sum((-1)^j[1]*_x^j[1]/(_x^j[1]-1)/j[1],j[1] = 1 .. infinity))^2"
+}

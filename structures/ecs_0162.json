@@ -1,0 +1,35 @@
+{
+    "id": 162,
+    "name": "Number of conjugacy classes in GL(n,3)",
+    "description": "Number of conjugacy classes in GL(n,3)",
+    "specification": "{B = Cycle(E), C = Sequence(Z,1 <= card), E = Union(F,C), F = Sequence(Z,1 <= card), S = Set(B,1 <= card)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        2,
+        8,
+        24,
+        78,
+        232,
+        720,
+        2152,
+        6528,
+        19578,
+        58944,
+        176808,
+        531128,
+        1593288,
+        4781952,
+        14345792,
+        43043622,
+        129130584,
+        387411144,
+        1162232520,
+        3486755688
+    ],
+    "references": [
+        "EIS A006952"
+    ],
+    "gf": "exp(Sum(Sum(numtheory:-phi(j[1])/j[1]*ln(((_x^j[2])^j[1]-1)/(3*(_x^j[2])^j[1]-1)),j[1] = 1 .. infinity)/j[2],j[2] = 1 .. infinity))-1"
+}

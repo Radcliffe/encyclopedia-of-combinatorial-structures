@@ -1,0 +1,35 @@
+{
+    "id": 152,
+    "name": "2-Bell numbers: a(n) = number of partitions of [n+1] with a distinguished block",
+    "description": "2-Bell numbers: a(n) = number of partitions of [n+1] with a distinguished block",
+    "specification": "{B = Set(C), C = Set(Z,1 <= card), S = Prod(B,C)}",
+    "labeled": true,
+    "symbol": "S",
+    "terms": [
+        0,
+        1,
+        3,
+        10,
+        37,
+        151,
+        674,
+        3263,
+        17007,
+        94828,
+        562595,
+        3535027,
+        23430840,
+        163254885,
+        1192059223,
+        9097183602,
+        72384727657,
+        599211936355,
+        5150665398898,
+        45891416030315,
+        423145657921379
+    ],
+    "references": [
+        "EIS A005493"
+    ],
+    "gf": "exp(exp(_x)-1)*exp(_x)-exp(exp(_x)-1)"
+}

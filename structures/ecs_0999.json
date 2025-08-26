@@ -1,0 +1,38 @@
+{
+    "id": 999,
+    "name": "Arithmetic sequence",
+    "description": "12 n + 10",
+    "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z)))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        22,
+        34,
+        46,
+        58,
+        70,
+        82,
+        94,
+        106,
+        118,
+        130,
+        142,
+        154,
+        166,
+        178,
+        190,
+        202,
+        214,
+        226,
+        238,
+        250
+    ],
+    "references": [
+        "EIS A017641"
+    ],
+    "gf": "-2*_x*(-11+5*_x)/(-1+_x)^2",
+    "rec": "{_f(_n)-12*_n-10, _f(0) = 0, _f(1) = 22, _f(2) = 34}",
+    "closedform": "10+12*_n+piecewise(_n = 0,-10,0)",
+    "equiv": "12*_n"
+}

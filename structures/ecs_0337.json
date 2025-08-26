@@ -1,0 +1,38 @@
+{
+    "id": 337,
+    "name": "Multiples of 25",
+    "description": "Multiples of 25",
+    "specification": "{S = Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        25,
+        50,
+        75,
+        100,
+        125,
+        150,
+        175,
+        200,
+        225,
+        250,
+        275,
+        300,
+        325,
+        350,
+        375,
+        400,
+        425,
+        450,
+        475,
+        500
+    ],
+    "references": [
+        "EIS A008607"
+    ],
+    "gf": "25*_x/(-1+_x)^2",
+    "rec": "{_f(_n)-25*_n, _f(0) = 0, _f(1) = 25}",
+    "closedform": "25*_n",
+    "equiv": "25*_n"
+}

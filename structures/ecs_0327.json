@@ -1,0 +1,38 @@
+{
+    "id": 327,
+    "name": "Multiples of 15",
+    "description": "Multiples of 15",
+    "specification": "{S= Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        15,
+        30,
+        45,
+        60,
+        75,
+        90,
+        105,
+        120,
+        135,
+        150,
+        165,
+        180,
+        195,
+        210,
+        225,
+        240,
+        255,
+        270,
+        285,
+        300
+    ],
+    "references": [
+        "EIS A008597"
+    ],
+    "gf": "15*_x/(-1+_x)^2",
+    "rec": "{_f(_n)-15*_n, _f(0) = 0, _f(1) = 15}",
+    "closedform": "15*_n",
+    "equiv": "15*_n"
+}

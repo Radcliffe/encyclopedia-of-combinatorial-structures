@@ -1,0 +1,38 @@
+{
+    "id": 321,
+    "name": "Multiples of 9",
+    "description": "Multiples of 9",
+    "specification": "{S = Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        9,
+        18,
+        27,
+        36,
+        45,
+        54,
+        63,
+        72,
+        81,
+        90,
+        99,
+        108,
+        117,
+        126,
+        135,
+        144,
+        153,
+        162,
+        171,
+        180
+    ],
+    "references": [
+        "EIS A008591"
+    ],
+    "gf": "9*_x/(-1+_x)^2",
+    "rec": "{_f(_n)-9*_n, _f(0) = 0, _f(1) = 9}",
+    "closedform": "9*_n",
+    "equiv": "9*_n"
+}

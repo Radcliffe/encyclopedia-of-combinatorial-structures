@@ -1,0 +1,38 @@
+{
+    "id": 339,
+    "name": "k-gonal numbers",
+    "description": "2-gonal numbers",
+    "specification": "{B = Prod(C,C,C), C = Sequence(Z), E = Prod(Z,B), S = Union(B,E,E)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        5,
+        12,
+        22,
+        35,
+        51,
+        70,
+        92,
+        117,
+        145,
+        176,
+        210,
+        247,
+        287,
+        330,
+        376,
+        425,
+        477,
+        532,
+        590,
+        651
+    ],
+    "references": [
+        "EIS A000326"
+    ],
+    "gf": "-(2*_x+1)/(-1+_x)^3",
+    "rec": "{-2*_f(_n)+3*_n^2+5*_n+2, _f(0) = 1, _f(1) = 5}",
+    "closedform": "3/2*_n^2+5/2*_n+1",
+    "equiv": "3/2*_n^2"
+}

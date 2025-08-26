@@ -1,0 +1,38 @@
+{
+    "id": 449,
+    "name": "Positive integers repeated three times",
+    "description": "Positive integers repeated three times",
+    "specification": "{S = Prod(Z,Sequence(Prod(Z,Z,Z)),Sequence(Z))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        1,
+        1,
+        1,
+        2,
+        2,
+        2,
+        3,
+        3,
+        3,
+        4,
+        4,
+        4,
+        5,
+        5,
+        5,
+        6,
+        6,
+        6,
+        7,
+        7
+    ],
+    "references": [
+        "EIS A008620"
+    ],
+    "gf": "_x/(-1+_x)/(_x^3-1)",
+    "rec": "{_f(_n)+_f(_n+1)+_f(_n+2)-_n-2, _f(0) = 0, _f(1) = 1}",
+    "closedform": "Sum(-1/9*(1+2*_alpha)*_alpha^(-1-_n),_alpha = RootOf(_Z^2+_Z+1))+1/3*_n+1/3",
+    "equiv": "(-1/3*exp(Complex(1)*(-arctan(RootOf(4*_Z^2-3,-.866025403784439)/(-1-RootOf(2*_Z^3+3*_Z^2+3*_Z+1,-.5)))+Pi)*_n)/RootOf(_Z^2+_Z+1,Complex(-.5,-.866025403784439))^2/(-1+RootOf(_Z^2+_Z+1,Complex(-.5,-.866025403784439)))-1/3*exp(Complex(-1)*(-arctan(RootOf(4*_Z^2-3,-.866025403784439)/(-1-RootOf(2*_Z^3+3*_Z^2+3*_Z+1,-.5)))+Pi)*conjugate(_n))/RootOf(_Z^2+_Z+1,Complex(-.5,.866025403784439))^2/(-1+RootOf(_Z^2+_Z+1,Complex(-.5,.866025403784439))))*(RootOf(4*_Z^2-3,-.866025403784439)^2+RootOf(2*_Z^3+3*_Z^2+3*_Z+1,-.5)^2+2*RootOf(2*_Z^3+3*_Z^2+3*_Z+1,-.5)+1)^(-1/2*ln(exp(-_n)))"
+}

@@ -1,0 +1,38 @@
+{
+    "id": 314,
+    "name": "Multiples of 2",
+    "description": "Multiples of 2",
+    "specification": "{S =Prod(Union(Z,Z),Sequence(Z),Sequence(Z))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        2,
+        4,
+        6,
+        8,
+        10,
+        12,
+        14,
+        16,
+        18,
+        20,
+        22,
+        24,
+        26,
+        28,
+        30,
+        32,
+        34,
+        36,
+        38,
+        40
+    ],
+    "references": [
+        "EIS A005843"
+    ],
+    "gf": "2*_x/(-1+_x)^2",
+    "rec": "{_f(_n)-2*_n, _f(0) = 0, _f(1) = 2}",
+    "closedform": "2*_n",
+    "equiv": "2*_n"
+}

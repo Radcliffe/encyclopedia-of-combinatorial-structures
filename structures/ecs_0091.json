@@ -1,0 +1,34 @@
+{
+    "id": 91,
+    "name": "Unlabelled mobile",
+    "description": "Unlabelled mobile with cycles of length at least 3",
+    "specification": "{B = Cycle(S,3 <= card), S = Union(B,Z)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        1,
+        0,
+        1,
+        1,
+        2,
+        3,
+        6,
+        12,
+        25,
+        53,
+        114,
+        257,
+        567,
+        1294,
+        2944,
+        6790,
+        15693,
+        36598,
+        85578,
+        201299
+    ],
+    "references": [
+        "EIS A052523"
+    ]
+}

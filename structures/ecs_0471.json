@@ -1,0 +1,38 @@
+{
+    "id": 471,
+    "name": "Numbers whose cube is palindromic in base 4",
+    "description": "Numbers whose cube is palindromic in base 4",
+    "specification": "{S = Prod(Union(Z,Sequence(Z)),Sequence(Z),Sequence(Z))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        4,
+        8,
+        13,
+        19,
+        26,
+        34,
+        43,
+        53,
+        64,
+        76,
+        89,
+        103,
+        118,
+        134,
+        151,
+        169,
+        188,
+        208,
+        229,
+        251
+    ],
+    "references": [
+        "EIS A046231"
+    ],
+    "gf": "(_x^2-_x-1)/(-1+_x)^3",
+    "rec": "{-2*_f(_n)+_n^2+5*_n+2, _f(0) = 1, _f(1) = 4, _f(2) = 8}",
+    "closedform": "1/2*_n^2+5/2*_n+1",
+    "equiv": "1/2*_n^2"
+}

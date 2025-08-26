@@ -1,0 +1,38 @@
+{
+    "id": 941,
+    "name": "Arithmetic sequence",
+    "description": "5 n + 1",
+    "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z),Sequence(Z)))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        6,
+        11,
+        16,
+        21,
+        26,
+        31,
+        36,
+        41,
+        46,
+        51,
+        56,
+        61,
+        66,
+        71,
+        76,
+        81,
+        86,
+        91,
+        96,
+        101
+    ],
+    "references": [
+        "EIS A016861"
+    ],
+    "gf": "-_x*(-6+_x)/(-1+_x)^2",
+    "rec": "{_f(_n)-5*_n-1, _f(0) = 0, _f(1) = 6, _f(2) = 11}",
+    "closedform": "1+5*_n+piecewise(_n =0,-1,0)",
+    "equiv": "5*_n"
+}

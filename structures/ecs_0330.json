@@ -1,0 +1,38 @@
+{
+    "id": 330,
+    "name": "Multiples of 18",
+    "description": "Multiples of 18",
+    "specification": "{S = Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        18,
+        36,
+        54,
+        72,
+        90,
+        108,
+        126,
+        144,
+        162,
+        180,
+        198,
+        216,
+        234,
+        252,
+        270,
+        288,
+        306,
+        324,
+        342,
+        360
+    ],
+    "references": [
+        "EIS A008600"
+    ],
+    "gf": "18*_x/(-1+_x)^2",
+    "rec": "{_f(_n)-18*_n, _f(0) = 0, _f(1) = 18}",
+    "closedform": "18*_n",
+    "equiv": "18*_n"
+}

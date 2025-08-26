@@ -1,0 +1,36 @@
+{
+    "id": 41,
+    "name": "Ordered set partitions, Balls and Urns",
+    "description": "Ordered set partitions; surjections (Preferential arrangements);Ways to place balls into urns: distinguishable balls and distinguishable urns",
+    "specification": "{S = Sequence(Set(Z,1 <= card))}",
+    "labeled": true,
+    "symbol": "S",
+    "terms": [
+        1,
+        1,
+        3,
+        13,
+        75,
+        541,
+        4683,
+        47293,
+        545835,
+        7087261,
+        102247563,
+        1622632573,
+        28091567595,
+        526858348381,
+        10641342970443,
+        230283190977853,
+        5315654681981355,
+        130370767029135901,
+        3385534663256845323,
+        92801587319328411133,
+        2677687796244384203115
+    ],
+    "references": [
+        "EIS A000670"
+    ],
+    "gf": "-1/(-2+exp(_x))",
+    "equiv": "1/2/ln(2)*exp(-_n)^ln(ln(2))"
+}

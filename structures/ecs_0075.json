@@ -1,0 +1,37 @@
+{
+    "id": 75,
+    "name": "Stanley's children rounds",
+    "description": "Stanley's children rounds",
+    "specification": "{S= Set(Prod(Z,Cycle(Z)))}",
+    "labeled": true,
+    "symbol": "S",
+    "terms": [
+        1,
+        0,
+        2,
+        3,
+        20,
+        90,
+        594,
+        4200,
+        34544,
+        316008,
+        3207240,
+        35699400,
+        432690312,
+        5672581200,
+        79991160144,
+        1207367605080,
+        19423062612480,
+        331770360922560,
+        5997105160795584,
+        114373526841360000,
+        2295170834453089920
+    ],
+    "references": [
+        "Stanley",
+        "EIS A007113"
+    ],
+    "gf": "exp(ln(1/(1-_x))*_x)",
+    "equiv": "1"
+}

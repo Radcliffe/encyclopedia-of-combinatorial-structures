@@ -1,0 +1,38 @@
+{
+    "id": 410,
+    "name": "Oblong (or promic, pronic, or heteromecic) numbers: a(n) = n*(n+1)",
+    "description": "Oblong (or promic, pronic, or heteromecic) numbers: a(n) = n*(n+1)",
+    "specification": "{B = Set(Z), S = Prod(Z,Z,B)}",
+    "labeled": true,
+    "symbol": "S",
+    "terms": [
+        0,
+        0,
+        2,
+        6,
+        12,
+        20,
+        30,
+        42,
+        56,
+        72,
+        90,
+        110,
+        132,
+        156,
+        182,
+        210,
+        240,
+        272,
+        306,
+        342,
+        380
+    ],
+    "references": [
+        "EIS A002378"
+    ],
+    "gf": "exp(_x)*_x^2",
+    "rec": "{(-1-_n)*_f(_n)+_f(_n+1)*(_n-1), _f(0) = 0, _f(1) = 0, _f(2) = 2}",
+    "closedform": "(_n-1)*_n",
+    "equiv": "1/2/Pi^(1/2)*2^(1/2)*exp(-2)*exp(2)/(1/_n)^(3/2)*exp(_n)*_n^(-_n)"
+}

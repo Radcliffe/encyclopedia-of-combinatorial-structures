@@ -1,0 +1,37 @@
+{
+    "id": 443,
+    "name": "Shifts left when INVERT transform applied thrice",
+    "description": "Shifts left when INVERT transform applied thrice",
+    "specification": "{B = Union(S,C), C = Prod(S,E), E= Union(B,C), S = Union(C,Z)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        1,
+        1,
+        4,
+        19,
+        100,
+        562,
+        3304,
+        20071,
+        124996,
+        793774,
+        5120632,
+        33463102,
+        221060008,
+        1473830308,
+        9904186192,
+        67015401391,
+        456192667396,
+        3122028222934,
+        21467769499864,
+        148246598341018
+    ],
+    "references": [
+        "EIS A007564"
+    ],
+    "gf": "1/3*_x+1/6-1/6*(4*_x^2-8*_x+1)^(1/2)",
+    "rec": "{(4*_n-4)*_f(_n)+(-4-8*_n)*_f(_n+1)+(_n+2)*_f(_n+2), _f(0) = 0, _f(1) = 1, _f(2) = 1}",
+    "equiv": "1/12/Pi^(1/2)*(-8*(1-1/2*3^(1/2))^2+8-4*3^(1/2))^(1/2)*(1/_n)^(3/2)*exp(-_n)^(-ln(2)+ln(2-3^(1/2)))"
+}

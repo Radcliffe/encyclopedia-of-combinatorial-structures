@@ -1,0 +1,38 @@
+{
+    "id": 263,
+    "name": "Arrangements",
+    "description": "Arrangements of n labelled objects in 4 rows",
+    "specification": "{B = Sequence(Z), S = Prod(B,B,B,B)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        4,
+        10,
+        20,
+        35,
+        56,
+        84,
+        120,
+        165,
+        220,
+        286,
+        364,
+        455,
+        560,
+        680,
+        816,
+        969,
+        1140,
+        1330,
+        1540,
+        1771
+    ],
+    "references": [
+        "EIS A001715"
+    ],
+    "gf": "1/(-1+_x)^4",
+    "rec": "{6*_f(_n)-_n^3-6*_n^2-11*_n-6, _f(0) = 1}",
+    "closedform": "1/6*(_n+1)*(_n+2)*(_n+3)",
+    "equiv": "1/6*_n^3"
+}

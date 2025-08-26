@@ -1,0 +1,38 @@
+{
+    "id": 1013,
+    "name": "Constant sequence",
+    "description": "All 5's",
+    "specification": "{S = Prod(Union(Z,Z,Z,Z,Z),Sequence(Z))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5
+    ],
+    "references": [
+        "EIS A010716"
+    ],
+    "gf": "-5*_x/(-1+_x)",
+    "rec": "{-_f(_n)+5, _f(0) = 0, _f(1) = 5}",
+    "closedform": "5+piecewise(_n = 0,-5,0)",
+    "equiv": "5"
+}

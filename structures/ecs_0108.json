@@ -1,0 +1,35 @@
+{
+    "id": 108,
+    "name": "Expansion of Product_{m >= 1} (1 + x^m); number of partitions of n into distinct parts; number of partitions of n into odd parts",
+    "description": "Expansion of Product_{m >= 1} (1 + x^m); number of partitions of n into distinct parts; number of partitions of n into odd parts",
+    "specification": "{B = Sequence(Z,0 < card), S = PowerSet(B)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        1,
+        1,
+        2,
+        2,
+        3,
+        4,
+        5,
+        6,
+        8,
+        10,
+        12,
+        15,
+        18,
+        22,
+        27,
+        32,
+        38,
+        46,
+        54,
+        64
+    ],
+    "references": [
+        "EIS A000009"
+    ],
+    "gf": "exp(Sum((-1)^j[1]*_x^j[1]/(_x^j[1]-1)/j[1],j[1] = 1 ..infinity))"
+}

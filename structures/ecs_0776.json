@@ -1,0 +1,35 @@
+{
+    "id": 776,
+    "name": "A simple grammar",
+    "description": "PowerSet of pairs of Sequences",
+    "specification": "{B = Sequence(Z,1 <= card), C = Prod(B,B), S = PowerSet(C)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        0,
+        1,
+        2,
+        3,
+        6,
+        9,
+        16,
+        24,
+        42,
+        63,
+        102,
+        157,
+        244,
+        373,
+        570,
+        858,
+        1290,
+        1930,
+        2858,
+        4228
+    ],
+    "references": [
+        "EIS A052812"
+    ],
+    "gf": "exp(Sum(-(-1)^j[1]*(_x^j[1])^2/(_x^j[1]-1)^2/j[1],j[1] = 1 .. infinity))"
+}

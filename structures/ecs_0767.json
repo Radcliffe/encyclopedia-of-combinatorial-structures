@@ -1,0 +1,34 @@
+{
+    "id": 767,
+    "name": "Number of sequences of rooted identity trees with a total of n nodes",
+    "description": "Number of sequences of rooted identity trees with a total of n nodes",
+    "specification": "{B = PowerSet(C), C = Prod(B,Z), S = Sequence(C)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        1,
+        2,
+        4,
+        9,
+        20,
+        46,
+        107,
+        252,
+        597,
+        1425,
+        3418,
+        8235,
+        19910,
+        48287,
+        117412,
+        286150,
+        698771,
+        1709403,
+        4188258,
+        10276221
+    ],
+    "references": [
+        "EIS A052806"
+    ]
+}

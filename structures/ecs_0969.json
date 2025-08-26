@@ -1,0 +1,38 @@
+{
+    "id": 969,
+    "name": "Arithmetic sequence",
+    "description": "9 n + 7",
+    "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z,Z,Z,Z,Z,Z),Sequence(Z)))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        16,
+        25,
+        34,
+        43,
+        52,
+        61,
+        70,
+        79,
+        88,
+        97,
+        106,
+        115,
+        124,
+        133,
+        142,
+        151,
+        160,
+        169,
+        178,
+        187
+    ],
+    "references": [
+        "EIS A017245"
+    ],
+    "gf": "-_x*(-16+7*_x)/(-1+_x)^2",
+    "rec": "{_f(_n)-9*_n-7, _f(0) = 0, _f(1) = 16, _f(2) = 25}",
+    "closedform": "7+9*_n+piecewise(_n = 0,-7,0)",
+    "equiv": "9*_n"
+}

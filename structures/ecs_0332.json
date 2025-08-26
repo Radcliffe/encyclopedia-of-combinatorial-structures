@@ -1,0 +1,38 @@
+{
+    "id": 332,
+    "name": "Multiples of 20",
+    "description": "Multiples of 20",
+    "specification": "{S = Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        20,
+        40,
+        60,
+        80,
+        100,
+        120,
+        140,
+        160,
+        180,
+        200,
+        220,
+        240,
+        260,
+        280,
+        300,
+        320,
+        340,
+        360,
+        380,
+        400
+    ],
+    "references": [
+        "EIS A008602"
+    ],
+    "gf": "20*_x/(-1+_x)^2",
+    "rec": "{_f(_n)-20*_n, _f(0) = 0, _f(1) = 20}",
+    "closedform": "20*_n",
+    "equiv": "20*_n"
+}

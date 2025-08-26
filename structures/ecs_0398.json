@@ -1,0 +1,38 @@
+{
+    "id": 398,
+    "name": "Denominators of continued fraction convergents to sqrt(5)",
+    "description": "Denominators of continued fraction convergents to sqrt(5)",
+    "specification": "{S = Sequence(Union(Z,Z,Z,Z,Prod(Z,Z)))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        4,
+        17,
+        72,
+        305,
+        1292,
+        5473,
+        23184,
+        98209,
+        416020,
+        1762289,
+        7465176,
+        31622993,
+        133957148,
+        567451585,
+        2403763488,
+        10182505537,
+        43133785636,
+        182717648081,
+        774004377960,
+        3278735159921
+    ],
+    "references": [
+        "EIS A001076"
+    ],
+    "gf": "-1/(_x^2+4*_x-1)",
+    "rec": "{_f(_n)+4*_f(_n+1)-_f(_n+2), _f(0) = 1, _f(1)= 4}",
+    "closedform": "Sum(1/10*(_alpha+2)*_alpha^(-1-_n),_alpha = RootOf(_Z^2+4*_Z-1))",
+    "equiv": "-1/(-2*(-2+5^(1/2))^2+8-4*5^(1/2))*exp(-_n)^ln(-2+5^(1/2))"
+}

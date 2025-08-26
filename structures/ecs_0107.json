@@ -1,0 +1,35 @@
+{
+    "id": 107,
+    "name": "States of a dynamic storage system",
+    "description": "States of a dynamic storage system",
+    "specification": "{B = Union(Z,Sequence(Z,0 < card)), S = Cycle(B)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        2,
+        4,
+        7,
+        14,
+        26,
+        59,
+        122,
+        284,
+        647,
+        1528,
+        3602,
+        8679,
+        20882,
+        50824,
+        124055,
+        304574,
+        750122,
+        1855099,
+        4600202,
+        11442086
+    ],
+    "references": [
+        "EIS A005594"
+    ],
+    "gf": "Sum(numtheory:-phi(j[1])/j[1]*ln(-(_x^j[1]-1)/((_x^j[1])^2-3*_x^j[1]+1)),j[1] = 1 .. infinity)"
+}

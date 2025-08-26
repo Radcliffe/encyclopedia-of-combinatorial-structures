@@ -1,0 +1,34 @@
+{
+    "id": 792,
+    "name": "a(n) is the number of unlabeled forests of rooted trees with n nodes such that no two trees are identical",
+    "description": "a(n) is the number of unlabeled forests of rooted trees with n nodes such that no two trees are identical",
+    "specification": "{B = Set(C), C = Prod(B,Z), S = PowerSet(C)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        1,
+        1,
+        3,
+        6,
+        15,
+        36,
+        90,
+        225,
+        578,
+        1492,
+        3901,
+        10278,
+        27313,
+        73042,
+        196585,
+        531847,
+        1445991,
+        3948282,
+        10823524,
+        29776129
+    ],
+    "references": [
+        "EIS A052827"
+    ]
+}

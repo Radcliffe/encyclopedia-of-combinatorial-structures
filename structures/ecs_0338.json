@@ -1,0 +1,38 @@
+{
+    "id": 338,
+    "name": "k-gonal numbers",
+    "description": "1-gonal numbers",
+    "specification": "{B = Prod(C,C,C), C = Sequence(Z), E = Prod(Z,B), S = Union(B,E)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        4,
+        9,
+        16,
+        25,
+        36,
+        49,
+        64,
+        81,
+        100,
+        121,
+        144,
+        169,
+        196,
+        225,
+        256,
+        289,
+        324,
+        361,
+        400,
+        441
+    ],
+    "references": [
+        "EIS A000290"
+    ],
+    "gf": "-(1+_x)/(-1+_x)^3",
+    "rec": "{-_f(_n)+_n^2+2*_n+1, _f(0) = 1, _f(1) = 4}",
+    "closedform": "(_n+1)^2",
+    "equiv": "_n^2"
+}

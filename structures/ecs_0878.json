@@ -1,0 +1,38 @@
+{
+    "id": 878,
+    "name": "Periodic with period 3: a(3n)=3, a(3n+1)=a(3n+2)=2",
+    "description": "Periodic with period 3: a(3n)=3, a(3n+1)=a(3n+2)=2",
+    "specification": "{S = Union(Sequence(Z),Sequence(Z),Sequence(Prod(Z,Z,Z)))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        3,
+        2,
+        2,
+        3,
+        2,
+        2,
+        3,
+        2,
+        2,
+        3,
+        2,
+        2,
+        3,
+        2,
+        2,
+        3,
+        2,
+        2,
+        3,
+        2,
+        2
+    ],
+    "references": [
+        "EIS A052901"
+    ],
+    "gf": "-(2*_x^2+2*_x+3)/(_x^3-1)",
+    "rec": "{-_f(_n)-_f(_n+1)-_f(_n+2)+7, _f(0) = 3, _f(1) = 2, _f(2) = 2}",
+    "closedform": "Sum(1/3*(2*_alpha^2+3*_alpha+2)*_alpha^(-1-_n),_alpha = RootOf(_Z^3-1))",
+    "equiv": "7/3+exp(Complex(2/3)*Pi*_n)/(-3/2+Complex(3/2)*3^(1/2))+exp(Complex(-2/3)*Pi*_n)/(-3/2+Complex(-3/2)*3^(1/2))"
+}

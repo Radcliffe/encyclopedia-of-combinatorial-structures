@@ -1,0 +1,38 @@
+{
+    "id": 1021,
+    "name": "Expansion of (1 + x - 2*x^2)/(1 - 2*x)^2",
+    "description": "Expansion of (1 + x - 2*x^2)/(1 - 2*x)^2",
+    "specification": "{S = Prod(Union(Sequence(Union(Z,Z)),Z),Sequence(Union(Z,Z)))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        5,
+        14,
+        36,
+        88,
+        208,
+        480,
+        1088,
+        2432,
+        5376,
+        11776,
+        25600,
+        55296,
+        118784,
+        253952,
+        540672,
+        1146880,
+        2424832,
+        5111808,
+        10747904,
+        22544384
+    ],
+    "references": [
+        "EIS A052951"
+    ],
+    "gf": "-(2*_x^2-_x-1)/(-1+2*_x)^2",
+    "rec": "{4*_f(_n)-4*_f(_n+1)+_f(_n+2), _f(0) = 1, _f(1) = 5, _f(2) = 14}",
+    "closedform": "2^_n*_n+2^(_n-1)+2^_n+piecewise(_n = 0,-1/2,0)",
+    "equiv": "_n*exp(-_n)^(-ln(2))"
+}

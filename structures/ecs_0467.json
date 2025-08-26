@@ -1,0 +1,38 @@
+{
+    "id": 467,
+    "name": "Number of compositions of n when parts 1 and 2 are of two kinds",
+    "description": "Number of compositions of n when parts 1 and 2 are of two kinds",
+    "specification": "{S = Sequence(Union(Z,Prod(Z,Union(Z,Sequence(Z)))))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        2,
+        6,
+        17,
+        49,
+        141,
+        406,
+        1169,
+        3366,
+        9692,
+        27907,
+        80355,
+        231373,
+        666212,
+        1918281,
+        5523470,
+        15904198,
+        45794313,
+        131859469,
+        379674209,
+        1093228314
+    ],
+    "references": [
+        "EIS A052536"
+    ],
+    "gf": "-(-1+_x)/(_x^3-3*_x+1)",
+    "rec": "{_f(_n)-3*_f(_n+2)+_f(_n+3), _f(0) = 1, _f(1) = 2, _f(2) = 6}",
+    "closedform": "Sum(-1/9*(_alpha^2-_alpha-2)*_alpha^(-1-_n),_alpha = RootOf(_Z^3-3*_Z+1))",
+    "equiv": "-(-1+RootOf(_Z^3-3*_Z+1,.347296355333861))/(-3*RootOf(_Z^3-3*_Z+1,.347296355333861)^3+3*RootOf(_Z^3-3*_Z+1,.347296355333861))*(-RootOf(_Z^3-3*_Z+1,.347296355333861)^2+3)^(-ln(exp(-_n)))"
+}

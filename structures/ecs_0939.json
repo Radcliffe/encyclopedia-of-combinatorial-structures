@@ -1,0 +1,38 @@
+{
+    "id": 939,
+    "name": "Arithmetic sequence",
+    "description": "4 n + 2",
+    "specification": "{S = Union(Prod(Union(Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z),Sequence(Z)))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        6,
+        10,
+        14,
+        18,
+        22,
+        26,
+        30,
+        34,
+        38,
+        42,
+        46,
+        50,
+        54,
+        58,
+        62,
+        66,
+        70,
+        74,
+        78,
+        82
+    ],
+    "references": [
+        "EIS A016825"
+    ],
+    "gf": "-2*_x*(-3+_x)/(-1+_x)^2",
+    "rec": "{_f(_n)-4*_n-2, _f(0) = 0, _f(1) = 6, _f(2) = 10}",
+    "closedform": "2+4*_n+piecewise(_n= 0,-2,0)",
+    "equiv": "4*_n"
+}

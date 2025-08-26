@@ -1,0 +1,38 @@
+{
+    "id": 978,
+    "name": "Arithmetic sequence",
+    "description": "10 n + 8",
+    "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z)))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        18,
+        28,
+        38,
+        48,
+        58,
+        68,
+        78,
+        88,
+        98,
+        108,
+        118,
+        128,
+        138,
+        148,
+        158,
+        168,
+        178,
+        188,
+        198,
+        208
+    ],
+    "references": [
+        "EIS A017365"
+    ],
+    "gf": "-2*_x*(-9+4*_x)/(-1+_x)^2",
+    "rec": "{_f(_n)-10*_n-8, _f(0)= 0, _f(1) = 18, _f(2) = 28}",
+    "closedform": "8+10*_n+piecewise(_n = 0,-8,0)",
+    "equiv": "10*_n"
+}

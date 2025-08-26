@@ -1,0 +1,34 @@
+{
+    "id": 123,
+    "name": "Number of rooted trees with n nodes and a single labeled node; pointed rooted trees; vertebrates",
+    "description": "Number of rooted trees with n nodes and a single labeled node; pointed rooted trees; vertebrates",
+    "specification": "{B = Set(C), C = Prod(B,Z), S = Sequence(C)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        1,
+        2,
+        5,
+        13,
+        35,
+        95,
+        262,
+        727,
+        2033,
+        5714,
+        16136,
+        45733,
+        130046,
+        370803,
+        1059838,
+        3035591,
+        8710736,
+        25036934,
+        72069134,
+        207727501
+    ],
+    "references": [
+        "EIS A000107"
+    ]
+}

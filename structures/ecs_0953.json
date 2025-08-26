@@ -1,0 +1,38 @@
+{
+    "id": 953,
+    "name": "Arithmetic sequence",
+    "description": "7 n + 4",
+    "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z,Z,Z),Sequence(Z)))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        11,
+        18,
+        25,
+        32,
+        39,
+        46,
+        53,
+        60,
+        67,
+        74,
+        81,
+        88,
+        95,
+        102,
+        109,
+        116,
+        123,
+        130,
+        137,
+        144
+    ],
+    "references": [
+        "EIS A017029"
+    ],
+    "gf": "-_x*(4*_x-11)/(-1+_x)^2",
+    "rec": "{_f(_n)-7*_n-4, _f(0) = 0, _f(1) = 11, _f(2) = 18}",
+    "closedform": "4+7*_n+piecewise(_n = 0,-4,0)",
+    "equiv": "7*_n"
+}

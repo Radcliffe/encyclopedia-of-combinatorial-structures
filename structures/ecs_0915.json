@@ -1,0 +1,38 @@
+{
+    "id": 915,
+    "name": "Expansion of g.f. (2-3*x-x^2)/((1-x^2)*(1-3*x))",
+    "description": "Expansion of g.f. (2-3*x-x^2)/((1-x^2)*(1-3*x))",
+    "specification": "{S = Union(Sequence(Prod(Z,Z)),Sequence(Union(Z,Z,Z)))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        2,
+        3,
+        10,
+        27,
+        82,
+        243,
+        730,
+        2187,
+        6562,
+        19683,
+        59050,
+        177147,
+        531442,
+        1594323,
+        4782970,
+        14348907,
+        43046722,
+        129140163,
+        387420490,
+        1162261467,
+        3486784402
+    ],
+    "references": [
+        "EIS A052929"
+    ],
+    "gf": "-(_x^2+3*_x-2)/(_x^2-1)/(-1+3*_x)",
+    "rec": "{-3*_f(_n)-2*_f(_n+1)+_f(_n+2)+2, _f(0) = 2, _f(1) = 3, _f(2) = 10}",
+    "closedform": "Sum(1/2*_alpha^(-_n),_alpha = RootOf(_Z^2-1))+3^_n",
+    "equiv": "exp(-_n)^(-ln(3))"
+}

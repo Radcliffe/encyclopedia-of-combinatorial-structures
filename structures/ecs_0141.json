@@ -1,0 +1,35 @@
+{
+    "id": 141,
+    "name": "Number of plane partitions of n with at most two rows",
+    "description": "Number of plane partitions of n with at most two rows",
+    "specification": "{B = Sequence(Z), C = Sequence(Z,1<= card), E = Prod(B,C), S = Set(E)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        1,
+        3,
+        6,
+        13,
+        24,
+        48,
+        86,
+        160,
+        282,
+        500,
+        859,
+        1479,
+        2485,
+        4167,
+        6879,
+        11297,
+        18334,
+        29601,
+        47330,
+        75278
+    ],
+    "references": [
+        "EIS A000990"
+    ],
+    "gf": "exp(Sum(_x^j[1]/(_x^j[1]-1)^2/j[1],j[1] = 1 .. infinity))"
+}

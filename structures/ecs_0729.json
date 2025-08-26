@@ -1,0 +1,34 @@
+{
+    "id": 729,
+    "name": "Number of rooted identity trees with n nodes and 4-colored non-root nodes",
+    "description": "Number of rooted identity trees with n nodes and 4-colored non-root nodes",
+    "specification": "{B = PowerSet(S), S =Prod(Z,B,B,B,B)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        1,
+        4,
+        22,
+        156,
+        1193,
+        9748,
+        82916,
+        727088,
+        6524084,
+        59620732,
+        552970626,
+        5191935808,
+        49252903050,
+        471358286352,
+        4545310993994,
+        44121116086052,
+        430777978197156,
+        4227634212037728,
+        41680927531643928,
+        412638233333973820
+    ],
+    "references": [
+        "EIS A052772"
+    ]
+}

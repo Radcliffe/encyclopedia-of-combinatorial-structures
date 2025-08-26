@@ -1,0 +1,38 @@
+{
+    "id": 11,
+    "name": "Words with at most 3 consecutive b-letters",
+    "description": "Words with at most 3 consecutive b-letters; Tetranacci numbers",
+    "specification": "{S = Prod(X,Sequence(Prod(a,X))), X = Sequence(b,card <= 3), a = Atom, b = Atom}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        2,
+        4,
+        8,
+        15,
+        29,
+        56,
+        108,
+        208,
+        401,
+        773,
+        1490,
+        2872,
+        5536,
+        10671,
+        20569,
+        39648,
+        76424,
+        147312,
+        283953,
+        547337
+    ],
+    "references": [
+        "EIS A000078"
+    ],
+    "gf": "-(_x^3+_x^2+_x+1)/(_x^4+_x^3+_x^2+_x-1)",
+    "rec": "{_f(_n)+_f(_n+1)+_f(_n+2)+_f(_n+3)-_f(_n+4), _f(0) = 1, _f(1) = 2, _f(2) = 4, _f(3) = 8}",
+    "closedform": "Sum(1/563*(64*_alpha^3+104*_alpha^2+129*_alpha+215)*_alpha^(-1-_n),_alpha = RootOf(_Z^4+_Z^3+_Z^2+_Z-1))",
+    "equiv": "-(RootOf(_Z^4+_Z^3+_Z^2+_Z-1,.518790063675884)^3+RootOf(_Z^4+_Z^3+_Z^2+_Z-1,.518790063675884)^2+RootOf(_Z^4+_Z^3+_Z^2+_Z-1,.518790063675884)+1)/(-4*RootOf(_Z^4+_Z^3+_Z^2+_Z-1,.518790063675884)^4-3*RootOf(_Z^4+_Z^3+_Z^2+_Z-1,.518790063675884)^3-2*RootOf(_Z^4+_Z^3+_Z^2+_Z-1,.518790063675884)^2-RootOf(_Z^4+_Z^3+_Z^2+_Z-1,.518790063675884))*(RootOf(_Z^4+_Z^3+_Z^2+_Z-1,.518790063675884)^3+RootOf(_Z^4+_Z^3+_Z^2+_Z-1,.518790063675884)^2+RootOf(_Z^4+_Z^3+_Z^2+_Z-1,.518790063675884)+1)^(-ln(exp(-_n)))"
+}

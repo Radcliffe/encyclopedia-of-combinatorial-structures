@@ -1,0 +1,38 @@
+{
+    "id": 971,
+    "name": "Arithmetic sequence",
+    "description": "10 n + 1",
+    "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z),Sequence(Z)))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        11,
+        21,
+        31,
+        41,
+        51,
+        61,
+        71,
+        81,
+        91,
+        101,
+        111,
+        121,
+        131,
+        141,
+        151,
+        161,
+        171,
+        181,
+        191,
+        201
+    ],
+    "references": [
+        "EIS A017281"
+    ],
+    "gf": "-_x*(-11+_x)/(-1+_x)^2",
+    "rec": "{_f(_n)-10*_n-1, _f(0) = 0, _f(1) = 11, _f(2) = 21}",
+    "closedform": "1+10*_n+piecewise(_n = 0,-1,0)",
+    "equiv": "10*_n"
+}

@@ -1,0 +1,38 @@
+{
+    "id": 1010,
+    "name": "Constant sequence",
+    "description": "All 2's",
+    "specification": "{S = Prod(Union(Z,Z),Sequence(Z))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+    ],
+    "references": [
+        "EIS A007395"
+    ],
+    "gf": "-2*_x/(-1+_x)",
+    "rec": "{-_f(_n)+2, _f(0) = 0, _f(1) = 2}",
+    "closedform": "2+piecewise(_n = 0,-2,0)",
+    "equiv": "2"
+}

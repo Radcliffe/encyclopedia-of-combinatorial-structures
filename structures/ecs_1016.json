@@ -1,0 +1,38 @@
+{
+    "id": 1016,
+    "name": "Constant sequence",
+    "description": "All 8's",
+    "specification": "{S = Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8
+    ],
+    "references": [
+        "EIS A010731"
+    ],
+    "gf": "-8*_x/(-1+_x)",
+    "rec": "{-_f(_n)+8, _f(0) = 0, _f(1)= 8}",
+    "closedform": "8+piecewise(_n = 0,-8,0)",
+    "equiv": "8"
+}

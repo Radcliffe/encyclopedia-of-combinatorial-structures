@@ -1,0 +1,38 @@
+{
+    "id": 427,
+    "name": "Denominators of continued fraction convergents to sqrt(10)",
+    "description": "Denominators of continued fraction convergents to sqrt(10)",
+    "specification": "{S = Sequence(Union(Prod(Z,Z),Z,Z,Z,Z,Z,Z))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        6,
+        37,
+        228,
+        1405,
+        8658,
+        53353,
+        328776,
+        2026009,
+        12484830,
+        76934989,
+        474094764,
+        2921503573,
+        18003116202,
+        110940200785,
+        683644320912,
+        4212806126257,
+        25960481078454,
+        159975692596981,
+        985814636660340,
+        6074863512559021
+    ],
+    "references": [
+        "EIS A005668"
+    ],
+    "gf": "-1/(_x^2+6*_x-1)",
+    "rec": "{_f(_n)+6*_f(_n+1)-_f(_n+2), _f(0) = 1, _f(1) = 6}",
+    "closedform": "Sum(1/20*(_alpha+3)*_alpha^(-1-_n),_alpha = RootOf(_Z^2+6*_Z-1))",
+    "equiv": "-1/(-2*(-3+10^(1/2))^2+18-6*10^(1/2))*exp(-_n)^ln(-3+10^(1/2))"
+}

@@ -1,0 +1,37 @@
+{
+    "id": 396,
+    "name": "Number of ways of partitioning n points on a circle into subsets only of sizes 2 and 3",
+    "description": "Number of ways of partitioning n points on a circle into subsets only of sizes 2 and 3",
+    "specification": "{B = Prod(S,C), C = Prod(S,S,Z), S = Union(Z,C,B)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        1,
+        0,
+        1,
+        1,
+        2,
+        5,
+        8,
+        21,
+        42,
+        96,
+        222,
+        495,
+        1177,
+        2717,
+        6435,
+        15288,
+        36374,
+        87516,
+        210494,
+        509694
+    ],
+    "references": [
+        "EIS A001005"
+    ],
+    "gf": "RootOf(_Z^3*_x+_Z^2*_x-_Z+_x)",
+    "rec": "{(279*_n^2+279*_n)*_f(_n)+(193*_n^2+529*_n+336)*_f(_n+1)+(9*_n^2+63*_n+96)*_f(_n+2)+(-37*_n^2-205*_n-264)*_f(_n+3)+(-4*_n^2-34*_n-72)*_f(_n+4), _f(0) = 0, _f(1) = 1, _f(2) = 0, _f(3) = 1}",
+    "equiv": "-1/2/Pi^(1/2)*RootOf(-28*RootOf(2*_Z^3+_Z^2-1,.657298106138376)^2+26*_Z^2-9*RootOf(2*_Z^3+_Z^2-1,.657298106138376)+3)*(1/_n)^(3/2)*(3*RootOf(2*_Z^3+_Z^2-1,.657298106138376)^2+2*RootOf(2*_Z^3+_Z^2-1,.657298106138376))^(-ln(exp(-_n)))"
+}

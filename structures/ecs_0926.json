@@ -1,0 +1,38 @@
+{
+    "id": 926,
+    "name": "a(n) = floor(2^(n+2)/7)",
+    "description": "a(n) = floor(2^(n+2)/7)",
+    "specification": "{S = Prod(Sequence(Prod(Z,Z,Z)),Sequence(Union(Z,Z)))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        2,
+        4,
+        9,
+        18,
+        36,
+        73,
+        146,
+        292,
+        585,
+        1170,
+        2340,
+        4681,
+        9362,
+        18724,
+        37449,
+        74898,
+        149796,
+        299593,
+        599186,
+        1198372
+    ],
+    "references": [
+        "EIS A033138"
+    ],
+    "gf": "1/(_x^3-1)/(-1+2*_x)",
+    "rec": "{-2*_f(_n)-_f(_n+1)-_f(_n+2)+_f(_n+3)-1, _f(0) = 1, _f(1) = 2, _f(2) = 4}",
+    "closedform": "8/7*2^_n+Sum(-1/21*(2*_alpha^2+_alpha+4)*_alpha^(-1-_n),_alpha = RootOf(_Z^3-1))",
+    "equiv": "8/7*exp(-_n)^(-ln(2))"
+}

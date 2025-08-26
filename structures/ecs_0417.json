@@ -1,0 +1,38 @@
+{
+    "id": 417,
+    "name": "a(n) = a(n-1) + 2*a(n-3) with a(0)=a(1)=1, a(2)=3",
+    "description": "a(n) = a(n-1) + 2*a(n-3) with a(0)=a(1)=1, a(2)=3",
+    "specification": "{S = Sequence(Union(Z,Prod(Z,Z,Union(Z,Z))))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        1,
+        1,
+        3,
+        5,
+        7,
+        13,
+        23,
+        37,
+        63,
+        109,
+        183,
+        309,
+        527,
+        893,
+        1511,
+        2565,
+        4351,
+        7373,
+        12503,
+        21205
+    ],
+    "references": [
+        "EIS A003229"
+    ],
+    "gf": "-1/(2*_x^3+_x-1)",
+    "rec": "{2*_f(_n)+_f(_n+2)-_f(_n+3), _f(0) = 1, _f(1) = 1, _f(2) = 1}",
+    "closedform": "Sum(1/29*(6*_alpha^2+9*_alpha+2)*_alpha^(-1-_n),_alpha = RootOf(2*_Z^3+_Z-1))",
+    "equiv": "-1/(-6*RootOf(2*_Z^3+_Z-1,.589754512301458)^3-RootOf(2*_Z^3+_Z-1,.589754512301458))*(2*RootOf(2*_Z^3+_Z-1,.589754512301458)^2+1)^(-ln(exp(-_n)))"
+}

@@ -1,0 +1,35 @@
+{
+    "id": 804,
+    "name": "Number of partitions of 2n whose Ferrers-Young diagram allows more than one different domino tiling",
+    "description": "Number of partitions of 2n whose Ferrers-Young diagram allows more than one different domino tiling",
+    "specification": "{B = Set(C,1 <= card), C = Sequence(Z,1 <= card), S = Prod(B,B)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        0,
+        1,
+        4,
+        10,
+        22,
+        43,
+        80,
+        141,
+        240,
+        397,
+        640,
+        1011,
+        1568,
+        2395,
+        3604,
+        5360,
+        7876,
+        11460,
+        16510,
+        23588
+    ],
+    "references": [
+        "EIS A052837"
+    ],
+    "gf": "(exp(Sum(-_x^j[1]/(_x^j[1]-1)/j[1],j[1] = 1 .. infinity))-1)^2"
+}

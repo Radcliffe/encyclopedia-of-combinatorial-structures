@@ -1,0 +1,38 @@
+{
+    "id": 214,
+    "name": "Denumerant",
+    "description": "number of ways to make n cents with coins of 2 7 cents",
+    "specification": "{S = Prod(Sequence(Prod(Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z)))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        0,
+        1,
+        0,
+        1,
+        0,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        2,
+        1,
+        2,
+        1,
+        2,
+        1,
+        2
+    ],
+    "references": [
+        "EIS A008617"
+    ],
+    "gf": "1/(_x^2-1)/(_x^7-1)",
+    "rec": "{_f(_n)+2*_f(_n+1)+2*_f(_n+2)+2*_f(_n+3)+2*_f(_n+4)+2*_f(_n+5)+2*_f(_n+6)+_f(_n+7)-8-_n, _f(0) = 1, _f(1) = 0, _f(2) = 1, _f(3) = 0, _f(4) = 1, _f(5) = 0, _f(6) =1}",
+    "closedform": "9/28+1/14*_n+1/4*(-1)^(-_n)+Sum(1/49*(4*_alpha^5+_alpha^4+5*_alpha^3+2*_alpha^2+6*_alpha+3)*_alpha^(-1-_n),_alpha = RootOf(_Z^6+_Z^5+_Z^4+_Z^3+_Z^2+_Z+1))",
+    "equiv": "1/14*_n"
+}

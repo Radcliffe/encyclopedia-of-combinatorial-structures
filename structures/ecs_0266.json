@@ -1,0 +1,38 @@
+{
+    "id": 266,
+    "name": "Arrangements",
+    "description": "Arrangements of n labelled objects in 7 rows",
+    "specification": "{B = Sequence(Z), S = Prod(B,B,B,B,B,B,B)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        7,
+        28,
+        84,
+        210,
+        462,
+        924,
+        1716,
+        3003,
+        5005,
+        8008,
+        12376,
+        18564,
+        27132,
+        38760,
+        54264,
+        74613,
+        100947,
+        134596,
+        177100,
+        230230
+    ],
+    "references": [
+        "EIS A001730"
+    ],
+    "gf": "-1/(-1+_x)^7",
+    "rec": "{-720*_f(_n)+_n^6+21*_n^5+175*_n^4+735*_n^3+1624*_n^2+1764*_n+720, _f(0) = 1}",
+    "closedform": "1/720*(_n+1)*(_n+2)*(_n+3)*(_n+4)*(_n+5)*(_n+6)",
+    "equiv": "1/720*_n^6"
+}

@@ -1,0 +1,38 @@
+{
+    "id": 236,
+    "name": "Denumerant",
+    "description": "number of ways to make n cents with coins of 2 6 8 12 cents",
+    "specification": "{S = Prod(Sequence(Prod(Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        0,
+        1,
+        0,
+        1,
+        0,
+        2,
+        0,
+        3,
+        0,
+        3,
+        0,
+        5,
+        0,
+        6,
+        0,
+        7,
+        0,
+        9,
+        0,
+        11
+    ],
+    "references": [
+        "EIS A008670"
+    ],
+    "gf": "1/(_x^2-1)/(_x^6-1)/(_x^8-1)/(_x^12-1)",
+    "rec": "{-17550-2027*_n+6*_f(_n)+54*_f(_n+2)+24*_f(_n+1)-78*_n^2+288*_f(_n+6)+216*_f(_n+5)+150*_f(_n+4)+96*_f(_n+3)-_n^3+360*_f(_n+7)+426*_f(_n+8)+480*_f(_n+9)+522*_f(_n+10)+552*_f(_n+11)+564*_f(_n+12)+552*_f(_n+13)+522*_f(_n+14)+480*_f(_n+15)+426*_f(_n+16)+360*_f(_n+17)+288*_f(_n+18)+216*_f(_n+19)+150*_f(_n+20)+96*_f(_n+21)+54*_f(_n+22)+24*_f(_n+23)+6*_f(_n+24), _f(0) = 1, _f(1) = 0, _f(2) = 1, _f(3) = 0, _f(4) = 1,_f(5) = 0, _f(6) = 2, _f(7) = 0, _f(8) = 3, _f(9) = 0, _f(10) = 3, _f(11) = 0,_f(12) = 5, _f(13) = 0, _f(14) = 6, _f(15) = 0, _f(16) = 7, _f(17) = 0, _f(18)= 9, _f(19) = 0, _f(20) = 11, _f(21) = 0, _f(22) = 12, _f(23) = 0}",
+    "closedform": "Sum(1/6912*_alpha^(-_n-4)*(_n+1)*(_n+2)*(_n+3),_alpha = RootOf(_Z^2-1))+Sum(1/192*_alpha^(-_n-2)*(_n+2)*(_n+1),_alpha = RootOf(_Z^2-1))+Sum(407/6912*_alpha^(-_n-2)*(_n+1),_alpha = RootOf(_Z^2-1))+Sum(1391/6912*_alpha^(-_n),_alpha = RootOf(_Z^2-1))+Sum(1/72*_alpha*(_alpha^2+1)*_alpha^(-1-_n),_alpha = RootOf(_Z^4-_Z^2+1))+Sum(1/3456*(7*_alpha^4+7*_alpha^2-9)*_alpha^(-_n-2)*(_n+1),_alpha = RootOf(_Z^6+2*_Z^4+2*_Z^2+1))+Sum(1/10368*(191*_alpha^5+735*_alpha^3+895*_alpha)*_alpha^(-1-_n),_alpha = RootOf(_Z^6+2*_Z^4+2*_Z^2+1))+Sum(1/32*_alpha^(-_n),_alpha =RootOf(_Z^4+1))",
+    "equiv": "0"
+}

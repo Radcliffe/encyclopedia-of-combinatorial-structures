@@ -1,0 +1,39 @@
+{
+    "id": 23,
+    "name": "involutions",
+    "description": "involution without fixed points of n elements even numbers are double factorials",
+    "specification": "{S = Set(Cycle(Z,card = 2))}",
+    "labeled": true,
+    "symbol": "S",
+    "terms": [
+        1,
+        0,
+        1,
+        0,
+        3,
+        0,
+        15,
+        0,
+        105,
+        0,
+        945,
+        0,
+        10395,
+        0,
+        135135,
+        0,
+        2027025,
+        0,
+        34459425,
+        0,
+        654729075
+    ],
+    "references": [
+        "even number",
+        "EIS A001147"
+    ],
+    "gf": "exp(1/2*_x^2)",
+    "rec": "{(-1-_n)*_f(_n)+_f(_n+2), _f(0) = 1, _f(1) = 0}",
+    "closedform": "piecewise(_n::even,1/Pi^(1/2)*2^(1/2*_n)*GAMMA(1/2*_n+1/2),_n::odd,0)",
+    "equiv": "1/2/Pi^(1/2)*(1/_n)^(1/2)/exp(-_n)^(1/2)*(_n^(-_n))^(1/2)"
+}

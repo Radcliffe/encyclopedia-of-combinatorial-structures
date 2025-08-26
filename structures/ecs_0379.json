@@ -1,0 +1,38 @@
+{
+    "id": 379,
+    "name": "a(n) = a(n-1) + a(n-6), with a(i) = 1 for i = 0..5",
+    "description": "a(n) = a(n-1) + a(n-6), with a(i) = 1 for i = 0..5",
+    "specification": "{S = Sequence(Prod(Z,Sequence(Prod(Z,Z,Z,Z,Z,Z))))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        9,
+        12,
+        16,
+        21,
+        27,
+        34,
+        43,
+        55
+    ],
+    "references": [
+        "EIS A005708"
+    ],
+    "gf": "(_x^6-1)/(_x^6+_x-1)",
+    "rec": "{_f(_n)+_f(_n+5)-_f(_n+6), _f(0) = 1, _f(1) =1, _f(2) = 1, _f(3) = 1, _f(4) = 1, _f(5) = 1, _f(6) = 1}",
+    "closedform": "Sum(1/49781*(4500*_alpha^5+5400*_alpha^4+6480*_alpha^3+7776*_alpha^2-625*_alpha+3750)*_alpha^(-1-_n),_alpha = RootOf(_Z^6+_Z-1))+piecewise(_n = 0,1,0)",
+    "equiv": "(RootOf(_Z^6+_Z-1,.778089598678601)^6-1)/(-6*RootOf(_Z^6+_Z-1,.778089598678601)^6-RootOf(_Z^6+_Z-1,.778089598678601))*(RootOf(_Z^6+_Z-1,.778089598678601)^5+1)^(-ln(exp(-_n)))"
+}

@@ -1,0 +1,38 @@
+{
+    "id": 54,
+    "name": "Labelled Plane Binary Trees",
+    "description": "Binary Trees of n elements (external nodes or internal nodes)",
+    "specification": "{S = Union(Z,Prod(Z,S,S))}",
+    "labeled": true,
+    "symbol": "S",
+    "terms": [
+        0,
+        1,
+        0,
+        6,
+        0,
+        240,
+        0,
+        25200,
+        0,
+        5080320,
+        0,
+        1676505600,
+        0,
+        821966745600,
+        0,
+        560992303872000,
+        0,
+        508633022177280000,
+        0,
+        591438478187741184000,
+        0
+    ],
+    "references": [
+        "EIS A052510"
+    ],
+    "gf": "-1/2*(-1+(-4*_x^2+1)^(1/2))/_x",
+    "rec": "{(-4*_n^3-12*_n^2-8*_n)*_f(_n)+(_n+3)*_f(_n+2), _f(0) =0, _f(1) = 1}",
+    "closedform": "piecewise(_n::even,0,_n::odd,8*2^(2*_n-2)*GAMMA(1/2*_n+1)^2/Pi/_n/(_n+1))",
+    "equiv": "(1/4/Pi^(1/2)*4^(1/2)*2^(1/2)-1/4*exp(Complex(1)*Pi*_n)/Pi^(1/2)*4^(1/2)*2^(1/2))*(1/_n)^(3/2)*exp(-_n)^(-ln(2))"
+}

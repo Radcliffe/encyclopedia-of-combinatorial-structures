@@ -1,0 +1,38 @@
+{
+    "id": 134,
+    "name": "Twice A000007",
+    "description": "Twice A000007",
+    "specification": "{S = Prod(Z,Z)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+    ],
+    "references": [
+        "EIS A000038"
+    ],
+    "gf": "_x^2",
+    "rec": "{_f(_n), _f(0) = 0, _f(1) = 0, _f(2) = 1}",
+    "closedform": "piecewise(_n = 0,1,0)",
+    "equiv": "0"
+}

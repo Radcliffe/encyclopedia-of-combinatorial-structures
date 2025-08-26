@@ -1,0 +1,34 @@
+{
+    "id": 811,
+    "name": "a(n) is the number of forests with n nodes of rooted unlabeled identity trees",
+    "description": "a(n) is the number of forests with n nodes of rooted unlabeled identity trees",
+    "specification": "{B = PowerSet(C), C = Prod(Z,B), S = Set(C)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        1,
+        2,
+        3,
+        6,
+        10,
+        20,
+        38,
+        79,
+        162,
+        348,
+        751,
+        1661,
+        3695,
+        8335,
+        18919,
+        43310,
+        99664,
+        230700,
+        536327,
+        1252298
+    ],
+    "references": [
+        "EIS A052843"
+    ]
+}

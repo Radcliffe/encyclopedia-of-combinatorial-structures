@@ -1,0 +1,38 @@
+{
+    "id": 919,
+    "name": "One of four 3rd-order recurring sequences for which the first derived sequence and the Galois transformed sequence coincide",
+    "description": "One of four 3rd-order recurring sequences for which the first derived sequence and the Galois transformed sequence coincide",
+    "specification": "{S = Union(Sequence(Z),Sequence(Union(Prod(Sequence(Z),Z),Z)))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        2,
+        3,
+        6,
+        14,
+        35,
+        90,
+        234,
+        611,
+        1598,
+        4182,
+        10947,
+        28658,
+        75026,
+        196419,
+        514230,
+        1346270,
+        3524579,
+        9227466,
+        24157818,
+        63245987,
+        165580142
+    ],
+    "references": [
+        "EIS A032908"
+    ],
+    "gf": "-(2*_x^2-5*_x+2)/(-1+_x)/(_x^2-3*_x+1)",
+    "rec": "{-_f(_n)+3*_f(_n+1)-_f(_n+2)-1, _f(0) = 2, _f(1) = 3, _f(2) = 6}",
+    "closedform": "1+Sum(1/5*(1+_alpha)*_alpha^(-1-_n),_alpha = RootOf(_Z^2-3*_Z+1))",
+    "equiv": "-(2*RootOf(_Z^2-3*_Z+1,.3819660113)^2-5*RootOf(_Z^2-3*_Z+1,.3819660113)+2)/(RootOf(_Z^2-3*_Z+1,.3819660113)-1)/(-2*RootOf(_Z^2-3*_Z+1,.3819660113)^2+3*RootOf(_Z^2-3*_Z+1,.3819660113))*(3-RootOf(_Z^2-3*_Z+1,.3819660113))^(-ln(exp(-_n)))"
+}

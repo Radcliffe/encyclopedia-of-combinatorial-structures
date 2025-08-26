@@ -1,0 +1,38 @@
+{
+    "id": 378,
+    "name": "a(n) = a(n-1) + a(n-5); a(0) = ... = a(4) = 1",
+    "description": "a(n) = a(n-1) + a(n-5); a(0) = ... = a(4) = 1",
+    "specification": "{S = Sequence(Prod(Z,Sequence(Prod(Z,Z,Z,Z,Z))))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        8,
+        11,
+        15,
+        20,
+        26,
+        34,
+        45,
+        60,
+        80,
+        106
+    ],
+    "references": [
+        "EIS A003520"
+    ],
+    "gf": "(_x^5-1)/(_x^5+_x-1)",
+    "rec": "{_f(_n)+_f(_n+4)-_f(_n+5), _f(0) = 1, _f(1) = 1, _f(2) = 1, _f(3) = 1, _f(4)= 1, _f(5) = 1}",
+    "closedform": "Sum(1/3381*(400*_alpha^4+500*_alpha^3+625*_alpha^2-64*_alpha+320)*_alpha^(-1-_n),_alpha = RootOf(_Z^5+_Z-1))+piecewise(_n = 0,1,0)",
+    "equiv": "(RootOf(_Z^3+_Z^2-1,.754877666246695)^5-1)/(-5*RootOf(_Z^3+_Z^2-1,.754877666246695)^5-RootOf(_Z^3+_Z^2-1,.754877666246695))*(RootOf(_Z^3+_Z^2-1,.754877666246695)^2+RootOf(_Z^3+_Z^2-1,.754877666246695))^(-ln(exp(-_n)))"
+}

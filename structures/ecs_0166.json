@@ -1,0 +1,35 @@
+{
+    "id": 166,
+    "name": "Natural numbers exponentiated twice",
+    "description": "Natural numbers exponentiated twice",
+    "specification": "{B = Set(C,1 <= card), C = Prod(Z,E), E = Set(Z), S = Set(B,1 <= card)}",
+    "labeled": true,
+    "symbol": "S",
+    "terms": [
+        0,
+        1,
+        4,
+        20,
+        127,
+        967,
+        8549,
+        85829,
+        962308,
+        11895252,
+        160475855,
+        2343491207,
+        36795832297,
+        617662302441,
+        11031160457672,
+        208736299803440,
+        4169680371133507,
+        87648971646028515,
+        1933298000313801349,
+        44633323736412392093,
+        1076069422794010119112
+    ],
+    "references": [
+        "EIS A007550"
+    ],
+    "gf": "exp(exp(_x*exp(_x))-1)-1"
+}

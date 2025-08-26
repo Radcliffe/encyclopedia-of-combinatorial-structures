@@ -1,0 +1,38 @@
+{
+    "id": 32,
+    "name": "Cycles Set",
+    "description": "Permutation with exactly 3 cycles; Stirling numbers of first kind",
+    "specification": "{S = Set(Cycle(Z),card = 3)}",
+    "labeled": true,
+    "symbol": "S",
+    "terms": [
+        0,
+        0,
+        0,
+        1,
+        6,
+        35,
+        225,
+        1624,
+        13132,
+        118124,
+        1172700,
+        12753576,
+        150917976,
+        1931559552,
+        26596717056,
+        392156797824,
+        6165817614720,
+        102992244837120,
+        1821602444624640,
+        34012249593822720,
+        668609730341153280
+    ],
+    "references": [
+        "EIS A000399"
+    ],
+    "gf": "1/6*ln(1/(1-_x))^3",
+    "rec": "{(-_n^3-3*_n^2-3*_n-1)*_f(_n+1)+(3*_n^2+9*_n+7)*_f(_n+2)+(-3*_n-6)*_f(_n+3)+_f(_n+4), _f(0) = 0, _f(1) = 0, _f(2) = 0, _f(3) = 1, _f(4) = 6}",
+    "closedform": "(sum(1/(_n0+2)*Psi(_n0+2),_n0 = 0 .. _n-3)+gamma*(gamma+Psi(_n)-1))*GAMMA(_n)",
+    "equiv": "1/2*ln(_n)^2/_n"
+}

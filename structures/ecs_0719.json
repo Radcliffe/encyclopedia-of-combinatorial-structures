@@ -1,0 +1,38 @@
+{
+    "id": 719,
+    "name": "Products of 4 consecutive integers: a(n) = n*(n-1)*(n-2)*(n-3)",
+    "description": "Products of 4 consecutive integers: a(n) = n*(n-1)*(n-2)*(n-3)",
+    "specification": "{B = Set(Z), S = Prod(Z,Z,Z,Z,B)}",
+    "labeled": true,
+    "symbol": "S",
+    "terms": [
+        0,
+        0,
+        0,
+        0,
+        24,
+        120,
+        360,
+        840,
+        1680,
+        3024,
+        5040,
+        7920,
+        11880,
+        17160,
+        24024,
+        32760,
+        43680,
+        57120,
+        73440,
+        93024,
+        116280
+    ],
+    "references": [
+        "EIS A052762"
+    ],
+    "gf": "_x^4*exp(_x)",
+    "rec": "{(-1-_n)*_f(_n)+(_n-3)*_f(_n+1), _f(0) = 0, _f(1) = 0, _f(2) = 0, _f(3) = 0, _f(4) = 24}",
+    "closedform": "GAMMA(_n+1)/GAMMA(_n-3)",
+    "equiv": "1/2/Pi^(1/2)*2^(1/2)*exp(-4)*exp(4)/(1/_n)^(7/2)*exp(_n)*_n^(-_n)"
+}

@@ -1,0 +1,38 @@
+{
+    "id": 955,
+    "name": "Arithmetic sequence",
+    "description": "7 n + 6",
+    "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z,Z,Z,Z,Z),Sequence(Z)))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        13,
+        20,
+        27,
+        34,
+        41,
+        48,
+        55,
+        62,
+        69,
+        76,
+        83,
+        90,
+        97,
+        104,
+        111,
+        118,
+        125,
+        132,
+        139,
+        146
+    ],
+    "references": [
+        "EIS A017053"
+    ],
+    "gf": "-_x*(-13+6*_x)/(-1+_x)^2",
+    "rec": "{_f(_n)-7*_n-6, _f(0) = 0, _f(1) = 13, _f(2) = 20}",
+    "closedform": "6+7*_n+piecewise(_n = 0,-6,0)",
+    "equiv": "7*_n"
+}

@@ -1,0 +1,35 @@
+{
+    "id": 113,
+    "name": "a(n) = Sum_{k=0..n} p(k) where p(k) = number of partitions of k (A000041)",
+    "description": "a(n) = Sum_{k=0..n} p(k) where p(k) = number of partitions of k (A000041)",
+    "specification": "{B = Union(C,Z), C = Sequence(Z,0 < card), S = Set(B)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        2,
+        4,
+        7,
+        12,
+        19,
+        30,
+        45,
+        67,
+        97,
+        139,
+        195,
+        272,
+        373,
+        508,
+        684,
+        915,
+        1212,
+        1597,
+        2087,
+        2714
+    ],
+    "references": [
+        "EIS A000070"
+    ],
+    "gf": "exp(Sum(_x^j[1]*(_x^j[1]-2)/(_x^j[1]-1)/j[1],j[1] = 1 .. infinity))"
+}

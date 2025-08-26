@@ -1,0 +1,38 @@
+{
+    "id": 380,
+    "name": "a(n) = a(n-1) + a(n-7), with a(i) = 1 for i = 0..6",
+    "description": "a(n) = a(n-1) + a(n-7), with a(i) = 1 for i = 0..6",
+    "specification": "{S = Sequence(Prod(Z,Sequence(Prod(Z,Z,Z,Z,Z,Z,Z))))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        10,
+        13,
+        17,
+        22,
+        28,
+        35
+    ],
+    "references": [
+        "EIS A005709"
+    ],
+    "gf": "(_x^7-1)/(_x^7+_x-1)",
+    "rec": "{_f(_n)+_f(_n+6)-_f(_n+7), _f(0)= 1, _f(1) = 1, _f(2) = 1, _f(3) = 1, _f(4) = 1, _f(5) = 1, _f(6) = 1, _f(7) =1}",
+    "closedform": "Sum(1/870199*(63504*_alpha^6+74088*_alpha^5+86436*_alpha^4+100842*_alpha^3+117649*_alpha^2-7776*_alpha+54432)*_alpha^(-1-_n),_alpha = RootOf(_Z^7+_Z-1))+piecewise(_n = 0,1,0)",
+    "equiv": "(RootOf(_Z^7+_Z-1,.796544354128457)^7-1)/(-7*RootOf(_Z^7+_Z-1,.796544354128457)^7-RootOf(_Z^7+_Z-1,.796544354128457))*(RootOf(_Z^7+_Z-1,.796544354128457)^6+1)^(-ln(exp(-_n)))"
+}

@@ -1,0 +1,38 @@
+{
+    "id": 977,
+    "name": "Arithmetic sequence",
+    "description": "10 n + 7",
+    "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z,Z,Z,Z,Z,Z),Sequence(Z)))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        17,
+        27,
+        37,
+        47,
+        57,
+        67,
+        77,
+        87,
+        97,
+        107,
+        117,
+        127,
+        137,
+        147,
+        157,
+        167,
+        177,
+        187,
+        197,
+        207
+    ],
+    "references": [
+        "EIS A017353"
+    ],
+    "gf": "-_x*(-17+7*_x)/(-1+_x)^2",
+    "rec": "{_f(_n)-10*_n-7, _f(0)= 0, _f(1) = 17, _f(2) = 27}",
+    "closedform": "7+10*_n+piecewise(_n = 0,-7,0)",
+    "equiv": "10*_n"
+}

@@ -1,0 +1,37 @@
+{
+    "id": 656,
+    "name": "A simple context-free grammar: convolution cube of A001002",
+    "description": "A simple context-free grammar: convolution cube of A001002",
+    "specification": "{B = Union(S,C,Z), C = Prod(B,B), S = Prod(B,C)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        0,
+        0,
+        1,
+        3,
+        12,
+        49,
+        210,
+        927,
+        4191,
+        19305,
+        90285,
+        427570,
+        2046324,
+        9881862,
+        48090824,
+        235619133,
+        1161257580,
+        5753365015,
+        28638093270,
+        143148398085
+    ],
+    "references": [
+        "EIS A052703"
+    ],
+    "gf": "RootOf(_Z^3+_Z^2-_Z+_x)-RootOf(_Z^3+_Z^2-_Z+_x)^2-_x",
+    "rec": "{(135*_n^2-135*_n+30)*_f(_n)+(29*_n^2-107*_n-130)*_f(_n+1)+(-91*_n^2-281*_n-198)*_f(_n+2)+(15*_n^2+75*_n+90)*_f(_n+3), _f(0) = 0, _f(1) = 0, _f(2) = 0, _f(3) = 1, _f(4) = 3}",
+    "equiv": "-1/6/Pi^(1/2)*RootOf(54*_Z^2-5)*(1/_n)^(3/2)*exp(-_n)^(-3*ln(3)+ln(5))"
+}

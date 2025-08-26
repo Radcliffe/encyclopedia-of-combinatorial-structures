@@ -1,0 +1,34 @@
+{
+    "id": 56,
+    "name": "rooted identity trees",
+    "description": "rooted identity trees",
+    "specification": "{S = Prod(Z,PowerSet(S))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        1,
+        1,
+        1,
+        2,
+        3,
+        6,
+        12,
+        25,
+        52,
+        113,
+        247,
+        548,
+        1226,
+        2770,
+        6299,
+        14426,
+        33209,
+        76851,
+        178618,
+        416848
+    ],
+    "references": [
+        "EIS A004111"
+    ]
+}

@@ -1,0 +1,35 @@
+{
+    "id": 822,
+    "name": "Number of forests of ordered trees on n total nodes",
+    "description": "Number of forests of ordered trees on n total nodes",
+    "specification": "{B = Sequence(C), C =Prod(Z,B), S = Set(C)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        1,
+        2,
+        4,
+        10,
+        26,
+        77,
+        235,
+        758,
+        2504,
+        8483,
+        29203,
+        102030,
+        360442,
+        1285926,
+        4625102,
+        16754302,
+        61067430,
+        223803775,
+        824188993,
+        3048383517
+    ],
+    "references": [
+        "EIS A052854"
+    ],
+    "gf": "exp(Sum(-1/2*(-1+(1-4*_x^j[1])^(1/2))/j[1],j[1] = 1 ..infinity))"
+}

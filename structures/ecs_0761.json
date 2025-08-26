@@ -1,0 +1,35 @@
+{
+    "id": 761,
+    "name": "Number of rooted planar trees with n non-root nodes: circularly cycling the subtrees at the root gives equivalent trees",
+    "description": "Number of rooted planar trees with n non-root nodes: circularly cycling the subtrees at the root gives equivalent trees",
+    "specification": "{B = Prod(C,Z), C = Sequence(B), S = Cycle(B)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        1,
+        2,
+        4,
+        10,
+        26,
+        80,
+        246,
+        810,
+        2704,
+        9252,
+        32066,
+        112720,
+        400024,
+        1432860,
+        5170604,
+        18784170,
+        68635478,
+        252088496,
+        930138522,
+        3446167860
+    ],
+    "references": [
+        "EIS A003239"
+    ],
+    "gf": "Sum(numtheory:-phi(j[1])/j[1]*ln(2/(1+(1-4*_x^j[1])^(1/2))),j[1] = 1 .. infinity)"
+}

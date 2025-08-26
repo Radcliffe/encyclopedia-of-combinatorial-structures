@@ -1,0 +1,36 @@
+{
+    "id": 854,
+    "name": "REVEGF transform of [1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, ...]",
+    "description": "REVEGF transform of [1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, ...]",
+    "specification": "{B = Set(S,1 <= card),C = Sequence(B), S = Prod(Z,C)}",
+    "labeled": true,
+    "symbol": "S",
+    "terms": [
+        0,
+        1,
+        2,
+        15,
+        184,
+        3155,
+        69516,
+        1871583,
+        59542064,
+        2185497819,
+        90909876100,
+        4226300379983,
+        217152013181544,
+        12219893000227107,
+        747440554689309404,
+        49374719534173925055,
+        3503183373320829575008,
+        265693897270211120103563,
+        21451116469521758657525748,
+        1836834997126650362708093679,
+        166273194780095833780767524120
+    ],
+    "references": [
+        "EIS A053492"
+    ],
+    "gf": "RootOf(_Z*exp(_Z*_x)-2*_Z+1)*_x",
+    "equiv": "1/Pi^(1/2)/LambertW(2*exp(1))*(LambertW(2*exp(1))-1)^2*RootOf(_Z*exp(2*(LambertW(2*exp(1))-1)^2*_Z/LambertW(2*exp(1)))-2*_Z+1)*2^(1/2)*((LambertW(2*exp(1))^2-2*LambertW(2*exp(1))+1)*RootOf(_Z*exp(2*(LambertW(2*exp(1))-1)^2*_Z/LambertW(2*exp(1)))-2*_Z+1)/LambertW(2*exp(1))/(1/2/(-1+2*RootOf(_Z*exp(2*(LambertW(2*exp(1))-1)^2*_Z/LambertW(2*exp(1)))-2*_Z+1))^2*RootOf(_Z*exp(2*(LambertW(2*exp(1))-1)^2*_Z/LambertW(2*exp(1)))-2*_Z+1)^2*(-2+(-1+2*RootOf(_Z*exp(2*(LambertW(2*exp(1))-1)^2*_Z/LambertW(2*exp(1)))-2*_Z+1))/RootOf(_Z*exp(2*(LambertW(2*exp(1))-1)^2*_Z/LambertW(2*exp(1)))-2*_Z+1))^2+1/(-1+2*RootOf(_Z*exp(2*(LambertW(2*exp(1))-1)^2*_Z/LambertW(2*exp(1)))-2*_Z+1))))^(1/2)*(1/_n)^(3/2)*exp(-_n)^(2*ln(LambertW(2*exp(1))-1)-1+LambertW(2*exp(1)))"
+}

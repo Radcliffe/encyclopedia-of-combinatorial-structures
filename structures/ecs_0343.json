@@ -1,0 +1,38 @@
+{
+    "id": 343,
+    "name": "k-gonal numbers",
+    "description": "6-gonal numbers",
+    "specification": "{B = Prod(C,C,C), C = Sequence(Z), E = Prod(Z,B), S = Union(B,E,E,E,E,E,E)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        9,
+        24,
+        46,
+        75,
+        111,
+        154,
+        204,
+        261,
+        325,
+        396,
+        474,
+        559,
+        651,
+        750,
+        856,
+        969,
+        1089,
+        1216,
+        1350,
+        1491
+    ],
+    "references": [
+        "EIS A001106"
+    ],
+    "gf": "-(6*_x+1)/(-1+_x)^3",
+    "rec": "{-2*_f(_n)+7*_n^2+9*_n+2, _f(0) = 1, _f(1) = 9}",
+    "closedform": "7/2*_n^2+9/2*_n+1",
+    "equiv": "7/2*_n^2"
+}

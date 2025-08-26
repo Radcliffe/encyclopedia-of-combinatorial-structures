@@ -1,0 +1,34 @@
+{
+    "id": 118,
+    "name": "Number of connected functions (or mapping patterns) on n unlabeled points, or number of rings and branches with n edges",
+    "description": "Number of connected functions (or mapping patterns) on n unlabeled points, or number of rings and branches with n edges",
+    "specification": "{B = Prod(C,Z), C = Set(B), S = Cycle(B)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        1,
+        2,
+        4,
+        9,
+        20,
+        51,
+        125,
+        329,
+        862,
+        2311,
+        6217,
+        16949,
+        46350,
+        127714,
+        353272,
+        981753,
+        2737539,
+        7659789,
+        21492286,
+        60466130
+    ],
+    "references": [
+        "EIS A002861"
+    ]
+}

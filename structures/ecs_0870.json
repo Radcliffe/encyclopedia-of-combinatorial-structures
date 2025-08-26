@@ -1,0 +1,36 @@
+{
+    "id": 870,
+    "name": "a(n) is the number of Schr\u00f6der trees on n vertices with a prescribed root",
+    "description": "a(n) is the number of Schr\u00f6der trees on n vertices with a prescribed root",
+    "specification": "{B = Prod(Z,S),C = Set(B,1 <= card), S = Sequence(C)}",
+    "labeled": true,
+    "symbol": "S",
+    "terms": [
+        1,
+        1,
+        5,
+        46,
+        631,
+        11586,
+        267369,
+        7442758,
+        242833091,
+        9090987610,
+        384209125453,
+        18096001098462,
+        939991769248239,
+        53388611049236386,
+        3291647968944928337,
+        218948960832551848438,
+        15629052780600654123739,
+        1191728692751208814306986,
+        96675526164560545405689141,
+        8313659739004791689038376206,
+        755468531016551135104649316935
+    ],
+    "references": [
+        "EIS A052894"
+    ],
+    "gf": "RootOf(_Z*exp(_Z*_x)-2*_Z+1)",
+    "equiv": "1/2/Pi^(1/2)*RootOf(_Z*exp(2*(LambertW(2*exp(1))-1)^2*_Z/LambertW(2*exp(1)))-2*_Z+1)*2^(1/2)*((LambertW(2*exp(1))^2-2*LambertW(2*exp(1))+1)*RootOf(_Z*exp(2*(LambertW(2*exp(1))-1)^2*_Z/LambertW(2*exp(1)))-2*_Z+1)/LambertW(2*exp(1))/(1/2/(-1+2*RootOf(_Z*exp(2*(LambertW(2*exp(1))-1)^2*_Z/LambertW(2*exp(1)))-2*_Z+1))^2*RootOf(_Z*exp(2*(LambertW(2*exp(1))-1)^2*_Z/LambertW(2*exp(1)))-2*_Z+1)^2*(-2+(-1+2*RootOf(_Z*exp(2*(LambertW(2*exp(1))-1)^2*_Z/LambertW(2*exp(1)))-2*_Z+1))/RootOf(_Z*exp(2*(LambertW(2*exp(1))-1)^2*_Z/LambertW(2*exp(1)))-2*_Z+1))^2+1/(-1+2*RootOf(_Z*exp(2*(LambertW(2*exp(1))-1)^2*_Z/LambertW(2*exp(1)))-2*_Z+1))))^(1/2)*(1/_n)^(3/2)*exp(-_n)^(2*ln(LambertW(2*exp(1))-1)-1+LambertW(2*exp(1)))"
+}

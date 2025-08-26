@@ -1,0 +1,38 @@
+{
+    "id": 994,
+    "name": "Arithmetic sequence",
+    "description": "12 n + 5",
+    "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z,Z,Z,Z),Sequence(Z)))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        17,
+        29,
+        41,
+        53,
+        65,
+        77,
+        89,
+        101,
+        113,
+        125,
+        137,
+        149,
+        161,
+        173,
+        185,
+        197,
+        209,
+        221,
+        233,
+        245
+    ],
+    "references": [
+        "EIS A017581"
+    ],
+    "gf": "-_x*(-17+5*_x)/(-1+_x)^2",
+    "rec": "{_f(_n)-12*_n-5, _f(0) = 0, _f(1) = 17, _f(2) = 29}",
+    "closedform": "5+12*_n+piecewise(_n = 0,-5,0)",
+    "equiv": "12*_n"
+}

@@ -1,0 +1,38 @@
+{
+    "id": 328,
+    "name": "Multiples of 16",
+    "description": "Multiples of 16",
+    "specification": "{S = Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        16,
+        32,
+        48,
+        64,
+        80,
+        96,
+        112,
+        128,
+        144,
+        160,
+        176,
+        192,
+        208,
+        224,
+        240,
+        256,
+        272,
+        288,
+        304,
+        320
+    ],
+    "references": [
+        "EIS A008598"
+    ],
+    "gf": "16*_x/(-1+_x)^2",
+    "rec": "{_f(_n)-16*_n, _f(0) = 0, _f(1) = 16}",
+    "closedform": "16*_n",
+    "equiv": "16*_n"
+}

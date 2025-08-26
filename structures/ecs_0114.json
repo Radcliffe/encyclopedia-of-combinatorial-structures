@@ -1,0 +1,38 @@
+{
+    "id": 114,
+    "name": "a(n) = 2^n + 1",
+    "description": "a(n) = 2^n + 1",
+    "specification": "{B = Sequence(C), C = Sequence(Z,0 < card), S = Union(C,B)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        2,
+        3,
+        5,
+        9,
+        17,
+        33,
+        65,
+        129,
+        257,
+        513,
+        1025,
+        2049,
+        4097,
+        8193,
+        16385,
+        32769,
+        65537,
+        131073,
+        262145,
+        524289
+    ],
+    "references": [
+        "EIS A000051"
+    ],
+    "gf": "-(_x^2+_x-1)/(-1+_x)/(-1+2*_x)",
+    "rec": "{-2*_f(_n)+_f(_n+1)+1, _f(0) = 1, _f(1) = 2, _f(2) = 3}",
+    "closedform": "1+2^(_n-1)+piecewise(_n = 0,-1/2,0)",
+    "equiv": "1/2*exp(-_n)^(-ln(2))"
+}

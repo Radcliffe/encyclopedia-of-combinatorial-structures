@@ -1,0 +1,38 @@
+{
+    "id": 714,
+    "name": "Number of rooted identity trees with n nodes and 3-colored non-root nodes",
+    "description": "Number of rooted identity trees with n nodes and 3-colored non-root nodes",
+    "specification": "{B = Cycle(Z), S = Prod(B,B,B,Z)}",
+    "labeled": true,
+    "symbol": "S",
+    "terms": [
+        0,
+        0,
+        0,
+        0,
+        24,
+        180,
+        1260,
+        9450,
+        77952,
+        709128,
+        7087440,
+        77398200,
+        918257472,
+        11771602128,
+        162251002368,
+        2393704535040,
+        37647052591104,
+        628913396701440,
+        11123162442408960,
+        207662678687208960,
+        4081469951258726400
+    ],
+    "references": [
+        "EIS A052757"
+    ],
+    "gf": "ln(-1/(-1+_x))^3*_x",
+    "rec": "{(-_n^6-3*_n^5+4*_n^4+10*_n^3-9*_n^2-7*_n+6)*_f(_n)+(3*_n^5+12*_n^4+4*_n^3-13*_n^2+6*_n)*_f(_n+1)+(-3*_n^4-12*_n^3-9*_n^2)*_f(_n+2)+(_n^3+3*_n^2+2*_n)*_f(_n+3), _f(0) = 0, _f(1) = 0, _f(2) = 0, _f(3) = 0, _f(4) = 24, _f(5) = 180}",
+    "closedform": "GAMMA(_n-1)*_n*(6*gamma^2+6*gamma*Psi(_n-1)-6*gamma+sum(6/(_n0+2)*Psi(_n0+2),_n0 = 0 .. _n-4))",
+    "equiv": "3*ln(_n)^2/_n"
+}

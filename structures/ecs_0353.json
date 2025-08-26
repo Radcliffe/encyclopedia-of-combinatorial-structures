@@ -1,0 +1,38 @@
+{
+    "id": 353,
+    "name": "Integer partition",
+    "description": "Partition of n in at most 4 parts",
+    "specification": "{S = Set(Sequence(Z,1<= card),card <= 4)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        1,
+        2,
+        3,
+        5,
+        6,
+        9,
+        11,
+        15,
+        18,
+        23,
+        27,
+        34,
+        39,
+        47,
+        54,
+        64,
+        72,
+        84,
+        94,
+        108
+    ],
+    "references": [
+        "EIS A001400"
+    ],
+    "gf": "1/(_x^2+_x+1)/(_x^2-1)/(1+_x)/(-1+_x)^3/(_x^2+1)",
+    "rec": "{6*_f(_n)+18*_f(_n+1)+30*_f(_n+2)+36*_f(_n+3)+30*_f(_n+4)+18*_f(_n+5)+6*_f(_n+6)-_n^3-24*_n^2-191*_n-504, _f(0) = 1, _f(1) = 1, _f(2) = 2, _f(3) = 3,_f(4) = 5, _f(5) = 6}",
+    "closedform": "Sum(1/27*(_alpha-1)*_alpha^(-1-_n),_alpha = RootOf(_Z^2+_Z+1))+Sum(1/16*_alpha^(-_n),_alpha = RootOf(_Z^2+1))+1/288*(9*_n+45)*(-1)^(-_n)+1/144*_n^3+5/48*_n^2+15/32*_n+175/288",
+    "equiv": "1/144*_n^3"
+}

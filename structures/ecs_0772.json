@@ -1,0 +1,35 @@
+{
+    "id": 772,
+    "name": "a(n) = 1 + (number of partitions of n, n>0)",
+    "description": "a(n) = 1 + (number of partitions of n, n>0)",
+    "specification": "{B = Set(C), C= Sequence(Z,1 <= card), S = Union(C,B)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        2,
+        3,
+        4,
+        6,
+        8,
+        12,
+        16,
+        23,
+        31,
+        43,
+        57,
+        78,
+        102,
+        136,
+        177,
+        232,
+        298,
+        386,
+        491,
+        628
+    ],
+    "references": [
+        "EIS A052810"
+    ],
+    "gf": "(exp(Sum(-_x^j[1]/(_x^j[1]-1)/j[1],j[1] = 1 .. infinity))*_x-exp(Sum(-_x^j[1]/(_x^j[1]-1)/j[1],j[1] = 1 .. infinity))-_x)/(-1+_x)"
+}

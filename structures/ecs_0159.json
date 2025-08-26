@@ -1,0 +1,37 @@
+{
+    "id": 159,
+    "name": "Large Schr\u00f6der numbers (or large Schroeder numbers, or big Schroeder numbers)",
+    "description": "Large Schr\u00f6der numbers (or large Schroeder numbers, or big Schroeder numbers)",
+    "specification": "{B = Prod(Z,C), C = Sequence(S), S = Sequence(B,1<= card)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        1,
+        2,
+        6,
+        22,
+        90,
+        394,
+        1806,
+        8558,
+        41586,
+        206098,
+        1037718,
+        5293446,
+        27297738,
+        142078746,
+        745387038,
+        3937603038,
+        20927156706,
+        111818026018,
+        600318853926,
+        3236724317174
+    ],
+    "references": [
+        "EIS A006318"
+    ],
+    "gf": "1/2-1/2*_x-1/2*(_x^2-6*_x+1)^(1/2)",
+    "rec": "{(_n-1)*_f(_n)+(-3-6*_n)*_f(_n+1)+(_n+2)*_f(_n+2), _f(0) = 0, _f(1) = 1, _f(2)= 2}",
+    "equiv": "1/4/Pi^(1/2)*(-2*(3-2*2^(1/2))^2+18-12*2^(1/2))^(1/2)*(1/_n)^(3/2)*exp(-_n)^ln(3-2*2^(1/2))"
+}

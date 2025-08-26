@@ -1,0 +1,34 @@
+{
+    "id": 95,
+    "name": "Non-planar trees",
+    "description": "Non-planar unlabelled trees with neither unary nor binary nodes",
+    "specification": "{B = Union(S,Z), S = Set(B,3 <= card)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        0,
+        0,
+        1,
+        1,
+        2,
+        3,
+        6,
+        10,
+        20,
+        36,
+        71,
+        136,
+        270,
+        531,
+        1070,
+        2147,
+        4367,
+        8895,
+        18262,
+        37588
+    ],
+    "references": [
+        "EIS A052525"
+    ]
+}

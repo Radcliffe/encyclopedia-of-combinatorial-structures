@@ -1,0 +1,37 @@
+{
+    "id": 153,
+    "name": "Number of walks on cubic lattice starting and finishing on the xy plane and never going below it",
+    "description": "Number of walks on cubic lattice starting and finishing on the xy plane and never going below it",
+    "specification": "{B = Sequence(C,1 <= card), C = Sequence(Z,1 <= card), E = Prod(S,B), S = Sequence(E)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        1,
+        4,
+        17,
+        76,
+        354,
+        1704,
+        8421,
+        42508,
+        218318,
+        1137400,
+        5996938,
+        31940792,
+        171605956,
+        928931280,
+        5061593709,
+        27739833228,
+        152809506582,
+        845646470616,
+        4699126915422,
+        26209721959656
+    ],
+    "references": [
+        "EIS A005572"
+    ],
+    "gf": "-1/2*(-1+2*_x+(12*_x^2-8*_x+1)^(1/2))/_x",
+    "rec": "{12*_f(_n)*_n+(-12-8*_n)*_f(_n+1)+(_n+3)*_f(_n+2), _f(0) = 1, _f(1) = 1}",
+    "equiv": "1/2*2^(1/2)/Pi^(1/2)*3^(1/2)*(1/_n)^(3/2)*exp(-_n)^(-ln(2)-ln(3))"
+}

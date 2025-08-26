@@ -1,0 +1,34 @@
+{
+    "id": 823,
+    "name": "Number of forests of rooted trees of nonempty sets with n points. (Each node is a set of 1 or more points.)",
+    "description": "Number of forests of rooted trees of nonempty sets with n points. (Each node is a set of 1 or more points.)",
+    "specification": "{B = Sequence(Z,1 <= card), C = Prod(B,S), S = Set(C)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        1,
+        3,
+        8,
+        24,
+        71,
+        224,
+        710,
+        2318,
+        7659,
+        25703,
+        87153,
+        298574,
+        1031104,
+        3587263,
+        12558652,
+        44214807,
+        156438309,
+        555973965,
+        1983817178,
+        7104313970
+    ],
+    "references": [
+        "EIS A052855"
+    ]
+}

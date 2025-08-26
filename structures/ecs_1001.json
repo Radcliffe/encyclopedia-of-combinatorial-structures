@@ -1,0 +1,38 @@
+{
+    "id": 1001,
+    "name": "a(n) = 2^n + n - 1",
+    "description": "a(n) = 2^n + n - 1",
+    "specification": "{S = Prod(Union(Sequence(Union(Z,Z)),Sequence(Z)),Sequence(Z))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        2,
+        5,
+        10,
+        19,
+        36,
+        69,
+        134,
+        263,
+        520,
+        1033,
+        2058,
+        4107,
+        8204,
+        16397,
+        32782,
+        65551,
+        131088,
+        262161,
+        524306,
+        1048595,
+        2097172
+    ],
+    "references": [
+        "EIS A052944"
+    ],
+    "gf": "(-2+3*_x)/(-1+_x)^2/(-1+2*_x)",
+    "rec": "{2*_f(_n)-_f(_n+1)+1-_n, _f(0) = 2, _f(1) = 5}",
+    "closedform": "_n+2^(_n+1)",
+    "equiv": "2*exp(-_n)^(-ln(2))"
+}

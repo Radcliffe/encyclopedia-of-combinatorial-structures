@@ -1,0 +1,34 @@
+{
+    "id": 1,
+    "name": "Alcohols or Unlabelled Non Plane Ternary Trees",
+    "description": "Alcohols or unlabelled  non plane ternary Trees",
+    "specification": "{S = Union(Z,Prod(Z,Set(S,card = 3))), Z = Atom}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        1,
+        0,
+        0,
+        1,
+        0,
+        0,
+        1,
+        0,
+        0,
+        2,
+        0,
+        0,
+        4,
+        0,
+        0,
+        8,
+        0,
+        0,
+        17,
+        0
+    ],
+    "references": [
+        "EIS A000598"
+    ]
+}

@@ -1,0 +1,36 @@
+{
+    "id": 122,
+    "name": "Number of factorizations of permutations of n letters into ordered cycles",
+    "description": "Number of factorizations of permutations of n letters into ordered cycles",
+    "specification": "{B = Sequence(C), C = Cycle(Z), S = Prod(C,B)}",
+    "labeled": true,
+    "symbol": "S",
+    "terms": [
+        0,
+        1,
+        3,
+        14,
+        88,
+        694,
+        6578,
+        72792,
+        920904,
+        13109088,
+        207360912,
+        3608233056,
+        68495486640,
+        1408631978064,
+        31197601660080,
+        740303842925184,
+        18738231641600256,
+        503937595069600896,
+        14349899305396086912,
+        431322634732516137216,
+        13646841876634025159424
+    ],
+    "references": [
+        "EIS A007840"
+    ],
+    "gf": "-1/(-1+ln(-1/(-1+_x)))*ln(-1/(-1+_x))",
+    "equiv": "1/(1-(exp(1)-1)/exp(1))/(1-exp(1))*((exp(1)-1)/exp(1)-1)*ln(-1/((exp(1)-1)/exp(1)-1))*exp(-_n)^(ln(exp(1)-1)-1)"
+}

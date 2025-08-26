@@ -1,0 +1,38 @@
+{
+    "id": 1053,
+    "name": "Expansion of (1 - x)/(1 - 2*x - x^3)",
+    "description": "Expansion of (1 - x)/(1 - 2*x - x^3)",
+    "specification": "{S = Sequence(Prod(Union(Prod(Z,Z,Z),Z),Sequence(Z)))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        1,
+        2,
+        5,
+        11,
+        24,
+        53,
+        117,
+        258,
+        569,
+        1255,
+        2768,
+        6105,
+        13465,
+        29698,
+        65501,
+        144467,
+        318632,
+        702765,
+        1549997,
+        3418626
+    ],
+    "references": [
+        "EIS A052980"
+    ],
+    "gf": "(-1+_x)/(_x^3+2*_x-1)",
+    "rec": "{_f(_n)+2*_f(_n+2)-_f(_n+3), _f(0) = 1, _f(1) = 1, _f(2) = 2}",
+    "closedform": "Sum(1/59*(3*_alpha^2+17*_alpha+4)*_alpha^(-1-_n),_alpha = RootOf(_Z^3+2*_Z-1))",
+    "equiv": "(-1+RootOf(_Z^3+2*_Z-1,.453397651516404))/(-3*RootOf(_Z^3+2*_Z-1,.453397651516404)^3-2*RootOf(_Z^3+2*_Z-1,.453397651516404))*(RootOf(_Z^3+2*_Z-1,.453397651516404)^2+2)^(-ln(exp(-_n)))"
+}

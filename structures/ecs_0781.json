@@ -1,0 +1,35 @@
+{
+    "id": 781,
+    "name": "Expansion of g.f. (1+x)*Product_{m>0} (1 + x^m)",
+    "description": "Expansion of g.f. (1+x)*Product_{m>0} (1 + x^m)",
+    "specification": "{B =Sequence(Z,1 <= card), C = Union(B,Z), S = PowerSet(C)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        2,
+        2,
+        3,
+        4,
+        5,
+        7,
+        9,
+        11,
+        14,
+        18,
+        22,
+        27,
+        33,
+        40,
+        49,
+        59,
+        70,
+        84,
+        100,
+        118
+    ],
+    "references": [
+        "EIS A052816"
+    ],
+    "gf": "exp(Sum(-(-1)^j[1]*_x^j[1]*(_x^j[1]-2)/(_x^j[1]-1)/j[1],j[1] = 1 .. infinity))"
+}

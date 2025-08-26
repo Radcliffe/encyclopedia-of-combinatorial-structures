@@ -1,0 +1,38 @@
+{
+    "id": 1018,
+    "name": "a(n) = n*(n+3)/2",
+    "description": "a(n) = n*(n+3)/2",
+    "specification": "{S = Prod(Union(Prod(Sequence(Z),Sequence(Z)),Sequence(Z)),Sequence(Z))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        2,
+        5,
+        9,
+        14,
+        20,
+        27,
+        35,
+        44,
+        54,
+        65,
+        77,
+        90,
+        104,
+        119,
+        135,
+        152,
+        170,
+        189,
+        209,
+        230,
+        252
+    ],
+    "references": [
+        "EIS A000096"
+    ],
+    "gf": "(_x-2)/(-1+_x)^3",
+    "rec": "{-2*_f(_n)+_n^2+5*_n+4, _f(0) = 2, _f(1) = 5}",
+    "closedform": "1/2*_n^2+5/2*_n+2",
+    "equiv": "1/2*_n^2"
+}
