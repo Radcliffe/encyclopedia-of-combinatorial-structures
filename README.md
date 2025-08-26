@@ -94,7 +94,7 @@ for each of them:
 ## Contributions
 
 Contributions are welcome! Please fork the repository and submit a pull request with your changes.
-If you are making changes to the data, please make edits in the `/structure` directory.
+If you are making changes to the data, please make edits in the `/structures` directory.
 
 ## Credits
 The original ECS was created in 1998 by Stéphanie Petit at INRIA in Rocquencourt, France.
@@ -102,11 +102,6 @@ Unfortunately, it has been offline for several years.
 
 The underlying data is from Jérémie Lumbroso's Github repository
 [jlumbroso/encyclopedia-of-combinatorial-structures-data](https://github.com/jlumbroso/encyclopedia-of-combinatorial-structures-data).
-
-The site logo is adapted from a logo created by
-<a href="//commons.wikimedia.org/wiki/User_talk:Tmigler" title="User talk:Tmigler">Tmigler</a>, 
-<a href="https://creativecommons.org/licenses/by-sa/4.0" title="Creative Commons Attribution-Share Alike 4.0">CC BY-SA 4.0</a>, 
-<a href="https://commons.wikimedia.org/w/index.php?curid=65928645">Link</a>.
 
 Where names and descriptions of combinatorial structures were missing,
 they were added from the corresponding [OEIS](https://oeis.org) entries.
