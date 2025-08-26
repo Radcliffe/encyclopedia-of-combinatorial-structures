@@ -14,6 +14,21 @@ def test_load_oeis_names():
     oeis_names = load_oeis_names()
     print(oeis_names['A000217'])
 
+def get_oeis_ref(struc):
+    for ref in struc['references']:
+        if ref.startswith('EIS '):
+            return ref[4:]
+    return 'MISSING'
+
+def missing_gf():
+    ecs_data = load_ecs_data()
+    missing = []
+    for struc in ecs_data.values():
+        if 'gf' not in struc:
+            missing.append((struc['id'], get_oeis_ref(struc)))
+    print(missing)
+    return missing
+
 def main():
     ecs_data = load_ecs_data()
     oeis_names = load_oeis_names()
@@ -52,5 +67,6 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    missing_gf()
+    # main()
     # test_load_oeis_names()

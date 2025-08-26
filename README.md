@@ -56,6 +56,8 @@ The output will be in the `dist/` directory.
 This is a static website and can be deployed to any static hosting service, such as GitHub Pages, Netlify, or Vercel.
 # Result format
 
+Adapted from the [original ECS documentation](https://web.archive.org/web/19991010004232/http://algo.inria.fr/encyclopedia/).*
+
 The result of a successful search is a list of combinatorial structures with, 
 for each of them:
 
@@ -89,7 +91,12 @@ for each of them:
     A reference can also contain the address (URL) of a Web page. 
     Most of the entries in this list are generated automatically. 
     In some cases, not all the entries could be found by programs 
-    and some of there are missing.
+    and some of them are missing.
+
+# Contributions
+
+Contributions are welcome! Please fork the repository and submit a pull request with your changes.
+If you are making changes to the data, please make edits in the `/structure` directory.
 
 # Credits
 The original ECS was created in 1998 by Stéphanie Petit at INRIA in Rocquencourt, France.
@@ -97,3 +104,17 @@ Unfortunately, it has been offline for several years.
 
 The underlying data is from Jérémie Lumbroso's Github repository
 [jlumbroso/encyclopedia-of-combinatorial-structures-data](https://github.com/jlumbroso/encyclopedia-of-combinatorial-structures-data).
+
+The site logo is adapted from a logo created by
+<a href="//commons.wikimedia.org/wiki/User_talk:Tmigler" title="User talk:Tmigler">Tmigler</a>, 
+<a href="https://creativecommons.org/licenses/by-sa/4.0" title="Creative Commons Attribution-Share Alike 4.0">CC BY-SA 4.0</a>, 
+<a href="https://commons.wikimedia.org/w/index.php?curid=65928645">Link</a>.
+
+Where names and descriptions of combinatorial structures were missing,
+they were added from the corresponding [OEIS](https://oeis.org) entries.
+
+The initial prototype was created using OpenAI ChatGPT, so it incorporates
+the uncredited contributions of countless developers, on whose work the
+model was trained without their consent.
+
+All other work is by David Radcliffe.

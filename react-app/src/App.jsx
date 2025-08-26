@@ -195,7 +195,7 @@ export default function App() {
         <header className="sticky top-0 z-40 backdrop-blur bg-white/70 border-b">
           <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
             <div className="flex items-center gap-3">
-              <img src="/binarytree.svg" height="48" width="48" alt="ECS logo" />
+              <img src="/Full_binary.svg" height="48" width="64" alt="ECS logo" />
               <h1 className="text-xl sm:text-2xl font-semibold">Encyclopedia of Combinatorial Structures</h1>
               <Badge variant="secondary" className="ml-1">Prototype</Badge>
             </div>
