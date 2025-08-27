@@ -13,6 +13,13 @@ import { useSearchParams } from "react-router-dom";
 
 const CodeUrl = "https://codeberg.org/Radcliffe/encyclopedia-of-combinatorial-structures";
 
+const mapleCode = (selected) => {
+  if (!selected || !selected.specification) return "";
+  const nTerms = Array.isArray(selected.terms) ? selected.terms.length : 0;
+  if (nTerms === 0) return "";
+  return `spec := ${selected.specification}: seq(combstruct[count](spec, size=n), n=0..${nTerms-1});`
+}
+
 // --- Minimal helpers ---
 const prettyNumber = (n) => n.toLocaleString();
 
@@ -304,7 +311,8 @@ export default function App() {
 
         <footer className="border-t mt-8">
           <div className="max-w-6xl mx-auto px-4 py-6 text-sm text-slate-600 flex flex-wrap items-center gap-3">
-            <span>© {new Date().getFullYear()} Encyclopedia of Combinatorial Structures.</span>
+            <span>Created by David Radcliffe with data from INRIA Algorithms Project and the OEIS community.
+            Last updated August 27, 2025.</span>
           </div>
         </footer>
       </div>
@@ -433,6 +441,9 @@ function SidePanel({ view, setView, selected, clearSelection }) {
                   <FieldRow label="Closed form">
                     {selected.closed_form ? <code className="text-sm break-words">{selected.closed_form}</code> : <em className="opacity-70">—</em>}
                   </FieldRow>
+                  <FieldRow label="Maple">
+                    <code className="text-sm break-words">{mapleCode(selected)}</code>
+                  </FieldRow>
                   <FieldRow label="References">
                     {selected.references?.length ? (
                       <ul className="list-disc list-inside space-y-1 text-sm">
@@ -466,7 +477,7 @@ function SidePanel({ view, setView, selected, clearSelection }) {
           </CardHeader>
           <CardContent className="space-y-3 text-sm text-slate-700">
             <p>
-              This app is a modern re-implementation of the Encyclopedia of Combinatorial Structures,
+              This is a modern re-implementation of the Encyclopedia of Combinatorial Structures,
               a database of combinatorial structures and their associated integer sequences,
               with an emphasis on sequences that arise in the context of decomposable combinatorial structures.
             </p>
