@@ -1,29 +1,19 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, Info, Database, AlertCircle, Filter, ListFilter, Loader2, Hash, SigmaSquare, BookOpen, Layers, ChevronRight, RefreshCw } from "lucide-react";
+import { Search, Info, Database, AlertCircle, ExternalLink, Filter, ListFilter, Loader2, Hash, SigmaSquare, BookOpen, Layers, ChevronRight, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import ExternalLink from "./components/ExternalLink";
 import PropTypes from "prop-types";
 import { useSearchParams } from "react-router-dom";
 
-const CodeUrl = "https://codeberg.org/Radcliffe/encyclopedia-of-combinatorial-structures";
+const CodeUrl = "https://codeberg.org/ECS/encyclopedia-of-combinatorial-structures";
 
-const mapleCode = (selected) => {
-  if (!selected || !selected.specification) return "";
-  const nTerms = Array.isArray(selected.terms) ? selected.terms.length : 0;
-  if (nTerms === 0) return "";
-  return `spec := ${selected.specification}: seq(combstruct[count](spec, size=n), n=0..${nTerms-1});`
-}
-
-// --- Minimal helpers ---
 const prettyNumber = (n) => n.toLocaleString();
 
-// --- Small, simple in-memory search engine ---
 function normalize(s) {
   return (s ?? "")
     .toString()
@@ -39,7 +29,7 @@ function parseTermsQuery(q) {
     .split(/[\s,]+/)
     .map((x) => x.trim())
     .filter(Boolean)
-    .map((x) => BigInt(x)); // Convert to BigInt
+    .map((x) => BigInt(x));
 }
 
 function makeLink(r) {
@@ -440,9 +430,6 @@ function SidePanel({ view, setView, selected, clearSelection }) {
                   </FieldRow>
                   <FieldRow label="Closed form">
                     {selected.closed_form ? <code className="text-sm break-words">{selected.closed_form}</code> : <em className="opacity-70">—</em>}
-                  </FieldRow>
-                  <FieldRow label="Maple">
-                    <code className="text-sm break-words">{mapleCode(selected)}</code>
                   </FieldRow>
                   <FieldRow label="References">
                     {selected.references?.length ? (
