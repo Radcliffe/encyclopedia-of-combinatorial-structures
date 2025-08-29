@@ -1,0 +1,29 @@
+Entries with identical term lists:
+
+[2, 130] - Added mutual references
+[6, 267] - Added mutual references
+[7, 268] - Added mutual references
+[8, 269] - Added mutual references
+[15, 65, 73] - Added mutual references
+[17, 22] - Added mutual references
+[34, 298] - Added mutual references
+[48, 52] - Added mutual references
+[49, 51, 115] - Added mutual references
+[68, 72] - Added mutual references
+[107, 111] - Duplicates
+[120, 209, 351] - Added mutual references
+[138, 151] - Added mutual references
+[174, 177, 178, 181] .- Only the initial terms are the same
+[175, 176] - Only the initial terms are the same
+[201, 202] - Duplicates
+[203, 413] - Only the initial terms are the same
+[212, 448] - Only the initial terms are the same
+[219, 235] - Only the initial terms are the same
+[232, 450] - Only the initial terms are the same
+[243, 245] - Only the initial terms are the same
+[253, 262] - #262 is erroneous - fixed
+[254, 264] - #264 is erroneous - fixed
+[255, 265] - #265 is erroneous - fixed
+[256, 266] - #266 is erroneous - fixed
+[345, 371] - Added mutual references
+

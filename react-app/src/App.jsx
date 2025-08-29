@@ -9,7 +9,6 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import PropTypes from "prop-types";
 import { useSearchParams } from "react-router-dom";
-
 const CodeUrl = "https://codeberg.org/ECS/encyclopedia-of-combinatorial-structures";
 
 const prettyNumber = (n) => n.toLocaleString();
@@ -104,7 +103,11 @@ export default function App() {
       setLoadState("loading");
       setError("");
       try {
-        const res = await fetch("/ecs.json", { signal: controller.signal, cache: "no-store" });
+        const res = await fetch("/ecs.json", {
+          headers: { "Content-Type": "application/json" },
+          signal: controller.signal,
+          cache: "no-store"
+        });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const json = await res.json();
         setData(json);
@@ -302,7 +305,7 @@ export default function App() {
         <footer className="border-t mt-8">
           <div className="max-w-6xl mx-auto px-4 py-6 text-sm text-slate-600 flex flex-wrap items-center gap-3">
             <span>Created by David Radcliffe with data from INRIA Algorithms Project and the OEIS community.
-            Last updated August 27, 2025.</span>
+            Last updated August 29, 2025.</span>
           </div>
         </footer>
       </div>

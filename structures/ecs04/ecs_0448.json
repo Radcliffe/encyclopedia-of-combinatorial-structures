@@ -1,0 +1,36 @@
+{
+    "id": 448,
+    "name": "Unknown structure",
+    "description": "Unknown structure",
+    "specification": "{B = Union(Z,Epsilon), C = Prod(Z,Z,B), S = Set(C)}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        1,
+        0,
+        1,
+        1,
+        1,
+        1,
+        2,
+        1,
+        2,
+        2,
+        2,
+        2,
+        3,
+        2,
+        3,
+        3,
+        3,
+        3,
+        4,
+        3,
+        4
+    ],
+    "references": [
+        "EIS A008615",
+        "Same terms as ECS 212"
+    ],
+    "gf": "exp(Sum((_x^j[1])^2*(_x^j[1]+1)/j[1],j[1] = 1 .. infinity))"
+}

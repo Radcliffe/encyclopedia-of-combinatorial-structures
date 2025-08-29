@@ -1,0 +1,39 @@
+{
+    "id": 269,
+    "name": "Powers of 4",
+    "description": "Arrangement of n distinguishable objects in 4 distinguishable urns",
+    "specification": "{B = Set(Z), S = Prod(B,B,B,B)}",
+    "labeled": true,
+    "symbol": "S",
+    "terms": [
+        1,
+        4,
+        16,
+        64,
+        256,
+        1024,
+        4096,
+        16384,
+        65536,
+        262144,
+        1048576,
+        4194304,
+        16777216,
+        67108864,
+        268435456,
+        1073741824,
+        4294967296,
+        17179869184,
+        68719476736,
+        274877906944,
+        1099511627776
+    ],
+    "references": [
+        "EIS A000302",
+        "Same terms as ECS 8"
+    ],
+    "gf": "exp(_x)^4",
+    "rec": "{_f(_n+1)-4*_f(_n), _f(0)= 1}",
+    "closedform": "4^_n",
+    "equiv": "1/2*2^(1/2)/Pi^(1/2)*(1/_n)^(1/2)*exp(-_n)^(-1-2*ln(2))*_n^(-_n)"
+}

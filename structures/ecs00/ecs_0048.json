@@ -1,0 +1,41 @@
+{
+    "id": 48,
+    "name": "General plane trees",
+    "description": "Unlabelled general rooted plane trees; Catalan numbers",
+    "specification": "{S = Prod(Z,Sequence(S))}",
+    "labeled": false,
+    "symbol": "S",
+    "terms": [
+        0,
+        1,
+        1,
+        2,
+        5,
+        14,
+        42,
+        132,
+        429,
+        1430,
+        4862,
+        16796,
+        58786,
+        208012,
+        742900,
+        2674440,
+        9694845,
+        35357670,
+        129644790,
+        477638700,
+        1767263190
+    ],
+    "references": [
+        "EIS A000108",
+        "http://mathworld.wolfram.com/CatalanNumber.html",
+        "http://forum.swarthmore.edu/advanced/robertd/catalan.html",
+        "Same terms as ECS 52"
+    ],
+    "gf": "1/2-1/2*(1-4*_x)^(1/2)",
+    "rec": "{(-2+4*_n)*_f(_n)+(-1-_n)*_f(_n+1), _f(0) = 0, _f(1) = 1}",
+    "closedform": "1/Pi^(1/2)*2^(2*_n-2)*GAMMA(_n-1/2)/GAMMA(_n+1)",
+    "equiv": "1/4/Pi^(1/2)*(1/_n)^(3/2)*exp(-_n)^(-2*ln(2))"
+}

@@ -1,0 +1,37 @@
+{
+    "id": 15,
+    "name": "Set partitions",
+    "description": "Set partitions with all blocks of size >=1; Bell numbers",
+    "specification": "{S = Set(Set(Z,1 <= card))}",
+    "labeled": true,
+    "symbol": "S",
+    "terms": [
+        1,
+        1,
+        2,
+        5,
+        15,
+        52,
+        203,
+        877,
+        4140,
+        21147,
+        115975,
+        678570,
+        4213597,
+        27644437,
+        190899322,
+        1382958545,
+        10480142147,
+        82864869804,
+        682076806159,
+        5832742205057,
+        51724158235372
+    ],
+    "references": [
+        "Bell",
+        "EIS A000110",
+        "Same terms as ECS 65 and ECS 73"
+    ],
+    "gf": "exp(exp(_x)-1)"
+}

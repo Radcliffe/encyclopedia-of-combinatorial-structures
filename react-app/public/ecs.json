@@ -65,7 +65,8 @@
     ],
     "references": [
       "EIS A000031",
-      "http://sue.csc.uvic.ca/~cos/inf/neck/NecklaceInfo.html"
+      "http://sue.csc.uvic.ca/~cos/inf/neck/NecklaceInfo.html",
+      "Same as ECS 130"
     ],
     "gf": "Sum(numtheory:-phi(j[1])/j[1]*ln(-1/(-1+2*_x^j[1])),j[1] = 1 .. infinity)"
   },
@@ -176,8 +177,8 @@
   },
   "6": {
     "id": 6,
-    "name": "Words",
-    "description": "Words of n letters in a two letters alphabet",
+    "name": "Words of n letters in a two-letter alphabet",
+    "description": "Words of n letters in a two-letter alphabet",
     "specification": "{S= Sequence(Union(a,b)), a = Atom, b = Atom}",
     "labeled": false,
     "symbol": "S",
@@ -205,7 +206,8 @@
       1048576
     ],
     "references": [
-      "EIS A000079"
+      "EIS A000079",
+      "Same terms as ECS 267"
     ],
     "gf": "-1/(-1+2*_x)",
     "rec": "{2*_f(_n)-_f(_n+1), _f(0) = 1}",
@@ -214,8 +216,8 @@
   },
   "7": {
     "id": 7,
-    "name": "Words",
-    "description": "Words of n letters in a three letters alphabet",
+    "name": "Words of n letters in a 3-letter alphabet",
+    "description": "Words of n letters in a 3-letter alphabet",
     "specification": "{S = Sequence(Union(a,b,c)), a = Atom, b = Atom, c = Atom}",
     "labeled": false,
     "symbol": "S",
@@ -243,7 +245,8 @@
       3486784401
     ],
     "references": [
-      "EIS A000244"
+      "EIS A000244",
+      "Same terms as ECS 268"
     ],
     "gf": "-1/(-1+3*_x)",
     "rec": "{3*_f(_n)-_f(_n+1), _f(0) = 1}",
@@ -252,8 +255,8 @@
   },
   "8": {
     "id": 8,
-    "name": "Words",
-    "description": "Words of n letters in a four letters alphabet",
+    "name": "Words of n letters in a 4-letter alphabet",
+    "description": "Words of n letters in a 4-letter alphabet",
     "specification": "{S = Sequence(Union(a,b,c,d)), a = Atom, b = Atom, c = Atom, d = Atom}",
     "labeled": false,
     "symbol": "S",
@@ -281,7 +284,8 @@
       1099511627776
     ],
     "references": [
-      "EIS A000302"
+      "EIS A000302",
+      "Same terms as ECS 269"
     ],
     "gf": "-1/(-1+4*_x)",
     "rec": "{4*_f(_n)-_f(_n+1), _f(0) = 1}",
@@ -550,7 +554,8 @@
     ],
     "references": [
       "Bell",
-      "EIS A000110"
+      "EIS A000110",
+      "Same terms as ECS 65 and ECS 73"
     ],
     "gf": "exp(exp(_x)-1)"
   },
@@ -620,7 +625,8 @@
       23758664096
     ],
     "references": [
-      "EIS A000085"
+      "EIS A000085",
+      "Same terms as ECS 22"
     ],
     "gf": "exp(_x+1/2*_x^2)",
     "rec": "{(-1-_n)*_f(_n)-_f(_n+1)+_f(_n+2), _f(0) = 1, _f(1) = 1}",
@@ -780,7 +786,7 @@
   },
   "22": {
     "id": 22,
-    "name": "involutions",
+    "name": "Involutions",
     "description": "involution of n elements",
     "specification": "{S = Set(Cycle(Z,card <= 2))}",
     "labeled": true,
@@ -809,7 +815,8 @@
       23758664096
     ],
     "references": [
-      "EIS A000085"
+      "EIS A000085",
+      "Same terms as ECS 17"
     ],
     "gf": "exp(_x+1/2*_x^2)",
     "rec": "{(-1-_n)*_f(_n)-_f(_n+1)+_f(_n+2), _f(0) = 1, _f(1) = 1}",
@@ -1260,7 +1267,8 @@
       1172419218038422659456
     ],
     "references": [
-      "EIS A003713"
+      "EIS A003713",
+      "Same terms as ECS 298"
     ],
     "gf": "ln(1/(1-ln(1/(1-_x))))",
     "equiv": "1/_n*exp(-_n)^(ln(exp(1)-1)-1)"
@@ -1769,7 +1777,8 @@
     "references": [
       "EIS A000108",
       "http://mathworld.wolfram.com/CatalanNumber.html",
-      "http://forum.swarthmore.edu/advanced/robertd/catalan.html"
+      "http://forum.swarthmore.edu/advanced/robertd/catalan.html",
+      "Same terms as ECS 52"
     ],
     "gf": "1/2-1/2*(1-4*_x)^(1/2)",
     "rec": "{(-2+4*_n)*_f(_n)+(-1-_n)*_f(_n+1), _f(0) = 0, _f(1) = 1}",
@@ -1778,7 +1787,7 @@
   },
   "49": {
     "id": 49,
-    "name": "Labelled Plane General Trees",
+    "name": "Labeled Plane General Trees",
     "description": "Labelled General Plane Trees of n elements",
     "specification": "{S = Prod(Z,Sequence(S))}",
     "labeled": true,
@@ -1807,7 +1816,8 @@
       4299578163927654889881600000
     ],
     "references": [
-      "EIS A000808"
+      "EIS A000808",
+      "Same terms as ECS 51 and ECS 115"
     ],
     "gf": "1/2-1/2*(1-4*_x)^(1/2)",
     "rec": "{(-4*_n+2)*_f(_n)+_f(_n+1), _f(0) = 0, _f(1) = 1}",
@@ -1854,7 +1864,7 @@
   },
   "51": {
     "id": 51,
-    "name": "Labelled Plane Binary Trees",
+    "name": "Labeled Plane Binary Trees",
     "description": "Binary trees of n leaves (external nodes)",
     "specification": "{S = Union(Z,Prod(S,S))}",
     "labeled": true,
@@ -1883,7 +1893,8 @@
       4299578163927654889881600000
     ],
     "references": [
-      "EIS A000808"
+      "EIS A000808",
+      "Same terms as ECS 49 and ECS 115"
     ],
     "gf": "1/2-1/2*(1-4*_x)^(1/2)",
     "rec": "{(-4*_n+2)*_f(_n)+_f(_n+1), _f(0) = 0, _f(1) = 1}",
@@ -1924,7 +1935,8 @@
       "EIS A000108",
       "Catalan numbers",
       "http://mathworld.wolfram.com/CatalanNumber.html",
-      "http://forum.swarthmore.edu/advanced/robertd/catalan.html"
+      "http://forum.swarthmore.edu/advanced/robertd/catalan.html",
+      "Same terms as ECS 48"
     ],
     "gf": "1/2-1/2*(1-4*_x)^(1/2)",
     "rec": "{(-2+4*_n)*_f(_n)+(-1-_n)*_f(_n+1), _f(0) = 0, _f(1) = 1}",
@@ -2364,7 +2376,7 @@
   },
   "65": {
     "id": 65,
-    "name": "maps",
+    "name": "Maps",
     "description": "Strictly increasing partial maps (Borwein et al); Bell numbers",
     "specification": "{S = Set(Set(Z,1 <= card))}",
     "labeled": true,
@@ -2394,7 +2406,8 @@
     ],
     "references": [
       "Borwein et al",
-      "EIS A000110"
+      "EIS A000110",
+      "Same terms as ECS 15 and ECS 73"
     ],
     "gf": "exp(exp(_x)-1)"
   },
@@ -2471,8 +2484,8 @@
   },
   "68": {
     "id": 68,
-    "name": "Integer composition",
-    "description": "integer composition of size n: Sequences (n1,...,nk) such that n1+n2+...+nk=n, with ni and k positive integers",
+    "name": "Integer compositions",
+    "description": "integer compositions of size n: Sequences (n1,...,nk) such that n1+n2+...+nk=n, with ni and k positive integers",
     "specification": "{S = Sequence(Sequence(a,1 <= card)), a = Atom}",
     "labeled": false,
     "symbol": "S",
@@ -2500,7 +2513,8 @@
       524288
     ],
     "references": [
-      "EIS A000079"
+      "EIS A000079",
+      "Same as ECS 72"
     ],
     "gf": "(-1+_x)/(-1+2*_x)",
     "rec": "{2*_f(_n)-_f(_n+1), _f(0) = 1, _f(1)= 1}",
@@ -2648,7 +2662,8 @@
       524288
     ],
     "references": [
-      "EIS A000079"
+      "EIS A000079",
+      "Same as ECS 68"
     ],
     "gf": "(-1+_x)/(-1+2*_x)",
     "rec": "{2*_f(_n)-_f(_n+1), _f(0) = 1, _f(1) = 1}",
@@ -2687,7 +2702,8 @@
     ],
     "references": [
       "Bell numbers",
-      "EIS A000110"
+      "EIS A000110",
+      "Same terms as ECS 15 and ECS 65"
     ],
     "gf": "exp(exp(_x)-1)"
   },
@@ -4083,7 +4099,8 @@
       11442086
     ],
     "references": [
-      "EIS A005594"
+      "EIS A005594",
+      "Duplicate of ECS 107"
     ],
     "gf": "Sum(numtheory:-phi(j[1])/j[1]*ln(-(-1+_x^j[1])/((_x^j[1])^2-3*_x^j[1]+1)),j[1] = 1.. infinity)"
   },
@@ -4229,7 +4246,8 @@
       4299578163927654889881600000
     ],
     "references": [
-      "EIS A001813"
+      "EIS A001813",
+      "Same terms as ECS 49 and ECS 51"
     ],
     "gf": "1/2-1/2*(1-4*_x)^(1/2)",
     "rec": "{(-4*_n+2)*_f(_n)+_f(_n+1), _f(0) = 0, _f(1) = 1}",
@@ -4409,7 +4427,8 @@
       11
     ],
     "references": [
-      "EIS A008619"
+      "EIS A008619",
+      "Same terms as ECS 209 and ECS 351"
     ],
     "gf": "exp(Sum(_x^j[1]*(_x^j[1]+1)/j[1],j[1] = 1 .. infinity))"
   },
@@ -4739,8 +4758,8 @@
   },
   "130": {
     "id": 130,
-    "name": "Number of n-bead necklaces with 2 colors when turning over is not allowed; also number of output sequences from a simple n-stage cycling shift register; also number of binary irreducible polynomials whose degree divides n",
-    "description": "Number of n-bead necklaces with 2 colors when turning over is not allowed; also number of output sequences from a simple n-stage cycling shift register; also number of binary irreducible polynomials whose degree divides n",
+    "name": "Number of n-bead necklaces with 2 colors when turning over is not allowed",
+    "description": "Necklaces of 2 colours; binary irreducible polynomials whose degree divides n",
     "specification": "{B = Cycle(C), C = Sequence(Z,0 < card), S = Union(C,B)}",
     "labeled": false,
     "symbol": "S",
@@ -4768,7 +4787,8 @@
       52488
     ],
     "references": [
-      "EIS A000031"
+      "EIS A000031",
+      "Same as ECS 2"
     ],
     "gf": "(Sum(numtheory:-phi(j[1])/j[1]*ln((_x^j[1]-1)/(2*_x^j[1]-1)),j[1] = 1 .. infinity)*_x-Sum(numtheory:-phi(j[1])/j[1]*ln((_x^j[1]-1)/(2*_x^j[1]-1)),j[1] = 1 .. infinity)-_x)/(-1+_x)"
   },
@@ -5036,8 +5056,8 @@
   },
   "138": {
     "id": 138,
-    "name": "a(n) = 2^n - 1. (Sometimes called Mersenne numbers, although that name is usually reserved for A001348.)",
-    "description": "a(n) = 2^n - 1. (Sometimes called Mersenne numbers, although that name is usually reserved for A001348.)",
+    "name": "a(n) = 2^n - 1",
+    "description": "a(n) = 2^n - 1",
     "specification": "{S = Prod(Set(Z,1 <= card),Set(Z))}",
     "labeled": true,
     "symbol": "S",
@@ -5065,7 +5085,8 @@
       1048575
     ],
     "references": [
-      "EIS A000225"
+      "EIS A000225",
+      "Same terms as ECS 151"
     ],
     "gf": "(exp(_x)-1)*exp(_x)",
     "rec": "{_f(_n+2)+2*_f(_n)-3*_f(_n+1), _f(0) = 0, _f(1) = 1}",
@@ -5547,7 +5568,8 @@
       1048575
     ],
     "references": [
-      "EIS A003945"
+      "EIS A003945",
+      "Same terms as ECS 138"
     ],
     "gf": "1/(-1+_x)*_x/(-1+2*_x)",
     "rec": "{-2*_f(_n)+_f(_n+1)-1, _f(0)= 0, _f(1) = 1}",
@@ -7456,7 +7478,8 @@
       293
     ],
     "references": [
-      "EIS A001311"
+      "ECS 1305",
+      "Duplicate of ECS 201"
     ],
     "gf": "1/(-1+_x)^2/(_x^2-1)/(_x^5-1)/(_x^10-1)/(_x^20-1)",
     "rec": "{-60233040-8378644*_n+120*_f(_n)+1080*_f(_n+2)-_n^5+480*_f(_n+1)-466020*_n^2+5400*_f(_n+6)+4200*_f(_n+5)+3000*_f(_n+4)+1920*_f(_n+3)-12955*_n^3-180*_n^4+6600*_f(_n+7)+7800*_f(_n+8)+9000*_f(_n+9)+10080*_f(_n+10)+10920*_f(_n+11)+11520*_f(_n+12)+11880*_f(_n+13)+12000*_f(_n+14)+12000*_f(_n+15)+12000*_f(_n+16)+12000*_f(_n+17)+12000*_f(_n+18)+12000*_f(_n+19)+11880*_f(_n+20)+11520*_f(_n+21)+10920*_f(_n+22)+10080*_f(_n+23)+9000*_f(_n+24)+7800*_f(_n+25)+6600*_f(_n+26)+5400*_f(_n+27)+4200*_f(_n+28)+3000*_f(_n+29)+1920*_f(_n+30)+1080*_f(_n+31)+480*_f(_n+32)+120*_f(_n+33), _f(0) = 1, _f(1)= 2, _f(2) = 4, _f(3) = 6, _f(4) = 9, _f(5) = 13, _f(6) = 18, _f(7) = 24, _f(8) = 31, _f(9) = 39, _f(10) = 50, _f(11) = 62, _f(12) = 77, _f(13) = 93, _f(14)= 112, _f(15) = 134, _f(16) = 159, _f(17) = 187, _f(18) = 218, _f(19) = 252, _f(20) = 293, _f(21) = 337, _f(22) = 388, _f(23) = 442, _f(24) = 503, _f(25) =571, _f(26) = 646, _f(27) = 728, _f(28) = 817, _f(29) = 913, _f(30) = 1022, _f(31) = 1138, _f(32) = 1267}",
@@ -7494,7 +7517,8 @@
       946
     ],
     "references": [
-      "EIS A002623"
+      "EIS A002623",
+      "Same terms as ECS 413"
     ],
     "gf": "1/(-1+_x)^3/(_x^2-1)",
     "rec": "{6*_f(_n)+6*_f(_n+1)-_n^3-9*_n^2-26*_n-24, _f(0) = 1}",
@@ -7722,7 +7746,8 @@
       11
     ],
     "references": [
-      "EIS A008619"
+      "EIS A008619",
+      "Same terms as ECS 120 and ECS 351"
     ],
     "gf": "1/(-1+_x)/(_x^2-1)",
     "rec": "{_f(_n)+_f(_n+1)-_n-2, _f(0) = 1}",
@@ -7836,7 +7861,8 @@
       4
     ],
     "references": [
-      "EIS A008615"
+      "EIS A008615",
+      "Same terms as ECS 448"
     ],
     "gf": "1/(_x^2-1)/(_x^3-1)",
     "rec": "{_f(_n)+2*_f(_n+1)+2*_f(_n+2)+_f(_n+3)-_n-4, _f(0) = 1, _f(1) = 0, _f(2) = 1}",
@@ -8595,7 +8621,8 @@
       192
     ],
     "references": [
-      "EIS A008763"
+      "EIS A008763",
+      "Same terms as ECS 450"
     ],
     "gf": "1/(-1+_x)/(_x^2-1)^2/(_x^3-1)",
     "rec": "{6*_f(_n)+18*_f(_n+1)+24*_f(_n+2)+18*_f(_n+3)+6*_f(_n+4)-_n^3-18*_n^2-107*_n-210, _f(0) = 1, _f(1) = 1, _f(2) = 3, _f(3) = 4}",
@@ -9403,7 +9430,7 @@
   "254": {
     "id": 254,
     "name": "Binomial coefficients",
-    "description": "Arrangements of n unlabelled objects in 5 rows",
+    "description": "Arrangements of n unlabeled objects in 5 rows",
     "specification": "{B = Sequence(Z), S = Prod(B,B,B,B,B)}",
     "labeled": false,
     "symbol": "S",
@@ -9431,7 +9458,8 @@
       10626
     ],
     "references": [
-      "EIS A000332"
+      "EIS A000332",
+      "Same terms as ECS 264"
     ],
     "gf": "-1/(-1+_x)^5",
     "rec": "{-24*_f(_n)+_n^4+10*_n^3+35*_n^2+50*_n+24, _f(0) = 1}",
@@ -9441,7 +9469,7 @@
   "255": {
     "id": 255,
     "name": "Binomial coefficients",
-    "description": "Arrangements of n unlabelled objects in 6 rows",
+    "description": "Arrangements of n unlabeled objects in 6 rows",
     "specification": "{B = Sequence(Z), S = Prod(B,B,B,B,B,B)}",
     "labeled": false,
     "symbol": "S",
@@ -9709,30 +9737,30 @@
     "name": "Arrangements",
     "description": "Arrangements of n labelled objects in 3 rows",
     "specification": "{B= Sequence(Z), S = Prod(B,B,B)}",
-    "labeled": false,
+    "labeled": true,
     "symbol": "S",
     "terms": [
       1,
       3,
-      6,
-      10,
-      15,
-      21,
-      28,
-      36,
-      45,
-      55,
-      66,
-      78,
-      91,
-      105,
-      120,
-      136,
-      153,
-      171,
-      190,
-      210,
-      231
+      12,
+      60,
+      360,
+      2520,
+      20160,
+      181440,
+      1814400,
+      19958400,
+      239500800,
+      3113510400,
+      43589145600,
+      653837184000,
+      10461394944000,
+      177843714048000,
+      3201186852864000,
+      60822550204416000,
+      1216451004088320000,
+      25545471085854720000,
+      562000363888803840000
     ],
     "references": [
       "EIS A001710"
@@ -9747,30 +9775,30 @@
     "name": "Arrangements",
     "description": "Arrangements of n labelled objects in 4 rows",
     "specification": "{B = Sequence(Z), S = Prod(B,B,B,B)}",
-    "labeled": false,
+    "labeled": true,
     "symbol": "S",
     "terms": [
       1,
       4,
-      10,
       20,
-      35,
-      56,
-      84,
       120,
-      165,
-      220,
-      286,
-      364,
-      455,
-      560,
-      680,
-      816,
-      969,
-      1140,
-      1330,
-      1540,
-      1771
+      840,
+      6720,
+      60480,
+      604800,
+      6652800,
+      79833600,
+      1037836800,
+      14529715200,
+      217945728000,
+      3487131648000,
+      59281238016000,
+      1067062284288000,
+      20274183401472000,
+      405483668029440000,
+      8515157028618240000,
+      187333454629601280000,
+      4308669456480829440000
     ],
     "references": [
       "EIS A001715"
@@ -9783,32 +9811,31 @@
   "264": {
     "id": 264,
     "name": "Arrangements",
-    "description": "Arrangements of n labelled objects in 5 rows",
+    "description": "Arrangements of n labeled objects in 5 rows",
     "specification": "{B = Sequence(Z), S = Prod(B,B,B,B,B)}",
-    "labeled": false,
+    "labeled": true,
     "symbol": "S",
     "terms": [
       1,
       5,
-      15,
-      35,
-      70,
-      126,
+      30,
       210,
-      330,
-      495,
-      715,
-      1001,
-      1365,
-      1820,
-      2380,
-      3060,
-      3876,
-      4845,
-      5985,
-      7315,
-      8855,
-      10626
+      1680,
+      15120,
+      151200,
+      1663200,
+      19958400,
+      259459200,
+      3632428800,
+      54486432000,
+      871782912000,
+      14820309504000,
+      266765571072000,
+      5068545850368000,
+      101370917007360000,
+      2128789257154560000,
+      46833363657400320000,
+      1077167364120207360000
     ],
     "references": [
       "EIS A001720"
@@ -9823,30 +9850,26 @@
     "name": "Arrangements",
     "description": "Arrangements of n labelled objects in 6 rows",
     "specification": "{B = Sequence(Z), S = Prod(B,B,B,B,B,B)}",
-    "labeled": false,
+    "labeled": true,
     "symbol": "S",
     "terms": [
       1,
       6,
-      21,
-      56,
-      126,
-      252,
-      462,
-      792,
-      1287,
-      2002,
-      3003,
-      4368,
-      6188,
-      8568,
-      11628,
-      15504,
-      20349,
-      26334,
-      33649,
-      42504,
-      53130
+      42,
+      336,
+      3024,
+      30240,
+      332640,
+      3991680,
+      51891840,
+      726485760,
+      10897286400,
+      174356582400,
+      2964061900800,
+      53353114214400,
+      1013709170073600,
+      20274183401472000,
+      425757851430912000
     ],
     "references": [
       "EIS A001725"
@@ -9861,30 +9884,29 @@
     "name": "Arrangements",
     "description": "Arrangements of n labelled objects in 7 rows",
     "specification": "{B = Sequence(Z), S = Prod(B,B,B,B,B,B,B)}",
-    "labeled": false,
+    "labeled": true,
     "symbol": "S",
     "terms": [
       1,
       7,
-      28,
-      84,
-      210,
-      462,
-      924,
-      1716,
-      3003,
-      5005,
-      8008,
-      12376,
-      18564,
-      27132,
-      38760,
-      54264,
-      74613,
-      100947,
-      134596,
-      177100,
-      230230
+      56,
+      504,
+      5040,
+      55440,
+      665280,
+      8648640,
+      121080960,
+      1816214400,
+      29059430400,
+      494010316800,
+      8892185702400,
+      168951528345600,
+      3379030566912000,
+      70959641905152000,
+      1561112121913344000,
+      35905578804006912000,
+      861733891296165888000,
+      21543347282404147200000
     ],
     "references": [
       "EIS A001730"
@@ -9897,7 +9919,7 @@
   "267": {
     "id": 267,
     "name": "Powers of 2",
-    "description": "Arrangement of n distinguishable objects in 2distinguishable urns",
+    "description": "Arrangement of n distinguishable objects in 2 distinguishable urns",
     "specification": "{B = Set(Z), S =Prod(B,B)}",
     "labeled": true,
     "symbol": "S",
@@ -9925,7 +9947,8 @@
       1048576
     ],
     "references": [
-      "EIS A000079"
+      "EIS A000079",
+      "Same terms as ECS 6"
     ],
     "gf": "exp(_x)^2",
     "rec": "{_f(_n+1)-2*_f(_n), _f(0) = 1}",
@@ -9935,7 +9958,7 @@
   "268": {
     "id": 268,
     "name": "Powers of 3",
-    "description": "Arrangement of n distinguishable objects in 3distinguishable urns",
+    "description": "Arrangement of n distinguishable objects in 3 distinguishable urns",
     "specification": "{B = Set(Z), S = Prod(B,B,B)}",
     "labeled": true,
     "symbol": "S",
@@ -9963,7 +9986,8 @@
       3486784401
     ],
     "references": [
-      "EIS A000244"
+      "EIS A000244",
+      "Same terms as ECS 7"
     ],
     "gf": "exp(_x)^3",
     "rec": "{_f(_n+1)-3*_f(_n), _f(0) = 1}",
@@ -9973,7 +9997,7 @@
   "269": {
     "id": 269,
     "name": "Powers of 4",
-    "description": "Arrangement of n distinguishable objects in 4distinguishable urns",
+    "description": "Arrangement of n distinguishable objects in 4 distinguishable urns",
     "specification": "{B = Set(Z), S = Prod(B,B,B,B)}",
     "labeled": true,
     "symbol": "S",
@@ -10001,7 +10025,8 @@
       1099511627776
     ],
     "references": [
-      "EIS A000302"
+      "EIS A000302",
+      "Same terms as ECS 8"
     ],
     "gf": "exp(_x)^4",
     "rec": "{_f(_n+1)-4*_f(_n), _f(0)= 1}",
@@ -11085,7 +11110,8 @@
       1172419218038422659456
     ],
     "references": [
-      "EIS A003713"
+      "EIS A003713",
+      "Same terms as ECS 34"
     ],
     "gf": "ln(-1/(-1+ln(-1/(-1+_x))))",
     "equiv": "1/_n*exp(-_n)^(ln(exp(1)-1)-1)"
@@ -12859,7 +12885,8 @@
       2097151
     ],
     "references": [
-      "EIS A000225"
+      "EIS A000225",
+      "Same as ECS 371"
     ],
     "gf": "1/(-1+_x)/(-1+2*_x)",
     "rec": "{-2*_f(_n)+_f(_n+1)-1, _f(0) = 1}",
@@ -13087,7 +13114,8 @@
       11
     ],
     "references": [
-      "EIS A008619"
+      "EIS A008619",
+      "Same terms as ECS 120 and ECS 209"
     ],
     "gf": "1/(-1+_x)^2/(1+_x)",
     "rec": "{_f(_n)+_f(_n+1)-_n-2, _f(0) = 1}",
@@ -13818,8 +13846,8 @@
   },
   "371": {
     "id": 371,
-    "name": "a(n) = 2^n - 1. (Sometimes called Mersenne numbers, although that name is usually reserved for A001348.)",
-    "description": "a(n) = 2^n - 1. (Sometimes called Mersenne numbers, although that name is usually reserved for A001348.)",
+    "name": "a(n) = 2^n - 1",
+    "description": "a(n) = 2^n - 1",
     "specification": "{S = Prod(Sequence(Z),Sequence(Union(Z,Z)))}",
     "labeled": false,
     "symbol": "S",
@@ -13847,7 +13875,8 @@
       2097151
     ],
     "references": [
-      "EIS A000225"
+      "EIS A000225",
+      "Same terms as ECS 345"
     ],
     "gf": "1/(-1+_x)/(-1+2*_x)",
     "rec": "{-2*_f(_n)+_f(_n+1)-1, _f(0) = 1}",
@@ -15422,7 +15451,8 @@
       946
     ],
     "references": [
-      "EIS A002623"
+      "EIS A002623",
+      "Same terms as ECS 203"
     ],
     "gf": "1/(-1+_x)^3/(_x^2-1)",
     "rec": "{6*_f(_n)+6*_f(_n+1)-_n^3-9*_n^2-26*_n-24, _f(0) = 1}",
@@ -16698,8 +16728,8 @@
   },
   "448": {
     "id": 448,
-    "name": "a(n) = floor(n/2) - floor(n/3)",
-    "description": "a(n) = floor(n/2) - floor(n/3)",
+    "name": "Unknown structure",
+    "description": "Unknown structure",
     "specification": "{B = Union(Z,Epsilon), C = Prod(Z,Z,B), S = Set(C)}",
     "labeled": false,
     "symbol": "S",
@@ -16727,7 +16757,8 @@
       4
     ],
     "references": [
-      "EIS A008615"
+      "EIS A008615",
+      "Same terms as ECS 212"
     ],
     "gf": "exp(Sum((_x^j[1])^2*(_x^j[1]+1)/j[1],j[1] = 1 .. infinity))"
   },
@@ -16800,7 +16831,8 @@
       192
     ],
     "references": [
-      "EIS A008763"
+      "EIS A008763",
+      "Same terms as ECS 232"
     ],
     "gf": "exp(Sum(_x^j[1]*((_x^j[1])^2+2*_x^j[1]+1)/j[1],j[1] = 1 .. infinity))"
   },
