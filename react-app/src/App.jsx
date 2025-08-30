@@ -305,7 +305,7 @@ export default function App() {
         <footer className="border-t mt-8">
           <div className="max-w-6xl mx-auto px-4 py-6 text-sm text-slate-600 flex flex-wrap items-center gap-3">
             <span>Created by David Radcliffe with data from INRIA Algorithms Project and the OEIS community.
-            Last updated August 29, 2025.</span>
+            Last updated August 30, 2025.</span>
           </div>
         </footer>
       </div>
