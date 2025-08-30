@@ -1,7 +1,7 @@
 {
     "id": 1057,
-    "name": "Least multiple of n consisting of a succession of 1's followed by a succession of 0's",
-    "description": "Least multiple of n consisting of a succession of 1's followed by a succession of 0's",
+    "name": "Expansion of g.f. (1-x^2)/(1-x-2*x^2+x^3)",
+    "description": "Expansion of g.f. (1-x^2)/(1-x-2*x^2+x^3)",
     "specification": "{S = Sequence(Union(Prod(Sequence(Prod(Z,Z)),Z,Z),Z))}",
     "labeled": false,
     "symbol": "S",
@@ -29,7 +29,7 @@
         70755
     ],
     "references": [
-        "EIS A052983"
+        "EIS A028495"
     ],
     "gf": "-(_x^2-1)/(_x^3-2*_x^2-_x+1)",
     "rec": "{_f(_n)-2*_f(_n+1)-_f(_n+2)+_f(_n+3), _f(0) = 1, _f(1) = 1, _f(2) = 2}",

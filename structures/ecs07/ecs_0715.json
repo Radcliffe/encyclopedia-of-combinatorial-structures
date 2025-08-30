@@ -1,7 +1,7 @@
 {
     "id": 715,
-    "name": "Expansion of e.g.f.: -(log(1-x))^3*x",
-    "description": "Expansion of e.g.f.: -(log(1-x))^3*x",
+    "name": "a(n) = (n-1)*3^(n-2), n > 0",
+    "description": "a(n) = (n-1)*3^(n-2), n > 0",
     "specification": "{B = Set(Z), S = Prod(B,B,B,Z)}",
     "labeled": true,
     "symbol": "S",
@@ -29,7 +29,7 @@
         23245229340
     ],
     "references": [
-        "EIS A052758"
+        "EIS A027471"
     ],
     "gf": "exp(_x)^3*_x",
     "rec": "{(-3*_n-3)*_f(_n)+_f(_n+1)*_n, _f(0) = 0, _f(1) = 1}",

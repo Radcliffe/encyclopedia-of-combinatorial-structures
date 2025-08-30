@@ -1,7 +1,7 @@
 {
     "id": 112,
-    "name": "Sociable numbers: smallest member of each cycle (conjectured)",
-    "description": "Sociable numbers: smallest member of each cycle (conjectured)",
+    "name": "Number of 1s in all compositions of n+1",
+    "description": "Number of 1s in all compositions of n+1",
     "specification": "{B = Sequence(C), C = Sequence(Z,0 < card), S =Prod(B,B)}",
     "labeled": false,
     "symbol": "S",
@@ -29,7 +29,7 @@
         6029312
     ],
     "references": [
-        "EIS A003416"
+        "EIS A045623"
     ],
     "gf": "(-1+_x)^2/(-1+2*_x)^2",
     "rec": "{4*_f(_n)-4*_f(_n+1)+_f(_n+2), _f(0) = 1, _f(1) = 2, _f(2) = 5}",

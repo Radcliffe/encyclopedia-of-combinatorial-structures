@@ -29,7 +29,7 @@
         1048575
     ],
     "references": [
-        "EIS A003945",
+        "EIS A000225",
         "Same terms as ECS 138"
     ],
     "gf": "1/(-1+_x)*_x/(-1+2*_x)",

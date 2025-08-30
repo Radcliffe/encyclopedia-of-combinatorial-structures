@@ -1,7 +1,7 @@
 {
     "id": 713,
-    "name": "E.g.f.: (-1/3)*LambertW(-3*x)",
-    "description": "E.g.f.: (-1/3)*LambertW(-3*x)",
+    "name": "Number of rooted identity trees with n nodes and 3-colored non-root nodes",
+    "description": "Number of rooted identity trees with n nodes and 3-colored non-root nodes",
     "specification": "{B = PowerSet(S), S = Prod(B,B,B,Z)}",
     "labeled": false,
     "symbol": "S",
@@ -29,6 +29,6 @@
         1540935621796941
     ],
     "references": [
-        "EIS A052756"
+        "EIS A052757"
     ]
 }

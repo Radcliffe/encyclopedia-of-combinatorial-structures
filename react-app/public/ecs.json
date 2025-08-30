@@ -2,7 +2,7 @@
   "1": {
     "id": 1,
     "name": "Alcohols or Unlabelled Non Plane Ternary Trees",
-    "description": "Alcohols or unlabelled  non plane ternary Trees",
+    "description": "Alcohols or unlabelled non plane ternary Trees",
     "specification": "{S = Union(Z,Prod(Z,Set(S,card = 3))), Z = Atom}",
     "labeled": false,
     "symbol": "S",
@@ -1816,7 +1816,7 @@
       4299578163927654889881600000
     ],
     "references": [
-      "EIS A000808",
+      "EIS A001813",
       "Same terms as ECS 51 and ECS 115"
     ],
     "gf": "1/2-1/2*(1-4*_x)^(1/2)",
@@ -1893,7 +1893,7 @@
       4299578163927654889881600000
     ],
     "references": [
-      "EIS A000808",
+      "EIS A001813",
       "Same terms as ECS 49 and ECS 115"
     ],
     "gf": "1/2-1/2*(1-4*_x)^(1/2)",
@@ -4106,8 +4106,8 @@
   },
   "112": {
     "id": 112,
-    "name": "Sociable numbers: smallest member of each cycle (conjectured)",
-    "description": "Sociable numbers: smallest member of each cycle (conjectured)",
+    "name": "Number of 1s in all compositions of n+1",
+    "description": "Number of 1s in all compositions of n+1",
     "specification": "{B = Sequence(C), C = Sequence(Z,0 < card), S =Prod(B,B)}",
     "labeled": false,
     "symbol": "S",
@@ -4135,7 +4135,7 @@
       6029312
     ],
     "references": [
-      "EIS A003416"
+      "EIS A045623"
     ],
     "gf": "(-1+_x)^2/(-1+2*_x)^2",
     "rec": "{4*_f(_n)-4*_f(_n+1)+_f(_n+2), _f(0) = 1, _f(1) = 2, _f(2) = 5}",
@@ -5200,7 +5200,7 @@
       75278
     ],
     "references": [
-      "EIS A000990"
+      "EIS A000219"
     ],
     "gf": "exp(Sum(_x^j[1]/(_x^j[1]-1)^2/j[1],j[1] = 1 .. infinity))"
   },
@@ -5568,7 +5568,7 @@
       1048575
     ],
     "references": [
-      "EIS A003945",
+      "EIS A000225",
       "Same terms as ECS 138"
     ],
     "gf": "1/(-1+_x)*_x/(-1+2*_x)",
@@ -9191,9 +9191,7 @@
       20,
       25
     ],
-    "references": [
-      "EIS A008666"
-    ],
+    "references": [],
     "gf": "1/(-1+_x)/(_x^4-1)/(_x^6-1)/(_x^10-1)/(_x^12-1)/(_x^18-1)",
     "rec": "{-254251200-26507524*_n+120*_f(_n)+1800*_f(_n+2)-_n^5+600*_f(_n+1)-1105200*_n^2+23280*_f(_n+6)+34800*_f(_n+38)+23280*_f(_n+39)+14520*_f(_n+40)+8280*_f(_n+41)+4200*_f(_n+42)+1800*_f(_n+43)+600*_f(_n+44)+120*_f(_n+45)+14520*_f(_n+5)+8280*_f(_n+4)+4200*_f(_n+3)-23035*_n^3-240*_n^4+34800*_f(_n+7)+49200*_f(_n+8)+66480*_f(_n+9)+86520*_f(_n+10)+109080*_f(_n+11)+133680*_f(_n+12)+159600*_f(_n+13)+186000*_f(_n+14)+211920*_f(_n+15)+236520*_f(_n+16)+259080*_f(_n+17)+279000*_f(_n+18)+295800*_f(_n+19)+309000*_f(_n+20)+318120*_f(_n+21)+322800*_f(_n+22)+322800*_f(_n+23)+318120*_f(_n+24)+309000*_f(_n+25)+295800*_f(_n+26)+279000*_f(_n+27)+259080*_f(_n+28)+236520*_f(_n+29)+211920*_f(_n+30)+186000*_f(_n+31)+159600*_f(_n+32)+133680*_f(_n+33)+109080*_f(_n+34)+86520*_f(_n+35)+66480*_f(_n+36)+49200*_f(_n+37), _f(0) = 1, _f(1) = 1, _f(2) = 1, _f(3) = 1, _f(4) = 2, _f(5) = 2,_f(6) = 3, _f(7) = 3, _f(8) = 4, _f(9) = 4, _f(10) = 6, _f(11) = 6, _f(12) = 9, _f(13) = 9, _f(14) = 11, _f(15) = 11, _f(16) = 15, _f(17) = 15, _f(18) = 20,_f(19) = 20, _f(20) = 25, _f(21) = 25, _f(22) = 32, _f(23) = 32, _f(24) = 41,_f(25) = 41, _f(26) = 49, _f(27) = 49, _f(28) = 61, _f(29) = 61, _f(30) = 75,_f(31) = 75, _f(32) = 89, _f(33) = 89, _f(34) = 107, _f(35) = 107, _f(36) = 129, _f(37) = 129, _f(38) = 150, _f(39) = 150, _f(40) = 178, _f(41) = 178, _f(42) = 209, _f(43) = 209, _f(44) = 241}",
     "closedform": "Sum(1/250*(_alpha^7+_alpha^6+2*_alpha^5+2*_alpha^4+3*_alpha^3+3*_alpha^2+4*_alpha-1)*_alpha^(-1-_n),_alpha = RootOf(_Z^8+_Z^6+_Z^4+_Z^2+1))+Sum(1/23328*(2*_alpha^3-_alpha^2+_alpha-2)*_alpha^(-_n-3)*(_n+2)*(_n+1),_alpha = RootOf(_Z^4+_Z^2+1))+Sum(1/23328*(94*_alpha^3+98*_alpha^2+35*_alpha+37)*_alpha^(-_n-2)*(_n+1),_alpha = RootOf(_Z^4+_Z^2+1))+Sum(-1/23328*(231*_alpha^3-964*_alpha^2-831*_alpha-194)*_alpha^(-1-_n),_alpha = RootOf(_Z^4+_Z^2+1))+Sum(1/162*(_alpha^11+_alpha^6+2*_alpha^5-1)*_alpha^(-1-_n),_alpha = RootOf(_Z^12+_Z^6+1))+Sum(1/144*(_alpha^3+2*_alpha^2+_alpha-1)*_alpha^(-1-_n),_alpha = RootOf(_Z^4-_Z^2+1))+Sum(-1/768*(1+_alpha)*_alpha^(-_n-2)*(_n+1),_alpha = RootOf(_Z^2+1))+Sum(1/768*(25*_alpha-24)*_alpha^(-1-_n),_alpha = RootOf(_Z^2+1))+1/12441600*(5*_n^4+510*_n^3+17950*_n^2+252195*_n+1147511)*(-1)^(-_n)+1/6220800*_n^5+17/829440*_n^4+133/138240*_n^3+187/9216*_n^2+460201/2488320*_n+2247587/4147200",
@@ -17598,8 +17596,8 @@
   },
   "471": {
     "id": 471,
-    "name": "Numbers whose cube is palindromic in base 4",
-    "description": "Numbers whose cube is palindromic in base 4",
+    "name": "a(n) = binomial(n+1, 2) + n - 1 = n*(n+3)/2 - 1",
+    "description": "a(n) = binomial(n+1, 2) + n - 1 = n*(n+3)/2 - 1",
     "specification": "{S = Prod(Union(Z,Sequence(Z)),Sequence(Z),Sequence(Z))}",
     "labeled": false,
     "symbol": "S",
@@ -17627,7 +17625,7 @@
       251
     ],
     "references": [
-      "EIS A046231"
+      "EIS A034856"
     ],
     "gf": "(_x^2-_x-1)/(-1+_x)^3",
     "rec": "{-2*_f(_n)+_n^2+5*_n+2, _f(0) = 1, _f(1) = 4, _f(2) = 8}",
@@ -18320,8 +18318,8 @@
   },
   "490": {
     "id": 490,
-    "name": "Square array of binomial coefficients T(n,k) = binomial(n,k), n >= 0, k >= 0, read by upward antidiagonals",
-    "description": "Square array of binomial coefficients T(n,k) = binomial(n,k), n >= 0, k >= 0, read by upward antidiagonals",
+    "name": "Number of permutations of n > 1 having exactly 2 points on the boundary of their bounding square",
+    "description": "Number of permutations of n > 1 having exactly 2 points on the boundary of their bounding square",
     "specification": "{S = Union(Sequence(Z),Sequence(Z))}",
     "labeled": true,
     "symbol": "S",
@@ -18349,7 +18347,7 @@
       4865804016353280000
     ],
     "references": [
-      "EIS A052553"
+      "EIS A208529"
     ],
     "gf": "-2/(-1+_x)",
     "rec": "{(-1-_n)*_f(_n)+_f(_n+1),_f(0) = 2, _f(1) = 2}",
@@ -26712,8 +26710,8 @@
   },
   "712": {
     "id": 712,
-    "name": "a(n) = (n-1)*3^(n-2), n > 0",
-    "description": "a(n) = (n-1)*3^(n-2), n > 0",
+    "name": "A simple grammar",
+    "description": "E.g.f.: (-1/3)*LambertW(-3*x)",
     "specification": "{B = Set(S), S = Prod(B,B,B,Z)}",
     "labeled": true,
     "symbol": "S",
@@ -26741,15 +26739,15 @@
       6093597400104960000000000000000000
     ],
     "references": [
-      "EIS A027471"
+      "EIS A052756"
     ],
     "gf": "exp(-1/3*LambertW(-3*_x))^3*_x",
     "equiv": "1/6/Pi^(1/2)*exp(-1)^(3/2)*exp(1/3)^3*2^(1/2)*exp(1)^(1/2)*(1/_n)^(3/2)*exp(-_n)^(-1-ln(3))"
   },
   "713": {
     "id": 713,
-    "name": "E.g.f.: (-1/3)*LambertW(-3*x)",
-    "description": "E.g.f.: (-1/3)*LambertW(-3*x)",
+    "name": "Number of rooted identity trees with n nodes and 3-colored non-root nodes",
+    "description": "Number of rooted identity trees with n nodes and 3-colored non-root nodes",
     "specification": "{B = PowerSet(S), S = Prod(B,B,B,Z)}",
     "labeled": false,
     "symbol": "S",
@@ -26777,13 +26775,13 @@
       1540935621796941
     ],
     "references": [
-      "EIS A052756"
+      "EIS A052757"
     ]
   },
   "714": {
     "id": 714,
-    "name": "Number of rooted identity trees with n nodes and 3-colored non-root nodes",
-    "description": "Number of rooted identity trees with n nodes and 3-colored non-root nodes",
+    "name": "Expansion of e.g.f.: -(log(1-x))^3*x",
+    "description": "Expansion of e.g.f.: -(log(1-x))^3*x",
     "specification": "{B = Cycle(Z), S = Prod(B,B,B,Z)}",
     "labeled": true,
     "symbol": "S",
@@ -26811,7 +26809,7 @@
       4081469951258726400
     ],
     "references": [
-      "EIS A052757"
+      "EIS A052758"
     ],
     "gf": "ln(-1/(-1+_x))^3*_x",
     "rec": "{(-_n^6-3*_n^5+4*_n^4+10*_n^3-9*_n^2-7*_n+6)*_f(_n)+(3*_n^5+12*_n^4+4*_n^3-13*_n^2+6*_n)*_f(_n+1)+(-3*_n^4-12*_n^3-9*_n^2)*_f(_n+2)+(_n^3+3*_n^2+2*_n)*_f(_n+3), _f(0) = 0, _f(1) = 0, _f(2) = 0, _f(3) = 0, _f(4) = 24, _f(5) = 180}",
@@ -26820,8 +26818,8 @@
   },
   "715": {
     "id": 715,
-    "name": "Expansion of e.g.f.: -(log(1-x))^3*x",
-    "description": "Expansion of e.g.f.: -(log(1-x))^3*x",
+    "name": "a(n) = (n-1)*3^(n-2), n > 0",
+    "description": "a(n) = (n-1)*3^(n-2), n > 0",
     "specification": "{B = Set(Z), S = Prod(B,B,B,Z)}",
     "labeled": true,
     "symbol": "S",
@@ -26849,7 +26847,7 @@
       23245229340
     ],
     "references": [
-      "EIS A052758"
+      "EIS A027471"
     ],
     "gf": "exp(_x)^3*_x",
     "rec": "{(-3*_n-3)*_f(_n)+_f(_n+1)*_n, _f(0) = 0, _f(1) = 1}",
@@ -27964,8 +27962,8 @@
   },
   "746": {
     "id": 746,
-    "name": "a(n) = n*5^(n-1)",
-    "description": "a(n) = n*5^(n-1)",
+    "name": "Expansion of e.g.f. -(1/5)*LambertW(-5*x)",
+    "description": "Expansion of e.g.f. -(1/5)*LambertW(-5*x)",
     "specification": "{B = Set(S), S = Prod(Z,B,B,B,B,B)}",
     "labeled": true,
     "symbol": "S",
@@ -27993,7 +27991,7 @@
       100000000000000000000000000000000000000
     ],
     "references": [
-      "EIS A053464"
+      "EIS A052789"
     ],
     "gf": "_x*exp(-1/5*LambertW(-5*_x))^5",
     "equiv": "1/10/Pi^(1/2)*exp(-1)^(3/2)*exp(1/5)^5*2^(1/2)*exp(1)^(1/2)*(1/_n)^(3/2)*exp(-_n)^(-1-ln(5))"
@@ -35079,7 +35077,7 @@
       83
     ],
     "references": [
-      "EIS A016837"
+      "EIS A004767"
     ],
     "gf": "-_x*(-7+3*_x)/(-1+_x)^2",
     "rec": "{_f(_n)-4*_n-3, _f(0) = 0, _f(1) = 7, _f(2) = 11}",
@@ -35839,7 +35837,7 @@
       165
     ],
     "references": [
-      "EIS A017125"
+      "EIS A004770"
     ],
     "gf": "-_x*(-13+5*_x)/(-1+_x)^2",
     "rec": "{_f(_n)-8*_n-5, _f(0) = 0, _f(1) = 13, _f(2) = 21}",
@@ -39458,8 +39456,8 @@
   },
   "1056": {
     "id": 1056,
-    "name": "Expansion of g.f. (1-x^2)/(1-x-2*x^2+x^3)",
-    "description": "Expansion of g.f. (1-x^2)/(1-x-2*x^2+x^3)",
+    "name": "Expansion of (1-x^2)/(1-3*x-x^2+x^3)",
+    "description": "Expansion of (1-x^2)/(1-3*x-x^2+x^3)",
     "specification": "{S = Sequence(Union(Prod(Sequence(Prod(Z,Z)),Union(Z,Z)),Z))}",
     "labeled": false,
     "symbol": "S",
@@ -39487,7 +39485,7 @@
       12077432845
     ],
     "references": [
-      "EIS A028495"
+      "EIS A061534"
     ],
     "gf": "-(_x^2-1)/(_x^3-_x^2-3*_x+1)",
     "rec": "{_f(_n)-_f(_n+1)-3*_f(_n+2)+_f(_n+3), _f(0) = 1, _f(1) = 3, _f(2) = 9}",
@@ -39496,8 +39494,8 @@
   },
   "1057": {
     "id": 1057,
-    "name": "Least multiple of n consisting of a succession of 1's followed by a succession of 0's",
-    "description": "Least multiple of n consisting of a succession of 1's followed by a succession of 0's",
+    "name": "Expansion of g.f. (1-x^2)/(1-x-2*x^2+x^3)",
+    "description": "Expansion of g.f. (1-x^2)/(1-x-2*x^2+x^3)",
     "specification": "{S = Sequence(Union(Prod(Sequence(Prod(Z,Z)),Z,Z),Z))}",
     "labeled": false,
     "symbol": "S",
@@ -39525,7 +39523,7 @@
       70755
     ],
     "references": [
-      "EIS A052983"
+      "EIS A028495"
     ],
     "gf": "-(_x^2-1)/(_x^3-2*_x^2-_x+1)",
     "rec": "{_f(_n)-2*_f(_n+1)-_f(_n+2)+_f(_n+3), _f(0) = 1, _f(1) = 1, _f(2) = 2}",
