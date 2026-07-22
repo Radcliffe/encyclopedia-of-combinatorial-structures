@@ -339,10 +339,12 @@ the zero-centered or recognized-shift contract.
 
 Named-series assignments are also expanded when exact simultaneous fixed-point
 iteration stabilizes every requested coefficient. The solver selects the
-combinatorial branch reached from zero series and checks it against an
-independent positive-degree starting probe. Named-series composition requires a
-zero-constant argument. Pass `symbol` to choose the result from an equation
-system:
+combinatorial branch reached from zero series, then proves contraction by
+requiring the graph of same-coefficient dependencies to be acyclic. Thus every
+recursive cycle must introduce a positive degree delay; agreement between a few
+starting values is not used as a proof. Equation results are rejected if they
+contain negative powers. Named-series composition requires a zero-constant
+argument. Pass `symbol` to choose the result from an equation system:
 
 ```python
 coefficients = generating_function_coefficients(

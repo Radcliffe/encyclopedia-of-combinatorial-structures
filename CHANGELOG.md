@@ -59,6 +59,16 @@ or date section and leave this section in place for subsequent work.
 - Migrated the legacy OEIS report to typed catalogue records and documented why
   source-data serializers and mutators intentionally retain raw JSON access.
 
+### Fixed
+
+- Replaced the named-series solver's empirical second starting-value check with
+  a structural proof that its same-coefficient dependency graph is acyclic, and
+  rejected equation solutions containing negative powers instead of silently
+  dropping their Laurent terms.
+- Corrected indexed-sum coefficient bounds when an index occurs in a power's
+  exponent, and recognized constant-minus perturbations in shifted principal
+  `LambertW` expressions.
+
 ## 0.1.0a0 - 2026-07-22
 
 ### Added

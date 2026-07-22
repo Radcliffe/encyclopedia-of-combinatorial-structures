@@ -455,6 +455,16 @@ class GeneratingFunctionCoefficientTests(unittest.TestCase):
             generating_function_coefficients("LambertW(2*exp(2))", 3),
             (Fraction(2), Fraction(0), Fraction(0)),
         )
+        self.assertEqual(
+            generating_function_coefficients("LambertW(1*exp(1-_x))", 5),
+            (
+                Fraction(1),
+                Fraction(-1, 2),
+                Fraction(1, 16),
+                Fraction(1, 192),
+                Fraction(-1, 3072),
+            ),
+        )
 
     def test_square_root_and_removable_singularity(self):
         self.assertEqual(
@@ -586,6 +596,14 @@ class GeneratingFunctionCoefficientTests(unittest.TestCase):
         ):
             generating_function_coefficients(system, 6, symbol="A")
 
+    def test_acyclic_zero_delay_dependencies_are_contractive(self):
+        source = "A(x)=B(x), B(x)=x+x*A(x)"
+
+        self.assertEqual(
+            generating_function_coefficients(source, 8, symbol="A"),
+            tuple(Fraction(term) for term in (0, 1, 1, 1, 1, 1, 1, 1)),
+        )
+
     def test_noncontractive_or_nonassignment_equations_are_rejected(self):
         cases = {
             44: "left side to be a named series",
@@ -605,10 +623,16 @@ class GeneratingFunctionCoefficientTests(unittest.TestCase):
     def test_fixed_point_solver_rejects_ambiguous_and_malformed_systems(self):
         cases = {
             "A(x)=A(x)": "not contractive",
+            "A(x)=B(x), B(x)=A(x)": "zero-delay dependency graph.*A, B",
             "A(x)=B(x)": "B.*no defining equation",
             "A(x)=x, A(x)=x^2": "more than one defining equation",
             "A(x+1)=x": "left side to be a named series",
             "A(x)=A(x+1)": "constant coefficient 0",
+            "A(x)=1/_x": "negative powers",
+            "A(x)=x, B(x)=1/_x": "negative powers",
+            (
+                "A(x)=(_x/(1-_x))*(A(x)/(_x/(1-_x)))*(A(x)/(_x/(1-_x))-1)^2"
+            ): "division by a formal power series with nonzero constant term",
         }
         for source, message in cases.items():
             with (
@@ -655,6 +679,16 @@ class GeneratingFunctionCoefficientTests(unittest.TestCase):
                     generating_function_coefficients(value, 6),
                     tuple(Fraction(1, degree) if degree else Fraction() for degree in range(6)),
                 )
+
+    def test_power_exponents_do_not_supply_index_divisibility(self):
+        with self.assertRaisesRegex(
+            GeneratingFunctionEvaluationError,
+            "x degrees are all scaled by j\\[1\\]",
+        ):
+            generating_function_coefficients(
+                "Sum(_x^(2^j[1])*_x^j[1],j[1]=1..infinity)",
+                12,
+            )
 
     def test_alternate_infinite_sum_bounds(self):
         self.assertEqual(
