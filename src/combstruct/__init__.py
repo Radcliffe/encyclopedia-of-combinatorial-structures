@@ -1,8 +1,8 @@
 """Tools for working with Encyclopedia of Combinatorial Structures data.
 
 The public API parses Maple ``combstruct``-style specifications, computes exact
-sequence terms, and parses the finite elementary generating-function syntax in
-the ECS catalogue.
+sequence terms, and parses and expands the finite elementary generating-function
+syntax in the ECS catalogue.
 """
 
 from importlib.metadata import PackageNotFoundError as _PackageNotFoundError
@@ -19,6 +19,7 @@ from .catalog import (
 )
 from .generating_function import (
     GeneratingFunctionError,
+    GeneratingFunctionEvaluationError,
     GeneratingFunctionParser,
     GFBinary,
     GFExpression,
@@ -27,6 +28,7 @@ from .generating_function import (
     GFUnary,
     GFVariable,
     UnsupportedGeneratingFunction,
+    generating_function_coefficients,
     parse_generating_function,
 )
 from .specification import (
@@ -63,6 +65,7 @@ __all__ = [
     "GFUnary",
     "GFVariable",
     "GeneratingFunctionError",
+    "GeneratingFunctionEvaluationError",
     "GeneratingFunctionParser",
     "Parser",
     "Reference",
@@ -75,6 +78,7 @@ __all__ = [
     "__version__",
     "compute_terms",
     "default_dataset",
+    "generating_function_coefficients",
     "get_structure",
     "iter_structures",
     "load_record",

@@ -9,6 +9,7 @@ from combstruct import (
     Cardinality,
     Catalog,
     Constructor,
+    GeneratingFunctionEvaluationError,
     GeneratingFunctionParser,
     GFBinary,
     GFFunction,
@@ -22,6 +23,7 @@ from combstruct import (
     __version__,
     compute_terms,
     default_dataset,
+    generating_function_coefficients,
     get_structure,
     iter_structures,
     load_record,
@@ -47,6 +49,7 @@ class PublicApiTests(unittest.TestCase):
             "GFUnary",
             "GFVariable",
             "GeneratingFunctionError",
+            "GeneratingFunctionEvaluationError",
             "GeneratingFunctionParser",
             "Parser",
             "Reference",
@@ -59,6 +62,7 @@ class PublicApiTests(unittest.TestCase):
             "__version__",
             "compute_terms",
             "default_dataset",
+            "generating_function_coefficients",
             "get_structure",
             "iter_structures",
             "load_record",
@@ -85,6 +89,13 @@ class PublicApiTests(unittest.TestCase):
                 ),
             ),
         )
+
+    def test_generating_function_coefficients_are_available_from_package(self):
+        self.assertEqual(
+            generating_function_coefficients("1/(1-_x)", 5),
+            (1, 1, 1, 1, 1),
+        )
+        self.assertTrue(issubclass(GeneratingFunctionEvaluationError, ValueError))
 
     def test_legacy_term_module_exports_the_original_script_surface(self):
         expected = {
