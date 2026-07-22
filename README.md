@@ -82,6 +82,14 @@ The output will be in the `dist/` directory.
 ### Deployment
 
 This is a static website and can be deployed to any static hosting service, such as GitHub Pages, Netlify, or Vercel.
+
+### Changelog
+
+Production changes are recorded in [`CHANGELOG.md`](CHANGELOG.md). Every change intended
+for the `prod` branch should add an entry under **Unreleased**. When `prod` is deployed,
+move those entries into a dated section and retain the empty **Unreleased** section for
+future changes.
+
 ## Result format
 
 *Adapted from the [original ECS documentation](https://web.archive.org/web/19991010004232/http://algo.inria.fr/encyclopedia/).*
