@@ -184,18 +184,20 @@ The supported grammar consists of:
   `_Z` scoped to that equation;
 - indexed `Sum(expression,j[k]=1..infinity)` forms, including
   `numtheory:-phi(j[k])`;
+- alternate `Sum_{j=m..inf} expression` and `Sum_{j>m} expression` forms,
+  including `phi(j)`;
 - the one-argument `Complex(expression)` form used by the catalogue; and
 - the variable spelling `x`, the function alias `log`, and named formal-series
   calls such as `A(x^2)` inside implicit equations, including comma-separated
   systems.
 
-The parser covers 1,023 of the 1,028 nonempty generating-function fields in the
+The parser covers 1,025 of the 1,028 nonempty generating-function fields in the
 bundled catalogue: all 913 finite elementary forms, all 19 `LambertW` forms,
-all 39 unselected `RootOf` forms, all 45 indexed infinite-sum forms, and the one
-`Complex` form, plus the five homogeneous implicit equations in ECS 1, 43, 45,
-89, and 91 and the three-equation system in ECS 118. It explicitly rejects the
-other five fields, whose notation uses a symbolic product, ellipses, or
-alternate sum ranges.
+all 39 unselected `RootOf` forms, all 45 Maple-form indexed infinite sums, and
+the one `Complex` form, plus seven individual implicit equations in ECS 1, 43,
+45, 79, 89, 91, and 95 and the three-equation system in ECS 118. It explicitly
+rejects only ECS 44, 56, and 57, whose notation uses a symbolic product or
+ellipses.
 
 `GeneratingFunctionParser(source)` is the stateful parser used by the function
 API. Malformed input raises `GeneratingFunctionError`. Valid ECS forms outside
@@ -213,10 +215,12 @@ while `GFVariable("_Z")` represents the root-local variable.
 becomes `GFFunction("ln", argument)`.
 `GFRootOf(equation)` stores an unselected root equation whose local variable is
 `GFVariable("_Z")`. `GFIndex(level)` stores `j[level]`, `GFTotient(index)`
-stores `numtheory:-phi(index)`, and `GFInfiniteSum(summand, index)` stores an
-indexed sum from one through infinity. `GFComplex(value)` stores a one-argument
-Maple complex constructor. `GFExpression` is the union of these eleven immutable
-expression-node types. `GFEquation(left, right)` stores one implicit equality,
+stores either totient spelling, and
+`GFInfiniteSum(summand, index, lower_bound=1)` stores an indexed sum through
+infinity. Alternate unindexed `j` is normalized to `GFIndex(1)`.
+`GFComplex(value)` stores a one-argument Maple complex constructor.
+`GFExpression` is the union of these eleven immutable expression-node types.
+`GFEquation(left, right)` stores one implicit equality,
 `GFEquationSystem(equations)` stores an ordered tuple of equations, and
 `GFParseResult` is the union of `GFExpression`, `GFEquation`, and
 `GFEquationSystem`. Sum indices are lexically scoped within each equation: a
@@ -241,6 +245,11 @@ indexed_sum = parse_generating_function(
 assert isinstance(indexed_sum, GFInfiniteSum)
 assert indexed_sum.index.level == 1
 assert isinstance(indexed_sum.summand.left.left, GFTotient)
+
+later_sum = parse_generating_function("Sum_{j>2} x^j/j")
+
+assert isinstance(later_sum, GFInfiniteSum)
+assert later_sum.lower_bound == 3
 ```
 
 ```python
@@ -363,9 +372,9 @@ normalization produces its stored terms `1, 6, 42, 336, ...`. ECS 69 uses the
 recognized center `c=-1/2`; exact expansion reproduces all 21 of its stored EGF
 terms. The 51 non-evaluable fields consist of 39 parsed `RootOf` fields without
 a branch selector, the one `Complex` field requiring complex formal-series
-arithmetic, six parsed implicit-equation records requiring a named-series solver
-(five individual equations and the system in ECS 118), and five fields outside
-the parser grammar.
+arithmetic, eight parsed implicit-equation records requiring a named-series
+solver (seven individual equations and the system in ECS 118), and three fields
+outside the parser grammar.
 
 Maple documents unselected `RootOf` as representing unspecified roots and uses
 explicit selectors to identify one root. Because the ECS strings do not contain
@@ -378,11 +387,12 @@ and
 
 Coefficient evaluation of `GFInfiniteSum` requires a proof that its summand has
 constant coefficient zero and every occurrence of `_x` is scaled by the bound
-index. Coefficient `n` can then receive contributions only from indices that
-divide `n`, so the infinite range reduces to a finite exact sum. Nested sums
-also account for the proven product of their outer index scales. All 45 parsed
-indexed-sum records meet this contract. A sum that does not meet it raises
-`GeneratingFunctionEvaluationError` rather than being silently truncated.
+index. Coefficient `n` can then receive contributions only from indices at or
+above `lower_bound` that divide `n`, so the infinite range reduces to a finite
+exact sum. Nested sums also account for the proven product of their outer index
+scales. All 45 exactly evaluable catalogue indexed-sum records meet this
+contract. A sum that does not meet it raises `GeneratingFunctionEvaluationError`
+rather than being silently truncated.
 
 `GFComplex` coefficient evaluation also raises
 `GeneratingFunctionEvaluationError` until exact complex formal-series

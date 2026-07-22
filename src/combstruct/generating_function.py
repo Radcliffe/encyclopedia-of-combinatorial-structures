@@ -1,13 +1,13 @@
 """Parse and expand finite ECS generating functions exactly.
 
 The parser recognizes the finite elementary grammar, principal ``LambertW``
-calls, unselected ``RootOf`` equations, indexed infinite sums, and the
-one-argument ``Complex`` constructor used by stored ECS generating functions,
-plus a bounded implicit-equation and equation-system grammar. The remaining
-heterogeneous fields are rejected clearly for later parser milestones. The
-series evaluator uses exact rational arithmetic and expands principal
-``LambertW`` compositions at zero or recognized rational centers, plus indexed
-sums whose requested coefficients have a provable bound.
+calls, unselected ``RootOf`` equations, both indexed infinite-sum notations, and
+the one-argument ``Complex`` constructor used by stored ECS generating
+functions, plus a bounded implicit-equation and equation-system grammar. The
+remaining heterogeneous fields are rejected clearly for later parser
+milestones. The series evaluator uses exact rational arithmetic and expands
+principal ``LambertW`` compositions at zero or recognized rational centers,
+plus indexed sums whose requested coefficients have a provable bound.
 Unselected roots and complex series remain explicit evaluation boundaries; the
 evaluator never guesses a branch or truncation.
 """
@@ -102,7 +102,7 @@ class GFComplex:
 
 @dataclass(frozen=True, slots=True)
 class GFIndex:
-    """A Maple indexed summation variable such as ``j[1]``."""
+    """A summation variable such as ``j[1]`` or normalized unindexed ``j``."""
 
     level: int
 
@@ -116,10 +116,11 @@ class GFTotient:
 
 @dataclass(frozen=True, slots=True)
 class GFInfiniteSum:
-    """A sum over one indexed variable from one through infinity."""
+    """A sum over one indexed variable from a positive bound through infinity."""
 
     summand: GFExpression
     index: GFIndex
+    lower_bound: int = 1
 
 
 @dataclass(frozen=True, slots=True)
@@ -175,6 +176,7 @@ class GeneratingFunctionParser:
         self.tokens = self._tokenize(source)
         self.position = 0
         self.root_depth = 0
+        self.unindexed_sum_depth = 0
 
     @staticmethod
     def _tokenize(source: str) -> list[str]:
@@ -258,7 +260,7 @@ class GeneratingFunctionParser:
                 raise self._error("Root variable '_Z' is only valid inside RootOf")
             return GFVariable("_Z")
         if token == "j":
-            return self._parse_index_suffix()
+            return self._parse_index_reference()
         if token in {"+", "-"}:
             return GFUnary(
                 cast(UnaryOperator, token),
@@ -295,7 +297,13 @@ class GeneratingFunctionParser:
         if token == "numtheory:-phi":
             self._expect("(")
             self._expect("j")
-            index = self._parse_index_suffix()
+            index = self._parse_index_reference()
+            self._expect(")")
+            return GFTotient(index)
+        if token == "phi":
+            self._expect("(")
+            self._expect("j")
+            index = self._parse_index_reference()
             self._expect(")")
             return GFTotient(index)
         if token == "Sum":
@@ -311,6 +319,8 @@ class GeneratingFunctionParser:
             self._expect("infinity")
             self._expect(")")
             return GFInfiniteSum(summand, index)
+        if token == "Sum_":
+            return self._parse_alternate_sum()
         if IDENTIFIER_RE.fullmatch(token):
             if self._peek() == "(":
                 self.position += 1
@@ -329,6 +339,42 @@ class GeneratingFunctionParser:
             raise self._error(f"Expected a positive summation-index level, found {token!r}")
         self._expect("]")
         return GFIndex(int(token))
+
+    def _parse_index_reference(self) -> GFIndex:
+        if self._peek() == "[":
+            return self._parse_index_suffix()
+        if self.unindexed_sum_depth:
+            return GFIndex(1)
+        raise self._error("Unindexed summation variable 'j' is not bound by a Sum")
+
+    def _parse_alternate_sum(self) -> GFInfiniteSum:
+        self._expect("{")
+        self._expect("j")
+        relation = self._take()
+        bound_token = self._take()
+        if not bound_token.isdigit():
+            raise self._error(f"Expected an integer sum bound, found {bound_token!r}")
+        bound = int(bound_token)
+        if relation == "=":
+            if bound < 1:
+                raise self._error("An infinite sum lower bound must be positive")
+            self._expect(".")
+            self._expect(".")
+            infinity = self._take()
+            if infinity not in {"inf", "infinity"}:
+                raise self._error(f"Expected infinity, found {infinity!r}")
+            lower_bound = bound
+        elif relation == ">":
+            lower_bound = bound + 1
+        else:
+            raise self._error(f"Expected '=' or '>' in a sum bound, found {relation!r}")
+        self._expect("}")
+        self.unindexed_sum_depth += 1
+        try:
+            summand = self._parse_expression(11)
+        finally:
+            self.unindexed_sum_depth -= 1
+        return GFInfiniteSum(summand, GFIndex(1), lower_bound)
 
     def _validate_indices(
         self,
@@ -1083,6 +1129,7 @@ def _infinite_sum(
             (
                 summand(index).coefficient(degree)
                 for index in _positive_divisors(degree // outer_scale)
+                if index >= expression.lower_bound
             ),
             Fraction(),
         )

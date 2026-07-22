@@ -147,6 +147,7 @@ def _substitute_variable(expression: GFExpression, exponent: int) -> GFExpressio
         return GFInfiniteSum(
             _substitute_variable(expression.summand, exponent),
             expression.index,
+            expression.lower_bound,
         )
     return GFBinary(
         expression.operator,

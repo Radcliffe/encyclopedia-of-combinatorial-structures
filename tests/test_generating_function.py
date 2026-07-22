@@ -124,6 +124,36 @@ class GeneratingFunctionParserTests(unittest.TestCase):
             ),
         )
 
+    def test_alternate_indexed_sum_notation(self):
+        index = GFIndex(1)
+        first = GFInfiniteSum(
+            GFBinary(
+                "/",
+                GFBinary(
+                    "*",
+                    GFTotient(index),
+                    GFBinary("^", GFVariable(), index),
+                ),
+                index,
+            ),
+            index,
+        )
+        later = GFInfiniteSum(
+            GFBinary("/", GFBinary("^", GFVariable(), index), index),
+            index,
+            3,
+        )
+
+        self.assertEqual(
+            parse_generating_function("Sum_{j=1..inf} phi(j)*x^j/j"),
+            first,
+        )
+        self.assertEqual(parse_generating_function("Sum_{j>2} x^j/j"), later)
+        self.assertEqual(
+            parse_generating_function("Sum_{j>2} x^j/j + 1"),
+            GFBinary("+", later, GFInteger(1)),
+        )
+
     def test_one_argument_complex_constructor(self):
         self.assertEqual(
             parse_generating_function("Complex(-1/2)"),
@@ -181,9 +211,12 @@ class GeneratingFunctionParserTests(unittest.TestCase):
     def test_summation_indices_are_lexically_scoped(self):
         cases = {
             "j[1]": "not bound",
+            "j": "not bound",
+            "phi(j)": "not bound",
             "Sum(_x^j[1],j[2]=1..infinity)": "j\\[1\\].*not bound",
             "Sum(Sum(_x^j[1],j[1]=1..infinity),j[1]=1..infinity)": "rebind",
             "Sum(_x^j[1],j[1]=2..infinity)": "Expected '1'",
+            "Sum_{j=0..inf} x^j": "lower bound must be positive",
         }
         for source, message in cases.items():
             with (
@@ -246,10 +279,10 @@ class GeneratingFunctionParserTests(unittest.TestCase):
                 elif isinstance(result, GFEquationSystem):
                     systems.append(structure.id)
 
-        self.assertEqual(len(supported), 1023)
-        self.assertEqual(equations, [1, 43, 45, 89, 91])
+        self.assertEqual(len(supported), 1025)
+        self.assertEqual(equations, [1, 43, 45, 79, 89, 91, 95])
         self.assertEqual(systems, [118])
-        self.assertEqual(unsupported, [44, 56, 57, 79, 95])
+        self.assertEqual(unsupported, [44, 56, 57])
         self.assertEqual(len(supported) + len(unsupported), 1028)
 
 
@@ -443,6 +476,25 @@ class GeneratingFunctionCoefficientTests(unittest.TestCase):
                     tuple(Fraction(1, degree) if degree else Fraction() for degree in range(6)),
                 )
 
+    def test_alternate_infinite_sum_bounds(self):
+        self.assertEqual(
+            generating_function_coefficients("Sum_{j>2} x^j/j", 8),
+            tuple(Fraction(1, degree) if degree >= 3 else Fraction() for degree in range(8)),
+        )
+        self.assertEqual(
+            generating_function_coefficients("Sum_{j=1..inf} phi(j)*x^j/j", 8),
+            (
+                Fraction(0),
+                Fraction(1),
+                Fraction(1, 2),
+                Fraction(2, 3),
+                Fraction(1, 2),
+                Fraction(4, 5),
+                Fraction(1, 3),
+                Fraction(6, 7),
+            ),
+        )
+
     def test_totient_and_nested_infinite_sums(self):
         self.assertEqual(
             generating_function_coefficients(
@@ -581,7 +633,7 @@ class GeneratingFunctionCoefficientTests(unittest.TestCase):
         self.assertEqual(len(exponential), 429)
         self.assertEqual(len(ordinary) + len(exponential), 977)
         self.assertEqual(complex_forms, [47])
-        self.assertEqual(implicit_equations, [1, 43, 45, 89, 91])
+        self.assertEqual(implicit_equations, [1, 43, 45, 79, 89, 91, 95])
         self.assertEqual(implicit_systems, [118])
         self.assertEqual(len(infinite_sums), 45)
         self.assertEqual(len(unselected_roots), 39)
