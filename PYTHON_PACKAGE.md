@@ -158,7 +158,7 @@ unlabelled cycles, and seven power sets.
 ## Parsing and expanding a stored generating function
 
 `parse_generating_function` parses the supported Maple expressions and bounded
-implicit-equation and equation-system syntax found in 1,023 ECS records:
+implicit-equation and equation-system syntax found in 1,025 ECS records:
 
 ```python
 from combstruct import GFBinary, GFInteger, GFVariable, parse_generating_function
@@ -177,12 +177,14 @@ assert expression.right == GFBinary(
 
 The grammar supports integers, `_x`, parentheses, unary signs, the five
 arithmetic operators `+`, `-`, `*`, `/`, and `^`, plus `exp`, `ln`, `LambertW`,
-`RootOf`, `Sum`, and one-argument `Complex` calls. Indexed sums have the ECS form
-`Sum(expression,j[k]=1..infinity)` and may use `numtheory:-phi(j[k])`. Power is
-right-associative and binds more tightly than unary signs, matching the stored
-Maple expressions. In an implicit equation, `x` is accepted as an alias for
-`_x`, `log` is normalized to `ln`, and named series calls such as `A(x^2)` are
-preserved. The immutable expression AST uses `GFInteger`, `GFVariable`,
+`RootOf`, `Sum`, and one-argument `Complex` calls. Indexed sums have either the
+Maple form `Sum(expression,j[k]=1..infinity)`, which may use
+`numtheory:-phi(j[k])`, or the alternate forms `Sum_{j=m..inf} expression` and
+`Sum_{j>m} expression`, which may use `phi(j)`. Alternate unindexed `j` becomes
+`GFIndex(1)`. Power is right-associative and binds more tightly than unary signs,
+matching the stored Maple expressions. In an implicit equation, `x` is accepted
+as an alias for `_x`, `log` is normalized to `ln`, and named series calls such
+as `A(x^2)` are preserved. The immutable expression AST uses `GFInteger`, `GFVariable`,
 `GFUnary`, `GFBinary`, `GFFunction`, `GFSeriesCall`, `GFRootOf`, `GFIndex`,
 `GFTotient`, `GFInfiniteSum`, and `GFComplex`; `GFEquation` stores an equality,
 `GFEquationSystem` stores an ordered tuple of equations, and `GFParseResult` is
@@ -200,6 +202,11 @@ indexed_sum = parse_generating_function(
 
 assert isinstance(indexed_sum, GFInfiniteSum)
 assert indexed_sum.index.level == 1
+
+later_sum = parse_generating_function("Sum_{j>2} x^j/j")
+
+assert isinstance(later_sum, GFInfiniteSum)
+assert later_sum.lower_bound == 3
 ```
 
 ```python
@@ -304,11 +311,12 @@ the zero-centered or recognized-shift contract.
 
 The catalogue currently has 1,028 nonempty `gf` fields. The parser accepts all
 913 finite elementary expressions, all 19 `LambertW` expressions, all 39
-unselected `RootOf` expressions, all 45 indexed infinite-sum expressions, and
-the one `Complex` expression, plus five individual implicit equations and the
-three-equation system in ECS 118. It rejects the remaining five fields, whose
-notation uses a symbolic product, ellipses, or alternate sum ranges. Those forms
-raise `UnsupportedGeneratingFunction`; malformed input raises
+unselected `RootOf` expressions, all 45 Maple-form indexed infinite-sum
+expressions, and the one `Complex` expression, plus seven individual implicit
+equations—including the alternate indexed sums in ECS 79 and 95—and the
+three-equation system in ECS 118. It rejects only the remaining three fields,
+whose notation uses a symbolic product or ellipses. Those forms raise
+`UnsupportedGeneratingFunction`; malformed input raises
 `GeneratingFunctionError`.
 
 Maple defines an unselected `RootOf(expression)` as representing unspecified
@@ -322,10 +330,11 @@ and its
 
 Indexed infinite sums are expanded when the evaluator can prove that the
 summand has constant coefficient zero and every occurrence of `_x` is scaled by
-the bound index. A coefficient of degree `n` can then receive contributions
-only from positive divisors of `n`, giving an exact finite computation even for
-the catalogue's nested sums. All 45 parsed indexed-sum records meet this
-contract. An arbitrary sum for which either condition cannot be proved raises
+the bound index. A coefficient of degree `n` can then receive contributions only
+from positive divisors of `n` at or above the stored lower bound, giving an exact
+finite computation even for the catalogue's nested sums. All 45 exactly
+evaluable catalogue indexed-sum records meet this contract. An arbitrary sum
+for which either condition cannot be proved raises
 `GeneratingFunctionEvaluationError` instead of being silently truncated.
 
 The `GFComplex` node likewise preserves the exact Maple constructor but remains
@@ -342,9 +351,9 @@ ambiguous or inconsistent record in this subset. ECS 265, cited in
 does match EGF semantics: its raw coefficients begin `1, 6, 21, 56`, and
 multiplication by `n!` gives the stored terms `1, 6, 42, 336`. ECS 69 uses the
 shifted center `c=-1/2`; its exact coefficients reproduce all 21 stored EGF
-terms. The 39 unselected `RootOf` fields, the one complex expression, five
+terms. The 39 unselected `RootOf` fields, the one complex expression, seven
 parsed individual implicit equations, the parsed equation system in ECS 118,
-and five parser exclusions are the 51 fields still requiring separate exact
+and three parser exclusions are the 51 fields still requiring separate exact
 verification. Implicit equations, equation systems, and standalone named-series
 calls preserve the source syntax, but coefficient expansion raises
 `GeneratingFunctionEvaluationError` until a named-series solver is available.

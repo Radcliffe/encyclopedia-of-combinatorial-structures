@@ -183,6 +183,14 @@ class PublicApiTests(unittest.TestCase):
             ),
         )
 
+    def test_alternate_infinite_sum_syntax_is_available_from_package(self):
+        expression = parse_generating_function("Sum_{j>2} x^j/j")
+
+        self.assertIsInstance(expression, combstruct.GFInfiniteSum)
+        assert isinstance(expression, combstruct.GFInfiniteSum)
+        self.assertEqual(expression.index, combstruct.GFIndex(1))
+        self.assertEqual(expression.lower_bound, 3)
+
     def test_generating_function_derivation_is_available_from_package(self):
         expression = derive_generating_function("{S = Sequence(Z)}", labelled=False)
 
