@@ -1,12 +1,12 @@
 """Parse and expand finite ECS generating functions exactly.
 
-The parser recognizes the finite elementary grammar and principal ``LambertW``
-calls used by 932 stored ECS generating functions. Equations, infinite sums,
-algebraic ``RootOf`` values, and explicit complex values are rejected clearly
-for later parser milestones. The series evaluator uses exact rational
+The parser recognizes the finite elementary grammar, principal ``LambertW``
+calls, and unselected ``RootOf`` equations used by 971 stored ECS generating
+functions. Equations, infinite sums, and explicit complex values are rejected
+clearly for later parser milestones. The series evaluator uses exact rational
 arithmetic and expands ``LambertW`` compositions whose argument has constant
-term zero; it deliberately returns coefficients without deciding whether they
-represent an ordinary or exponential generating function.
+term zero. An unselected ``RootOf`` remains an explicit evaluation boundary;
+the evaluator never guesses its branch from catalogue terms.
 """
 
 from __future__ import annotations
@@ -44,9 +44,9 @@ class GFInteger:
 
 @dataclass(frozen=True, slots=True)
 class GFVariable:
-    """The Maple variable used by finite ECS generating functions."""
+    """The generating variable or Maple-local ``RootOf`` variable."""
 
-    name: Literal["_x"] = "_x"
+    name: Literal["_x", "_Z"] = "_x"
 
 
 @dataclass(frozen=True, slots=True)
@@ -74,7 +74,14 @@ class GFFunction:
     argument: GFExpression
 
 
-type GFExpression = GFInteger | GFVariable | GFUnary | GFBinary | GFFunction
+@dataclass(frozen=True, slots=True)
+class GFRootOf:
+    """An unselected Maple ``RootOf`` equation in its local ``_Z`` variable."""
+
+    equation: GFExpression
+
+
+type GFExpression = GFInteger | GFVariable | GFUnary | GFBinary | GFFunction | GFRootOf
 
 
 TOKEN_RE = re.compile(r"\s*(\d+|[A-Za-z_][A-Za-z0-9_]*|[()+\-*/^]|\S)")
@@ -96,6 +103,7 @@ class GeneratingFunctionParser:
         self.source = source
         self.tokens = self._tokenize(source)
         self.position = 0
+        self.root_depth = 0
 
     @staticmethod
     def _tokenize(source: str) -> list[str]:
@@ -145,6 +153,10 @@ class GeneratingFunctionParser:
             return GFInteger(int(token))
         if token == "_x":
             return GFVariable()
+        if token == "_Z":
+            if self.root_depth == 0:
+                raise self._error("Root variable '_Z' is only valid inside RootOf")
+            return GFVariable("_Z")
         if token in {"+", "-"}:
             return GFUnary(
                 cast(UnaryOperator, token),
@@ -159,6 +171,15 @@ class GeneratingFunctionParser:
             argument = self._parse_expression()
             self._expect(")")
             return GFFunction(cast(FunctionName, token), argument)
+        if token == "RootOf":
+            self._expect("(")
+            self.root_depth += 1
+            try:
+                equation = self._parse_expression()
+            finally:
+                self.root_depth -= 1
+            self._expect(")")
+            return GFRootOf(equation)
         if IDENTIFIER_RE.fullmatch(token):
             raise UnsupportedGeneratingFunction(
                 f"Generating-function identifier {token!r} is not supported",
@@ -512,6 +533,10 @@ def _evaluate_series(expression: GFExpression) -> _FormalSeries:
     if isinstance(expression, GFInteger):
         return _constant_series(expression.value)
     if isinstance(expression, GFVariable):
+        if expression.name == "_Z":
+            raise GeneratingFunctionEvaluationError(
+                "Root variable '_Z' can only be evaluated through a selected RootOf branch",
+            )
         return _FormalSeries(
             1,
             lambda degree: Fraction(1) if degree == 1 else Fraction(),
@@ -526,6 +551,11 @@ def _evaluate_series(expression: GFExpression) -> _FormalSeries:
         if expression.name == "ln":
             return _logarithm(argument)
         return _lambert_w(argument)
+    if isinstance(expression, GFRootOf):
+        raise GeneratingFunctionEvaluationError(
+            "RootOf has no branch selector; exact coefficient expansion requires "
+            "an explicit formal-series branch",
+        )
     if expression.operator == "^":
         return _rational_power(
             _evaluate_series(expression.left),
@@ -566,7 +596,7 @@ def generating_function_coefficients(
     expression = parse_generating_function(source) if isinstance(source, str) else source
     if not isinstance(
         expression,
-        (GFInteger, GFVariable, GFUnary, GFBinary, GFFunction),
+        (GFInteger, GFVariable, GFUnary, GFBinary, GFFunction, GFRootOf),
     ):
         raise TypeError("source must be generating-function text or a GFExpression")
 
@@ -583,6 +613,7 @@ __all__ = [
     "GFExpression",
     "GFFunction",
     "GFInteger",
+    "GFRootOf",
     "GFUnary",
     "GFVariable",
     "GeneratingFunctionError",

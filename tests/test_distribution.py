@@ -14,6 +14,7 @@ from combstruct import (
     GFBinary,
     GFFunction,
     GFInteger,
+    GFRootOf,
     GFVariable,
     Parser,
     Reference,
@@ -48,6 +49,7 @@ class PublicApiTests(unittest.TestCase):
             "GFExpression",
             "GFFunction",
             "GFInteger",
+            "GFRootOf",
             "GFUnary",
             "GFVariable",
             "GeneratingFunctionError",
@@ -100,6 +102,14 @@ class PublicApiTests(unittest.TestCase):
             (1, 1, 1, 1, 1),
         )
         self.assertTrue(issubclass(GeneratingFunctionEvaluationError, ValueError))
+
+    def test_rootof_syntax_tree_is_available_from_package(self):
+        expression = parse_generating_function("RootOf(_Z-_x)")
+
+        self.assertEqual(
+            expression,
+            GFRootOf(GFBinary("-", GFVariable("_Z"), GFVariable())),
+        )
 
     def test_generating_function_derivation_is_available_from_package(self):
         expression = derive_generating_function("{S = Sequence(Z)}", labelled=False)
