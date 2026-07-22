@@ -132,6 +132,23 @@ class PublicApiTests(unittest.TestCase):
             ),
             (Fraction(0), Fraction(1), Fraction(1, 2), Fraction(2, 3), Fraction(13, 12)),
         )
+        self.assertEqual(
+            generating_function_coefficients(
+                "A(x)=x+(A(x)^2+A(x^2))/2",
+                8,
+            ),
+            (0, 1, 1, 1, 2, 3, 6, 11),
+        )
+        system = get_structure(118)
+        self.assertIsNotNone(system.generating_function)
+        self.assertEqual(
+            generating_function_coefficients(
+                system.generating_function,
+                8,
+                symbol=system.symbol,
+            ),
+            system.terms[:8],
+        )
         self.assertTrue(issubclass(GeneratingFunctionEvaluationError, ValueError))
 
     def test_rootof_syntax_tree_is_available_from_package(self):

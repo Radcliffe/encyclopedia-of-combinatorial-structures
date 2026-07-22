@@ -19,7 +19,8 @@ development version parses every stored generating function, including finite
 elementary, `LambertW`, unselected `RootOf`, indexed infinite-sum, symbolic
 infinite-product, indexed-coefficient, patterned-ellipsis, and one-argument
 `Complex` forms. It exactly expands principal `LambertW` compositions at zero
-or recognized rational centers, plus coefficientwise-finite indexed sums.
+or recognized rational centers, coefficientwise-finite indexed sums, and
+coefficientwise-convergent named-series equations.
 It also derives finite
 generating-function expressions from acyclic specifications and closed rational
 or square-root expressions for a first class of recursive systems. Extending
@@ -336,6 +337,29 @@ branch point `c=-1` and centers below it are rejected rather than assigned an
 ambiguous or singular expansion. All 19 parsed catalogue `LambertW` fields meet
 the zero-centered or recognized-shift contract.
 
+Named-series assignments are also expanded when exact simultaneous fixed-point
+iteration stabilizes every requested coefficient. The solver selects the
+combinatorial branch reached from zero series and checks it against an
+independent positive-degree starting probe. Named-series composition requires a
+zero-constant argument. Pass `symbol` to choose the result from an equation
+system:
+
+```python
+coefficients = generating_function_coefficients(
+    "A(x)=x+(A(x)^2+A(x^2))/2",
+    10,
+)
+
+assert coefficients == (0, 1, 1, 1, 2, 3, 6, 11, 23, 46)
+```
+
+This solves ECS 1, 43, 45, 56, and 57, plus all three assignments in ECS 118;
+`symbol="S"` selects the catalogue series from that system. ECS 79 and 91 have
+same-degree feedback, ECS 89 is not an assignment, ECS 44 needs a symbolic
+product solver, and ECS 95 fails the finite-sum condition at its implied
+constant term. These cases raise `GeneratingFunctionEvaluationError` instead
+of returning an unproved branch.
+
 The catalogue currently has 1,028 nonempty `gf` fields, and the parser accepts
 all of them: all 913 finite elementary expressions, all 19 `LambertW`
 expressions, all 39
@@ -373,20 +397,19 @@ see the official [`Complex` constructor documentation](https://www.maplesoft.com
 
 The evaluator deliberately returns coefficients rather than silently deciding
 whether an expression is an OGF or EGF. Exhaustive tests compare every stored
-term for 977 exactly evaluable records under both interpretations: 548
+term for 983 exactly evaluable records under both interpretations: 554
 unlabelled records match as OGFs and 429 labelled records match as EGFs, with no
 ambiguous or inconsistent record in this subset. ECS 265, cited in
 [archived ECS issue #2](https://github.com/Radcliffe/encyclopedia-of-combinatorial-structures/blob/main/docs/codeberg-archive.md#issue-2-distinguish-between-ordinary-and-exponential-generating-functions),
 does match EGF semantics: its raw coefficients begin `1, 6, 21, 56`, and
 multiplication by `n!` gives the stored terms `1, 6, 42, 336`. ECS 69 uses the
 shifted center `c=-1/2`; its exact coefficients reproduce all 21 stored EGF
-terms. The 39 unselected `RootOf` fields, the one complex expression, ten parsed
-individual implicit equations, and the parsed equation system in ECS 118 are
-the 51 fields still requiring separate exact verification. Implicit
-equations, equation systems, symbolic products and indexed coefficients, and
-standalone named-series calls preserve the source syntax, but coefficient
-expansion raises `GeneratingFunctionEvaluationError` until the corresponding
-equation or formal-series solver is available.
+terms. The 45 fields still requiring separate exact verification are the 39
+unselected `RootOf` fields, the one complex expression, and the five stronger
+equations in ECS 44, 79, 89, 91, and 95. Their symbolic products, indexed
+coefficients, or unsupported feedback forms remain explicit syntax trees;
+coefficient expansion raises `GeneratingFunctionEvaluationError` rather than
+inventing missing branch semantics.
 
 ## Using the ECS catalogue
 
@@ -470,7 +493,8 @@ The packaging and first maintenance-tool adoption foundations are now in place:
   infinite-sum, symbolic-product, indexed-coefficient, patterned-ellipsis, and
   one-argument `Complex` forms, with exact coefficient evaluation for elementary
   expressions, principal `LambertW` compositions at zero or recognized rational
-  centers, and coefficientwise-finite indexed sums;
+  centers, coefficientwise-finite indexed sums, five contractive individual
+  named-series equations, and the three-series system in ECS 118;
 - read-only `python-tools` consumers use the public package, while source-data
   serializers and mutators retain their stricter raw-JSON boundary;
 - source and installed-wheel tests cover Python 3.12, 3.13, and 3.14; and
