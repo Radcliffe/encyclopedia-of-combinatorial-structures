@@ -5,7 +5,8 @@ sequence terms, derives finite generating functions and selected quadratic
 closed forms from specifications, and parses and exactly expands finite
 elementary and principal-at-zero ``LambertW`` generating functions in the ECS
 catalogue, including faithful syntax trees for unselected ``RootOf`` equations.
-Indexed infinite sums are parsed with lexical summation-variable scope.
+Indexed infinite sums are parsed with lexical summation-variable scope, and the
+catalogue's one-argument Maple ``Complex`` constructor is preserved explicitly.
 """
 
 from importlib.metadata import PackageNotFoundError as _PackageNotFoundError
@@ -29,6 +30,7 @@ from .generating_function import (
     GeneratingFunctionEvaluationError,
     GeneratingFunctionParser,
     GFBinary,
+    GFComplex,
     GFExpression,
     GFFunction,
     GFIndex,
@@ -70,6 +72,7 @@ __all__ = [
     "Constructor",
     "Expression",
     "GFBinary",
+    "GFComplex",
     "GFExpression",
     "GFFunction",
     "GFIndex",

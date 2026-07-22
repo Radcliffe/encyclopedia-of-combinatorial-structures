@@ -16,8 +16,9 @@ two things that the repository's existing Python tools already do:
 
 The distribution also contains the canonical ECS records. The current
 development version parses the finite elementary, `LambertW`, unselected
-`RootOf`, and indexed infinite-sum subset of stored generating functions and
-exactly expands principal `LambertW` compositions at zero. It also derives finite generating-function
+`RootOf`, indexed infinite-sum, and one-argument `Complex` subset of stored
+generating functions and exactly expands principal `LambertW` compositions at
+zero. It also derives finite generating-function
 expressions from acyclic specifications and closed rational or square-root
 expressions for a first class of recursive systems. Extending that work to more
 general recursive systems and infinite cycle-index forms, parsing the remaining
@@ -155,7 +156,7 @@ unlabelled cycles, and seven power sets.
 ## Parsing and expanding a stored generating function
 
 `parse_generating_function` parses the supported Maple expressions found in
-1,016 ECS records:
+1,017 ECS records:
 
 ```python
 from combstruct import GFBinary, GFInteger, GFVariable, parse_generating_function
@@ -174,14 +175,15 @@ assert expression.right == GFBinary(
 
 The grammar supports integers, `_x`, parentheses, unary signs, the five
 arithmetic operators `+`, `-`, `*`, `/`, and `^`, plus `exp`, `ln`, `LambertW`,
-`RootOf`, and `Sum` calls. Indexed sums have the ECS form
+`RootOf`, `Sum`, and one-argument `Complex` calls. Indexed sums have the ECS form
 `Sum(expression,j[k]=1..infinity)` and may use `numtheory:-phi(j[k])`. Power is
 right-associative and binds more tightly than unary signs, matching the stored
 Maple expressions. The immutable AST uses `GFInteger`, `GFVariable`, `GFUnary`,
-`GFBinary`, `GFFunction`, `GFRootOf`, `GFIndex`, `GFTotient`, and
-`GFInfiniteSum`. The Maple-local root variable `_Z` is valid only inside
+`GFBinary`, `GFFunction`, `GFRootOf`, `GFIndex`, `GFTotient`, `GFInfiniteSum`,
+and `GFComplex`. The Maple-local root variable `_Z` is valid only inside
 `RootOf`. A `j[k]` index is valid only in the sum that binds it or a nested sum;
-rebinding the same index level in a nested sum is rejected.
+rebinding the same index level in a nested sum is rejected. Maple's
+one-argument `Complex(value)` represents the purely imaginary value `I*value`.
 
 ```python
 from combstruct import GFInfiniteSum, parse_generating_function
@@ -192,6 +194,14 @@ indexed_sum = parse_generating_function(
 
 assert isinstance(indexed_sum, GFInfiniteSum)
 assert indexed_sum.index.level == 1
+```
+
+```python
+from combstruct import GFComplex, parse_generating_function
+
+complex_value = parse_generating_function("Complex(-1/2)")
+
+assert isinstance(complex_value, GFComplex)
 ```
 
 `generating_function_coefficients` expands either source text or an already
@@ -226,10 +236,10 @@ coefficients use
 
 The catalogue currently has 1,028 nonempty `gf` fields. The parser accepts all
 913 finite elementary expressions, all 19 `LambertW` expressions, all 39
-unselected `RootOf` expressions, and all 45 indexed infinite-sum expressions.
-It rejects the remaining 12 fields: 11 equations and one explicit `Complex`
-form. Those forms raise `UnsupportedGeneratingFunction`; malformed input raises
-`GeneratingFunctionError`.
+unselected `RootOf` expressions, all 45 indexed infinite-sum expressions, and
+the one `Complex` expression. It rejects the remaining 11 heterogeneous
+equation or prose fields. Those forms raise `UnsupportedGeneratingFunction`;
+malformed input raises `GeneratingFunctionError`.
 
 Maple defines an unselected `RootOf(expression)` as representing unspecified
 roots; a particular root requires a selector. The ECS `RootOf` strings contain
@@ -246,6 +256,11 @@ finite truncation bound is proved for these forms,
 `generating_function_coefficients` raises
 `GeneratingFunctionEvaluationError` with an infinite-sum-specific message.
 
+The `GFComplex` node likewise preserves the exact Maple constructor but remains
+an explicit coefficient-evaluation boundary until complex formal-series
+arithmetic is implemented. Maple documents one-argument `Complex(x)` as `I*x`;
+see the official [`Complex` constructor documentation](https://www.maplesoft.com/support/help/Maple/view.aspx?path=complex).
+
 The evaluator deliberately returns coefficients rather than silently deciding
 whether an expression is an OGF or EGF. Exhaustive tests compare every stored
 term for 931 exactly evaluable records under both interpretations: 503
@@ -257,8 +272,8 @@ multiplication by `n!` gives the stored terms `1, 6, 42, 336`. ECS 69 is parsed
 but its `LambertW` argument has a nonzero transcendental constant; exact
 expansion therefore raises `GeneratingFunctionEvaluationError` until a shifted
 branch representation is defined. Together with the 39 unselected `RootOf`
-fields, 45 indexed infinite sums, and 12 parser exclusions, it is one of 97
-fields still requiring separate exact verification.
+fields, 45 indexed infinite sums, the one complex expression, and 11 parser
+exclusions, it is one of 97 fields still requiring separate exact verification.
 
 ## Using the ECS catalogue
 
@@ -337,10 +352,10 @@ The packaging and first maintenance-tool adoption foundations are now in place:
 - 888 specifications derive finite exact generating-function expressions,
   including 50 recursive rational or square-root closed forms, whose
   coefficients agree with the independent term evaluator;
-- finite elementary, `LambertW`, `RootOf`, and indexed infinite-sum generating
-  functions have a dedicated immutable AST and parser, with exact coefficient
-  evaluation for elementary expressions and principal `LambertW` compositions
-  at zero;
+- finite elementary, `LambertW`, `RootOf`, indexed infinite-sum, and
+  one-argument `Complex` generating functions have a dedicated immutable AST
+  and parser, with exact coefficient evaluation for elementary expressions and
+  principal `LambertW` compositions at zero;
 - read-only `python-tools` consumers use the public package, while source-data
   serializers and mutators retain their stricter raw-JSON boundary;
 - source and installed-wheel tests cover Python 3.12, 3.13, and 3.14; and
