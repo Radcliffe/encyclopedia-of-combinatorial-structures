@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { AnimatePresence, motion } from "framer-motion";
-import { ExternalLink, FileText, Info } from "lucide-react";
+import { ChartNoAxesColumn, ExternalLink, FileText, Info } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -15,9 +15,10 @@ SidePanel.propTypes = {
   onViewChange: PropTypes.func.isRequired,
   selected: PropTypes.object,
   onClearSelection: PropTypes.func.isRequired,
+  onOpenTerms: PropTypes.func.isRequired,
 };
 
-export function SidePanel({ view, onViewChange, selected, onClearSelection }) {
+export function SidePanel({ view, onViewChange, selected, onClearSelection, onOpenTerms }) {
   return (
     <Tabs value={view} onValueChange={onViewChange} className="w-full">
       <TabsList className="grid grid-cols-2 gap-2">
@@ -36,7 +37,11 @@ export function SidePanel({ view, onViewChange, selected, onClearSelection }) {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -6 }}
             >
-              <StructureDetails structure={selected} onClose={onClearSelection} />
+              <StructureDetails
+                structure={selected}
+                onClose={onClearSelection}
+                onOpenTerms={onOpenTerms}
+              />
             </motion.div>
           </AnimatePresence>
         )}
@@ -69,9 +74,10 @@ function EmptyDetails() {
 StructureDetails.propTypes = {
   structure: PropTypes.object.isRequired,
   onClose: PropTypes.func.isRequired,
+  onOpenTerms: PropTypes.func.isRequired,
 };
 
-function StructureDetails({ structure, onClose }) {
+function StructureDetails({ structure, onClose, onOpenTerms }) {
   return (
     <Card className="shadow-sm">
       <CardHeader className="pb-2">
@@ -144,7 +150,10 @@ function StructureDetails({ structure, onClose }) {
             <EmptyValue />
           )}
         </FieldRow>
-        <div className="pt-1">
+        <div className="flex flex-wrap gap-2 pt-1">
+          <Button onClick={onOpenTerms}>
+            <ChartNoAxesColumn className="h-4 w-4" /> Table and plots
+          </Button>
           <Button variant="secondary" onClick={onClose}>
             Close
           </Button>

@@ -5,6 +5,7 @@ import { AppFooter } from "@/components/ecs/AppFooter";
 import { AppHeader } from "@/components/ecs/AppHeader";
 import { SearchView } from "@/components/ecs/SearchView";
 import { SidePanel } from "@/components/ecs/SidePanel";
+import { TermsPage } from "@/components/ecs/TermsPage";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import {
   normalizeRecord,
@@ -30,6 +31,7 @@ export default function App() {
   const [sideView, setSideView] = useState("results");
   const [selected, setSelected] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
+  const isTermsPage = searchParams.get("page") === "terms";
 
   useEffect(() => {
     const structureNumber = searchParams.get("nbr");
@@ -114,13 +116,40 @@ export default function App() {
     setSideView("results");
     const next = new URLSearchParams(searchParams);
     next.set("nbr", String(item.id));
+    next.delete("page");
     setSearchParams(next);
+  }
+
+  function openTerms() {
+    if (!selected) return;
+    const next = new URLSearchParams(searchParams);
+    next.set("nbr", String(selected.id));
+    next.set("page", "terms");
+    setSearchParams(next);
+  }
+
+  function leaveTermsPage() {
+    const next = new URLSearchParams(searchParams);
+    next.delete("page");
+    setSearchParams(next);
+  }
+
+  function changeMainView(view) {
+    setMainView(view);
+    leaveTermsPage();
+  }
+
+  function showAbout() {
+    setSideView("about");
+    leaveTermsPage();
   }
 
   function clearSelection() {
     setSelected(null);
+    setSideView("results");
     const next = new URLSearchParams(searchParams);
     next.delete("nbr");
+    next.delete("page");
     setSearchParams(next);
   }
 
@@ -129,43 +158,48 @@ export default function App() {
       <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white text-slate-900">
         <AppHeader
           mainView={mainView}
-          onMainViewChange={setMainView}
-          onAbout={() => setSideView("about")}
+          onMainViewChange={changeMainView}
+          onAbout={showAbout}
           onReload={() => window.location.reload()}
         />
 
-        <main className="mx-auto max-w-6xl px-4 py-6">
-          <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
-            <div className="space-y-4 lg:col-span-2">
-              {mainView === "index" ? (
-                <AlphabeticalIndex
-                  items={items}
-                  loadState={loadState}
-                  selected={selected}
-                  onSelect={selectStructure}
-                />
-              ) : (
-                <SearchView
-                  datasetSize={items.length}
-                  filters={filters}
-                  items={filteredItems}
-                  loadState={loadState}
-                  onFilterChange={updateFilter}
-                  onSelect={selectStructure}
-                />
-              )}
-            </div>
+        {isTermsPage ? (
+          <TermsPage structure={selected} loadState={loadState} onBack={leaveTermsPage} />
+        ) : (
+          <main className="mx-auto max-w-6xl px-4 py-6">
+            <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+              <div className="space-y-4 lg:col-span-2">
+                {mainView === "index" ? (
+                  <AlphabeticalIndex
+                    items={items}
+                    loadState={loadState}
+                    selected={selected}
+                    onSelect={selectStructure}
+                  />
+                ) : (
+                  <SearchView
+                    datasetSize={items.length}
+                    filters={filters}
+                    items={filteredItems}
+                    loadState={loadState}
+                    onFilterChange={updateFilter}
+                    onSelect={selectStructure}
+                  />
+                )}
+              </div>
 
-            <div className="space-y-4 lg:col-span-1">
-              <SidePanel
-                view={sideView}
-                onViewChange={setSideView}
-                selected={selected}
-                onClearSelection={clearSelection}
-              />
+              <div className="space-y-4 lg:col-span-1">
+                <SidePanel
+                  view={sideView}
+                  onViewChange={setSideView}
+                  selected={selected}
+                  onClearSelection={clearSelection}
+                  onOpenTerms={openTerms}
+                />
+              </div>
             </div>
-          </div>
-        </main>
+          </main>
+        )}
 
         <AppFooter />
       </div>
