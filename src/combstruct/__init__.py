@@ -8,7 +8,8 @@ catalogue, including faithful syntax trees for named implicit equations and
 equation systems, plus unselected ``RootOf`` equations.
 Indexed infinite sums are parsed with lexical summation-variable scope and
 expanded when coefficientwise finiteness can be proved. The catalogue's
-one-argument Maple ``Complex`` constructor is preserved explicitly.
+symbolic infinite product, indexed coefficients, and one-argument Maple
+``Complex`` constructor are preserved explicitly.
 """
 
 from importlib.metadata import PackageNotFoundError as _PackageNotFoundError
@@ -38,6 +39,8 @@ from .generating_function import (
     GFExpression,
     GFFunction,
     GFIndex,
+    GFIndexedCoefficient,
+    GFInfiniteProduct,
     GFInfiniteSum,
     GFInteger,
     GFParseResult,
@@ -84,6 +87,8 @@ __all__ = [
     "GFExpression",
     "GFFunction",
     "GFIndex",
+    "GFIndexedCoefficient",
+    "GFInfiniteProduct",
     "GFInfiniteSum",
     "GFInteger",
     "GFParseResult",

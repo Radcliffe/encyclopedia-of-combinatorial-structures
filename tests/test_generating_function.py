@@ -14,6 +14,8 @@ from combstruct.generating_function import (
     GFEquationSystem,
     GFFunction,
     GFIndex,
+    GFIndexedCoefficient,
+    GFInfiniteProduct,
     GFInfiniteSum,
     GFInteger,
     GFRootOf,
@@ -154,6 +156,52 @@ class GeneratingFunctionParserTests(unittest.TestCase):
             GFBinary("+", later, GFInteger(1)),
         )
 
+    def test_symbolic_infinite_product_and_indexed_coefficients(self):
+        source = Catalog().get(44).generating_function
+        index = GFIndex(1)
+        coefficient = GFIndexedCoefficient("a", index)
+
+        self.assertIsNotNone(source)
+        assert source is not None
+        self.assertEqual(
+            parse_generating_function(source),
+            GFEquation(
+                GFInfiniteProduct(
+                    GFBinary(
+                        "/",
+                        GFInteger(1),
+                        GFBinary(
+                            "^",
+                            GFBinary(
+                                "-",
+                                GFInteger(1),
+                                GFBinary("^", GFVariable(), index),
+                            ),
+                            coefficient,
+                        ),
+                    ),
+                    index,
+                ),
+                GFBinary(
+                    "+",
+                    GFBinary("+", GFInteger(1), GFVariable()),
+                    GFBinary(
+                        "*",
+                        GFInteger(2),
+                        GFInfiniteSum(
+                            GFBinary(
+                                "*",
+                                coefficient,
+                                GFBinary("^", GFVariable(), index),
+                            ),
+                            index,
+                            2,
+                        ),
+                    ),
+                ),
+            ),
+        )
+
     def test_patterned_ellipsis_normalizes_to_an_infinite_sum(self):
         index = GFIndex(1)
         call = GFSeriesCall("A", GFBinary("^", GFVariable(), index))
@@ -251,6 +299,7 @@ class GeneratingFunctionParserTests(unittest.TestCase):
             "Sum(Sum(_x^j[1],j[1]=1..infinity),j[1]=1..infinity)": "rebind",
             "Sum(_x^j[1],j[1]=2..infinity)": "Expected '1'",
             "Sum_{j=0..inf} x^j": "lower bound must be positive",
+            "a_k": "not supported",
         }
         for source, message in cases.items():
             with (
@@ -258,6 +307,16 @@ class GeneratingFunctionParserTests(unittest.TestCase):
                 self.assertRaisesRegex(GeneratingFunctionError, message),
             ):
                 parse_generating_function(source)
+
+        mixed = parse_generating_function(
+            "Sum(Product_{k>0} x^(j[1]*k),j[1]=1..infinity)",
+        )
+        self.assertIsInstance(mixed, GFInfiniteSum)
+        assert isinstance(mixed, GFInfiniteSum)
+        self.assertIsInstance(mixed.summand, GFInfiniteProduct)
+        assert isinstance(mixed.summand, GFInfiniteProduct)
+        self.assertEqual(mixed.index, GFIndex(1))
+        self.assertEqual(mixed.summand.index, GFIndex(2))
 
     def test_ast_is_immutable(self):
         expression = GFInteger(1)
@@ -314,10 +373,10 @@ class GeneratingFunctionParserTests(unittest.TestCase):
                 elif isinstance(result, GFEquationSystem):
                     systems.append(structure.id)
 
-        self.assertEqual(len(supported), 1027)
-        self.assertEqual(equations, [1, 43, 45, 56, 57, 79, 89, 91, 95])
+        self.assertEqual(len(supported), 1028)
+        self.assertEqual(equations, [1, 43, 44, 45, 56, 57, 79, 89, 91, 95])
         self.assertEqual(systems, [118])
-        self.assertEqual(unsupported, [44])
+        self.assertEqual(unsupported, [])
         self.assertEqual(len(supported) + len(unsupported), 1028)
 
 
@@ -500,6 +559,21 @@ class GeneratingFunctionCoefficientTests(unittest.TestCase):
             ):
                 generating_function_coefficients(value, 6)
 
+    def test_symbolic_infinite_product_requires_an_equation_solver(self):
+        source = "Product_{k>0} 1/(1-x^k)^a_k"
+        expression = parse_generating_function(source)
+
+        self.assertIsInstance(expression, GFInfiniteProduct)
+        for value in (source, expression):
+            with (
+                self.subTest(value=value),
+                self.assertRaisesRegex(
+                    GeneratingFunctionEvaluationError,
+                    "symbolic-product solver",
+                ),
+            ):
+                generating_function_coefficients(value, 6)
+
     def test_coefficientwise_finite_infinite_sum(self):
         source = "Sum(_x^j[1]/j[1],j[1]=1..infinity)"
         expression = parse_generating_function(source)
@@ -668,7 +742,7 @@ class GeneratingFunctionCoefficientTests(unittest.TestCase):
         self.assertEqual(len(exponential), 429)
         self.assertEqual(len(ordinary) + len(exponential), 977)
         self.assertEqual(complex_forms, [47])
-        self.assertEqual(implicit_equations, [1, 43, 45, 56, 57, 79, 89, 91, 95])
+        self.assertEqual(implicit_equations, [1, 43, 44, 45, 56, 57, 79, 89, 91, 95])
         self.assertEqual(implicit_systems, [118])
         self.assertEqual(len(infinite_sums), 45)
         self.assertEqual(len(unselected_roots), 39)

@@ -15,16 +15,17 @@ two things that the repository's existing Python tools already do:
   generating-function semantics for unlabelled structures.
 
 The distribution also contains the canonical ECS records. The current
-development version parses the finite elementary, `LambertW`, unselected
-`RootOf`, indexed infinite-sum, and one-argument `Complex` subset of stored
-generating functions and exactly expands principal `LambertW` compositions at
-zero or recognized rational centers, plus coefficientwise-finite indexed sums.
+development version parses every stored generating function, including finite
+elementary, `LambertW`, unselected `RootOf`, indexed infinite-sum, symbolic
+infinite-product, indexed-coefficient, patterned-ellipsis, and one-argument
+`Complex` forms. It exactly expands principal `LambertW` compositions at zero
+or recognized rational centers, plus coefficientwise-finite indexed sums.
 It also derives finite
 generating-function expressions from acyclic specifications and closed rational
 or square-root expressions for a first class of recursive systems. Extending
 that work to more general recursive systems and infinite cycle-index forms,
-parsing the remaining special forms, and finding further closed forms remain
-later milestones.
+solving the remaining implicit generating-function equations, and finding
+further closed forms remain later milestones.
 
 ## Installation
 
@@ -158,7 +159,7 @@ unlabelled cycles, and seven power sets.
 ## Parsing and expanding a stored generating function
 
 `parse_generating_function` parses the supported Maple expressions and bounded
-implicit-equation and equation-system syntax found in 1,027 ECS records:
+implicit-equation and equation-system syntax found in all 1,028 ECS records:
 
 ```python
 from combstruct import GFBinary, GFInteger, GFVariable, parse_generating_function
@@ -181,20 +182,23 @@ arithmetic operators `+`, `-`, `*`, `/`, and `^`, plus `exp`, `ln`, `LambertW`,
 Maple form `Sum(expression,j[k]=1..infinity)`, which may use
 `numtheory:-phi(j[k])`, or the alternate forms `Sum_{j=m..inf} expression` and
 `Sum_{j>m} expression`, which may use `phi(j)`. Alternate unindexed `j` becomes
-`GFIndex(1)`. The exact positive and alternating four-term ellipsis patterns in
+`GFIndex(1)`. The `Product_{k>m} expression` form and indexed coefficients such
+as `a_k` preserve ECS 44's symbolic product equation; alternate binder names
+normalize to `GFIndex` levels with lexical scope. A final Maple statement period
+is accepted. The exact positive and alternating four-term ellipsis patterns in
 ECS 56 and 57 normalize to `GFInfiniteSum`; arbitrary ellipses remain
 unsupported. Power is right-associative and binds more tightly than unary signs,
 matching the stored Maple expressions. In an implicit equation, `x` is accepted
 as an alias for `_x`, `log` is normalized to `ln`, and named series calls such
 as `A(x^2)` are preserved. The immutable expression AST uses `GFInteger`,
 `GFVariable`, `GFUnary`, `GFBinary`, `GFFunction`, `GFSeriesCall`, `GFRootOf`,
-`GFIndex`, `GFTotient`, `GFInfiniteSum`, and `GFComplex`; `GFEquation` stores an
-equality, `GFEquationSystem` stores an ordered tuple of equations, and
-`GFParseResult` is their public result union. The Maple-local root variable `_Z`
-is valid only inside `RootOf`. A `j[k]` index is valid only in the sum that binds
-it or a nested sum; rebinding the same index level in a nested sum is rejected.
-Maple's one-argument `Complex(value)` represents the purely imaginary value
-`I*value`.
+`GFIndex`, `GFTotient`, `GFIndexedCoefficient`, `GFInfiniteSum`,
+`GFInfiniteProduct`, and `GFComplex`; `GFEquation` stores an equality,
+`GFEquationSystem` stores an ordered tuple of equations, and `GFParseResult` is
+their public result union. The Maple-local root variable `_Z` is valid only
+inside `RootOf`. An index is valid only in the sum or product that binds it or a
+nested aggregate; rebinding the same normalized level is rejected. Maple's
+one-argument `Complex(value)` represents the purely imaginary value `I*value`.
 
 ```python
 from combstruct import GFInfiniteSum, parse_generating_function
@@ -210,6 +214,18 @@ later_sum = parse_generating_function("Sum_{j>2} x^j/j")
 
 assert isinstance(later_sum, GFInfiniteSum)
 assert later_sum.lower_bound == 3
+```
+
+```python
+from combstruct import GFEquation, GFIndexedCoefficient, GFInfiniteProduct
+
+product_equation = parse_generating_function(
+    "Product_{k>0} 1/(1-x^k)^a_k = 1+x+2*Sum_{k>1} a_k*x^k."
+)
+
+assert isinstance(product_equation, GFEquation)
+assert isinstance(product_equation.left, GFInfiniteProduct)
+assert isinstance(product_equation.left.factor.right.right, GFIndexedCoefficient)
 ```
 
 ```python
@@ -320,15 +336,16 @@ branch point `c=-1` and centers below it are rejected rather than assigned an
 ambiguous or singular expansion. All 19 parsed catalogue `LambertW` fields meet
 the zero-centered or recognized-shift contract.
 
-The catalogue currently has 1,028 nonempty `gf` fields. The parser accepts all
-913 finite elementary expressions, all 19 `LambertW` expressions, all 39
+The catalogue currently has 1,028 nonempty `gf` fields, and the parser accepts
+all of them: all 913 finite elementary expressions, all 19 `LambertW`
+expressions, all 39
 unselected `RootOf` expressions, all 45 Maple-form indexed infinite-sum
 expressions, and the one `Complex` expression, plus the alternate indexed sums
 in ECS 79 and 95 and the positive and alternating patterned ellipses in ECS 56
-and 57, for nine individual implicit equations total, plus the three-equation
-system in ECS 118. It rejects only ECS 44, whose notation uses a symbolic
-product. That form and arbitrary unrecognized ellipses raise
-`UnsupportedGeneratingFunction`; malformed input raises
+and 57, the symbolic product and indexed coefficients in ECS 44, for ten
+individual implicit equations total, plus the three-equation system in ECS 118.
+Arbitrary unrecognized ellipses and other valid forms outside the supported
+grammar raise `UnsupportedGeneratingFunction`; malformed input raises
 `GeneratingFunctionError`.
 
 Maple defines an unselected `RootOf(expression)` as representing unspecified
@@ -363,12 +380,13 @@ ambiguous or inconsistent record in this subset. ECS 265, cited in
 does match EGF semantics: its raw coefficients begin `1, 6, 21, 56`, and
 multiplication by `n!` gives the stored terms `1, 6, 42, 336`. ECS 69 uses the
 shifted center `c=-1/2`; its exact coefficients reproduce all 21 stored EGF
-terms. The 39 unselected `RootOf` fields, the one complex expression, nine
-parsed individual implicit equations, the parsed equation system in ECS 118,
-and the one parser exclusion are the 51 fields still requiring separate exact
-verification. Implicit equations, equation systems, and standalone named-series
-calls preserve the source syntax, but coefficient expansion raises
-`GeneratingFunctionEvaluationError` until a named-series solver is available.
+terms. The 39 unselected `RootOf` fields, the one complex expression, ten parsed
+individual implicit equations, and the parsed equation system in ECS 118 are
+the 51 fields still requiring separate exact verification. Implicit
+equations, equation systems, symbolic products and indexed coefficients, and
+standalone named-series calls preserve the source syntax, but coefficient
+expansion raises `GeneratingFunctionEvaluationError` until the corresponding
+equation or formal-series solver is available.
 
 ## Using the ECS catalogue
 
@@ -447,11 +465,12 @@ The packaging and first maintenance-tool adoption foundations are now in place:
 - 888 specifications derive finite exact generating-function expressions,
   including 50 recursive rational or square-root closed forms, whose
   coefficients agree with the independent term evaluator;
-- finite elementary, `LambertW`, `RootOf`, indexed infinite-sum, and
-  one-argument `Complex` generating functions have a dedicated immutable AST
-  and parser, with exact coefficient evaluation for elementary expressions,
-  principal `LambertW` compositions at zero or recognized rational centers, and
-  coefficientwise-finite indexed sums;
+- every stored generating function has a dedicated immutable AST representation
+  and parser, including finite elementary, `LambertW`, `RootOf`, indexed
+  infinite-sum, symbolic-product, indexed-coefficient, patterned-ellipsis, and
+  one-argument `Complex` forms, with exact coefficient evaluation for elementary
+  expressions, principal `LambertW` compositions at zero or recognized rational
+  centers, and coefficientwise-finite indexed sums;
 - read-only `python-tools` consumers use the public package, while source-data
   serializers and mutators retain their stricter raw-JSON boundary;
 - source and installed-wheel tests cover Python 3.12, 3.13, and 3.14; and
