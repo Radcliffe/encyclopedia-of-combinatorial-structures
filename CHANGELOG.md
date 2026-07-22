@@ -16,6 +16,13 @@ this section in place for subsequent work.
 ### Added
 
 - Added this changelog and documented how it is maintained for the `prod` branch.
+- Added the pre-alpha `combstruct` Python package, including the existing ECS
+  specification parser, exact term evaluator, command-line interface, documentation,
+  all 1,075 canonical structure records, and a typed read-only catalogue API.
+- Added Python 3.12–3.14 test automation and installed-distribution verification for
+  the package.
+- Added explicit public and legacy compatibility export contracts, a detailed API
+  reference, strict Ruff/mypy quality gates, and component-level ECS/OEIS licensing.
 
 ## 2026-07-22
 
