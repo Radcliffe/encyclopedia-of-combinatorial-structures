@@ -11,6 +11,7 @@ from combstruct.generating_function import (
     GFBinary,
     GFComplex,
     GFEquation,
+    GFEquationSystem,
     GFFunction,
     GFIndex,
     GFInfiniteSum,
@@ -156,6 +157,27 @@ class GeneratingFunctionParserTests(unittest.TestCase):
             ),
         )
 
+    def test_implicit_equation_system(self):
+        source = Catalog().get(118).generating_function
+
+        self.assertIsNotNone(source)
+        assert source is not None
+        system = parse_generating_function(source)
+
+        self.assertIsInstance(system, GFEquationSystem)
+        assert isinstance(system, GFEquationSystem)
+        self.assertEqual(len(system.equations), 3)
+        self.assertEqual(
+            tuple(equation.left for equation in system.equations),
+            (
+                GFSeriesCall("B", GFVariable()),
+                GFSeriesCall("C", GFVariable()),
+                GFSeriesCall("S", GFVariable()),
+            ),
+        )
+        self.assertIsInstance(system.equations[1].right, GFFunction)
+        self.assertIsInstance(system.equations[2].right, GFInfiniteSum)
+
     def test_summation_indices_are_lexically_scoped(self):
         cases = {
             "j[1]": "not bound",
@@ -183,10 +205,15 @@ class GeneratingFunctionParserTests(unittest.TestCase):
             parse_generating_function("1 2")
         with self.assertRaisesRegex(GeneratingFunctionError, "must not be empty"):
             parse_generating_function("  ")
+        for source in ("A(x),B(x)=x", "A(x)=x,B(x)"):
+            with (
+                self.subTest(source=source),
+                self.assertRaisesRegex(GeneratingFunctionError, "must contain equations"),
+            ):
+                parse_generating_function(source)
 
     def test_special_ecs_forms_are_explicitly_unsupported(self):
         for source in (
-            "A(x)=x,B(x)=x",
             "Complex(0,1)*_x",
             "exp(_x+...)",
         ):
@@ -201,6 +228,7 @@ class GeneratingFunctionParserTests(unittest.TestCase):
     def test_catalogue_coverage_matches_audited_grammar(self):
         supported = []
         equations = []
+        systems = []
         unsupported = []
 
         for structure in Catalog():
@@ -215,10 +243,13 @@ class GeneratingFunctionParserTests(unittest.TestCase):
                 supported.append(structure.id)
                 if isinstance(result, GFEquation):
                     equations.append(structure.id)
+                elif isinstance(result, GFEquationSystem):
+                    systems.append(structure.id)
 
-        self.assertEqual(len(supported), 1022)
+        self.assertEqual(len(supported), 1023)
         self.assertEqual(equations, [1, 43, 45, 89, 91])
-        self.assertEqual(len(unsupported), 6)
+        self.assertEqual(systems, [118])
+        self.assertEqual(unsupported, [44, 56, 57, 79, 95])
         self.assertEqual(len(supported) + len(unsupported), 1028)
 
 
@@ -385,6 +416,22 @@ class GeneratingFunctionCoefficientTests(unittest.TestCase):
         ):
             generating_function_coefficients("A(x)", 6)
 
+    def test_implicit_equation_system_requires_a_named_series_solver(self):
+        source = Catalog().get(118).generating_function
+
+        self.assertIsNotNone(source)
+        assert source is not None
+        system = parse_generating_function(source)
+        for value in (source, system):
+            with (
+                self.subTest(value=value),
+                self.assertRaisesRegex(
+                    GeneratingFunctionEvaluationError,
+                    "Implicit generating-function equations.*solver",
+                ),
+            ):
+                generating_function_coefficients(value, 6)
+
     def test_coefficientwise_finite_infinite_sum(self):
         source = "Sum(_x^j[1]/j[1],j[1]=1..infinity)"
         expression = parse_generating_function(source)
@@ -456,6 +503,7 @@ class GeneratingFunctionCoefficientTests(unittest.TestCase):
         complex_forms = []
         infinite_sums = []
         implicit_equations = []
+        implicit_systems = []
         unselected_roots = []
 
         for structure in Catalog():
@@ -474,6 +522,15 @@ class GeneratingFunctionCoefficientTests(unittest.TestCase):
                 ):
                     generating_function_coefficients(expression, len(structure.terms))
                 implicit_equations.append(structure.id)
+                continue
+
+            if isinstance(expression, GFEquationSystem):
+                with self.assertRaisesRegex(
+                    GeneratingFunctionEvaluationError,
+                    "Implicit generating-function equations.*solver",
+                ):
+                    generating_function_coefficients(expression, len(structure.terms))
+                implicit_systems.append(structure.id)
                 continue
 
             if "RootOf(" in source:
@@ -525,6 +582,7 @@ class GeneratingFunctionCoefficientTests(unittest.TestCase):
         self.assertEqual(len(ordinary) + len(exponential), 977)
         self.assertEqual(complex_forms, [47])
         self.assertEqual(implicit_equations, [1, 43, 45, 89, 91])
+        self.assertEqual(implicit_systems, [118])
         self.assertEqual(len(infinite_sums), 45)
         self.assertEqual(len(unselected_roots), 39)
 

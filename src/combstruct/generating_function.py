@@ -3,11 +3,11 @@
 The parser recognizes the finite elementary grammar, principal ``LambertW``
 calls, unselected ``RootOf`` equations, indexed infinite sums, and the
 one-argument ``Complex`` constructor used by stored ECS generating functions,
-plus a bounded implicit-equation grammar. The remaining heterogeneous fields
-are rejected clearly for later parser milestones. The series evaluator uses
-exact rational arithmetic and expands principal ``LambertW`` compositions at
-zero or recognized rational centers, plus indexed sums whose requested
-coefficients have a provable bound.
+plus a bounded implicit-equation and equation-system grammar. The remaining
+heterogeneous fields are rejected clearly for later parser milestones. The
+series evaluator uses exact rational arithmetic and expands principal
+``LambertW`` compositions at zero or recognized rational centers, plus indexed
+sums whose requested coefficients have a provable bound.
 Unselected roots and complex series remain explicit evaluation boundaries; the
 evaluator never guesses a branch or truncation.
 """
@@ -130,6 +130,13 @@ class GFEquation:
     right: GFExpression
 
 
+@dataclass(frozen=True, slots=True)
+class GFEquationSystem:
+    """An ordered system of implicit generating-function equations."""
+
+    equations: tuple[GFEquation, ...]
+
+
 type GFExpression = (
     GFInteger
     | GFVariable
@@ -143,7 +150,7 @@ type GFExpression = (
     | GFTotient
     | GFInfiniteSum
 )
-type GFParseResult = GFExpression | GFEquation
+type GFParseResult = GFExpression | GFEquation | GFEquationSystem
 
 
 TOKEN_RE = re.compile(
@@ -161,7 +168,7 @@ UNARY_BINDING_POWER = 30
 
 
 class GeneratingFunctionParser:
-    """Parse the supported expression and implicit-equation syntax used by the ECS."""
+    """Parse supported expressions and implicit equations used by the ECS."""
 
     def __init__(self, source: str):
         self.source = source
@@ -192,25 +199,41 @@ class GeneratingFunctionParser:
         return tokens
 
     def parse(self) -> GFParseResult:
-        """Parse and return one immutable expression or implicit equation."""
+        """Parse and return one immutable expression, equation, or system."""
 
-        left = self._parse_expression()
-        result: GFParseResult = left
-        if self._peek() == "=":
-            self.position += 1
-            result = GFEquation(left, self._parse_expression())
+        result: GFParseResult = self._parse_equation_or_expression()
+        if self._peek() == ",":
+            if not isinstance(result, GFEquation):
+                raise self._error("An equation system must contain equations")
+            equations = [result]
+            while self._peek() == ",":
+                self.position += 1
+                equation = self._parse_equation_or_expression()
+                if not isinstance(equation, GFEquation):
+                    raise self._error("An equation system must contain equations")
+                equations.append(equation)
+            result = GFEquationSystem(tuple(equations))
         if self.position != len(self.tokens):
-            if isinstance(result, GFEquation) and self._peek() == ",":
-                raise UnsupportedGeneratingFunction(
-                    "Multiple generating-function equations are not supported",
-                )
             raise self._error(f"Unexpected token {self._peek()!r} after expression")
-        if isinstance(result, GFEquation):
-            self._validate_indices(result.left, frozenset())
-            self._validate_indices(result.right, frozenset())
+        if isinstance(result, GFEquationSystem):
+            for equation in result.equations:
+                self._validate_equation(equation)
+        elif isinstance(result, GFEquation):
+            self._validate_equation(result)
         else:
             self._validate_indices(result, frozenset())
         return result
+
+    def _parse_equation_or_expression(self) -> GFExpression | GFEquation:
+        left = self._parse_expression()
+        if self._peek() != "=":
+            return left
+        self.position += 1
+        return GFEquation(left, self._parse_expression())
+
+    def _validate_equation(self, equation: GFEquation) -> None:
+        self._validate_indices(equation.left, frozenset())
+        self._validate_indices(equation.right, frozenset())
 
     def _parse_expression(self, minimum_binding_power: int = 0) -> GFExpression:
         left = self._parse_prefix()
@@ -369,7 +392,7 @@ class GeneratingFunctionParser:
 
 
 def parse_generating_function(source: str) -> GFParseResult:
-    """Parse a supported ECS generating-function expression or equation."""
+    """Parse a supported ECS generating-function expression or equation system."""
 
     return GeneratingFunctionParser(source).parse()
 
@@ -1207,7 +1230,7 @@ def generating_function_coefficients(
         raise ValueError("coefficient_count must be nonnegative")
 
     expression = parse_generating_function(source) if isinstance(source, str) else source
-    if isinstance(expression, GFEquation):
+    if isinstance(expression, GFEquation | GFEquationSystem):
         raise GeneratingFunctionEvaluationError(
             "Implicit generating-function equations require a named-series solver",
         )
@@ -1242,6 +1265,7 @@ __all__ = [
     "GFBinary",
     "GFComplex",
     "GFEquation",
+    "GFEquationSystem",
     "GFExpression",
     "GFFunction",
     "GFIndex",
