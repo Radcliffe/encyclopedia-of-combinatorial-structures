@@ -198,10 +198,11 @@ The supported grammar consists of:
 
 The parser covers all 1,028 nonempty generating-function fields in the bundled
 catalogue: all 913 finite elementary forms, all 19 `LambertW` forms, all 39
-unselected `RootOf` forms, all 45 Maple-form indexed infinite sums, and the one
-`Complex` form, plus ten individual implicit equations in ECS 1, 43, 44, 45,
-56, 57, 79, 89, 91, and 95 and the three-equation system in ECS 118. ECS 44 is
-the symbolic infinite-product equation. Arbitrary ellipses that do not match
+unselected `RootOf` forms, all 47 records containing Maple-form indexed
+infinite sums, and the one `Complex` form. Supported features also include ten
+individual implicit equations in ECS 1, 43, 44, 45, 56, 57, 79, 89, 91, and 95
+and the three-equation system in ECS 118; these categories can overlap. ECS 44
+is the symbolic infinite-product equation. Arbitrary ellipses that do not match
 either fully determined catalogue pattern remain unsupported.
 
 `GeneratingFunctionParser(source)` is the stateful parser used by the function
@@ -412,18 +413,19 @@ assert coefficients == (0, 1, 1, 1, 2, 3, 6, 11, 23, 46)
 
 This contract solves ECS 1, 43, 45, 56, and 57, the simultaneous `B`, `C`, and
 `S` assignments in ECS 118, and the coefficient-recursive equations in ECS 79,
-89, and 91. ECS 89 reproduces its stored EGF. The equations stored for ECS 79
-and 91 are also solved exactly, but their respective coefficients begin
-`0, 2, 6, 29, ...` and `0, 1, 0, 1/3, 1/4, ...`; neither agrees with the stored
-sequence under OGF or EGF normalization. ECS 44 remains a symbolic-product
-coefficient equation, and ECS 95 does not provide a coefficientwise-finite sum
-at its implied constant term. Standalone `GFSeriesCall`, `GFInfiniteProduct`,
-and `GFIndexedCoefficient` values likewise remain explicit boundaries.
+89, and 91. ECS 79 and 91 reproduce all 21 of their stored OGF terms, while ECS
+89 reproduces all of its stored EGF terms. ECS 79 follows OEIS A032203 by
+designating `B = S + Z` as its counted class, including the one size-one object;
+the cycle subclass `S = B - Z` has no degree-one object. ECS 91 includes the
+full unlabelled-cycle Pólya sum and removes both length-one and length-two cycles.
+ECS 44 remains a symbolic-product coefficient equation, and ECS 95 does not
+provide a coefficientwise-finite sum at its implied constant term. Standalone
+`GFSeriesCall`, `GFInfiniteProduct`, and `GFIndexedCoefficient` values likewise
+remain explicit boundaries.
 
-Catalogue-wide tests establish that 984 parsed functions match their full
-stored term prefixes and their `Structure.labeled` flags: 554 are OGFs and 430
-are EGFs, with no ambiguous result in this subset. ECS 79 and 91 are separately
-recorded as exactly evaluable source-data inconsistencies. In
+Catalogue-wide tests establish that all 986 exactly evaluable parsed functions
+match their full stored term prefixes and their `Structure.labeled` flags: 556
+are OGFs and 430 are EGFs, with no ambiguous or inconsistent result. In
 particular, ECS 265's coefficients are `1, 6, 21, 56, ...`; applying EGF
 normalization produces its stored terms `1, 6, 42, 336, ...`. ECS 69 uses the
 recognized center `c=-1/2`; exact expansion reproduces all 21 of its stored EGF
@@ -446,7 +448,7 @@ constant coefficient zero and every occurrence of `_x` is scaled by the bound
 index. Coefficient `n` can then receive contributions only from indices at or
 above `lower_bound` that divide `n`, so the infinite range reduces to a finite
 exact sum. Nested sums also account for the proven product of their outer index
-scales. All 46 exactly evaluable catalogue indexed-sum records meet this
+scales. All 47 exactly evaluable catalogue indexed-sum records meet this
 contract. A sum that does not meet it raises `GeneratingFunctionEvaluationError`
 rather than being silently truncated.
 

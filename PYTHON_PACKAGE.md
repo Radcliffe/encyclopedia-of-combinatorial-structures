@@ -365,22 +365,24 @@ the non-assignment implicit equation in ECS 89. ECS 44 still needs a symbolic
 product solver, while ECS 95 fails the finite-sum condition at its implied
 constant term; both raise `GeneratingFunctionEvaluationError`.
 
-Solving an equation exactly does not guarantee that the equation agrees with
-the catalogue's stored sequence. ECS 89 reproduces its EGF terms, but ECS 79
-defines coefficients beginning `0, 2, 6, 29, ...` rather than its stored
-`0, 0, 1, 2, ...`, and ECS 91 defines rational coefficients beginning
-`0, 1, 0, 1/3, 1/4, ...`. Neither ECS 79 nor ECS 91 matches its stored terms as
-an OGF or EGF. The package preserves both the source equations and stored data
-and reports this discrepancy in its exhaustive tests and documentation.
+ECS 79 follows OEIS A032203's offset and designates `B = S + Z` as the counted
+class. Its term list has a degree-zero sentinel followed by the OEIS values
+beginning `1, 1, 2, 5, ...` at degrees one through four. The equation
+`B(x) = x/2 - (1/2)*Sum_{j=1..inf} phi(j)/j*log(1-B(x^j))` describes that class;
+the cycle subclass alone is `S = B - Z` and has no degree-one object. ECS 91
+uses the complete unlabelled-cycle Pólya sum and subtracts both the length-one
+and length-two cycle contributions. The corrected equations reproduce all 21
+stored OGF terms for each record; ECS 89 likewise reproduces all of its stored
+EGF terms.
 
 The catalogue currently has 1,028 nonempty `gf` fields, and the parser accepts
 all of them: all 913 finite elementary expressions, all 19 `LambertW`
-expressions, all 39
-unselected `RootOf` expressions, all 45 Maple-form indexed infinite-sum
-expressions, and the one `Complex` expression, plus the alternate indexed sums
-in ECS 79 and 95 and the positive and alternating patterned ellipses in ECS 56
-and 57, the symbolic product and indexed coefficients in ECS 44, for ten
-individual implicit equations total, plus the three-equation system in ECS 118.
+expressions, all 39 unselected `RootOf` expressions, all 47 records containing
+Maple-form indexed infinite sums, and the one `Complex` expression. Supported
+features also include the alternate indexed sums in ECS 79 and 95, the positive
+and alternating patterned ellipses in ECS 56 and 57, the symbolic product and
+indexed coefficients in ECS 44, ten individual implicit equations, and the
+three-equation system in ECS 118; these syntactic categories can overlap.
 Arbitrary unrecognized ellipses and other valid forms outside the supported
 grammar raise `UnsupportedGeneratingFunction`; malformed input raises
 `GeneratingFunctionError`.
@@ -398,7 +400,7 @@ Indexed infinite sums are expanded when the evaluator can prove that the
 summand has constant coefficient zero and every occurrence of `_x` is scaled by
 the bound index. A coefficient of degree `n` can then receive contributions only
 from positive divisors of `n` at or above the stored lower bound, giving an exact
-finite computation even for the catalogue's nested sums. All 46 exactly
+finite computation even for the catalogue's nested sums. All 47 exactly
 evaluable catalogue indexed-sum records meet this contract. An arbitrary sum
 for which either condition cannot be proved raises
 `GeneratingFunctionEvaluationError` instead of being silently truncated.
@@ -410,11 +412,9 @@ see the official [`Complex` constructor documentation](https://www.maplesoft.com
 
 The evaluator deliberately returns coefficients rather than silently deciding
 whether an expression is an OGF or EGF. Exhaustive tests compare every stored
-term for 984 consistent records under both interpretations: 554 unlabelled
-records match as OGFs and 430 labelled records match as EGFs, with no ambiguous
-result in this subset. Two further equations, ECS 79 and 91, are exactly
-evaluable but inconsistent with their stored terms as described above. ECS 265,
-cited in
+term for all 986 exactly evaluable records under both interpretations: 556
+unlabelled records match as OGFs and 430 labelled records match as EGFs, with no
+ambiguous or inconsistent result. ECS 265, cited in
 [archived ECS issue #2](https://github.com/Radcliffe/encyclopedia-of-combinatorial-structures/blob/main/docs/codeberg-archive.md#issue-2-distinguish-between-ordinary-and-exponential-generating-functions),
 does match EGF semantics: its raw coefficients begin `1, 6, 21, 56`, and
 multiplication by `n!` gives the stored terms `1, 6, 42, 336`. ECS 69 uses the
@@ -509,7 +509,8 @@ The packaging and first maintenance-tool adoption foundations are now in place:
   one-argument `Complex` forms, with exact coefficient evaluation for elementary
   expressions, principal `LambertW` compositions at zero or recognized rational
   centers, coefficientwise-finite indexed sums, five contractive individual
-  named-series equations, and the three-series system in ECS 118;
+  named-series equations, the three-series system in ECS 118, and three
+  coefficient-recursive equations;
 - read-only `python-tools` consumers use the public package, while source-data
   serializers and mutators retain their stricter raw-JSON boundary;
 - source and installed-wheel tests cover Python 3.12, 3.13, and 3.14; and

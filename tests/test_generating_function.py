@@ -631,42 +631,24 @@ class GeneratingFunctionCoefficientTests(unittest.TestCase):
         )
 
     def test_coefficient_recursive_catalogue_equations(self):
-        expected_prefixes = {
-            79: (0, 2, 6, 29, 186, 1314, 10181, 82344, 690711, 5941864),
-            91: (
-                Fraction(0),
-                Fraction(1),
-                Fraction(0),
-                Fraction(1, 3),
-                Fraction(1, 4),
-                Fraction(8, 15),
-                Fraction(3, 4),
-                Fraction(1727, 1260),
-                Fraction(93, 40),
-                Fraction(192827, 45360),
-            ),
-        }
-        for identifier, prefix in expected_prefixes.items():
+        windmills = Catalog().get(79)
+        self.assertEqual(windmills.symbol, "B")
+        self.assertEqual(windmills.terms[:8], (0, 1, 1, 2, 5, 12, 36, 104))
+
+        for identifier in (79, 89, 91):
+            structure = Catalog().get(identifier)
+            expected = tuple(
+                Fraction(term, factorial(degree)) if structure.labeled else Fraction(term)
+                for degree, term in enumerate(structure.terms)
+            )
             with self.subTest(identifier=identifier):
                 self.assertEqual(
                     generating_function_coefficients(
-                        Catalog().get(identifier).generating_function,
-                        len(prefix),
+                        structure.generating_function,
+                        len(expected),
                     ),
-                    tuple(Fraction(term) for term in prefix),
+                    expected,
                 )
-
-        structure = Catalog().get(89)
-        coefficients = generating_function_coefficients(
-            structure.generating_function,
-            len(structure.terms),
-        )
-        self.assertEqual(
-            tuple(
-                coefficient * factorial(degree) for degree, coefficient in enumerate(coefficients)
-            ),
-            structure.terms,
-        )
 
     def test_remaining_implicit_equation_boundaries_are_rejected(self):
         cases = {
@@ -832,7 +814,6 @@ class GeneratingFunctionCoefficientTests(unittest.TestCase):
         complex_forms = []
         infinite_sums = []
         implicit_equations = []
-        catalogue_mismatches = []
         solved_systems = []
         unselected_roots = []
 
@@ -900,10 +881,10 @@ class GeneratingFunctionCoefficientTests(unittest.TestCase):
                 )
             )
 
-            if not ordinary_match and not exponential_match:
-                catalogue_mismatches.append(structure.id)
-                continue
-
+            self.assertTrue(
+                ordinary_match or exponential_match,
+                f"ECS {structure.id} matches neither OGF nor EGF normalization",
+            )
             self.assertNotEqual(
                 ordinary_match,
                 exponential_match,
@@ -918,14 +899,13 @@ class GeneratingFunctionCoefficientTests(unittest.TestCase):
                 infinite_sums.append(structure.id)
             (exponential if exponential_match else ordinary).append(structure.id)
 
-        self.assertEqual(len(ordinary), 554)
+        self.assertEqual(len(ordinary), 556)
         self.assertEqual(len(exponential), 430)
-        self.assertEqual(len(ordinary) + len(exponential), 984)
+        self.assertEqual(len(ordinary) + len(exponential), 986)
         self.assertEqual(complex_forms, [47])
         self.assertEqual(implicit_equations, [44, 95])
-        self.assertEqual(catalogue_mismatches, [79, 91])
         self.assertEqual(solved_systems, [118])
-        self.assertEqual(len(infinite_sums), 46)
+        self.assertEqual(len(infinite_sums), 47)
         self.assertEqual(len(unselected_roots), 39)
 
 
