@@ -1,12 +1,12 @@
 """Parse and expand finite ECS generating functions exactly.
 
 The parser recognizes the finite elementary grammar, principal ``LambertW``
-calls, and unselected ``RootOf`` equations used by 971 stored ECS generating
-functions. Equations, infinite sums, and explicit complex values are rejected
-clearly for later parser milestones. The series evaluator uses exact rational
-arithmetic and expands ``LambertW`` compositions whose argument has constant
-term zero. An unselected ``RootOf`` remains an explicit evaluation boundary;
-the evaluator never guesses its branch from catalogue terms.
+calls, unselected ``RootOf`` equations, and indexed infinite sums used by 1,016
+stored ECS generating functions. Equations and explicit complex values are
+rejected clearly for later parser milestones. The series evaluator uses exact
+rational arithmetic and expands ``LambertW`` compositions whose argument has
+constant term zero. Unselected roots and infinite sums remain explicit
+evaluation boundaries; the evaluator never guesses a branch or truncation.
 """
 
 from __future__ import annotations
@@ -81,10 +81,44 @@ class GFRootOf:
     equation: GFExpression
 
 
-type GFExpression = GFInteger | GFVariable | GFUnary | GFBinary | GFFunction | GFRootOf
+@dataclass(frozen=True, slots=True)
+class GFIndex:
+    """A Maple indexed summation variable such as ``j[1]``."""
+
+    level: int
 
 
-TOKEN_RE = re.compile(r"\s*(\d+|[A-Za-z_][A-Za-z0-9_]*|[()+\-*/^]|\S)")
+@dataclass(frozen=True, slots=True)
+class GFTotient:
+    """Euler's totient applied to an indexed summation variable."""
+
+    index: GFIndex
+
+
+@dataclass(frozen=True, slots=True)
+class GFInfiniteSum:
+    """A sum over one indexed variable from one through infinity."""
+
+    summand: GFExpression
+    index: GFIndex
+
+
+type GFExpression = (
+    GFInteger
+    | GFVariable
+    | GFUnary
+    | GFBinary
+    | GFFunction
+    | GFRootOf
+    | GFIndex
+    | GFTotient
+    | GFInfiniteSum
+)
+
+
+TOKEN_RE = re.compile(
+    r"\s*(numtheory:-phi|\d+|[A-Za-z_][A-Za-z0-9_]*|[()+\-*/^]|\S)",
+)
 IDENTIFIER_RE = re.compile(r"[A-Za-z_][A-Za-z0-9_]*")
 INFIX_BINDING_POWER: dict[str, tuple[int, int]] = {
     "+": (10, 11),
@@ -133,6 +167,7 @@ class GeneratingFunctionParser:
         expression = self._parse_expression()
         if self.position != len(self.tokens):
             raise self._error(f"Unexpected token {self._peek()!r} after expression")
+        self._validate_indices(expression, frozenset())
         return expression
 
     def _parse_expression(self, minimum_binding_power: int = 0) -> GFExpression:
@@ -157,6 +192,8 @@ class GeneratingFunctionParser:
             if self.root_depth == 0:
                 raise self._error("Root variable '_Z' is only valid inside RootOf")
             return GFVariable("_Z")
+        if token == "j":
+            return self._parse_index_suffix()
         if token in {"+", "-"}:
             return GFUnary(
                 cast(UnaryOperator, token),
@@ -180,11 +217,73 @@ class GeneratingFunctionParser:
                 self.root_depth -= 1
             self._expect(")")
             return GFRootOf(equation)
+        if token == "numtheory:-phi":
+            self._expect("(")
+            self._expect("j")
+            index = self._parse_index_suffix()
+            self._expect(")")
+            return GFTotient(index)
+        if token == "Sum":
+            self._expect("(")
+            summand = self._parse_expression()
+            self._expect(",")
+            self._expect("j")
+            index = self._parse_index_suffix()
+            self._expect("=")
+            self._expect("1")
+            self._expect(".")
+            self._expect(".")
+            self._expect("infinity")
+            self._expect(")")
+            return GFInfiniteSum(summand, index)
         if IDENTIFIER_RE.fullmatch(token):
             raise UnsupportedGeneratingFunction(
                 f"Generating-function identifier {token!r} is not supported",
             )
         raise self._error(f"Expected an expression, found {token!r}")
+
+    def _parse_index_suffix(self) -> GFIndex:
+        self._expect("[")
+        token = self._take()
+        if not token.isdigit() or int(token) < 1:
+            raise self._error(f"Expected a positive summation-index level, found {token!r}")
+        self._expect("]")
+        return GFIndex(int(token))
+
+    def _validate_indices(
+        self,
+        expression: GFExpression,
+        bound: frozenset[int],
+    ) -> None:
+        if isinstance(expression, (GFInteger, GFVariable)):
+            return
+        if isinstance(expression, GFIndex):
+            if expression.level not in bound:
+                raise GeneratingFunctionError(
+                    f"Summation index j[{expression.level}] is not bound by a Sum",
+                )
+            return
+        if isinstance(expression, GFUnary):
+            self._validate_indices(expression.operand, bound)
+            return
+        if isinstance(expression, GFBinary):
+            self._validate_indices(expression.left, bound)
+            self._validate_indices(expression.right, bound)
+            return
+        if isinstance(expression, GFFunction):
+            self._validate_indices(expression.argument, bound)
+            return
+        if isinstance(expression, GFRootOf):
+            self._validate_indices(expression.equation, bound)
+            return
+        if isinstance(expression, GFTotient):
+            self._validate_indices(expression.index, bound)
+            return
+        if expression.index.level in bound:
+            raise GeneratingFunctionError(
+                f"Nested Sum cannot rebind j[{expression.index.level}]",
+            )
+        self._validate_indices(expression.summand, bound | {expression.index.level})
 
     def _expect(self, expected: str) -> None:
         token = self._take()
@@ -556,6 +655,14 @@ def _evaluate_series(expression: GFExpression) -> _FormalSeries:
             "RootOf has no branch selector; exact coefficient expansion requires "
             "an explicit formal-series branch",
         )
+    if isinstance(expression, GFInfiniteSum):
+        raise GeneratingFunctionEvaluationError(
+            "Infinite Sum exact expansion requires a proven finite truncation bound",
+        )
+    if isinstance(expression, (GFIndex, GFTotient)):
+        raise GeneratingFunctionEvaluationError(
+            "A summation index can only be evaluated inside a supported infinite Sum",
+        )
     if expression.operator == "^":
         return _rational_power(
             _evaluate_series(expression.left),
@@ -596,7 +703,17 @@ def generating_function_coefficients(
     expression = parse_generating_function(source) if isinstance(source, str) else source
     if not isinstance(
         expression,
-        (GFInteger, GFVariable, GFUnary, GFBinary, GFFunction, GFRootOf),
+        (
+            GFInteger,
+            GFVariable,
+            GFUnary,
+            GFBinary,
+            GFFunction,
+            GFRootOf,
+            GFIndex,
+            GFTotient,
+            GFInfiniteSum,
+        ),
     ):
         raise TypeError("source must be generating-function text or a GFExpression")
 
@@ -612,8 +729,11 @@ __all__ = [
     "GFBinary",
     "GFExpression",
     "GFFunction",
+    "GFIndex",
+    "GFInfiniteSum",
     "GFInteger",
     "GFRootOf",
+    "GFTotient",
     "GFUnary",
     "GFVariable",
     "GeneratingFunctionError",

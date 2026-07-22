@@ -10,20 +10,17 @@ from combstruct.generating_function import (
     GeneratingFunctionParser,
     GFBinary,
     GFFunction,
+    GFIndex,
+    GFInfiniteSum,
     GFInteger,
     GFRootOf,
+    GFTotient,
     GFUnary,
     GFVariable,
     UnsupportedGeneratingFunction,
     generating_function_coefficients,
     parse_generating_function,
 )
-
-UNSUPPORTED_FORMS = ("Sum(", "Complex(", "infinity", "...")
-
-
-def is_supported_expression(source: str) -> bool:
-    return "=" not in source and not any(token in source for token in UNSUPPORTED_FORMS)
 
 
 class GeneratingFunctionParserTests(unittest.TestCase):
@@ -102,6 +99,41 @@ class GeneratingFunctionParserTests(unittest.TestCase):
         with self.assertRaisesRegex(GeneratingFunctionError, "only valid inside RootOf"):
             parse_generating_function("_Z+_x")
 
+    def test_indexed_infinite_sum_and_totient(self):
+        expression = parse_generating_function(
+            "Sum(numtheory:-phi(j[1])*_x^j[1]/j[1],j[1]=1..infinity)",
+        )
+
+        self.assertEqual(
+            expression,
+            GFInfiniteSum(
+                GFBinary(
+                    "/",
+                    GFBinary(
+                        "*",
+                        GFTotient(GFIndex(1)),
+                        GFBinary("^", GFVariable(), GFIndex(1)),
+                    ),
+                    GFIndex(1),
+                ),
+                GFIndex(1),
+            ),
+        )
+
+    def test_summation_indices_are_lexically_scoped(self):
+        cases = {
+            "j[1]": "not bound",
+            "Sum(_x^j[1],j[2]=1..infinity)": "j\\[1\\].*not bound",
+            "Sum(Sum(_x^j[1],j[1]=1..infinity),j[1]=1..infinity)": "rebind",
+            "Sum(_x^j[1],j[1]=2..infinity)": "Expected '1'",
+        }
+        for source, message in cases.items():
+            with (
+                self.subTest(source=source),
+                self.assertRaisesRegex(GeneratingFunctionError, message),
+            ):
+                parse_generating_function(source)
+
     def test_ast_is_immutable(self):
         expression = GFInteger(1)
 
@@ -119,7 +151,6 @@ class GeneratingFunctionParserTests(unittest.TestCase):
     def test_special_ecs_forms_are_explicitly_unsupported(self):
         for source in (
             "S(_x) = _x+S(_x)^2",
-            "Sum(_x^j,j=1..infinity)",
             "Complex(0,1)*_x",
             "exp(_x+...)",
         ):
@@ -139,16 +170,15 @@ class GeneratingFunctionParserTests(unittest.TestCase):
             source = structure.generating_function
             if source is None:
                 continue
-            if is_supported_expression(source):
+            try:
                 parse_generating_function(source)
-                supported.append(structure.id)
-            else:
-                with self.assertRaises(UnsupportedGeneratingFunction):
-                    parse_generating_function(source)
+            except UnsupportedGeneratingFunction:
                 unsupported.append(structure.id)
+            else:
+                supported.append(structure.id)
 
-        self.assertEqual(len(supported), 971)
-        self.assertEqual(len(unsupported), 57)
+        self.assertEqual(len(supported), 1016)
+        self.assertEqual(len(unsupported), 12)
         self.assertEqual(len(supported) + len(unsupported), 1028)
 
 
@@ -265,14 +295,33 @@ class GeneratingFunctionCoefficientTests(unittest.TestCase):
             ):
                 generating_function_coefficients(value, 6)
 
+    def test_infinite_sum_requires_a_proven_truncation_bound(self):
+        source = "Sum(_x^j[1]/j[1],j[1]=1..infinity)"
+        expression = parse_generating_function(source)
+
+        for value in (source, expression):
+            with (
+                self.subTest(value=value),
+                self.assertRaisesRegex(
+                    GeneratingFunctionEvaluationError,
+                    "proven finite truncation bound",
+                ),
+            ):
+                generating_function_coefficients(value, 6)
+
     def test_every_parsed_catalogue_function_matches_its_stored_terms(self):
         ordinary = []
         exponential = []
+        infinite_sums = []
         unselected_roots = []
 
         for structure in Catalog():
             source = structure.generating_function
-            if source is None or not is_supported_expression(source):
+            if source is None:
+                continue
+            try:
+                expression = parse_generating_function(source)
+            except UnsupportedGeneratingFunction:
                 continue
 
             if structure.id == 69:
@@ -280,7 +329,7 @@ class GeneratingFunctionCoefficientTests(unittest.TestCase):
                     GeneratingFunctionEvaluationError,
                     "constant coefficient 0",
                 ):
-                    generating_function_coefficients(source, len(structure.terms))
+                    generating_function_coefficients(expression, len(structure.terms))
                 continue
 
             if "RootOf(" in source:
@@ -288,11 +337,20 @@ class GeneratingFunctionCoefficientTests(unittest.TestCase):
                     GeneratingFunctionEvaluationError,
                     "no branch selector",
                 ):
-                    generating_function_coefficients(source, len(structure.terms))
+                    generating_function_coefficients(expression, len(structure.terms))
                 unselected_roots.append(structure.id)
                 continue
 
-            coefficients = generating_function_coefficients(source, len(structure.terms))
+            if "Sum(" in source:
+                with self.assertRaisesRegex(
+                    GeneratingFunctionEvaluationError,
+                    "proven finite truncation bound",
+                ):
+                    generating_function_coefficients(expression, len(structure.terms))
+                infinite_sums.append(structure.id)
+                continue
+
+            coefficients = generating_function_coefficients(expression, len(structure.terms))
             ordinary_match = all(
                 coefficient == term
                 for coefficient, term in zip(coefficients, structure.terms, strict=True)
@@ -319,6 +377,7 @@ class GeneratingFunctionCoefficientTests(unittest.TestCase):
         self.assertEqual(len(ordinary), 503)
         self.assertEqual(len(exponential), 428)
         self.assertEqual(len(ordinary) + len(exponential), 931)
+        self.assertEqual(len(infinite_sums), 45)
         self.assertEqual(len(unselected_roots), 39)
 
 

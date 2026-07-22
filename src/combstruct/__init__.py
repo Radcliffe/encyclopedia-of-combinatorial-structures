@@ -5,6 +5,7 @@ sequence terms, derives finite generating functions and selected quadratic
 closed forms from specifications, and parses and exactly expands finite
 elementary and principal-at-zero ``LambertW`` generating functions in the ECS
 catalogue, including faithful syntax trees for unselected ``RootOf`` equations.
+Indexed infinite sums are parsed with lexical summation-variable scope.
 """
 
 from importlib.metadata import PackageNotFoundError as _PackageNotFoundError
@@ -30,8 +31,11 @@ from .generating_function import (
     GFBinary,
     GFExpression,
     GFFunction,
+    GFIndex,
+    GFInfiniteSum,
     GFInteger,
     GFRootOf,
+    GFTotient,
     GFUnary,
     GFVariable,
     UnsupportedGeneratingFunction,
@@ -68,8 +72,11 @@ __all__ = [
     "GFBinary",
     "GFExpression",
     "GFFunction",
+    "GFIndex",
+    "GFInfiniteSum",
     "GFInteger",
     "GFRootOf",
+    "GFTotient",
     "GFUnary",
     "GFVariable",
     "GeneratingFunctionError",

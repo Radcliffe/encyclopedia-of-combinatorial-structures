@@ -181,12 +181,15 @@ The supported grammar consists of:
 - binary `+`, `-`, `*`, `/`, and right-associative `^`;
 - `exp(expression)`, `ln(expression)`, and `LambertW(expression)`; and
 - unselected `RootOf(expression)` equations, with the Maple-local variable
-  `_Z` scoped to that equation.
+  `_Z` scoped to that equation; and
+- indexed `Sum(expression,j[k]=1..infinity)` forms, including
+  `numtheory:-phi(j[k])`.
 
-The parser covers 971 of the 1,028 nonempty generating-function fields in the
+The parser covers 1,016 of the 1,028 nonempty generating-function fields in the
 bundled catalogue: all 913 finite elementary forms, all 19 `LambertW` forms,
-and all 39 unselected `RootOf` forms. It explicitly rejects the other 57 current
-records: 11 equations, 45 infinite-sum forms, and one explicit `Complex` form.
+all 39 unselected `RootOf` forms, and all 45 indexed infinite-sum forms. It
+explicitly rejects the other 12 current records: 11 equations and one explicit
+`Complex` form.
 
 `GeneratingFunctionParser(source)` is the stateful parser used by the function
 API. Malformed input raises `GeneratingFunctionError`. Valid ECS forms outside
@@ -200,8 +203,12 @@ while `GFVariable("_Z")` represents the root-local variable.
 `GFBinary(operator, left, right)` stores an arithmetic operation.
 `GFFunction(name, argument)` stores an `exp`, `ln`, or `LambertW` call.
 `GFRootOf(equation)` stores an unselected root equation whose local variable is
-`GFVariable("_Z")`. `GFExpression` is the union of these six immutable node
-types.
+`GFVariable("_Z")`. `GFIndex(level)` stores `j[level]`, `GFTotient(index)`
+stores `numtheory:-phi(index)`, and `GFInfiniteSum(summand, index)` stores an
+indexed sum from one through infinity. `GFExpression` is the union of these nine
+immutable node types. Sum indices are lexically scoped: a summand may reference
+its own index and outer indices, while unbound indices and nested rebinding of
+the same level are rejected.
 
 ```python
 from combstruct import GFBinary, GFRootOf, GFVariable, parse_generating_function
@@ -209,6 +216,18 @@ from combstruct import GFBinary, GFRootOf, GFVariable, parse_generating_function
 root = parse_generating_function("RootOf(_Z-_x)")
 
 assert root == GFRootOf(GFBinary("-", GFVariable("_Z"), GFVariable()))
+```
+
+```python
+from combstruct import GFInfiniteSum, GFTotient, parse_generating_function
+
+indexed_sum = parse_generating_function(
+    "Sum(numtheory:-phi(j[1])*_x^j[1]/j[1],j[1]=1..infinity)"
+)
+
+assert isinstance(indexed_sum, GFInfiniteSum)
+assert indexed_sum.index.level == 1
+assert isinstance(indexed_sum.summand.left.left, GFTotient)
 ```
 
 ### `generating_function_coefficients(source, coefficient_count)`
@@ -256,7 +275,8 @@ normalization produces its stored terms `1, 6, 42, 336, ...`. ECS 69 is parsed,
 but its shifted nonzero `LambertW` argument is outside the exact formal-series
 contract and raises `GeneratingFunctionEvaluationError`. That record and the 96
 other non-evaluable fields are not covered by this result. Of those 96, the 39
-`RootOf` fields are parsed but have no branch selector, while 57 fields remain
+`RootOf` fields are parsed but have no branch selector, 45 indexed infinite sums
+are parsed but have no proven general truncation rule, and 12 fields remain
 outside the parser grammar.
 
 Maple documents unselected `RootOf` as representing unspecified roots and uses
@@ -267,6 +287,12 @@ terms. See Maple's
 [`RootOf` documentation](https://www.maplesoft.com/support/help/Maple/view.aspx?path=RootOf)
 and
 [`indexed RootOf` rules](https://www.maplesoft.com/support/help/Maple/view.aspx?path=RootOf%2Findexed).
+
+Coefficient evaluation of `GFInfiniteSum` similarly raises
+`GeneratingFunctionEvaluationError` with a sum-specific message. Parsing the
+index structure does not by itself prove that terms beyond a finite bound
+cannot affect the requested coefficients, so the evaluator does not silently
+truncate the infinite range.
 
 ## Computing terms
 

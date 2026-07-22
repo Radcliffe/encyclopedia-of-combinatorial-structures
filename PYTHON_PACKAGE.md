@@ -15,9 +15,9 @@ two things that the repository's existing Python tools already do:
   generating-function semantics for unlabelled structures.
 
 The distribution also contains the canonical ECS records. The current
-development version parses the finite elementary, `LambertW`, and unselected
-`RootOf` subset of stored generating functions and exactly expands principal
-`LambertW` compositions at zero. It also derives finite generating-function
+development version parses the finite elementary, `LambertW`, unselected
+`RootOf`, and indexed infinite-sum subset of stored generating functions and
+exactly expands principal `LambertW` compositions at zero. It also derives finite generating-function
 expressions from acyclic specifications and closed rational or square-root
 expressions for a first class of recursive systems. Extending that work to more
 general recursive systems and infinite cycle-index forms, parsing the remaining
@@ -154,8 +154,8 @@ unlabelled cycles, and seven power sets.
 
 ## Parsing and expanding a stored generating function
 
-`parse_generating_function` parses the supported finite Maple expressions found
-in 971 ECS records:
+`parse_generating_function` parses the supported Maple expressions found in
+1,016 ECS records:
 
 ```python
 from combstruct import GFBinary, GFInteger, GFVariable, parse_generating_function
@@ -174,10 +174,25 @@ assert expression.right == GFBinary(
 
 The grammar supports integers, `_x`, parentheses, unary signs, the five
 arithmetic operators `+`, `-`, `*`, `/`, and `^`, plus `exp`, `ln`, `LambertW`,
-and `RootOf` calls. Power is right-associative and binds more tightly than unary
-signs, matching the stored Maple expressions. The immutable AST uses
-`GFInteger`, `GFVariable`, `GFUnary`, `GFBinary`, `GFFunction`, and `GFRootOf`.
-The Maple-local root variable `_Z` is valid only inside `RootOf`.
+`RootOf`, and `Sum` calls. Indexed sums have the ECS form
+`Sum(expression,j[k]=1..infinity)` and may use `numtheory:-phi(j[k])`. Power is
+right-associative and binds more tightly than unary signs, matching the stored
+Maple expressions. The immutable AST uses `GFInteger`, `GFVariable`, `GFUnary`,
+`GFBinary`, `GFFunction`, `GFRootOf`, `GFIndex`, `GFTotient`, and
+`GFInfiniteSum`. The Maple-local root variable `_Z` is valid only inside
+`RootOf`. A `j[k]` index is valid only in the sum that binds it or a nested sum;
+rebinding the same index level in a nested sum is rejected.
+
+```python
+from combstruct import GFInfiniteSum, parse_generating_function
+
+indexed_sum = parse_generating_function(
+    "Sum(_x^j[1]/j[1],j[1]=1..infinity)"
+)
+
+assert isinstance(indexed_sum, GFInfiniteSum)
+assert indexed_sum.index.level == 1
+```
 
 `generating_function_coefficients` expands either source text or an already
 parsed expression using exact `fractions.Fraction` arithmetic:
@@ -210,10 +225,10 @@ coefficients use
 `W(z) = sum((-k)^(k-1) * z^k / k!, k >= 1)` without a numerical dependency.
 
 The catalogue currently has 1,028 nonempty `gf` fields. The parser accepts all
-913 finite elementary expressions, all 19 `LambertW` expressions, and all 39
-unselected `RootOf` expressions. It rejects the remaining 57 fields: 11
-equations, 45 infinite-sum forms, and one explicit complex expression. Those
-forms raise `UnsupportedGeneratingFunction`; malformed input raises
+913 finite elementary expressions, all 19 `LambertW` expressions, all 39
+unselected `RootOf` expressions, and all 45 indexed infinite-sum expressions.
+It rejects the remaining 12 fields: 11 equations and one explicit `Complex`
+form. Those forms raise `UnsupportedGeneratingFunction`; malformed input raises
 `GeneratingFunctionError`.
 
 Maple defines an unselected `RootOf(expression)` as representing unspecified
@@ -224,6 +239,12 @@ instead of choosing a branch from the stored term list. See Maple's
 [`RootOf` documentation](https://www.maplesoft.com/support/help/Maple/view.aspx?path=RootOf)
 and its
 [`index` selector rules](https://www.maplesoft.com/support/help/Maple/view.aspx?path=RootOf%2Findexed).
+
+Indexed infinite sums are likewise preserved without pretending that every
+formal sum can be truncated at the requested coefficient degree. Until a
+finite truncation bound is proved for these forms,
+`generating_function_coefficients` raises
+`GeneratingFunctionEvaluationError` with an infinite-sum-specific message.
 
 The evaluator deliberately returns coefficients rather than silently deciding
 whether an expression is an OGF or EGF. Exhaustive tests compare every stored
@@ -236,8 +257,8 @@ multiplication by `n!` gives the stored terms `1, 6, 42, 336`. ECS 69 is parsed
 but its `LambertW` argument has a nonzero transcendental constant; exact
 expansion therefore raises `GeneratingFunctionEvaluationError` until a shifted
 branch representation is defined. Together with the 39 unselected `RootOf`
-fields and 57 parser exclusions, it is one of 97 fields still requiring
-separate exact verification.
+fields, 45 indexed infinite sums, and 12 parser exclusions, it is one of 97
+fields still requiring separate exact verification.
 
 ## Using the ECS catalogue
 
@@ -316,9 +337,10 @@ The packaging and first maintenance-tool adoption foundations are now in place:
 - 888 specifications derive finite exact generating-function expressions,
   including 50 recursive rational or square-root closed forms, whose
   coefficients agree with the independent term evaluator;
-- finite elementary, `LambertW`, and `RootOf` generating functions have a
-  dedicated immutable AST and parser, with exact coefficient evaluation for
-  elementary expressions and principal `LambertW` compositions at zero;
+- finite elementary, `LambertW`, `RootOf`, and indexed infinite-sum generating
+  functions have a dedicated immutable AST and parser, with exact coefficient
+  evaluation for elementary expressions and principal `LambertW` compositions
+  at zero;
 - read-only `python-tools` consumers use the public package, while source-data
   serializers and mutators retain their stricter raw-JSON boundary;
 - source and installed-wheel tests cover Python 3.12, 3.13, and 3.14; and
