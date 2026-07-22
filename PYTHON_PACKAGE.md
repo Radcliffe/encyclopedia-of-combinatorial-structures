@@ -15,10 +15,10 @@ two things that the repository's existing Python tools already do:
   generating-function semantics for unlabelled structures.
 
 The distribution also contains the canonical ECS records. The current
-development version parses the finite elementary subset of stored generating
-functions. Evaluating those expressions, determining whether each record is an
-OGF or EGF, deriving a generating function from a specification, and finding
-closed forms remain later milestones.
+development version parses and exactly expands the finite elementary subset of
+stored generating functions. Extending that work to the remaining special
+forms, deriving a generating function from a specification, and finding closed
+forms remain later milestones.
 
 ## Installation
 
@@ -80,7 +80,7 @@ multiple mutually recursive equations and indexed symbols such as `A[1]`.
 explicitly. The AST and parser are defined in `combstruct.specification`; their
 top-level imports are the recommended stable API.
 
-## Parsing a stored generating function
+## Parsing and expanding a stored generating function
 
 `parse_generating_function` parses the finite elementary Maple expressions
 found in 913 ECS records:
@@ -106,17 +106,48 @@ Power is right-associative and binds more tightly than unary signs, matching
 the stored Maple expressions. The immutable AST uses `GFInteger`,
 `GFVariable`, `GFUnary`, `GFBinary`, and `GFFunction`.
 
+`generating_function_coefficients` expands either source text or an already
+parsed expression using exact `fractions.Fraction` arithmetic:
+
+```python
+from fractions import Fraction
+
+from combstruct import generating_function_coefficients
+
+coefficients = generating_function_coefficients("exp(_x)", 6)
+
+assert coefficients == (
+    Fraction(1),
+    Fraction(1),
+    Fraction(1, 2),
+    Fraction(1, 6),
+    Fraction(1, 24),
+    Fraction(1, 120),
+)
+```
+
+These are raw series coefficients. For an ordinary generating function,
+coefficient `n` is the counting term. For an exponential generating function,
+multiply coefficient `n` by `n!`. The evaluator supports the exact analytic
+conditions used by the finite catalogue expressions, including removable
+singularities, square roots with constant term one, `exp` arguments with
+constant term zero, and `ln` arguments with constant term one.
+
 The catalogue currently has 1,028 nonempty `gf` fields. In addition to the 913
 finite elementary expressions, it contains 11 equations and 104 expressions
 using infinite sums, `RootOf`, `LambertW`, or explicit complex values. Those
 forms raise `UnsupportedGeneratingFunction`; malformed input raises
 `GeneratingFunctionError`.
 
-Parsing deliberately does not evaluate a series or decide whether it is an OGF
-or EGF. In particular, the `labeled` field cannot yet be treated as verified GF
-metadata: [ECS issue #2](https://codeberg.org/ECS/encyclopedia-of-combinatorial-structures/issues/2)
-documents known inconsistencies such as ECS 265. The next milestone will compare
-exact coefficients under both interpretations rather than silently infer one.
+The evaluator deliberately returns coefficients rather than silently deciding
+whether an expression is an OGF or EGF. Exhaustive tests compare every stored
+term for the 913 parsed records under both interpretations: 503 unlabelled
+records match as OGFs and 410 labelled records match as EGFs, with no ambiguous
+or inconsistent record in this subset. ECS 265, cited in
+[ECS issue #2](https://codeberg.org/ECS/encyclopedia-of-combinatorial-structures/issues/2),
+does match EGF semantics: its raw coefficients begin `1, 6, 21, 56`, and
+multiplication by `n!` gives the stored terms `1, 6, 42, 336`. The remaining 115
+special forms still require separate verification.
 
 ## Using the ECS catalogue
 
@@ -192,8 +223,8 @@ The packaging and first maintenance-tool adoption foundations are now in place:
 - the existing exact term evaluator is packaged and documented;
 - all canonical ECS records ship with a typed, immutable catalogue API;
 - the specification syntax tree and parser have a dedicated public module;
-- finite elementary stored generating functions have a dedicated immutable AST
-  and parser;
+- finite elementary stored generating functions have a dedicated immutable AST,
+  parser, and exact coefficient evaluator;
 - read-only `python-tools` consumers use the public package, while source-data
   serializers and mutators retain their stricter raw-JSON boundary;
 - source and installed-wheel tests cover Python 3.12, 3.13, and 3.14; and
@@ -203,12 +234,10 @@ Version `0.1.0a0` was published to
 [PyPI](https://pypi.org/project/combstruct/0.1.0a0/) on 2026-07-22. The next
 milestones remain deliberately incremental:
 
-1. evaluate parsed elementary expressions as exact truncated series and
-   classify stored functions as OGF, EGF, ambiguous, or inconsistent;
-2. extend parsing to additional ECS generating-function forms where exact
-   semantics can be specified;
-3. derive generating functions from specifications where supported; and
-4. add conservative closed-form solving for favorable cases.
+1. extend parsing and evaluation to additional ECS generating-function forms
+   where exact semantics can be specified;
+2. derive generating functions from specifications where supported; and
+3. add conservative closed-form solving for favorable cases.
 
 The Python code and underlying ECS catalogue are distributed under the GNU
 Lesser General Public License, version 2.1 only. OEIS-derived names,

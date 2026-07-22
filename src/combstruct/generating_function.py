@@ -1,17 +1,20 @@
-"""Syntax tree and parser for finite elementary ECS generating functions.
+"""Parse and expand finite elementary ECS generating functions exactly.
 
 The first parser milestone recognizes the exact finite-expression grammar used
 by 913 stored ECS generating functions. Equations, infinite sums, algebraic
 ``RootOf`` values, ``LambertW``, and explicit complex values are rejected
-clearly for later parser milestones. Parsing does not decide whether an
-expression is an ordinary or exponential generating function and does not
-evaluate its coefficients.
+clearly for later parser milestones. The series evaluator expands the finite
+grammar with exact rational arithmetic; it deliberately returns coefficients
+without deciding whether they represent an ordinary or exponential generating
+function.
 """
 
 from __future__ import annotations
 
 import re
+from collections.abc import Callable
 from dataclasses import dataclass
+from fractions import Fraction
 from typing import Literal, cast
 
 type UnaryOperator = Literal["+", "-"]
@@ -25,6 +28,10 @@ class GeneratingFunctionError(ValueError):
 
 class UnsupportedGeneratingFunction(GeneratingFunctionError):
     """A valid ECS generating-function form is outside the current grammar."""
+
+
+class GeneratingFunctionEvaluationError(GeneratingFunctionError):
+    """A parsed expression cannot be expanded as an exact formal series."""
 
 
 @dataclass(frozen=True, slots=True)
@@ -183,6 +190,358 @@ def parse_generating_function(source: str) -> GFExpression:
     return GeneratingFunctionParser(source).parse()
 
 
+_VALUATION_SEARCH_LIMIT = 10_000
+
+
+class _FormalSeries:
+    """A lazily evaluated exact Laurent series used by the public expander."""
+
+    def __init__(
+        self,
+        lower_bound: int,
+        coefficient: Callable[[int], Fraction],
+        *,
+        exact_constant: Fraction | None = None,
+        is_constant: bool = False,
+    ):
+        self.lower_bound = lower_bound
+        self._coefficient = coefficient
+        self._cache: dict[int, Fraction] = {}
+        self.exact_constant = exact_constant
+        self.is_constant = is_constant
+        self._valuation: int | None = None
+
+    @property
+    def is_zero(self) -> bool:
+        return self.is_constant and self.exact_constant == 0
+
+    def coefficient(self, degree: int) -> Fraction:
+        if degree < self.lower_bound:
+            return Fraction()
+        if degree not in self._cache:
+            self._cache[degree] = self._coefficient(degree)
+        return self._cache[degree]
+
+    def valuation(self) -> int:
+        if self.is_zero:
+            raise GeneratingFunctionEvaluationError("The zero series has no valuation")
+        if self._valuation is None:
+            degree = self.lower_bound
+            while self.coefficient(degree) == 0:
+                degree += 1
+                if degree - self.lower_bound > _VALUATION_SEARCH_LIMIT:
+                    raise GeneratingFunctionEvaluationError(
+                        "Could not determine a series valuation after "
+                        f"{_VALUATION_SEARCH_LIMIT} exact coefficients",
+                    )
+            self._valuation = degree
+        return self._valuation
+
+
+def _constant_series(value: int | Fraction) -> _FormalSeries:
+    constant = Fraction(value)
+    return _FormalSeries(
+        0,
+        lambda degree: constant if degree == 0 else Fraction(),
+        exact_constant=constant,
+        is_constant=True,
+    )
+
+
+def _negate(series: _FormalSeries) -> _FormalSeries:
+    if series.is_constant:
+        assert series.exact_constant is not None
+        return _constant_series(-series.exact_constant)
+    return _FormalSeries(
+        series.lower_bound,
+        lambda degree: -series.coefficient(degree),
+    )
+
+
+def _add(
+    left: _FormalSeries,
+    right: _FormalSeries,
+    *,
+    right_sign: Literal[-1, 1] = 1,
+) -> _FormalSeries:
+    if left.is_constant and right.is_constant:
+        assert left.exact_constant is not None
+        assert right.exact_constant is not None
+        return _constant_series(left.exact_constant + right_sign * right.exact_constant)
+    if left.is_zero:
+        return right if right_sign == 1 else _negate(right)
+    if right.is_zero:
+        return left
+    return _FormalSeries(
+        min(left.lower_bound, right.lower_bound),
+        lambda degree: left.coefficient(degree) + right_sign * right.coefficient(degree),
+    )
+
+
+def _scale(series: _FormalSeries, scalar: Fraction) -> _FormalSeries:
+    if scalar == 0 or series.is_zero:
+        return _constant_series(0)
+    if series.is_constant:
+        assert series.exact_constant is not None
+        return _constant_series(scalar * series.exact_constant)
+    return _FormalSeries(
+        series.lower_bound,
+        lambda degree: scalar * series.coefficient(degree),
+    )
+
+
+def _multiply(left: _FormalSeries, right: _FormalSeries) -> _FormalSeries:
+    if left.is_zero or right.is_zero:
+        return _constant_series(0)
+    if left.is_constant:
+        assert left.exact_constant is not None
+        return _scale(right, left.exact_constant)
+    if right.is_constant:
+        assert right.exact_constant is not None
+        return _scale(left, right.exact_constant)
+
+    left_valuation = left.valuation()
+    right_valuation = right.valuation()
+    return _FormalSeries(
+        left_valuation + right_valuation,
+        lambda degree: sum(
+            (
+                left.coefficient(index) * right.coefficient(degree - index)
+                for index in range(
+                    left_valuation,
+                    degree - right_valuation + 1,
+                )
+            ),
+            Fraction(),
+        ),
+    )
+
+
+def _divide(numerator: _FormalSeries, denominator: _FormalSeries) -> _FormalSeries:
+    if denominator.is_zero:
+        raise GeneratingFunctionEvaluationError("Division by the zero series")
+    if numerator.is_zero:
+        return _constant_series(0)
+    if denominator.is_constant:
+        assert denominator.exact_constant is not None
+        return _scale(numerator, 1 / denominator.exact_constant)
+
+    numerator_valuation = numerator.valuation()
+    denominator_valuation = denominator.valuation()
+    quotient_valuation = numerator_valuation - denominator_valuation
+    leading_coefficient = denominator.coefficient(denominator_valuation)
+
+    quotient: _FormalSeries
+
+    def coefficient(degree: int) -> Fraction:
+        product_degree = degree + denominator_valuation
+        known_terms = sum(
+            (
+                denominator.coefficient(index) * quotient.coefficient(product_degree - index)
+                for index in range(
+                    denominator_valuation + 1,
+                    product_degree - quotient_valuation + 1,
+                )
+            ),
+            Fraction(),
+        )
+        return (numerator.coefficient(product_degree) - known_terms) / leading_coefficient
+
+    quotient = _FormalSeries(quotient_valuation, coefficient)
+    return quotient
+
+
+def _integer_power(series: _FormalSeries, exponent: int) -> _FormalSeries:
+    if exponent < 0:
+        return _divide(_constant_series(1), _integer_power(series, -exponent))
+
+    result = _constant_series(1)
+    factor = series
+    while exponent:
+        if exponent & 1:
+            result = _multiply(result, factor)
+        exponent //= 2
+        if exponent:
+            factor = _multiply(factor, factor)
+    return result
+
+
+def _rational_power(series: _FormalSeries, exponent: Fraction) -> _FormalSeries:
+    if exponent.denominator == 1:
+        return _integer_power(series, exponent.numerator)
+    if series.valuation() != 0 or series.coefficient(0) != 1:
+        raise GeneratingFunctionEvaluationError(
+            "A nonintegral power requires a series with constant coefficient 1",
+        )
+
+    result: _FormalSeries
+
+    def coefficient(degree: int) -> Fraction:
+        if degree == 0:
+            return Fraction(1)
+        return (
+            sum(
+                (
+                    ((exponent + 1) * index - degree)
+                    * series.coefficient(index)
+                    * result.coefficient(degree - index)
+                    for index in range(1, degree + 1)
+                ),
+                Fraction(),
+            )
+            / degree
+        )
+
+    result = _FormalSeries(0, coefficient)
+    return result
+
+
+def _exponential(series: _FormalSeries) -> _FormalSeries:
+    if series.is_zero:
+        return _constant_series(1)
+    if series.valuation() < 1:
+        raise GeneratingFunctionEvaluationError(
+            "exp requires an argument with constant coefficient 0",
+        )
+
+    result: _FormalSeries
+
+    def coefficient(degree: int) -> Fraction:
+        if degree == 0:
+            return Fraction(1)
+        return (
+            sum(
+                (
+                    index * series.coefficient(index) * result.coefficient(degree - index)
+                    for index in range(1, degree + 1)
+                ),
+                Fraction(),
+            )
+            / degree
+        )
+
+    result = _FormalSeries(0, coefficient)
+    return result
+
+
+def _derivative(series: _FormalSeries) -> _FormalSeries:
+    if series.is_constant:
+        return _constant_series(0)
+    return _FormalSeries(
+        series.lower_bound - 1,
+        lambda degree: (degree + 1) * series.coefficient(degree + 1),
+    )
+
+
+def _logarithm(series: _FormalSeries) -> _FormalSeries:
+    if series.is_constant and series.exact_constant == 1:
+        return _constant_series(0)
+    if series.valuation() != 0 or series.coefficient(0) != 1:
+        raise GeneratingFunctionEvaluationError(
+            "ln requires an argument with constant coefficient 1",
+        )
+
+    logarithmic_derivative = _divide(_derivative(series), series)
+    return _FormalSeries(
+        0,
+        lambda degree: (
+            Fraction() if degree == 0 else logarithmic_derivative.coefficient(degree - 1) / degree
+        ),
+    )
+
+
+def _constant_expression_value(expression: GFExpression) -> Fraction:
+    if isinstance(expression, GFInteger):
+        return Fraction(expression.value)
+    if isinstance(expression, GFUnary):
+        value = _constant_expression_value(expression.operand)
+        return value if expression.operator == "+" else -value
+    if isinstance(expression, GFBinary):
+        left = _constant_expression_value(expression.left)
+        right = _constant_expression_value(expression.right)
+        if expression.operator == "+":
+            return left + right
+        if expression.operator == "-":
+            return left - right
+        if expression.operator == "*":
+            return left * right
+        if expression.operator == "/":
+            if right == 0:
+                raise GeneratingFunctionEvaluationError("Division by zero in an exponent")
+            return left / right
+        if right.denominator == 1:
+            return left**right.numerator
+        if left == 1:
+            return Fraction(1)
+    raise GeneratingFunctionEvaluationError("A power exponent must be a rational constant")
+
+
+def _evaluate_series(expression: GFExpression) -> _FormalSeries:
+    if isinstance(expression, GFInteger):
+        return _constant_series(expression.value)
+    if isinstance(expression, GFVariable):
+        return _FormalSeries(
+            1,
+            lambda degree: Fraction(1) if degree == 1 else Fraction(),
+        )
+    if isinstance(expression, GFUnary):
+        operand = _evaluate_series(expression.operand)
+        return operand if expression.operator == "+" else _negate(operand)
+    if isinstance(expression, GFFunction):
+        argument = _evaluate_series(expression.argument)
+        return _exponential(argument) if expression.name == "exp" else _logarithm(argument)
+    if expression.operator == "^":
+        return _rational_power(
+            _evaluate_series(expression.left),
+            _constant_expression_value(expression.right),
+        )
+    if expression.operator == "-" and expression.left == expression.right:
+        return _constant_series(0)
+
+    left = _evaluate_series(expression.left)
+    right = _evaluate_series(expression.right)
+    if expression.operator == "+":
+        return _add(left, right)
+    if expression.operator == "-":
+        return _add(left, right, right_sign=-1)
+    if expression.operator == "*":
+        return _multiply(left, right)
+    return _divide(left, right)
+
+
+def generating_function_coefficients(
+    source: str | GFExpression,
+    coefficient_count: int,
+) -> tuple[Fraction, ...]:
+    """Return exact coefficients from degree zero through ``count - 1``.
+
+    ``source`` may be either stored ECS text or an expression returned by
+    :func:`parse_generating_function`. The coefficients are the raw formal
+    series coefficients. Callers interpreting an exponential generating
+    function must multiply coefficient ``n`` by ``n!`` to obtain its counting
+    term.
+    """
+
+    if isinstance(coefficient_count, bool) or not isinstance(coefficient_count, int):
+        raise TypeError("coefficient_count must be an integer")
+    if coefficient_count < 0:
+        raise ValueError("coefficient_count must be nonnegative")
+
+    expression = parse_generating_function(source) if isinstance(source, str) else source
+    if not isinstance(
+        expression,
+        (GFInteger, GFVariable, GFUnary, GFBinary, GFFunction),
+    ):
+        raise TypeError("source must be generating-function text or a GFExpression")
+
+    series = _evaluate_series(expression)
+    if not series.is_zero and series.valuation() < 0:
+        raise GeneratingFunctionEvaluationError(
+            "The expression has negative powers and is not a formal power series",
+        )
+    return tuple(series.coefficient(degree) for degree in range(coefficient_count))
+
+
 __all__ = [
     "GFBinary",
     "GFExpression",
@@ -191,7 +550,9 @@ __all__ = [
     "GFUnary",
     "GFVariable",
     "GeneratingFunctionError",
+    "GeneratingFunctionEvaluationError",
     "GeneratingFunctionParser",
     "UnsupportedGeneratingFunction",
+    "generating_function_coefficients",
     "parse_generating_function",
 ]

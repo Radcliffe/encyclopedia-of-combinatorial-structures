@@ -18,6 +18,9 @@ or date section and leave this section in place for subsequent work.
 - Added an immutable AST and parser for the finite elementary syntax used by
   913 stored ECS generating functions, with explicit errors for unsupported
   equations and special-function forms.
+- Added dependency-free exact coefficient expansion for all 913 parsed
+  generating functions, including rational powers and removable singularities;
+  catalogue tests verify 503 OGFs and 410 EGFs against every stored term.
 
 ### Changed
 

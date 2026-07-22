@@ -1,9 +1,12 @@
 import unittest
 from dataclasses import FrozenInstanceError
+from fractions import Fraction
+from math import factorial
 
 from combstruct import Catalog
 from combstruct.generating_function import (
     GeneratingFunctionError,
+    GeneratingFunctionEvaluationError,
     GeneratingFunctionParser,
     GFBinary,
     GFFunction,
@@ -11,6 +14,7 @@ from combstruct.generating_function import (
     GFUnary,
     GFVariable,
     UnsupportedGeneratingFunction,
+    generating_function_coefficients,
     parse_generating_function,
 )
 
@@ -119,6 +123,117 @@ class GeneratingFunctionParserTests(unittest.TestCase):
         self.assertEqual(len(supported), 913)
         self.assertEqual(len(unsupported), 115)
         self.assertEqual(len(supported) + len(unsupported), 1028)
+
+
+class GeneratingFunctionCoefficientTests(unittest.TestCase):
+    def test_rational_expression(self):
+        self.assertEqual(
+            generating_function_coefficients("1/(1-_x)^2", 6),
+            tuple(Fraction(value) for value in (1, 2, 3, 4, 5, 6)),
+        )
+
+    def test_exponential_and_logarithm(self):
+        self.assertEqual(
+            generating_function_coefficients("exp(_x)", 6),
+            tuple(Fraction(1, factorial(degree)) for degree in range(6)),
+        )
+        self.assertEqual(
+            generating_function_coefficients("ln(1/(1-_x))", 6),
+            (
+                Fraction(0),
+                Fraction(1),
+                Fraction(1, 2),
+                Fraction(1, 3),
+                Fraction(1, 4),
+                Fraction(1, 5),
+            ),
+        )
+
+    def test_square_root_and_removable_singularity(self):
+        self.assertEqual(
+            generating_function_coefficients(
+                "-1/2*(-1+(1-4*_x)^(1/2))/_x",
+                8,
+            ),
+            tuple(Fraction(value) for value in (1, 1, 2, 5, 14, 42, 132, 429)),
+        )
+
+    def test_parsed_expression_is_accepted(self):
+        expression = parse_generating_function("(1+_x)^3")
+
+        self.assertEqual(
+            generating_function_coefficients(expression, 5),
+            tuple(Fraction(value) for value in (1, 3, 3, 1, 0)),
+        )
+
+    def test_exact_zero_after_cancellation(self):
+        self.assertEqual(
+            generating_function_coefficients("(_x-_x)/_x", 4),
+            (Fraction(0),) * 4,
+        )
+
+    def test_invalid_coefficient_count(self):
+        for value in (True, 1.5, "2"):
+            with self.subTest(value=value), self.assertRaises(TypeError):
+                generating_function_coefficients("1", value)
+        with self.assertRaises(ValueError):
+            generating_function_coefficients("1", -1)
+
+    def test_invalid_source_object(self):
+        with self.assertRaises(TypeError):
+            generating_function_coefficients(object(), 4)
+
+    def test_non_formal_or_nonexact_expressions_are_rejected(self):
+        cases = {
+            "1/0": "zero series",
+            "exp(1+_x)": "constant coefficient 0",
+            "ln(2+_x)": "constant coefficient 1",
+            "_x^_x": "rational constant",
+            "(2+_x)^(1/2)": "constant coefficient 1",
+            "_x^(-1)": "negative powers",
+        }
+        for source, message in cases.items():
+            with (
+                self.subTest(source=source),
+                self.assertRaisesRegex(GeneratingFunctionEvaluationError, message),
+            ):
+                generating_function_coefficients(source, 4)
+
+    def test_every_parsed_catalogue_function_matches_its_stored_terms(self):
+        ordinary = []
+        exponential = []
+
+        for structure in Catalog():
+            source = structure.generating_function
+            if source is None or not is_finite_elementary_expression(source):
+                continue
+
+            coefficients = generating_function_coefficients(source, len(structure.terms))
+            ordinary_match = all(
+                coefficient == term
+                for coefficient, term in zip(coefficients, structure.terms, strict=True)
+            )
+            exponential_match = all(
+                coefficient * factorial(degree) == term
+                for degree, (coefficient, term) in enumerate(
+                    zip(coefficients, structure.terms, strict=True),
+                )
+            )
+
+            self.assertNotEqual(
+                ordinary_match,
+                exponential_match,
+                f"ECS {structure.id} must match exactly one interpretation",
+            )
+            self.assertEqual(
+                exponential_match,
+                structure.labeled,
+                f"ECS {structure.id} disagrees with its labeled field",
+            )
+            (exponential if exponential_match else ordinary).append(structure.id)
+
+        self.assertEqual(len(ordinary), 503)
+        self.assertEqual(len(exponential), 410)
 
 
 if __name__ == "__main__":

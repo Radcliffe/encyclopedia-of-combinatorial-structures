@@ -121,10 +121,48 @@ this first grammar raise its subclass `UnsupportedGeneratingFunction`.
 `GFFunction(name, argument)` stores an `exp` or `ln` call. `GFExpression` is the
 union of these five immutable node types.
 
-This API parses syntax only. It does not currently evaluate coefficients,
-classify a function as ordinary or exponential, or assume that `Structure.labeled`
-is verified GF metadata. That separation is required by ECS issue #2 and its
-known counterexample, ECS 265.
+### `generating_function_coefficients(source, coefficient_count)`
+
+Expand generating-function text or a parsed `GFExpression` and return an exact
+tuple of `fractions.Fraction` coefficients from degree zero through
+`coefficient_count - 1`.
+
+```python
+from fractions import Fraction
+
+from combstruct import generating_function_coefficients
+
+coefficients = generating_function_coefficients("ln(1/(1-_x))", 5)
+
+assert coefficients == (
+    Fraction(0),
+    Fraction(1),
+    Fraction(1, 2),
+    Fraction(1, 3),
+    Fraction(1, 4),
+)
+```
+
+The values are raw formal-series coefficients. They equal counting terms for an
+ordinary generating function. For an exponential generating function,
+coefficient `n` must be multiplied by `n!`. The function does not silently
+choose an interpretation.
+
+The evaluator handles every expression accepted from the current catalogue. It
+uses exact recurrences for arithmetic, integer and rational powers, `exp`, and
+`ln`; intermediate Laurent series allow removable singularities to cancel.
+Nonintegral powers currently require constant coefficient one, `exp` requires
+constant coefficient zero, and `ln` requires constant coefficient one. A
+parsed expression that violates those exact formal-series conditions raises
+`GeneratingFunctionEvaluationError`. A negative `coefficient_count` raises
+`ValueError`; a non-integer count or invalid source object raises `TypeError`.
+
+Catalogue-wide tests establish that all 913 parsed functions match their full
+stored term prefixes and their `Structure.labeled` flags: 503 are OGFs and 410
+are EGFs, with no ambiguous or inconsistent result in this subset. In
+particular, ECS 265's coefficients are `1, 6, 21, 56, ...`; applying EGF
+normalization produces its stored terms `1, 6, 42, 336, ...`. The 115 special
+forms rejected by the parser are not covered by this result.
 
 ## Computing terms
 
