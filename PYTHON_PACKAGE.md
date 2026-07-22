@@ -16,9 +16,10 @@ two things that the repository's existing Python tools already do:
 
 The distribution also contains the canonical ECS records. The current
 development version parses and exactly expands the finite elementary subset of
-stored generating functions. Extending that work to the remaining special
-forms, deriving a generating function from a specification, and finding closed
-forms remain later milestones.
+stored generating functions. It also derives finite generating-function
+expressions from acyclic specifications. Extending that work to recursive and
+infinite cycle-index forms, parsing the remaining special forms, and finding
+closed forms remain later milestones.
 
 ## Installation
 
@@ -79,6 +80,49 @@ multiple mutually recursive equations and indexed symbols such as `A[1]`.
 `Parser` remains available for callers that need to construct a parser object
 explicitly. The AST and parser are defined in `combstruct.specification`; their
 top-level imports are the recommended stable API.
+
+## Deriving a generating function
+
+`derive_generating_function` translates an acyclic specification into the same
+immutable `GFExpression` tree used by the stored-function parser:
+
+```python
+from fractions import Fraction
+
+from combstruct import derive_generating_function, generating_function_coefficients
+
+expression = derive_generating_function(
+    "{A = Sequence(Z), S = Prod(Z,A)}",
+    labelled=False,
+)
+coefficients = generating_function_coefficients(expression, 6)
+
+assert coefficients == (
+    Fraction(0),
+    Fraction(1),
+    Fraction(1),
+    Fraction(1),
+    Fraction(1),
+    Fraction(1),
+)
+```
+
+The `labelled` argument selects exponential- or ordinary-generating-function
+constructor rules. The finite derivation supports `Union`, `Prod`, and
+`Sequence`; labelled `Set` and `Cycle`; and bounded unlabelled `Set` and
+`Cycle`, including the required cycle-index substitutions. It follows named
+acyclic equations and accepts either source text or a mapping returned by
+`parse_specification`.
+
+Recursive systems, unrestricted unlabelled `Set` and `Cycle`, and `PowerSet`
+raise `UnsupportedGeneratingFunctionDerivation` because their next derivation
+step requires equation solving or an infinite cycle-index representation. In
+the current catalogue, 838 specifications have a supported finite derivation:
+365 labelled EGFs and 473 unlabelled OGFs. Exhaustive tests compare every
+derived coefficient with both the independent term evaluator and the complete
+stored term prefix. The remaining partition is 195 recursive specifications,
+21 unrestricted unlabelled sets, 14 unrestricted unlabelled cycles, and seven
+power sets.
 
 ## Parsing and expanding a stored generating function
 
@@ -223,6 +267,8 @@ The packaging and first maintenance-tool adoption foundations are now in place:
 - the existing exact term evaluator is packaged and documented;
 - all canonical ECS records ship with a typed, immutable catalogue API;
 - the specification syntax tree and parser have a dedicated public module;
+- 838 acyclic specifications derive finite exact generating-function
+  expressions whose coefficients agree with the independent term evaluator;
 - finite elementary stored generating functions have a dedicated immutable AST,
   parser, and exact coefficient evaluator;
 - read-only `python-tools` consumers use the public package, while source-data
@@ -234,9 +280,9 @@ Version `0.1.0a0` was published to
 [PyPI](https://pypi.org/project/combstruct/0.1.0a0/) on 2026-07-22. The next
 milestones remain deliberately incremental:
 
-1. extend parsing and evaluation to additional ECS generating-function forms
-   where exact semantics can be specified;
-2. derive generating functions from specifications where supported; and
+1. derive recursive systems and infinite unlabelled cycle-index forms;
+2. extend parsing and evaluation to additional stored generating-function
+   forms where exact semantics can be specified; and
 3. add conservative closed-form solving for favorable cases.
 
 The Python code and underlying ECS catalogue are distributed under the GNU

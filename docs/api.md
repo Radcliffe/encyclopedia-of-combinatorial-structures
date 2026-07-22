@@ -6,8 +6,9 @@ pre-releases, but changes to the top-level API should be deliberate,
 documented in `CHANGELOG.md`, and covered by distribution tests.
 
 For ordinary application code, import names from `combstruct`. The
-`combstruct.specification` and `combstruct.generating_function` modules are
-also public for code that works directly with syntax trees. `combstruct.terms`
+`combstruct.specification`, `combstruct.derivation`, and
+`combstruct.generating_function` modules are also public for code that works
+directly with syntax trees. `combstruct.terms`
 preserves the import surface of the repository's historical `compute_terms.py`
 script during migration; it should not be the starting point for new
 integrations.
@@ -78,6 +79,48 @@ is the alias `dict[str, Expression]`.
 
 `Parser(source)` exposes the stateful parser object used by
 `parse_specification`. Most callers should prefer the function API.
+
+## Generating-function derivation
+
+### `derive_generating_function(specification, *, labelled, symbol="S")`
+
+Translate an acyclic ECS specification into a finite `GFExpression`.
+`specification` may be source text or a mapping returned by
+`parse_specification`. `labelled=True` applies EGF constructor rules and
+`False` applies OGF rules. `symbol` selects the named equation to derive.
+
+```python
+from combstruct import derive_generating_function, generating_function_coefficients
+
+expression = derive_generating_function(
+    "{B = Sequence(Z), S = Prod(Z,B)}",
+    labelled=False,
+)
+
+assert generating_function_coefficients(expression, 6) == (0, 1, 1, 1, 1, 1)
+```
+
+The supported finite rules are:
+
+- `Union` becomes addition and `Prod` becomes multiplication;
+- bounded or unrestricted `Sequence` becomes a finite geometric sum or a
+  rational expression;
+- labelled `Set` and `Cycle` become exponential and logarithmic expressions,
+  with exact finite corrections for cardinality bounds; and
+- bounded unlabelled `Set` and `Cycle` use exact finite cycle-index formulas and
+  substitutions `_x -> _x^k`.
+
+Named acyclic equations are expanded and memoized. A recursive dependency,
+unrestricted unlabelled `Set` or `Cycle`, or `PowerSet` raises
+`UnsupportedGeneratingFunctionDerivation`; those cases need equation solving or
+an infinite cycle-index AST. Malformed specifications, missing roots, undefined
+symbols, and invalid constructor arity raise `SpecificationError`.
+
+The catalogue-wide contract covers 838 records—365 labelled and 473
+unlabelled—and verifies their full stored term prefixes against both the
+derived expression and the independent specification term evaluator. The 237
+remaining records partition into 195 recursive systems, 21 unrestricted
+unlabelled sets, 14 unrestricted unlabelled cycles, and seven power sets.
 
 ## Stored generating functions
 
