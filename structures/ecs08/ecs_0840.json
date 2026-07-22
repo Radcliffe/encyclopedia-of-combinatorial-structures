@@ -1,6 +1,6 @@
 {
     "id": 840,
-    "name": "A simple grammar",
+    "name": "Nonempty sets of rooted power sets",
     "description": "A simple grammar",
     "specification": "{B = PowerSet(S), C = Prod(Z,B), S = Set(C,1 <= card)}",
     "labeled": false,

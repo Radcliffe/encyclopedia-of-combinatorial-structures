@@ -1,6 +1,6 @@
 {
     "id": 86,
-    "name": "Pairs of sequences",
+    "name": "Pairs of sequences of cardinality at least 1",
     "description": "Pairs of sequences of cardinality at least 1",
     "specification": "{B = Sequence(Z,1 <=card), S = Prod(B,B)}",
     "labeled": true,

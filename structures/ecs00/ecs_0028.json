@@ -1,6 +1,6 @@
 {
     "id": 28,
-    "name": "Cycles set without fixed point",
+    "name": "Fixed-point-free permutations of order dividing 4",
     "description": "permutations Sigma without fixed point such that Sigma^4=Id",
     "specification": "{S = Set(Union(Cycle(Z,card = 2),Cycle(Z,card = 4)))}",
     "labeled": true,

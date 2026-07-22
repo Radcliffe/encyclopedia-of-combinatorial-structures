@@ -1,6 +1,6 @@
 {
     "id": 345,
-    "name": "Stirling numbers of the second kind",
+    "name": "Stirling numbers of the second kind S(n, 2)",
     "description": "Partitions of a set of size n into 2 non-empty subsets",
     "specification": "{S= Prod(Sequence(Z),Sequence(Union(Z,Z)))}",
     "labeled": false,

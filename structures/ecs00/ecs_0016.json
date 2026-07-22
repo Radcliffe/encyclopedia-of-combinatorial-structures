@@ -1,6 +1,6 @@
 {
     "id": 16,
-    "name": "Set partitions",
+    "name": "Set partitions with blocks of size at least 2",
     "description": "Set partitions with all blocks of size >=2; expansion of exp(exp(x)-1-x)",
     "specification": "{S = Set(Set(Z,2 <= card))}",
     "labeled": true,

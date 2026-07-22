@@ -1,6 +1,6 @@
 {
     "id": 60,
-    "name": "Trees",
+    "name": "Labelled trees of height 4",
     "description": "Labelled trees of height 4",
     "specification": "{S = Prod(Z,Set(T1)), T1 = Prod(Z,Set(T2)), T2 =Prod(Z,Set(T3)), T3 = Prod(Z,Set(T4)), T4 = Z}",
     "labeled": true,

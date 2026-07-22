@@ -1,6 +1,6 @@
 {
     "id": 66,
-    "name": "maps",
+    "name": "Increasing injective partial maps",
     "description": "Increasing (nonstrict) injective partial maps",
     "specification": "{S = Set(Union(Set(Z,1 <= card),Set(Z,1 <= card)))}",
     "labeled": true,

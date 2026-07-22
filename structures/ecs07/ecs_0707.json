@@ -1,6 +1,6 @@
 {
     "id": 707,
-    "name": "A simple grammar",
+    "name": "Sets of rooted ternary structures",
     "description": "A simple grammar",
     "specification": "{B = Prod(S,S,S,Z), S = Set(B)}",
     "labeled": false,

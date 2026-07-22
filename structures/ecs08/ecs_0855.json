@@ -1,6 +1,6 @@
 {
     "id": 855,
-    "name": "A simple grammar",
+    "name": "Rooted ordered set partitions",
     "description": "rooted ordered set partitions",
     "specification": "{B = Set(Z,1 <= card), C = Sequence(B), S = Prod(Z,C)}",
     "labeled": true,

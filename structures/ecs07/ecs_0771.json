@@ -1,6 +1,6 @@
 {
     "id": 771,
-    "name": "A simple grammar",
+    "name": "Rooted cycles of cycles",
     "description": "Cycles of Cycles",
     "specification": "{B = Cycle(C), C = Cycle(Z), S = Prod(B,Z)}",
     "labeled": true,

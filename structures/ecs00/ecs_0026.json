@@ -1,6 +1,6 @@
 {
     "id": 26,
-    "name": "Cycles set",
+    "name": "Permutations of order dividing 5",
     "description": "permutations Sigma such that Sigma^5=Id; degree n permutations of order dividing 5",
     "specification": "{S = Set(Union(Cycle(Z,card = 1),Cycle(Z,card = 5)))}",
     "labeled": true,

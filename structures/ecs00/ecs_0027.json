@@ -1,6 +1,6 @@
 {
     "id": 27,
-    "name": "Cycles set without fixed point",
+    "name": "Fixed-point-free permutations of order dividing 3",
     "description": "permutations Sigma without fixed point such that Sigma^3=Id",
     "specification": "{S = Set(Union(Cycle(Z,card = 3)))}",
     "labeled": true,

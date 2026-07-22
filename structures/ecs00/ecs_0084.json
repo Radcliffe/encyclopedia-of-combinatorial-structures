@@ -1,6 +1,6 @@
 {
     "id": 84,
-    "name": "Pairs of cycles",
+    "name": "Pairs of cycles of cardinality at least 2",
     "description": "Pairs of cycles of cardinality at least 2",
     "specification": "{B = Cycle(Z,2 <= card),S = Prod(B,B)}",
     "labeled": true,

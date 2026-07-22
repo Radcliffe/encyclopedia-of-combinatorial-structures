@@ -1,6 +1,6 @@
 {
     "id": 786,
-    "name": "A simple grammar",
+    "name": "Pairs of cycles of sequences",
     "description": "pairs of Cycles of Sequences",
     "specification": "{B = Sequence(Z,1 <= card), C = Cycle(B), S = Prod(C,C)}",
     "labeled": false,

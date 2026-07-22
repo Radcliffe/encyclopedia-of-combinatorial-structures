@@ -1,6 +1,6 @@
 {
     "id": 255,
-    "name": "Binomial coefficients",
+    "name": "Arrangements of n unlabeled objects in 6 rows",
     "description": "Arrangements of n unlabeled objects in 6 rows",
     "specification": "{B = Sequence(Z), S = Prod(B,B,B,B,B,B)}",
     "labeled": false,

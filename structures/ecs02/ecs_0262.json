@@ -1,6 +1,6 @@
 {
     "id": 262,
-    "name": "Arrangements",
+    "name": "Arrangements of n labelled objects in 3 rows",
     "description": "Arrangements of n labelled objects in 3 rows",
     "specification": "{B= Sequence(Z), S = Prod(B,B,B)}",
     "labeled": true,

@@ -1,6 +1,6 @@
 {
     "id": 81,
-    "name": "Pairs of sets",
+    "name": "Pairs of sets of cardinality at least 2",
     "description": "Pairs of sets of cardinality at least 2",
     "specification": "{B = Set(Z,2 <= card), S = Prod(B,B)}",
     "labeled": true,

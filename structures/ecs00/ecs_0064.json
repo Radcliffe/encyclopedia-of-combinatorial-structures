@@ -1,6 +1,6 @@
 {
     "id": 64,
-    "name": "maps",
+    "name": "Injective partial maps",
     "description": "Injective partial maps (Borwein et al), (increasing subsequences in perms)",
     "specification": "{S = Set(Union(Cycle(Z),Sequence(Z,1 <= card)))}",
     "labeled": true,

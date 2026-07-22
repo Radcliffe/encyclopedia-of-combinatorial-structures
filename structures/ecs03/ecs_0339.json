@@ -1,6 +1,6 @@
 {
     "id": 339,
-    "name": "k-gonal numbers",
+    "name": "2-gonal numbers",
     "description": "2-gonal numbers",
     "specification": "{B = Prod(C,C,C), C = Sequence(Z), E = Prod(Z,B), S = Union(B,E,E)}",
     "labeled": false,

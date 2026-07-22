@@ -1,6 +1,6 @@
 {
     "id": 828,
-    "name": "A simple grammar",
+    "name": "Rooted sequences of atomic cycles",
     "description": "rooted Sequences of Cycles",
     "specification": "{B = Sequence(C), C = Cycle(Z), S = Prod(Z,B)}",
     "labeled": true,

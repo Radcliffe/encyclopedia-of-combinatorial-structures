@@ -1,6 +1,6 @@
 {
     "id": 364,
-    "name": "Lists",
+    "name": "Power sum a(n) = 1^n + ... + 4^n",
     "description": "Sum of nth powers",
     "specification": "{S = Union(Sequence(Z),Sequence(Union(Z,Z)),Sequence(Union(Z,Z,Z)),Sequence(Union(Z,Z,Z,Z)))}",
     "labeled": false,

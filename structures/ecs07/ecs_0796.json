@@ -1,6 +1,6 @@
 {
     "id": 796,
-    "name": "A simple grammar",
+    "name": "Cycles of rooted power sets",
     "description": "A simple grammar",
     "specification": "{B = Prod(C,Z), C = PowerSet(S), S = Cycle(B)}",
     "labeled": false,

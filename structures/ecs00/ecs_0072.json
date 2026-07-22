@@ -1,6 +1,6 @@
 {
     "id": 72,
-    "name": "Balls and Urns",
+    "name": "Ball placements: indistinguishable balls, distinguishable urns",
     "description": "Ways to place balls into urns: indistinguishable balls and distinguishable urns",
     "specification": "{S = Sequence(U), U = Sequence(Z,1 <= card)}",
     "labeled": false,

@@ -1,6 +1,6 @@
 {
     "id": 92,
-    "name": "Planar trees",
+    "name": "Planar labelled trees with no unary node",
     "description": "Planar labelled trees with no unary node",
     "specification": "{B = Sequence(S,2<= card), S = Union(B,Z)}",
     "labeled": true,

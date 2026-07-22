@@ -1,6 +1,6 @@
 {
     "id": 298,
-    "name": "Mobiles",
+    "name": "Mobiles of height 2",
     "description": "Mobiles of height 2",
     "specification": "{S = Cycle(A[1]), A[1] = Cycle(A[2]), A[2] =Z}",
     "labeled": true,

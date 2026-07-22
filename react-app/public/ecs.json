@@ -524,7 +524,7 @@
   },
   "15": {
     "id": 15,
-    "name": "Set partitions",
+    "name": "Set partitions with nonempty blocks (Bell numbers)",
     "description": "Set partitions with all blocks of size >=1; Bell numbers",
     "specification": "{S = Set(Set(Z,1 <= card))}",
     "labeled": true,
@@ -561,7 +561,7 @@
   },
   "16": {
     "id": 16,
-    "name": "Set partitions",
+    "name": "Set partitions with blocks of size at least 2",
     "description": "Set partitions with all blocks of size >=2; expansion of exp(exp(x)-1-x)",
     "specification": "{S = Set(Set(Z,2 <= card))}",
     "labeled": true,
@@ -596,7 +596,7 @@
   },
   "17": {
     "id": 17,
-    "name": "Set partitions",
+    "name": "Set partitions with blocks of size at most 2 (involutions)",
     "description": "Set partitions with all blocks of size <=2; self-conjugate permutations on n letters; involution numbers a(n)=a(n-1)+(n-1)a(n-2)",
     "specification": "{S = Set(Union(Set(Z,card = 1),Set(Z,card = 2)))}",
     "labeled": true,
@@ -634,7 +634,7 @@
   },
   "18": {
     "id": 18,
-    "name": "Set partitions",
+    "name": "Set partitions with blocks of size at most 3",
     "description": "Set partitions with all blocks of size <=3; the partition function G(n,3)",
     "specification": "{S = Set(Union(Set(Z,card = 1),Set(Z,card = 2),Set(Z,card = 3)))}",
     "labeled": true,
@@ -671,7 +671,7 @@
   },
   "19": {
     "id": 19,
-    "name": "Set partitions",
+    "name": "Set partitions with blocks of size at most 4",
     "description": "Set partitions with all blocks of size <=4; the partition function G(n,4)",
     "specification": "{S = Set(Union(Set(Z,card = 1),Set(Z,card = 2),Set(Z,card = 3),Set(Z,card = 4)))}",
     "labeled": true,
@@ -824,7 +824,7 @@
   },
   "23": {
     "id": 23,
-    "name": "involutions",
+    "name": "Fixed-point-free involutions",
     "description": "involution without fixed points of n elements even numbers are double factorials",
     "specification": "{S = Set(Cycle(Z,card = 2))}",
     "labeled": true,
@@ -863,7 +863,7 @@
   },
   "24": {
     "id": 24,
-    "name": "Cycles set",
+    "name": "Permutations of order dividing 3",
     "description": "permutations Sigma such that Sigma^3=Id; degree n permutations of order dividing 3",
     "specification": "{S = Set(Union(Cycle(Z,card = 1),Cycle(Z,card = 3)))}",
     "labeled": true,
@@ -900,7 +900,7 @@
   },
   "25": {
     "id": 25,
-    "name": "Cycles set",
+    "name": "Permutations of order dividing 4",
     "description": "permutations Sigma such that Sigma^4=Id; degree n permutations of order dividing 4",
     "specification": "{S = Set(Union(Cycle(Z,card =1),Cycle(Z,card = 2),Cycle(Z,card = 4)))}",
     "labeled": true,
@@ -937,7 +937,7 @@
   },
   "26": {
     "id": 26,
-    "name": "Cycles set",
+    "name": "Permutations of order dividing 5",
     "description": "permutations Sigma such that Sigma^5=Id; degree n permutations of order dividing 5",
     "specification": "{S = Set(Union(Cycle(Z,card = 1),Cycle(Z,card = 5)))}",
     "labeled": true,
@@ -974,7 +974,7 @@
   },
   "27": {
     "id": 27,
-    "name": "Cycles set without fixed point",
+    "name": "Fixed-point-free permutations of order dividing 3",
     "description": "permutations Sigma without fixed point such that Sigma^3=Id",
     "specification": "{S = Set(Union(Cycle(Z,card = 3)))}",
     "labeled": true,
@@ -1012,7 +1012,7 @@
   },
   "28": {
     "id": 28,
-    "name": "Cycles set without fixed point",
+    "name": "Fixed-point-free permutations of order dividing 4",
     "description": "permutations Sigma without fixed point such that Sigma^4=Id",
     "specification": "{S = Set(Union(Cycle(Z,card = 2),Cycle(Z,card = 4)))}",
     "labeled": true,
@@ -1049,7 +1049,7 @@
   },
   "29": {
     "id": 29,
-    "name": "Cycles set without fixed point",
+    "name": "Fixed-point-free permutations of order dividing 5",
     "description": "permutations Sigma without fixed point such that Sigma^5=Id",
     "specification": "{S = Set(Union(Cycle(Z,card = 5)))}",
     "labeled": true,
@@ -1087,7 +1087,7 @@
   },
   "30": {
     "id": 30,
-    "name": "Cycles Set",
+    "name": "Permutations with at least two cycles",
     "description": "Permutation with at least two cycles",
     "specification": "{S = Set(Cycle(Z),2 <= card)}",
     "labeled": true,
@@ -1125,7 +1125,7 @@
   },
   "31": {
     "id": 31,
-    "name": "Cycles Set",
+    "name": "Permutations with exactly two cycles",
     "description": "Permutation with exactly two cycles; Stirling numbers of first kind",
     "specification": "{S = Set(Cycle(Z),card = 2)}",
     "labeled": true,
@@ -1163,7 +1163,7 @@
   },
   "32": {
     "id": 32,
-    "name": "Cycles Set",
+    "name": "Permutations with exactly three cycles",
     "description": "Permutation with exactly 3 cycles; Stirling numbers of first kind",
     "specification": "{S = Set(Cycle(Z),card = 3)}",
     "labeled": true,
@@ -1201,7 +1201,7 @@
   },
   "33": {
     "id": 33,
-    "name": "Cycles Set",
+    "name": "Permutations with exactly four cycles",
     "description": "Permutation with exactly 4 cycles; Stirling numbers of first kind",
     "specification": "{S = Set(Cycle(Z),card = 4)}",
     "labeled": true,
@@ -1275,7 +1275,7 @@
   },
   "35": {
     "id": 35,
-    "name": "Arrangements",
+    "name": "Partial permutations (arrangements)",
     "description": "Arrangements; partial permutations (Permutations of n thing)",
     "specification": "{S = Prod(Sequence(Z),Set(Z))}",
     "labeled": true,
@@ -1349,7 +1349,7 @@
   },
   "37": {
     "id": 37,
-    "name": "Functional graphs",
+    "name": "Connected functional graphs",
     "description": "Connected Functional graphs; Connected graphs by points",
     "specification": "{K = Cycle(Tree), S = Set(K,card = 1), Tree = Prod(Z,Set(Tree))}",
     "labeled": true,
@@ -1423,7 +1423,7 @@
   },
   "39": {
     "id": 39,
-    "name": "Trees",
+    "name": "Idempotent maps (trees of height at most 1)",
     "description": "Maps of f^2=f;Trees of height at most 1",
     "specification": "{S = Set(Tree), Tree = Prod(Z,Set(Z,0 < card))}",
     "labeled": true,
@@ -1903,7 +1903,7 @@
   },
   "52": {
     "id": 52,
-    "name": "Unlabelled Plane Binary Trees",
+    "name": "Unlabelled plane binary trees counted by leaves",
     "description": "Unlabelled binary trees of n leaves (external nodes)",
     "specification": "{S = Union(Z,Prod(S,S))}",
     "labeled": false,
@@ -2022,7 +2022,7 @@
   },
   "55": {
     "id": 55,
-    "name": "Unlabelled Plane Binary Trees",
+    "name": "Unlabelled plane binary trees counted by all nodes",
     "description": "Unlabelled Binary Trees of n elements (external nodes or internal nodes) with two branches",
     "specification": "{S = Union(Z,Prod(Z,S,S))}",
     "labeled": false,
@@ -2095,7 +2095,7 @@
   },
   "57": {
     "id": 57,
-    "name": "Trees",
+    "name": "Rooted non-plane unlabelled trees",
     "description": "Rooted, non plane, unlabelled Trees",
     "specification": "{S = Prod(Z,Set(S))}",
     "labeled": false,
@@ -2129,7 +2129,7 @@
   },
   "58": {
     "id": 58,
-    "name": "Trees",
+    "name": "Labelled trees of height 2",
     "description": "Labelled trees of height 2",
     "specification": "{S = Prod(Z,Set(T1)), T1 = Prod(Z,Set(T2)), T2 = Z}",
     "labeled": true,
@@ -2164,7 +2164,7 @@
   },
   "59": {
     "id": 59,
-    "name": "Trees",
+    "name": "Labelled trees of height 3",
     "description": "Labelled trees of height 3",
     "specification": "{S = Prod(Z,Set(T1)), T1 = Prod(Z,Set(T2)), T2 = Prod(Z,Set(T3)), T3 = Z}",
     "labeled": true,
@@ -2199,7 +2199,7 @@
   },
   "60": {
     "id": 60,
-    "name": "Trees",
+    "name": "Labelled trees of height 4",
     "description": "Labelled trees of height 4",
     "specification": "{S = Prod(Z,Set(T1)), T1 = Prod(Z,Set(T2)), T2 =Prod(Z,Set(T3)), T3 = Prod(Z,Set(T4)), T4 = Z}",
     "labeled": true,
@@ -2234,7 +2234,7 @@
   },
   "61": {
     "id": 61,
-    "name": "Trees",
+    "name": "Unlabelled trees of height 2",
     "description": "Unlabelled trees of height 2",
     "specification": "{S = Prod(Z,Set(T1)), T1 = Prod(Z,Set(T2)), T2 = Z}",
     "labeled": false,
@@ -2269,7 +2269,7 @@
   },
   "62": {
     "id": 62,
-    "name": "Trees",
+    "name": "Unlabelled trees of height 3",
     "description": "Unlabelled trees of height 3",
     "specification": "{S = Prod(Z,Set(T1)), T1 = Prod(Z,Set(T2)), T2 = Prod(Z,Set(T3)), T3 = Z}",
     "labeled": false,
@@ -2304,7 +2304,7 @@
   },
   "63": {
     "id": 63,
-    "name": "Trees",
+    "name": "Unlabelled trees of height 4",
     "description": "Unlabelled trees of height 4",
     "specification": "{S = Prod(Z,Set(T1)), T1 = Prod(Z,Set(T2)), T2 = Prod(Z,Set(T3)),T3 = Prod(Z,Set(T4)), T4 = Z}",
     "labeled": false,
@@ -2339,7 +2339,7 @@
   },
   "64": {
     "id": 64,
-    "name": "maps",
+    "name": "Injective partial maps",
     "description": "Injective partial maps (Borwein et al), (increasing subsequences in perms)",
     "specification": "{S = Set(Union(Cycle(Z),Sequence(Z,1 <= card)))}",
     "labeled": true,
@@ -2413,7 +2413,7 @@
   },
   "66": {
     "id": 66,
-    "name": "maps",
+    "name": "Increasing injective partial maps",
     "description": "Increasing (nonstrict) injective partial maps",
     "specification": "{S = Set(Union(Set(Z,1 <= card),Set(Z,1 <= card)))}",
     "labeled": true,
@@ -2448,7 +2448,7 @@
   },
   "67": {
     "id": 67,
-    "name": "maps",
+    "name": "Partial maps",
     "description": "Partial maps; (n+1)^n",
     "specification": "{S = Set(Connected), Tree = Prod(Z,Set(Tree)), Connected = Union(Cycle(Tree),Prod(Undefined,Tree)), Undefined = Epsilon}",
     "labeled": true,
@@ -2523,7 +2523,7 @@
   },
   "69": {
     "id": 69,
-    "name": "Hierarchies",
+    "name": "Hierarchies (Schroeder's fourth problem)",
     "description": "Hierarchies; Schroeder's fourth problem",
     "specification": "{S = Union(Z,Set(S,2 <= card))}",
     "labeled": true,
@@ -2633,7 +2633,7 @@
   },
   "72": {
     "id": 72,
-    "name": "Balls and Urns",
+    "name": "Ball placements: indistinguishable balls, distinguishable urns",
     "description": "Ways to place balls into urns: indistinguishable balls and distinguishable urns",
     "specification": "{S = Sequence(U), U = Sequence(Z,1 <= card)}",
     "labeled": false,
@@ -2672,7 +2672,7 @@
   },
   "73": {
     "id": 73,
-    "name": "Balls and Urns",
+    "name": "Ball placements: distinguishable balls, indistinguishable urns",
     "description": "Ways to place balls into urns: distinguishable balls and indistinguishable urns",
     "specification": "{S = Set(U), U = Set(Z,1 <= card)}",
     "labeled": true,
@@ -2709,7 +2709,7 @@
   },
   "74": {
     "id": 74,
-    "name": "Balls and Urns",
+    "name": "Ball placements: indistinguishable balls and urns",
     "description": "Ways to place balls into urns: indistinguishable balls and indistinguishable urns",
     "specification": "{S = Set(U), U= Sequence(Z,1 <= card)}",
     "labeled": false,
@@ -2967,7 +2967,7 @@
   },
   "81": {
     "id": 81,
-    "name": "Pairs of sets",
+    "name": "Pairs of sets of cardinality at least 2",
     "description": "Pairs of sets of cardinality at least 2",
     "specification": "{B = Set(Z,2 <= card), S = Prod(B,B)}",
     "labeled": true,
@@ -3005,7 +3005,7 @@
   },
   "82": {
     "id": 82,
-    "name": "Pairs of sets",
+    "name": "Pairs of sets of cardinality at least 3",
     "description": "Pairs of sets of cardinality at least 3",
     "specification": "{B= Set(Z,3 <= card), S = Prod(B,B)}",
     "labeled": true,
@@ -3043,7 +3043,7 @@
   },
   "83": {
     "id": 83,
-    "name": "Pairs of cycles",
+    "name": "Pairs of cycles of cardinality at least 1",
     "description": "Pairs of cycles of cardinality at least 1",
     "specification": "{B = Cycle(Z), S = Prod(B,B)}",
     "labeled": true,
@@ -3081,7 +3081,7 @@
   },
   "84": {
     "id": 84,
-    "name": "Pairs of cycles",
+    "name": "Pairs of cycles of cardinality at least 2",
     "description": "Pairs of cycles of cardinality at least 2",
     "specification": "{B = Cycle(Z,2 <= card),S = Prod(B,B)}",
     "labeled": true,
@@ -3119,7 +3119,7 @@
   },
   "85": {
     "id": 85,
-    "name": "Pairs of cycles",
+    "name": "Pairs of cycles of cardinality at least 3",
     "description": "Pairs of cycles of cardinality at least 3",
     "specification": "{B = Cycle(Z,3 <= card), S = Prod(B,B)}",
     "labeled": true,
@@ -3157,7 +3157,7 @@
   },
   "86": {
     "id": 86,
-    "name": "Pairs of sequences",
+    "name": "Pairs of sequences of cardinality at least 1",
     "description": "Pairs of sequences of cardinality at least 1",
     "specification": "{B = Sequence(Z,1 <=card), S = Prod(B,B)}",
     "labeled": true,
@@ -3195,7 +3195,7 @@
   },
   "87": {
     "id": 87,
-    "name": "Pairs of sequences",
+    "name": "Pairs of sequences of cardinality at least 2",
     "description": "Pairs of sequences of cardinality at least 2",
     "specification": "{B = Sequence(Z,2 <= card), S = Prod(B,B)}",
     "labeled": true,
@@ -3233,7 +3233,7 @@
   },
   "88": {
     "id": 88,
-    "name": "Pairs of sequences",
+    "name": "Pairs of sequences of cardinality at least 3",
     "description": "Pairs of sequences of cardinality at least 3",
     "specification": "{B = Sequence(Z,3 <= card), S = Prod(B,B)}",
     "labeled": true,
@@ -3271,7 +3271,7 @@
   },
   "89": {
     "id": 89,
-    "name": "Labelled mobile",
+    "name": "Labelled mobile with cycles of length at least 2",
     "description": "Labelled mobile with cycles of length at least 2",
     "specification": "{B = Cycle(S,2 <= card), S = Union(B,Z)}",
     "labeled": true,
@@ -3305,7 +3305,7 @@
   },
   "90": {
     "id": 90,
-    "name": "Labelled mobile",
+    "name": "Labelled mobile with cycles of length at least 3",
     "description": "Labelled mobile with cycles of length at least 3",
     "specification": "{B = Cycle(S,3 <= card), S = Union(B,Z)}",
     "labeled": true,
@@ -3374,7 +3374,7 @@
   },
   "92": {
     "id": 92,
-    "name": "Planar trees",
+    "name": "Planar labelled trees with no unary node",
     "description": "Planar labelled trees with no unary node",
     "specification": "{B = Sequence(S,2<= card), S = Union(B,Z)}",
     "labeled": true,
@@ -3411,7 +3411,7 @@
   },
   "93": {
     "id": 93,
-    "name": "Planar trees",
+    "name": "Planar unlabelled trees with neither unary nor binary nodes",
     "description": "Planar unlabelled trees with neither unary nor binary nodes",
     "specification": "{B = Sequence(S,3 <= card),S = Union(B,Z)}",
     "labeled": false,
@@ -3448,7 +3448,7 @@
   },
   "94": {
     "id": 94,
-    "name": "Planar trees",
+    "name": "Planar labelled trees with neither unary nor binary nodes",
     "description": "Planar labelled trees with neither unary nor binary nodes",
     "specification": "{B = Sequence(S,3 <= card), S = Union(B,Z)}",
     "labeled": true,
@@ -3485,7 +3485,7 @@
   },
   "95": {
     "id": 95,
-    "name": "Non-planar trees",
+    "name": "Non-planar unlabelled trees with neither unary nor binary nodes",
     "description": "Non-planar unlabelled trees with neither unary nor binary nodes",
     "specification": "{B = Union(S,Z), S = Set(B,3 <= card)}",
     "labeled": false,
@@ -3519,7 +3519,7 @@
   },
   "96": {
     "id": 96,
-    "name": "Non-planar trees",
+    "name": "Non-planar labelled trees with neither unary nor binary nodes",
     "description": "Non-planar labelled trees with neither unary nor binary nodes",
     "specification": "{B = Union(S,Z), S = Set(B,3 <= card)}",
     "labeled": true,
@@ -6385,7 +6385,7 @@
   },
   "174": {
     "id": 174,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 1, 2, 5, 10",
     "description": "number of ways to make n cents with coins of 1 2 5 10 cents",
     "specification": "{S = Prod(Sequence(Z),Sequence(Prod(Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -6423,7 +6423,7 @@
   },
   "175": {
     "id": 175,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 1, 5, 10, 25",
     "description": "number of ways to make n cents with coins of 1 5 10 25 cents",
     "specification": "{S = Prod(Sequence(Z),Sequence(Prod(Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -6461,7 +6461,7 @@
   },
   "176": {
     "id": 176,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 1, 5, 10, 25, 50",
     "description": "number of ways to make n cents with coins of 1 5 10 25 50 cents",
     "specification": "{S = Prod(Sequence(Z),Sequence(Prod(Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -6499,7 +6499,7 @@
   },
   "177": {
     "id": 177,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 1, 2, 5, 10, 25",
     "description": "number of ways to make n cents with coins of 1 2 5 10 25 cents",
     "specification": "{S = Prod(Sequence(Z),Sequence(Prod(Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -6537,7 +6537,7 @@
   },
   "178": {
     "id": 178,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 1, 2, 5, 10, 25, 50",
     "description": "number of ways to make n cents with coins of 1 2 5 10 25 50 cents",
     "specification": "{S = Prod(Sequence(Z),Sequence(Prod(Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -6575,7 +6575,7 @@
   },
   "179": {
     "id": 179,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 1, 5, 10, 20, 50, 100",
     "description": "number of ways to make n cents with coins of 1 5 10 20 50 100 cents",
     "specification": "{S = Prod(Sequence(Z),Sequence(Prod(Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -6613,7 +6613,7 @@
   },
   "180": {
     "id": 180,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 1, 2, 4, 10, 20, 40, 100",
     "description": "number of ways to make n cents with coins of 1 2 4 10 20 40 100 cents",
     "specification": "{S = Prod(Sequence(Z),Sequence(Prod(Z,Z)),Sequence(Prod(Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -6651,7 +6651,7 @@
   },
   "181": {
     "id": 181,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 1, 2, 5, 10, 50, 100",
     "description": "number of ways to make n cents with coins of 1 2 5 10 50 100 cents",
     "specification": "{S = Prod(Sequence(Z),Sequence(Prod(Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -6689,7 +6689,7 @@
   },
   "182": {
     "id": 182,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 1, 2, 5, 10, 20, 50",
     "description": "number of ways to make n cents with coins of 1 2 5 10 20 50 cents",
     "specification": "{S = Prod(Sequence(Z),Sequence(Prod(Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -6727,7 +6727,7 @@
   },
   "183": {
     "id": 183,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 2, 5, 5, 10, 20, 50",
     "description": "number of ways to make n cents with coins of 2 5 5 10 20 50 cents",
     "specification": "{S = Prod(Sequence(Prod(Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -6765,7 +6765,7 @@
   },
   "184": {
     "id": 184,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 2, 5, 10, 20, 50",
     "description": "number of ways to make n cents with coins of 2 5 10 20 50 cents",
     "specification": "{S = Prod(Sequence(Prod(Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -6803,7 +6803,7 @@
   },
   "185": {
     "id": 185,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 5, 10, 20, 50, 100",
     "description": "number of ways to make n cents with coins of 5 10 20 50 100 cents",
     "specification": "{S = Prod(Sequence(Prod(Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -6841,7 +6841,7 @@
   },
   "186": {
     "id": 186,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 1, 2, 4, 10",
     "description": "number of ways to make n cents with coins of 1 2 4 10 cents",
     "specification": "{S = Prod(Sequence(Z),Sequence(Prod(Z,Z)),Sequence(Prod(Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -6879,7 +6879,7 @@
   },
   "187": {
     "id": 187,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 1, 2, 4, 12, 24, 48, 96, 120",
     "description": "number of ways to make n cents with coins of 1 2 4 12 24 48 96 120 cents",
     "specification": "{S = Prod(Sequence(Z),Sequence(Prod(Z,Z)),Sequence(Prod(Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -6917,7 +6917,7 @@
   },
   "188": {
     "id": 188,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 1, 1, 5",
     "description": "number of ways to make n cents with coins of 1 1 5 cents",
     "specification": "{S = Prod(Sequence(Z),Sequence(Z),Sequence(Prod(Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -6955,7 +6955,7 @@
   },
   "189": {
     "id": 189,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 1, 1, 6",
     "description": "number of ways to make n cents with coins of 1 1 6 cents",
     "specification": "{S = Prod(Sequence(Z),Sequence(Z),Sequence(Prod(Z,Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -6993,7 +6993,7 @@
   },
   "190": {
     "id": 190,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 1, 1, 7",
     "description": "number of ways to make n cents with coins of 1 1 7 cents",
     "specification": "{S = Prod(Sequence(Z),Sequence(Z),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -7031,7 +7031,7 @@
   },
   "191": {
     "id": 191,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 1, 1, 8",
     "description": "number of ways to make n cents with coins of 1 1 8 cents",
     "specification": "{S = Prod(Sequence(Z),Sequence(Z),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -7069,7 +7069,7 @@
   },
   "192": {
     "id": 192,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 1, 1, 9",
     "description": "number of ways to make n cents with coins of 1 1 9 cents",
     "specification": "{S = Prod(Sequence(Z),Sequence(Z),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -7107,7 +7107,7 @@
   },
   "193": {
     "id": 193,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 1, 1, 10",
     "description": "number of ways to make n cents with coins of 1 1 10 cents",
     "specification": "{S = Prod(Sequence(Z),Sequence(Z),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -7145,7 +7145,7 @@
   },
   "194": {
     "id": 194,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 1, 1, 11",
     "description": "number of ways to make n cents with coins of 1 1 11 cents",
     "specification": "{S = Prod(Sequence(Z),Sequence(Z),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -7183,7 +7183,7 @@
   },
   "195": {
     "id": 195,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 1, 1, 12",
     "description": "number of ways to make n cents with coins of 1 1 12 cents",
     "specification": "{S = Prod(Sequence(Z),Sequence(Z),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -7221,7 +7221,7 @@
   },
   "196": {
     "id": 196,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 1, 1, 2, 3",
     "description": "number of ways to make n cents with coins of 1 1 2 3 cents",
     "specification": "{S = Prod(Sequence(Z),Sequence(Z),Sequence(Prod(Z,Z)),Sequence(Prod(Z,Z,Z)))}",
     "labeled": false,
@@ -7259,7 +7259,7 @@
   },
   "197": {
     "id": 197,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 1, 1, 2, 4",
     "description": "number of ways to make n cents with coins of 1 1 2 4 cents",
     "specification": "{S = Prod(Sequence(Z),Sequence(Z),Sequence(Prod(Z,Z)),Sequence(Prod(Z,Z,Z,Z)))}",
     "labeled": false,
@@ -7297,7 +7297,7 @@
   },
   "198": {
     "id": 198,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 1, 1, 2, 5",
     "description": "number of ways to make n cents with coins of 1 1 2 5 cents",
     "specification": "{S = Prod(Sequence(Z),Sequence(Z),Sequence(Prod(Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -7335,7 +7335,7 @@
   },
   "199": {
     "id": 199,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 1, 1, 2, 3, 4",
     "description": "number of ways to make n cents with coins of 1 1 2 3 4 cents",
     "specification": "{S = Prod(Sequence(Z),Sequence(Z),Sequence(Prod(Z,Z)),Sequence(Prod(Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z)))}",
     "labeled": false,
@@ -7373,7 +7373,7 @@
   },
   "200": {
     "id": 200,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 1, 1, 2, 4, 10, 20",
     "description": "number of ways to make n cents with coins of 1 1 2 4 10 20 cents",
     "specification": "{S = Prod(Sequence(Z),Sequence(Z),Sequence(Prod(Z,Z)),Sequence(Prod(Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -7411,7 +7411,7 @@
   },
   "201": {
     "id": 201,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 1, 1, 2, 5, 10, 20",
     "description": "number of ways to make n cents with coins of 1 1 2 5 10 20 cents",
     "specification": "{S = Prod(Sequence(Z),Sequence(Z),Sequence(Prod(Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -7449,7 +7449,7 @@
   },
   "202": {
     "id": 202,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 1, 1, 2, 5, 10, 20 (duplicate of ECS 201)",
     "description": "number of ways to make n cents with coins of 1 1 2 5 10 20 cents",
     "specification": "{S = Prod(Sequence(Z),Sequence(Z),Sequence(Prod(Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -7488,7 +7488,7 @@
   },
   "203": {
     "id": 203,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 1, 1, 1, 2",
     "description": "number of ways to make n cents with coins of 1 1 1 2 cents",
     "specification": "{S = Prod(Sequence(Z),Sequence(Z),Sequence(Z),Sequence(Prod(Z,Z)))}",
     "labeled": false,
@@ -7527,7 +7527,7 @@
   },
   "204": {
     "id": 204,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 1, 1, 1, 2, 2",
     "description": "number of ways to make n cents with coins of 1 1 1 2 2 cents",
     "specification": "{S = Prod(Sequence(Z),Sequence(Z),Sequence(Z),Sequence(Prod(Z,Z)),Sequence(Prod(Z,Z)))}",
     "labeled": false,
@@ -7565,7 +7565,7 @@
   },
   "205": {
     "id": 205,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 1, 1, 1, 2, 2, 3",
     "description": "number of ways to make n cents with coins of 1 1 1 2 2 3 cents",
     "specification": "{S = Prod(Sequence(Z),Sequence(Z),Sequence(Z),Sequence(Prod(Z,Z)),Sequence(Prod(Z,Z)),Sequence(Prod(Z,Z,Z)))}",
     "labeled": false,
@@ -7603,7 +7603,7 @@
   },
   "206": {
     "id": 206,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 1, 1, 1, 2, 2, 3, 4",
     "description": "number of ways to make n cents with coins of 1 1 1 2 2 3 4 cents",
     "specification": "{S = Prod(Sequence(Z),Sequence(Z),Sequence(Z),Sequence(Prod(Z,Z)),Sequence(Prod(Z,Z)),Sequence(Prod(Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z)))}",
     "labeled": false,
@@ -7641,7 +7641,7 @@
   },
   "207": {
     "id": 207,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 1, 1, 3",
     "description": "number of ways to make n cents with coins of 1 1 3 cents",
     "specification": "{S = Prod(Sequence(Z),Sequence(Z),Sequence(Prod(Z,Z,Z)))}",
     "labeled": false,
@@ -7679,7 +7679,7 @@
   },
   "208": {
     "id": 208,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 1, 1, 4",
     "description": "number of ways to make n cents with coins of 1 1 4 cents",
     "specification": "{S = Prod(Sequence(Z),Sequence(Z),Sequence(Prod(Z,Z,Z,Z)))}",
     "labeled": false,
@@ -7717,7 +7717,7 @@
   },
   "209": {
     "id": 209,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 1, 2",
     "description": "number of ways to make n cents with coins of 1 2 cents",
     "specification": "{S =Prod(Sequence(Z),Sequence(Prod(Z,Z)))}",
     "labeled": false,
@@ -7756,7 +7756,7 @@
   },
   "210": {
     "id": 210,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 1, 3",
     "description": "number of ways to make n cents with coins of 1 3 cents",
     "specification": "{S = Prod(Sequence(Z),Sequence(Prod(Z,Z,Z)))}",
     "labeled": false,
@@ -7794,7 +7794,7 @@
   },
   "211": {
     "id": 211,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 1, 4",
     "description": "number of ways to make n cents with coins of 1 4 cents",
     "specification": "{S = Prod(Sequence(Z),Sequence(Prod(Z,Z,Z,Z)))}",
     "labeled": false,
@@ -7832,7 +7832,7 @@
   },
   "212": {
     "id": 212,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 2, 3",
     "description": "number of ways to make n cents with coins of 2 3 cents",
     "specification": "{S = Prod(Sequence(Prod(Z,Z)),Sequence(Prod(Z,Z,Z)))}",
     "labeled": false,
@@ -7871,7 +7871,7 @@
   },
   "213": {
     "id": 213,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 2, 5",
     "description": "number of ways to make n cents with coins of 2 5 cents",
     "specification": "{S = Prod(Sequence(Prod(Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -7909,7 +7909,7 @@
   },
   "214": {
     "id": 214,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 2, 7",
     "description": "number of ways to make n cents with coins of 2 7 cents",
     "specification": "{S = Prod(Sequence(Prod(Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -7947,7 +7947,7 @@
   },
   "215": {
     "id": 215,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 2, 9",
     "description": "number of ways to make n cents with coins of 2 9 cents",
     "specification": "{S = Prod(Sequence(Prod(Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -7985,7 +7985,7 @@
   },
   "216": {
     "id": 216,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 3, 4",
     "description": "number of ways to make n cents with coins of 3 4 cents",
     "specification": "{S = Prod(Sequence(Prod(Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z)))}",
     "labeled": false,
@@ -8023,7 +8023,7 @@
   },
   "217": {
     "id": 217,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 3, 5",
     "description": "number of ways to make n cents with coins of 3 5 cents",
     "specification": "{S = Prod(Sequence(Prod(Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -8061,7 +8061,7 @@
   },
   "218": {
     "id": 218,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 1, 3, 5",
     "description": "number of ways to make n cents with coins of 1 3 5 cents",
     "specification": "{S = Prod(Sequence(Z),Sequence(Prod(Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -8099,7 +8099,7 @@
   },
   "219": {
     "id": 219,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 1, 3, 9",
     "description": "number of ways to make n cents with coins of 1 3 9 cents",
     "specification": "{S = Prod(Sequence(Z),Sequence(Prod(Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -8137,7 +8137,7 @@
   },
   "220": {
     "id": 220,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 1, 4, 16",
     "description": "number of ways to make n cents with coins of 1 4 16 cents",
     "specification": "{S = Prod(Sequence(Z),Sequence(Prod(Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -8175,7 +8175,7 @@
   },
   "221": {
     "id": 221,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 1, 5, 25",
     "description": "number of ways to make n cents with coins of 1 5 25 cents",
     "specification": "{S= Prod(Sequence(Z),Sequence(Prod(Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -8213,7 +8213,7 @@
   },
   "222": {
     "id": 222,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 2, 2, 3",
     "description": "number of ways to make n cents with coins of 2 2 3 cents",
     "specification": "{S = Prod(Sequence(Prod(Z,Z)),Sequence(Prod(Z,Z)),Sequence(Prod(Z,Z,Z)))}",
     "labeled": false,
@@ -8251,7 +8251,7 @@
   },
   "223": {
     "id": 223,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 2, 2, 5",
     "description": "number of ways to make n cents with coins of 2 2 5 cents",
     "specification": "{S = Prod(Sequence(Prod(Z,Z)),Sequence(Prod(Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -8289,7 +8289,7 @@
   },
   "224": {
     "id": 224,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 2, 2, 7",
     "description": "number of ways to make n cents with coins of 2 2 7 cents",
     "specification": "{S = Prod(Sequence(Prod(Z,Z)),Sequence(Prod(Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -8327,7 +8327,7 @@
   },
   "225": {
     "id": 225,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 2, 2, 9",
     "description": "number of ways to make n cents with coins of 2 2 9 cents",
     "specification": "{S = Prod(Sequence(Prod(Z,Z)),Sequence(Prod(Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -8365,7 +8365,7 @@
   },
   "226": {
     "id": 226,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 2, 2, 11",
     "description": "number of ways to make n cents with coins of 2 2 11 cents",
     "specification": "{S = Prod(Sequence(Prod(Z,Z)),Sequence(Prod(Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -8403,7 +8403,7 @@
   },
   "227": {
     "id": 227,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 2, 3, 7",
     "description": "number of ways to make n cents with coins of 2 3 7 cents",
     "specification": "{S = Prod(Sequence(Prod(Z,Z)),Sequence(Prod(Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -8441,7 +8441,7 @@
   },
   "228": {
     "id": 228,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 3, 4, 5",
     "description": "number of ways to make n cents with coins of 3 4 5 cents",
     "specification": "{S = Prod(Sequence(Prod(Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -8479,7 +8479,7 @@
   },
   "229": {
     "id": 229,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 4, 5, 6",
     "description": "number of ways to make n cents with coins of 4 5 6 cents",
     "specification": "{S = Prod(Sequence(Prod(Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -8517,7 +8517,7 @@
   },
   "230": {
     "id": 230,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 3, 5, 7",
     "description": "number of ways to make n cents with coins of 3 5 7 cents",
     "specification": "{S = Prod(Sequence(Prod(Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -8555,7 +8555,7 @@
   },
   "231": {
     "id": 231,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 4, 6, 7",
     "description": "number of ways to make n cents with coins of 4 6 7 cents",
     "specification": "{S = Prod(Sequence(Prod(Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -8592,7 +8592,7 @@
   },
   "232": {
     "id": 232,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 1, 2, 2, 3",
     "description": "number of ways to make n cents with coins of 1 2 2 3 cents",
     "specification": "{S = Prod(Sequence(Z),Sequence(Prod(Z,Z)),Sequence(Prod(Z,Z)),Sequence(Prod(Z,Z,Z)))}",
     "labeled": false,
@@ -8631,7 +8631,7 @@
   },
   "233": {
     "id": 233,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 1, 2, 4, 8",
     "description": "number of ways to make n cents with coins of 1 2 4 8 cents",
     "specification": "{S = Prod(Sequence(Z),Sequence(Prod(Z,Z)),Sequence(Prod(Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -8669,7 +8669,7 @@
   },
   "234": {
     "id": 234,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 1, 3, 5, 7",
     "description": "number of ways to make n cents with coins of 1 3 5 7 cents",
     "specification": "{S = Prod(Sequence(Z),Sequence(Prod(Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -8707,7 +8707,7 @@
   },
   "235": {
     "id": 235,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 1, 3, 9, 27",
     "description": "number of ways to make n cents with coins of 1 3 9 27 cents",
     "specification": "{S = Prod(Sequence(Z),Sequence(Prod(Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -8745,7 +8745,7 @@
   },
   "236": {
     "id": 236,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 2, 6, 8, 12",
     "description": "number of ways to make n cents with coins of 2 6 8 12 cents",
     "specification": "{S = Prod(Sequence(Prod(Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -8783,7 +8783,7 @@
   },
   "237": {
     "id": 237,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 3, 4, 5, 6",
     "description": "number of ways to make n cents with coins of 3 4 5 6 cents",
     "specification": "{S= Prod(Sequence(Prod(Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -8821,7 +8821,7 @@
   },
   "238": {
     "id": 238,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 3, 5, 7, 9",
     "description": "number of ways to make n cents with coins of 3 5 7 9 cents",
     "specification": "{S = Prod(Sequence(Prod(Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -8859,7 +8859,7 @@
   },
   "239": {
     "id": 239,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 4, 8, 12, 20",
     "description": "number of ways to make n cents with coins of 4 8 12 20 cents",
     "specification": "{S = Prod(Sequence(Prod(Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -8897,7 +8897,7 @@
   },
   "240": {
     "id": 240,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 2, 12, 20, 30",
     "description": "number of ways to make n cents with coins of 2 12 20 30 cents",
     "specification": "{S = Prod(Sequence(Prod(Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -8935,7 +8935,7 @@
   },
   "241": {
     "id": 241,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 12, 18, 24, 30",
     "description": "number of ways to make n cents with coins of 12 18 24 30 cents",
     "specification": "{S = Prod(Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -8973,7 +8973,7 @@
   },
   "242": {
     "id": 242,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 1, 4, 6, 12",
     "description": "number of ways to make n cents with coins of 1 4 6 12 cents",
     "specification": "{S = Prod(Sequence(Z),Sequence(Prod(Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -9011,7 +9011,7 @@
   },
   "243": {
     "id": 243,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 1, 2, 4, 8, 16",
     "description": "number of ways to make n cents with coins of 1 2 4 8 16 cents",
     "specification": "{S = Prod(Sequence(Z),Sequence(Prod(Z,Z)),Sequence(Prod(Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -9049,7 +9049,7 @@
   },
   "244": {
     "id": 244,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 1, 3, 5, 7, 9",
     "description": "number of ways to make n cents with coins of 1 3 5 7 9 cents",
     "specification": "{S = Prod(Sequence(Z),Sequence(Prod(Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -9087,7 +9087,7 @@
   },
   "245": {
     "id": 245,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 1, 2, 4, 8, 16, 32",
     "description": "number of ways to make n cents with coins of 1 2 4 8 16 32 cents",
     "specification": "{S = Prod(Sequence(Z),Sequence(Prod(Z,Z)),Sequence(Prod(Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -9125,7 +9125,7 @@
   },
   "246": {
     "id": 246,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 1, 3, 5, 7, 9, 11",
     "description": "number of ways to make n cents with coins of 1 3 5 7 9 11 cents",
     "specification": "{S = Prod(Sequence(Z),Sequence(Prod(Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -9163,7 +9163,7 @@
   },
   "247": {
     "id": 247,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 1, 4, 6, 10, 12, 18",
     "description": "number of ways to make n cents with coins of 1 4 6 10 12 18 cents",
     "specification": "{S = Prod(Sequence(Z),Sequence(Prod(Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -9199,7 +9199,7 @@
   },
   "248": {
     "id": 248,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 2, 5, 6, 8, 9, 12",
     "description": "number of ways to make n cents with coins of 2 5 6 8 9 12 cents",
     "specification": "{S = Prod(Sequence(Prod(Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -9237,7 +9237,7 @@
   },
   "249": {
     "id": 249,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 6, 12, 18, 24, 30, 42",
     "description": "number of ways to make n cents with coins of 6 12 18 24 30 42 cents",
     "specification": "{S = Prod(Sequence(Prod(Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -9275,7 +9275,7 @@
   },
   "250": {
     "id": 250,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 2, 6, 8, 10, 12, 14, 18",
     "description": "number of ways to make n cents with coins of 2 6 8 10 12 14 18 cents",
     "specification": "{S = Prod(Sequence(Prod(Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -9313,7 +9313,7 @@
   },
   "251": {
     "id": 251,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 1, 1, 2, 6, 12, 24, 48, 60",
     "description": "number of ways to make n cents with coins of 1 1 2 6 12 24 48 60 cents",
     "specification": "{S = Prod(Sequence(Z),Sequence(Z),Sequence(Prod(Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -9351,7 +9351,7 @@
   },
   "252": {
     "id": 252,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 2, 8, 12, 14, 18, 20, 24, 30",
     "description": "number of ways to make n cents with coins of 2 8 12 14 18 20 24 30 cents",
     "specification": "{S = Prod(Sequence(Prod(Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -9389,7 +9389,7 @@
   },
   "253": {
     "id": 253,
-    "name": "Binomial coefficients",
+    "name": "Arrangements of n unlabelled objects in 3 rows",
     "description": "Arrangements of n unlabelled objects in 3 rows",
     "specification": "{B = Sequence(Z), S = Prod(B,B,B)}",
     "labeled": false,
@@ -9427,7 +9427,7 @@
   },
   "254": {
     "id": 254,
-    "name": "Binomial coefficients",
+    "name": "Arrangements of n unlabeled objects in 5 rows",
     "description": "Arrangements of n unlabeled objects in 5 rows",
     "specification": "{B = Sequence(Z), S = Prod(B,B,B,B,B)}",
     "labeled": false,
@@ -9466,7 +9466,7 @@
   },
   "255": {
     "id": 255,
-    "name": "Binomial coefficients",
+    "name": "Arrangements of n unlabeled objects in 6 rows",
     "description": "Arrangements of n unlabeled objects in 6 rows",
     "specification": "{B = Sequence(Z), S = Prod(B,B,B,B,B,B)}",
     "labeled": false,
@@ -9504,7 +9504,7 @@
   },
   "256": {
     "id": 256,
-    "name": "Binomial coefficients",
+    "name": "Arrangements of n unlabelled objects in 7 rows",
     "description": "Arrangements of n unlabelled objects in 7 rows",
     "specification": "{B = Sequence(Z), S = Prod(B,B,B,B,B,B,B)}",
     "labeled": false,
@@ -9542,7 +9542,7 @@
   },
   "257": {
     "id": 257,
-    "name": "Binomial coefficients",
+    "name": "Arrangements of n unlabelled objects in 8 rows",
     "description": "Arrangements of n unlabelled objects in 8 rows",
     "specification": "{B = Sequence(Z), S = Prod(B,B,B,B,B,B,B,B)}",
     "labeled": false,
@@ -9580,7 +9580,7 @@
   },
   "258": {
     "id": 258,
-    "name": "Binomial coefficients",
+    "name": "Arrangements of n unlabelled objects in 9 rows",
     "description": "Arrangements of n unlabelled objects in 9 rows",
     "specification": "{B = Sequence(Z), S = Prod(B,B,B,B,B,B,B,B,B)}",
     "labeled": false,
@@ -9618,7 +9618,7 @@
   },
   "259": {
     "id": 259,
-    "name": "Binomial coefficients",
+    "name": "Arrangements of n unlabelled objects in 10 rows",
     "description": "Arrangements of n unlabelled objects in 10 rows",
     "specification": "{B= Sequence(Z), S = Prod(B,B,B,B,B,B,B,B,B,B)}",
     "labeled": false,
@@ -9656,7 +9656,7 @@
   },
   "260": {
     "id": 260,
-    "name": "Binomial coefficients",
+    "name": "Arrangements of n unlabelled objects in 11 rows",
     "description": "Arrangements of n unlabelled objects in 11 rows",
     "specification": "{B= Sequence(Z), S = Prod(B,B,B,B,B,B,B,B,B,B,B)}",
     "labeled": false,
@@ -9694,7 +9694,7 @@
   },
   "261": {
     "id": 261,
-    "name": "Binomial coefficients",
+    "name": "Arrangements of n unlabelled objects in 12 rows",
     "description": "Arrangements of n unlabelled objects in 12 rows",
     "specification": "{B = Sequence(Z), S = Prod(B,B,B,B,B,B,B,B,B,B,B,B)}",
     "labeled": false,
@@ -9732,7 +9732,7 @@
   },
   "262": {
     "id": 262,
-    "name": "Arrangements",
+    "name": "Arrangements of n labelled objects in 3 rows",
     "description": "Arrangements of n labelled objects in 3 rows",
     "specification": "{B= Sequence(Z), S = Prod(B,B,B)}",
     "labeled": true,
@@ -9770,7 +9770,7 @@
   },
   "263": {
     "id": 263,
-    "name": "Arrangements",
+    "name": "Arrangements of n labelled objects in 4 rows",
     "description": "Arrangements of n labelled objects in 4 rows",
     "specification": "{B = Sequence(Z), S = Prod(B,B,B,B)}",
     "labeled": true,
@@ -9808,7 +9808,7 @@
   },
   "264": {
     "id": 264,
-    "name": "Arrangements",
+    "name": "Arrangements of n labeled objects in 5 rows",
     "description": "Arrangements of n labeled objects in 5 rows",
     "specification": "{B = Sequence(Z), S = Prod(B,B,B,B,B)}",
     "labeled": true,
@@ -9845,7 +9845,7 @@
   },
   "265": {
     "id": 265,
-    "name": "Arrangements",
+    "name": "Arrangements of n labelled objects in 6 rows",
     "description": "Arrangements of n labelled objects in 6 rows",
     "specification": "{B = Sequence(Z), S = Prod(B,B,B,B,B,B)}",
     "labeled": true,
@@ -9879,7 +9879,7 @@
   },
   "266": {
     "id": 266,
-    "name": "Arrangements",
+    "name": "Arrangements of n labelled objects in 7 rows",
     "description": "Arrangements of n labelled objects in 7 rows",
     "specification": "{B = Sequence(Z), S = Prod(B,B,B,B,B,B,B)}",
     "labeled": true,
@@ -10565,7 +10565,7 @@
   },
   "284": {
     "id": 284,
-    "name": "Trees",
+    "name": "Planar trees with arity 1",
     "description": "Planar trees with arity 1",
     "specification": "{B = Prod(Z,S), S = Sequence(B)}",
     "labeled": false,
@@ -10603,7 +10603,7 @@
   },
   "285": {
     "id": 285,
-    "name": "Trees",
+    "name": "Planar trees with arity 2",
     "description": "Planar trees with arity 2",
     "specification": "{B = Prod(Z,S,S), S = Sequence(B)}",
     "labeled": false,
@@ -10641,7 +10641,7 @@
   },
   "286": {
     "id": 286,
-    "name": "Trees",
+    "name": "Planar trees with arity 3",
     "description": "Planar trees with arity 3",
     "specification": "{B = Prod(Z,S,S,S), S = Sequence(B)}",
     "labeled": false,
@@ -10679,7 +10679,7 @@
   },
   "287": {
     "id": 287,
-    "name": "Trees",
+    "name": "Planar trees with arity 4",
     "description": "Planar trees with arity 4",
     "specification": "{B = Prod(Z,S,S,S,S),S = Sequence(B)}",
     "labeled": false,
@@ -10717,7 +10717,7 @@
   },
   "288": {
     "id": 288,
-    "name": "Trees",
+    "name": "Planar trees with arity 5",
     "description": "Planar trees with arity 5",
     "specification": "{B = Prod(Z,S,S,S,S,S), S = Sequence(B)}",
     "labeled": false,
@@ -10755,7 +10755,7 @@
   },
   "289": {
     "id": 289,
-    "name": "Trees",
+    "name": "Planar trees with arity 6",
     "description": "Planar trees with arity 6",
     "specification": "{B = Prod(Z,S,S,S,S,S,S), S = Sequence(B)}",
     "labeled": false,
@@ -10793,7 +10793,7 @@
   },
   "290": {
     "id": 290,
-    "name": "Trees",
+    "name": "Planar trees with arity 7",
     "description": "Planar trees with arity 7",
     "specification": "{B = Prod(Z,S,S,S,S,S,S,S), S = Sequence(B)}",
     "labeled": false,
@@ -10831,7 +10831,7 @@
   },
   "291": {
     "id": 291,
-    "name": "Hierarchies",
+    "name": "Hierarchies of height 2",
     "description": "Hierarchies of height 2",
     "specification": "{S = Set(A[1],1 <= card), A[1] = Set(A[2],1 <= card), A[2] = Z}",
     "labeled": true,
@@ -10866,7 +10866,7 @@
   },
   "292": {
     "id": 292,
-    "name": "Hierarchies",
+    "name": "Hierarchies of height 3",
     "description": "Hierarchies of height 3",
     "specification": "{S = Set(A[1],1 <= card), A[1] = Set(A[2],1 <= card), A[2] = Set(A[3],1 <= card), A[3] =Z}",
     "labeled": true,
@@ -10901,7 +10901,7 @@
   },
   "293": {
     "id": 293,
-    "name": "Hierarchies",
+    "name": "Hierarchies of height 4",
     "description": "Hierarchies of height 4",
     "specification": "{S = Set(A[1],1 <= card), A[1] = Set(A[2],1 <= card), A[2] = Set(A[3],1 <= card), A[3] = Set(A[4],1 <= card), A[4] = Z}",
     "labeled": true,
@@ -10936,7 +10936,7 @@
   },
   "294": {
     "id": 294,
-    "name": "Hierarchies",
+    "name": "Hierarchies of height 5",
     "description": "Hierarchies of height 5",
     "specification": "{S = Set(A[1],1 <= card), A[1] = Set(A[2],1 <= card), A[2] =Set(A[3],1 <= card), A[3] = Set(A[4],1 <= card), A[4] = Set(A[5],1 <= card), A[5] = Z}",
     "labeled": true,
@@ -10971,7 +10971,7 @@
   },
   "295": {
     "id": 295,
-    "name": "Hierarchies",
+    "name": "Hierarchies of height 6",
     "description": "Hierarchies of height 6",
     "specification": "{S = Set(A[1],1 <= card), A[1] = Set(A[2],1 <= card), A[2] =Set(A[3],1 <= card), A[3] = Set(A[4],1 <= card), A[4] = Set(A[5],1 <= card), A[5] = Set(A[6],1 <= card), A[6] = Z}",
     "labeled": true,
@@ -11006,7 +11006,7 @@
   },
   "296": {
     "id": 296,
-    "name": "Hierarchies",
+    "name": "Hierarchies of height 7",
     "description": "Hierarchies of height 7",
     "specification": "{S = Set(A[1],1 <= card), A[1] = Set(A[2],1 <= card), A[2] = Set(A[3],1 <= card), A[3] = Set(A[4],1 <= card), A[4] = Set(A[5],1 <= card), A[5] = Set(A[6],1 <= card), A[6] = Set(A[7],1 <= card), A[7] = Z}",
     "labeled": true,
@@ -11041,7 +11041,7 @@
   },
   "297": {
     "id": 297,
-    "name": "Mobiles",
+    "name": "Mobiles of height 1",
     "description": "Mobiles of height 1",
     "specification": "{S = Cycle(A[1]), A[1] = Z}",
     "labeled": true,
@@ -11079,7 +11079,7 @@
   },
   "298": {
     "id": 298,
-    "name": "Mobiles",
+    "name": "Mobiles of height 2",
     "description": "Mobiles of height 2",
     "specification": "{S = Cycle(A[1]), A[1] = Cycle(A[2]), A[2] =Z}",
     "labeled": true,
@@ -11116,7 +11116,7 @@
   },
   "299": {
     "id": 299,
-    "name": "Mobiles",
+    "name": "Mobiles of height 3",
     "description": "Mobiles of height 3",
     "specification": "{S = Cycle(A[1]), A[1] = Cycle(A[2]), A[2] = Cycle(A[3]), A[3] = Z}",
     "labeled": true,
@@ -11152,7 +11152,7 @@
   },
   "300": {
     "id": 300,
-    "name": "Mobiles",
+    "name": "Mobiles of height 4",
     "description": "Mobiles of height 4",
     "specification": "{S = Cycle(A[1]), A[1] = Cycle(A[2]), A[2] = Cycle(A[3]), A[3] = Cycle(A[4]), A[4] = Z}",
     "labeled": true,
@@ -11188,7 +11188,7 @@
   },
   "301": {
     "id": 301,
-    "name": "Mobiles",
+    "name": "Mobiles of height 5",
     "description": "Mobiles of height 5",
     "specification": "{S = Cycle(A[1]), A[1] = Cycle(A[2]), A[2] = Cycle(A[3]), A[3] =Cycle(A[4]), A[4] = Cycle(A[5]), A[5] = Z}",
     "labeled": true,
@@ -11224,7 +11224,7 @@
   },
   "302": {
     "id": 302,
-    "name": "Mobiles",
+    "name": "Mobiles of height 6",
     "description": "Mobiles of height 6",
     "specification": "{S = Cycle(A[1]), A[1] = Cycle(A[2]), A[2] = Cycle(A[3]), A[3] =Cycle(A[4]), A[4] = Cycle(A[5]), A[5] = Cycle(A[6]), A[6] = Z}",
     "labeled": true,
@@ -11260,7 +11260,7 @@
   },
   "303": {
     "id": 303,
-    "name": "Mobiles",
+    "name": "Mobiles of height 7",
     "description": "Mobiles of height 7",
     "specification": "{S = Cycle(A[1]), A[1] = Cycle(A[2]), A[2] = Cycle(A[3]), A[3] = Cycle(A[4]), A[4] = Cycle(A[5]), A[5] = Cycle(A[6]), A[6] = Cycle(A[7]), A[7] = Z}",
     "labeled": true,
@@ -12588,7 +12588,7 @@
   },
   "338": {
     "id": 338,
-    "name": "k-gonal numbers",
+    "name": "1-gonal numbers",
     "description": "1-gonal numbers",
     "specification": "{B = Prod(C,C,C), C = Sequence(Z), E = Prod(Z,B), S = Union(B,E)}",
     "labeled": false,
@@ -12626,7 +12626,7 @@
   },
   "339": {
     "id": 339,
-    "name": "k-gonal numbers",
+    "name": "2-gonal numbers",
     "description": "2-gonal numbers",
     "specification": "{B = Prod(C,C,C), C = Sequence(Z), E = Prod(Z,B), S = Union(B,E,E)}",
     "labeled": false,
@@ -12664,7 +12664,7 @@
   },
   "340": {
     "id": 340,
-    "name": "k-gonal numbers",
+    "name": "3-gonal numbers",
     "description": "3-gonal numbers",
     "specification": "{B = Prod(C,C,C), C = Sequence(Z), E = Prod(Z,B), S = Union(B,E,E,E)}",
     "labeled": false,
@@ -12702,7 +12702,7 @@
   },
   "341": {
     "id": 341,
-    "name": "k-gonal numbers",
+    "name": "4-gonal numbers",
     "description": "4-gonal numbers",
     "specification": "{B = Prod(C,C,C), C = Sequence(Z), E = Prod(Z,B), S = Union(B,E,E,E,E)}",
     "labeled": false,
@@ -12740,7 +12740,7 @@
   },
   "342": {
     "id": 342,
-    "name": "k-gonal numbers",
+    "name": "5-gonal numbers",
     "description": "5-gonal numbers",
     "specification": "{B = Prod(C,C,C), C = Sequence(Z), E = Prod(Z,B), S = Union(B,E,E,E,E,E)}",
     "labeled": false,
@@ -12778,7 +12778,7 @@
   },
   "343": {
     "id": 343,
-    "name": "k-gonal numbers",
+    "name": "6-gonal numbers",
     "description": "6-gonal numbers",
     "specification": "{B = Prod(C,C,C), C = Sequence(Z), E = Prod(Z,B), S = Union(B,E,E,E,E,E,E)}",
     "labeled": false,
@@ -12816,7 +12816,7 @@
   },
   "344": {
     "id": 344,
-    "name": "k-gonal numbers",
+    "name": "7-gonal numbers",
     "description": "7-gonal numbers",
     "specification": "{B = Prod(C,C,C), C = Sequence(Z), E = Prod(Z,B), S = Union(B,E,E,E,E,E,E,E)}",
     "labeled": false,
@@ -12854,7 +12854,7 @@
   },
   "345": {
     "id": 345,
-    "name": "Stirling numbers of the second kind",
+    "name": "Stirling numbers of the second kind S(n, 2)",
     "description": "Partitions of a set of size n into 2 non-empty subsets",
     "specification": "{S= Prod(Sequence(Z),Sequence(Union(Z,Z)))}",
     "labeled": false,
@@ -12893,7 +12893,7 @@
   },
   "346": {
     "id": 346,
-    "name": "Stirling numbers of the second kind",
+    "name": "Stirling numbers of the second kind S(n, 3)",
     "description": "Partitions of a set of size n into 3 non-empty subsets",
     "specification": "{S = Prod(Sequence(Z),Sequence(Union(Z,Z)),Sequence(Union(Z,Z,Z)))}",
     "labeled": false,
@@ -12931,7 +12931,7 @@
   },
   "347": {
     "id": 347,
-    "name": "Stirling numbers of the second kind",
+    "name": "Stirling numbers of the second kind S(n, 4)",
     "description": "Partitions of a set of size n into 4 non-empty subsets",
     "specification": "{S = Prod(Sequence(Z),Sequence(Union(Z,Z)),Sequence(Union(Z,Z,Z)),Sequence(Union(Z,Z,Z,Z)))}",
     "labeled": false,
@@ -12969,7 +12969,7 @@
   },
   "348": {
     "id": 348,
-    "name": "Stirling numbers of the second kind",
+    "name": "Stirling numbers of the second kind S(n, 5)",
     "description": "Partitions of a set of size n into 5 non-empty subsets",
     "specification": "{S= Prod(Sequence(Z),Sequence(Union(Z,Z)),Sequence(Union(Z,Z,Z)),Sequence(Union(Z,Z,Z,Z)),Sequence(Union(Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -13007,7 +13007,7 @@
   },
   "349": {
     "id": 349,
-    "name": "Stirling numbers of the second kind",
+    "name": "Stirling numbers of the second kind S(n, 6)",
     "description": "Partitions of a set of size n into 6 non-empty subsets",
     "specification": "{S= Prod(Sequence(Z),Sequence(Union(Z,Z)),Sequence(Union(Z,Z,Z)),Sequence(Union(Z,Z,Z,Z)),Sequence(Union(Z,Z,Z,Z,Z)),Sequence(Union(Z,Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -13045,7 +13045,7 @@
   },
   "350": {
     "id": 350,
-    "name": "Stirling numbers of the second kind",
+    "name": "Stirling numbers of the second kind S(n, 7)",
     "description": "Partitions of a set of size n into 7 non-empty subsets",
     "specification": "{S = Prod(Sequence(Z),Sequence(Union(Z,Z)),Sequence(Union(Z,Z,Z)),Sequence(Union(Z,Z,Z,Z)),Sequence(Union(Z,Z,Z,Z,Z)),Sequence(Union(Z,Z,Z,Z,Z,Z)),Sequence(Union(Z,Z,Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -13083,7 +13083,7 @@
   },
   "351": {
     "id": 351,
-    "name": "Integer partition",
+    "name": "Integer partitions into at most 2 parts",
     "description": "Partition of n in at most 2 parts",
     "specification": "{S = Set(Sequence(Z,1 <= card),card <= 2)}",
     "labeled": false,
@@ -13122,7 +13122,7 @@
   },
   "352": {
     "id": 352,
-    "name": "Integer partition",
+    "name": "Integer partitions into at most 3 parts",
     "description": "Partition of n in at most 3 parts",
     "specification": "{S = Set(Sequence(Z,1<= card),card <= 3)}",
     "labeled": false,
@@ -13160,7 +13160,7 @@
   },
   "353": {
     "id": 353,
-    "name": "Integer partition",
+    "name": "Integer partitions into at most 4 parts",
     "description": "Partition of n in at most 4 parts",
     "specification": "{S = Set(Sequence(Z,1<= card),card <= 4)}",
     "labeled": false,
@@ -13198,7 +13198,7 @@
   },
   "354": {
     "id": 354,
-    "name": "Integer partition",
+    "name": "Integer partitions into at most 5 parts",
     "description": "Partition of n in at most 5 parts",
     "specification": "{S = Set(Sequence(Z,1 <= card),card <= 5)}",
     "labeled": false,
@@ -13236,7 +13236,7 @@
   },
   "355": {
     "id": 355,
-    "name": "Integer partition",
+    "name": "Integer partitions into at most 6 parts",
     "description": "Partition of n in at most 6 parts",
     "specification": "{S = Set(Sequence(Z,1 <= card),card <= 6)}",
     "labeled": false,
@@ -13274,7 +13274,7 @@
   },
   "356": {
     "id": 356,
-    "name": "Integer partition",
+    "name": "Integer partitions into at most 7 parts",
     "description": "Partition of n in at most 7 parts",
     "specification": "{S = Set(Sequence(Z,1<= card),card <= 7)}",
     "labeled": false,
@@ -13312,7 +13312,7 @@
   },
   "357": {
     "id": 357,
-    "name": "Integer partition",
+    "name": "Integer partitions into at most 8 parts",
     "description": "Partition of n in at most 8 parts",
     "specification": "{S = Set(Sequence(Z,1 <= card),card <= 8)}",
     "labeled": false,
@@ -13350,7 +13350,7 @@
   },
   "358": {
     "id": 358,
-    "name": "Integer partition",
+    "name": "Integer partitions into at most 9 parts",
     "description": "Partition of n in at most 9 parts",
     "specification": "{S = Set(Sequence(Z,1 <= card),card <= 9)}",
     "labeled": false,
@@ -13388,7 +13388,7 @@
   },
   "359": {
     "id": 359,
-    "name": "Integer partition",
+    "name": "Integer partitions into at most 10 parts",
     "description": "Partition of n in at most 10 parts",
     "specification": "{S = Set(Sequence(Z,1 <= card),card<= 10)}",
     "labeled": false,
@@ -13426,7 +13426,7 @@
   },
   "360": {
     "id": 360,
-    "name": "Integer partition",
+    "name": "Integer partitions into at most 11 parts",
     "description": "Partition of n in at most 11 parts",
     "specification": "{S = Set(Sequence(Z,1<= card),card <= 11)}",
     "labeled": false,
@@ -13464,7 +13464,7 @@
   },
   "361": {
     "id": 361,
-    "name": "Integer partition",
+    "name": "Integer partitions into at most 12 parts",
     "description": "Partition of n in at most 12 parts",
     "specification": "{S =Set(Sequence(Z,1 <= card),card <= 12)}",
     "labeled": false,
@@ -13502,7 +13502,7 @@
   },
   "362": {
     "id": 362,
-    "name": "Lists",
+    "name": "Power sum a(n) = 1^n + ... + 2^n",
     "description": "Sum of nth powers",
     "specification": "{S = Union(Sequence(Z),Sequence(Union(Z,Z)))}",
     "labeled": false,
@@ -13540,7 +13540,7 @@
   },
   "363": {
     "id": 363,
-    "name": "Lists",
+    "name": "Power sum a(n) = 1^n + ... + 3^n",
     "description": "Sum of nth powers",
     "specification": "{S = Union(Sequence(Z),Sequence(Union(Z,Z)),Sequence(Union(Z,Z,Z)))}",
     "labeled": false,
@@ -13578,7 +13578,7 @@
   },
   "364": {
     "id": 364,
-    "name": "Lists",
+    "name": "Power sum a(n) = 1^n + ... + 4^n",
     "description": "Sum of nth powers",
     "specification": "{S = Union(Sequence(Z),Sequence(Union(Z,Z)),Sequence(Union(Z,Z,Z)),Sequence(Union(Z,Z,Z,Z)))}",
     "labeled": false,
@@ -13616,7 +13616,7 @@
   },
   "365": {
     "id": 365,
-    "name": "Lists",
+    "name": "Power sum a(n) = 1^n + ... + 5^n",
     "description": "Sum of nth powers",
     "specification": "{S = Union(Sequence(Z),Sequence(Union(Z,Z)),Sequence(Union(Z,Z,Z)),Sequence(Union(Z,Z,Z,Z)),Sequence(Union(Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -13654,7 +13654,7 @@
   },
   "366": {
     "id": 366,
-    "name": "Lists",
+    "name": "Power sum a(n) = 1^n + ... + 6^n",
     "description": "Sum of nth powers",
     "specification": "{S =Union(Sequence(Z),Sequence(Union(Z,Z)),Sequence(Union(Z,Z,Z)),Sequence(Union(Z,Z,Z,Z)),Sequence(Union(Z,Z,Z,Z,Z)),Sequence(Union(Z,Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -13692,7 +13692,7 @@
   },
   "367": {
     "id": 367,
-    "name": "Lists",
+    "name": "Power sum a(n) = 1^n + ... + 7^n",
     "description": "Sum of nth powers",
     "specification": "{S = Union(Sequence(Z),Sequence(Union(Z,Z)),Sequence(Union(Z,Z,Z)),Sequence(Union(Z,Z,Z,Z)),Sequence(Union(Z,Z,Z,Z,Z)),Sequence(Union(Z,Z,Z,Z,Z,Z)),Sequence(Union(Z,Z,Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -13730,7 +13730,7 @@
   },
   "368": {
     "id": 368,
-    "name": "Lists",
+    "name": "Power sum a(n) = 1^n + ... + 8^n",
     "description": "Sum of nth powers",
     "specification": "{S = Union(Sequence(Z),Sequence(Union(Z,Z)),Sequence(Union(Z,Z,Z)),Sequence(Union(Z,Z,Z,Z)),Sequence(Union(Z,Z,Z,Z,Z)),Sequence(Union(Z,Z,Z,Z,Z,Z)),Sequence(Union(Z,Z,Z,Z,Z,Z,Z)),Sequence(Union(Z,Z,Z,Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -13768,7 +13768,7 @@
   },
   "369": {
     "id": 369,
-    "name": "Lists",
+    "name": "Power sum a(n) = 1^n + ... + 9^n",
     "description": "Sum of nth powers",
     "specification": "{S = Union(Sequence(Z),Sequence(Union(Z,Z)),Sequence(Union(Z,Z,Z)),Sequence(Union(Z,Z,Z,Z)),Sequence(Union(Z,Z,Z,Z,Z)),Sequence(Union(Z,Z,Z,Z,Z,Z)),Sequence(Union(Z,Z,Z,Z,Z,Z,Z)),Sequence(Union(Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -13806,7 +13806,7 @@
   },
   "370": {
     "id": 370,
-    "name": "Lists",
+    "name": "Power sum a(n) = 1^n + ... + 10^n",
     "description": "Sum of nth powers",
     "specification": "{S = Union(Sequence(Z),Sequence(Union(Z,Z)),Sequence(Union(Z,Z,Z)),Sequence(Union(Z,Z,Z,Z)),Sequence(Union(Z,Z,Z,Z,Z)),Sequence(Union(Z,Z,Z,Z,Z,Z)),Sequence(Union(Z,Z,Z,Z,Z,Z,Z)),Sequence(Union(Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)))}",
     "labeled": false,
@@ -16726,7 +16726,7 @@
   },
   "448": {
     "id": 448,
-    "name": "Unknown structure",
+    "name": "Partitions into parts 2 and 3",
     "description": "Unknown structure",
     "specification": "{B = Union(Z,Epsilon), C = Prod(Z,Z,B), S = Set(C)}",
     "labeled": false,
@@ -24512,7 +24512,7 @@
   },
   "653": {
     "id": 653,
-    "name": "A simple context-free grammar",
+    "name": "Powers of 2 times Catalan numbers: a(n) = 2^n C(n-1)",
     "description": "square root singularity",
     "specification": "{B = Union(C,Z), C = Prod(S,S), S = Union(B,Z)}",
     "labeled": false,
@@ -25109,7 +25109,7 @@
   },
   "669": {
     "id": 669,
-    "name": "A simple context-free grammar in a labelled universe",
+    "name": "Factorial-weighted powers of 2 times Catalan numbers",
     "description": "square root singularity",
     "specification": "{B = Prod(S,S), C =Union(B,Z), S = Union(Z,C)}",
     "labeled": true,
@@ -26531,7 +26531,7 @@
   },
   "707": {
     "id": 707,
-    "name": "A simple grammar",
+    "name": "Sets of rooted ternary structures",
     "description": "A simple grammar",
     "specification": "{B = Prod(S,S,S,Z), S = Set(B)}",
     "labeled": false,
@@ -26710,7 +26710,7 @@
   },
   "712": {
     "id": 712,
-    "name": "A simple grammar",
+    "name": "Structures with EGF -(1/3) LambertW(-3x)",
     "description": "E.g.f.: (-1/3)*LambertW(-3*x)",
     "specification": "{B = Set(S), S = Prod(B,B,B,Z)}",
     "labeled": true,
@@ -27376,7 +27376,7 @@
   },
   "730": {
     "id": 730,
-    "name": "A simple grammar",
+    "name": "Sets of rooted quaternary structures",
     "description": "A simple grammar",
     "specification": "{B = Prod(Z,S,S,S,S), S = Set(B)}",
     "labeled": false,
@@ -28445,7 +28445,7 @@
   },
   "759": {
     "id": 759,
-    "name": "A simple grammar",
+    "name": "Labelled pairs of sequences of cycles",
     "description": "labelled pairs of Sequences of Cycles",
     "specification": "{B = Sequence(C), C = Cycle(Z), S = Prod(B,B)}",
     "labeled": true,
@@ -28659,7 +28659,7 @@
   },
   "765": {
     "id": 765,
-    "name": "A simple grammar",
+    "name": "Cycles of rooted cycles",
     "description": "Cycles of rooted Cycles",
     "specification": "{B = Prod(C,Z), C = Cycle(Z), S = Cycle(B)}",
     "labeled": true,
@@ -28869,7 +28869,7 @@
   },
   "771": {
     "id": 771,
-    "name": "A simple grammar",
+    "name": "Rooted cycles of cycles",
     "description": "Cycles of Cycles",
     "specification": "{B = Cycle(C), C = Cycle(Z), S = Prod(B,Z)}",
     "labeled": true,
@@ -29009,7 +29009,7 @@
   },
   "775": {
     "id": 775,
-    "name": "A simple grammar",
+    "name": "Sequences of pairs of cycles",
     "description": "Sequences of pairs of Cycles",
     "specification": "{B = Cycle(Z), C = Prod(B,B), S = Sequence(C)}",
     "labeled": true,
@@ -29045,7 +29045,7 @@
   },
   "776": {
     "id": 776,
-    "name": "A simple grammar",
+    "name": "Power sets of pairs of sequences",
     "description": "PowerSet of pairs of Sequences",
     "specification": "{B = Sequence(Z,1 <= card), C = Prod(B,B), S = PowerSet(C)}",
     "labeled": false,
@@ -29154,7 +29154,7 @@
   },
   "779": {
     "id": 779,
-    "name": "A simple grammar",
+    "name": "Rooted power sets of cycles",
     "description": "A simple grammar",
     "specification": "{B = PowerSet(C), C = Cycle(S), S = Prod(B,Z)}",
     "labeled": false,
@@ -29188,7 +29188,7 @@
   },
   "780": {
     "id": 780,
-    "name": "Number of objects generated by the Combstruct grammar defined in the Maple program. See the link for the grammar specification",
+    "name": "Cycles of rooted sequences",
     "description": "Number of objects generated by the Combstruct grammar defined in the Maple program. See the link for the grammar specification",
     "specification": "{B = Prod(C,Z), C = Sequence(S), S = Cycle(B)}",
     "labeled": false,
@@ -29291,7 +29291,7 @@
   },
   "783": {
     "id": 783,
-    "name": "Number of objects generated by the Combstruct grammar defined in the Maple program. See the link for the grammar specification",
+    "name": "Rooted sequences of recursively defined cycles",
     "description": "Number of objects generated by the Combstruct grammar defined in the Maple program. See the link for the grammar specification",
     "specification": "{B = Cycle(S), C = Sequence(B), S = Prod(C,Z)}",
     "labeled": false,
@@ -29395,7 +29395,7 @@
   },
   "786": {
     "id": 786,
-    "name": "A simple grammar",
+    "name": "Pairs of cycles of sequences",
     "description": "pairs of Cycles of Sequences",
     "specification": "{B = Sequence(Z,1 <= card), C = Cycle(B), S = Prod(C,C)}",
     "labeled": false,
@@ -29430,7 +29430,7 @@
   },
   "787": {
     "id": 787,
-    "name": "A simple grammar",
+    "name": "Pairs of cycles of cycles",
     "description": "pairs of Cycles of Cycles",
     "specification": "{B = Cycle(Z), C = Cycle(B), S = Prod(C,C)}",
     "labeled": true,
@@ -29466,7 +29466,7 @@
   },
   "788": {
     "id": 788,
-    "name": "A simple grammar",
+    "name": "Cycles of pairs of sequences",
     "description": "Cycles of pairs of Sequences",
     "specification": "{B = Sequence(Z,1 <= card), C = Prod(B,B), S =Cycle(C)}",
     "labeled": false,
@@ -29501,7 +29501,7 @@
   },
   "789": {
     "id": 789,
-    "name": "A simple grammar",
+    "name": "Cycles of pairs of cycles",
     "description": "Cycles of pairs of Cycles",
     "specification": "{B = Cycle(Z), C = Prod(B,B), S = Cycle(C)}",
     "labeled": true,
@@ -29572,7 +29572,7 @@
   },
   "791": {
     "id": 791,
-    "name": "A simple grammar",
+    "name": "Products of cycles and cycles of cycles",
     "description": "Product of Cycles and Cycles of Cycles",
     "specification": "{B = Cycle(C), C = Cycle(Z), S = Prod(C,B)}",
     "labeled": true,
@@ -29642,7 +29642,7 @@
   },
   "793": {
     "id": 793,
-    "name": "A simple grammar",
+    "name": "Unions of cycles and cycles of cycles",
     "description": "Union of Cycles and Cycles of Cycles",
     "specification": "{B = Cycle(C), C = Cycle(Z), S = Union(C,B)}",
     "labeled": true,
@@ -29712,7 +29712,7 @@
   },
   "795": {
     "id": 795,
-    "name": "A simple grammar",
+    "name": "Sequences of rooted cycles",
     "description": "Sequences of rooted Cycles",
     "specification": "{B = Prod(C,Z), C = Cycle(Z), S = Sequence(B)}",
     "labeled": true,
@@ -29748,7 +29748,7 @@
   },
   "796": {
     "id": 796,
-    "name": "A simple grammar",
+    "name": "Cycles of rooted power sets",
     "description": "A simple grammar",
     "specification": "{B = Prod(C,Z), C = PowerSet(S), S = Cycle(B)}",
     "labeled": false,
@@ -30645,7 +30645,7 @@
   },
   "821": {
     "id": 821,
-    "name": "A simple grammar",
+    "name": "Cycles of rooted sets",
     "description": "A simple grammar",
     "specification": "{B = Set(S), C = Prod(Z,B), S = Cycle(C)}",
     "labeled": false,
@@ -30890,7 +30890,7 @@
   },
   "828": {
     "id": 828,
-    "name": "A simple grammar",
+    "name": "Rooted sequences of atomic cycles",
     "description": "rooted Sequences of Cycles",
     "specification": "{B = Sequence(C), C = Cycle(Z), S = Prod(Z,B)}",
     "labeled": true,
@@ -31331,7 +31331,7 @@
   },
   "840": {
     "id": 840,
-    "name": "A simple grammar",
+    "name": "Nonempty sets of rooted power sets",
     "description": "A simple grammar",
     "specification": "{B = PowerSet(S), C = Prod(Z,B), S = Set(C,1 <= card)}",
     "labeled": false,
@@ -31435,7 +31435,7 @@
   },
   "843": {
     "id": 843,
-    "name": "A simple grammar",
+    "name": "Sets of nonempty sequences of rooted sets",
     "description": "A simple grammar",
     "specification": "{B = Prod(Z,S), C = Sequence(B,1 <= card), S =Set(C)}",
     "labeled": false,
@@ -31687,7 +31687,7 @@
   },
   "850": {
     "id": 850,
-    "name": "Number of objects generated by the Combstruct grammar defined in the Maple program. See the link for the grammar specification",
+    "name": "Power sets of nonempty sequences of rooted power sets",
     "description": "Number of objects generated by the Combstruct grammar defined in the Maple program. See the link for the grammar specification",
     "specification": "{B = Sequence(C,1 <= card), C = Prod(Z,S), S =PowerSet(B)}",
     "labeled": false,
@@ -31866,7 +31866,7 @@
   },
   "855": {
     "id": 855,
-    "name": "A simple grammar",
+    "name": "Rooted ordered set partitions",
     "description": "rooted ordered set partitions",
     "specification": "{B = Set(Z,1 <= card), C = Sequence(B), S = Prod(Z,C)}",
     "labeled": true,
@@ -31939,7 +31939,7 @@
   },
   "857": {
     "id": 857,
-    "name": "Number of objects generated by the Combstruct grammar defined in the Maple program. See the link for the grammar specification",
+    "name": "Nonempty sequences of rooted sets",
     "description": "Number of objects generated by the Combstruct grammar defined in the Maple program. See the link for the grammar specification",
     "specification": "{B= Prod(Z,C), C = Set(S), S = Sequence(B,1 <= card)}",
     "labeled": false,
@@ -32223,7 +32223,7 @@
   },
   "865": {
     "id": 865,
-    "name": "A simple grammar",
+    "name": "Rooted set partitions",
     "description": "rooted set partitions",
     "specification": "{B = Set(C), C = Set(Z,1 <= card), S = Prod(Z,B)}",
     "labeled": true,
@@ -32258,7 +32258,7 @@
   },
   "866": {
     "id": 866,
-    "name": "A simple grammar",
+    "name": "Power sets of nonempty sets of rooted power sets",
     "description": "A simple grammar",
     "specification": "{B = Set(C,1 <= card), C = Prod(Z,S), S = PowerSet(B)}",
     "labeled": false,
@@ -32292,7 +32292,7 @@
   },
   "867": {
     "id": 867,
-    "name": "Number of objects generated by the Combstruct grammar defined in the Maple program. See the link for the grammar specification",
+    "name": "Nonempty sets of rooted sequences",
     "description": "Number of objects generated by the Combstruct grammar defined in the Maple program. See the link for the grammar specification",
     "specification": "{B = Sequence(S), C = Prod(Z,B), S =Set(C,1 <= card)}",
     "labeled": false,
@@ -32362,7 +32362,7 @@
   },
   "869": {
     "id": 869,
-    "name": "Number of objects generated by the Combstruct grammar defined in the Maple program. See the link for the grammar specification",
+    "name": "Sequences of nonempty sets of rooted sequences",
     "description": "Number of objects generated by the Combstruct grammar defined in the Maple program. See the link for the grammar specification",
     "specification": "{B = Prod(Z,S), C = Set(B,1 <= card), S =Sequence(C)}",
     "labeled": false,
@@ -34858,7 +34858,7 @@
   },
   "935": {
     "id": 935,
-    "name": "Arithmetic sequence",
+    "name": "Arithmetic sequence a(n) = 2n + 1",
     "description": "2 n + 1",
     "specification": "{S = Union(Prod(Union(Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z),Sequence(Z)))}",
     "labeled": false,
@@ -34896,7 +34896,7 @@
   },
   "936": {
     "id": 936,
-    "name": "Arithmetic sequence",
+    "name": "Arithmetic sequence a(n) = 3n + 1",
     "description": "3 n + 1",
     "specification": "{S = Union(Prod(Union(Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z),Sequence(Z)))}",
     "labeled": false,
@@ -34934,7 +34934,7 @@
   },
   "937": {
     "id": 937,
-    "name": "Arithmetic sequence",
+    "name": "Arithmetic sequence a(n) = 3n + 2",
     "description": "3 n + 2",
     "specification": "{S = Union(Prod(Union(Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z),Sequence(Z)))}",
     "labeled": false,
@@ -34972,7 +34972,7 @@
   },
   "938": {
     "id": 938,
-    "name": "Arithmetic sequence",
+    "name": "Arithmetic sequence a(n) = 4n + 1",
     "description": "4 n + 1",
     "specification": "{S = Union(Prod(Union(Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z),Sequence(Z)))}",
     "labeled": false,
@@ -35010,7 +35010,7 @@
   },
   "939": {
     "id": 939,
-    "name": "Arithmetic sequence",
+    "name": "Arithmetic sequence a(n) = 4n + 2",
     "description": "4 n + 2",
     "specification": "{S = Union(Prod(Union(Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z),Sequence(Z)))}",
     "labeled": false,
@@ -35048,7 +35048,7 @@
   },
   "940": {
     "id": 940,
-    "name": "Arithmetic sequence",
+    "name": "Arithmetic sequence a(n) = 4n + 3",
     "description": "4 n + 3",
     "specification": "{S =Union(Prod(Union(Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z,Z),Sequence(Z)))}",
     "labeled": false,
@@ -35086,7 +35086,7 @@
   },
   "941": {
     "id": 941,
-    "name": "Arithmetic sequence",
+    "name": "Arithmetic sequence a(n) = 5n + 1",
     "description": "5 n + 1",
     "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z),Sequence(Z)))}",
     "labeled": false,
@@ -35124,7 +35124,7 @@
   },
   "942": {
     "id": 942,
-    "name": "Arithmetic sequence",
+    "name": "Arithmetic sequence a(n) = 5n + 2",
     "description": "5 n + 2",
     "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z),Sequence(Z)))}",
     "labeled": false,
@@ -35162,7 +35162,7 @@
   },
   "943": {
     "id": 943,
-    "name": "Arithmetic sequence",
+    "name": "Arithmetic sequence a(n) = 5n + 3",
     "description": "5 n + 3",
     "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z,Z),Sequence(Z)))}",
     "labeled": false,
@@ -35200,7 +35200,7 @@
   },
   "944": {
     "id": 944,
-    "name": "Arithmetic sequence",
+    "name": "Arithmetic sequence a(n) = 5n + 4",
     "description": "5 n + 4",
     "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z,Z,Z),Sequence(Z)))}",
     "labeled": false,
@@ -35238,7 +35238,7 @@
   },
   "945": {
     "id": 945,
-    "name": "Arithmetic sequence",
+    "name": "Arithmetic sequence a(n) = 6n + 1",
     "description": "6 n + 1",
     "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z),Sequence(Z)))}",
     "labeled": false,
@@ -35276,7 +35276,7 @@
   },
   "946": {
     "id": 946,
-    "name": "Arithmetic sequence",
+    "name": "Arithmetic sequence a(n) = 6n + 2",
     "description": "6 n + 2",
     "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z),Sequence(Z)))}",
     "labeled": false,
@@ -35314,7 +35314,7 @@
   },
   "947": {
     "id": 947,
-    "name": "Arithmetic sequence",
+    "name": "Arithmetic sequence a(n) = 6n + 3",
     "description": "6 n + 3",
     "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z,Z),Sequence(Z)))}",
     "labeled": false,
@@ -35352,7 +35352,7 @@
   },
   "948": {
     "id": 948,
-    "name": "Arithmetic sequence",
+    "name": "Arithmetic sequence a(n) = 6n + 4",
     "description": "6 n + 4",
     "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z,Z,Z),Sequence(Z)))}",
     "labeled": false,
@@ -35390,7 +35390,7 @@
   },
   "949": {
     "id": 949,
-    "name": "Arithmetic sequence",
+    "name": "Arithmetic sequence a(n) = 6n + 5",
     "description": "6 n + 5",
     "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z,Z,Z,Z),Sequence(Z)))}",
     "labeled": false,
@@ -35428,7 +35428,7 @@
   },
   "950": {
     "id": 950,
-    "name": "Arithmetic sequence",
+    "name": "Arithmetic sequence a(n) = 7n + 1",
     "description": "7 n + 1",
     "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z),Sequence(Z)))}",
     "labeled": false,
@@ -35466,7 +35466,7 @@
   },
   "951": {
     "id": 951,
-    "name": "Arithmetic sequence",
+    "name": "Arithmetic sequence a(n) = 7n + 2",
     "description": "7 n + 2",
     "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z),Sequence(Z)))}",
     "labeled": false,
@@ -35504,7 +35504,7 @@
   },
   "952": {
     "id": 952,
-    "name": "Arithmetic sequence",
+    "name": "Arithmetic sequence a(n) = 7n + 3",
     "description": "7 n + 3",
     "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z,Z),Sequence(Z)))}",
     "labeled": false,
@@ -35542,7 +35542,7 @@
   },
   "953": {
     "id": 953,
-    "name": "Arithmetic sequence",
+    "name": "Arithmetic sequence a(n) = 7n + 4",
     "description": "7 n + 4",
     "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z,Z,Z),Sequence(Z)))}",
     "labeled": false,
@@ -35580,7 +35580,7 @@
   },
   "954": {
     "id": 954,
-    "name": "Arithmetic sequence",
+    "name": "Arithmetic sequence a(n) = 7n + 5",
     "description": "7 n + 5",
     "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z,Z,Z,Z),Sequence(Z)))}",
     "labeled": false,
@@ -35618,7 +35618,7 @@
   },
   "955": {
     "id": 955,
-    "name": "Arithmetic sequence",
+    "name": "Arithmetic sequence a(n) = 7n + 6",
     "description": "7 n + 6",
     "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z,Z,Z,Z,Z),Sequence(Z)))}",
     "labeled": false,
@@ -35656,7 +35656,7 @@
   },
   "956": {
     "id": 956,
-    "name": "Arithmetic sequence",
+    "name": "Arithmetic sequence a(n) = 8n + 1",
     "description": "8 n + 1",
     "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z),Sequence(Z)))}",
     "labeled": false,
@@ -35694,7 +35694,7 @@
   },
   "957": {
     "id": 957,
-    "name": "Arithmetic sequence",
+    "name": "Arithmetic sequence a(n) = 8n + 2",
     "description": "8 n + 2",
     "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z),Sequence(Z)))}",
     "labeled": false,
@@ -35732,7 +35732,7 @@
   },
   "958": {
     "id": 958,
-    "name": "Arithmetic sequence",
+    "name": "Arithmetic sequence a(n) = 8n + 3",
     "description": "8 n + 3",
     "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z,Z),Sequence(Z)))}",
     "labeled": false,
@@ -35770,7 +35770,7 @@
   },
   "959": {
     "id": 959,
-    "name": "Arithmetic sequence",
+    "name": "Arithmetic sequence a(n) = 8n + 4",
     "description": "8 n + 4",
     "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z,Z,Z),Sequence(Z)))}",
     "labeled": false,
@@ -35808,7 +35808,7 @@
   },
   "960": {
     "id": 960,
-    "name": "Arithmetic sequence",
+    "name": "Arithmetic sequence a(n) = 8n + 5",
     "description": "8 n + 5",
     "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z,Z,Z,Z),Sequence(Z)))}",
     "labeled": false,
@@ -35846,7 +35846,7 @@
   },
   "961": {
     "id": 961,
-    "name": "Arithmetic sequence",
+    "name": "Arithmetic sequence a(n) = 8n + 6",
     "description": "8 n + 6",
     "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z,Z,Z,Z,Z),Sequence(Z)))}",
     "labeled": false,
@@ -35884,7 +35884,7 @@
   },
   "962": {
     "id": 962,
-    "name": "Arithmetic sequence",
+    "name": "Arithmetic sequence a(n) = 8n + 7",
     "description": "8 n + 7",
     "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z,Z,Z,Z,Z,Z),Sequence(Z)))}",
     "labeled": false,
@@ -35922,7 +35922,7 @@
   },
   "963": {
     "id": 963,
-    "name": "Arithmetic sequence",
+    "name": "Arithmetic sequence a(n) = 9n + 1",
     "description": "9 n + 1",
     "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z),Sequence(Z)))}",
     "labeled": false,
@@ -35960,7 +35960,7 @@
   },
   "964": {
     "id": 964,
-    "name": "Arithmetic sequence",
+    "name": "Arithmetic sequence a(n) = 9n + 2",
     "description": "9 n + 2",
     "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z),Sequence(Z)))}",
     "labeled": false,
@@ -35998,7 +35998,7 @@
   },
   "965": {
     "id": 965,
-    "name": "Arithmetic sequence",
+    "name": "Arithmetic sequence a(n) = 9n + 3",
     "description": "9 n + 3",
     "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z,Z),Sequence(Z)))}",
     "labeled": false,
@@ -36036,7 +36036,7 @@
   },
   "966": {
     "id": 966,
-    "name": "Arithmetic sequence",
+    "name": "Arithmetic sequence a(n) = 9n + 4",
     "description": "9 n + 4",
     "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z,Z,Z),Sequence(Z)))}",
     "labeled": false,
@@ -36074,7 +36074,7 @@
   },
   "967": {
     "id": 967,
-    "name": "Arithmetic sequence",
+    "name": "Arithmetic sequence a(n) = 9n + 5",
     "description": "9 n + 5",
     "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z,Z,Z,Z),Sequence(Z)))}",
     "labeled": false,
@@ -36112,7 +36112,7 @@
   },
   "968": {
     "id": 968,
-    "name": "Arithmetic sequence",
+    "name": "Arithmetic sequence a(n) = 9n + 6",
     "description": "9 n + 6",
     "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z,Z,Z,Z,Z),Sequence(Z)))}",
     "labeled": false,
@@ -36150,7 +36150,7 @@
   },
   "969": {
     "id": 969,
-    "name": "Arithmetic sequence",
+    "name": "Arithmetic sequence a(n) = 9n + 7",
     "description": "9 n + 7",
     "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z,Z,Z,Z,Z,Z),Sequence(Z)))}",
     "labeled": false,
@@ -36188,7 +36188,7 @@
   },
   "970": {
     "id": 970,
-    "name": "Arithmetic sequence",
+    "name": "Arithmetic sequence a(n) = 9n + 8",
     "description": "9 n + 8",
     "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z)))}",
     "labeled": false,
@@ -36226,7 +36226,7 @@
   },
   "971": {
     "id": 971,
-    "name": "Arithmetic sequence",
+    "name": "Arithmetic sequence a(n) = 10n + 1",
     "description": "10 n + 1",
     "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z),Sequence(Z)))}",
     "labeled": false,
@@ -36264,7 +36264,7 @@
   },
   "972": {
     "id": 972,
-    "name": "Arithmetic sequence",
+    "name": "Arithmetic sequence a(n) = 10n + 2",
     "description": "10 n + 2",
     "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z),Sequence(Z)))}",
     "labeled": false,
@@ -36302,7 +36302,7 @@
   },
   "973": {
     "id": 973,
-    "name": "Arithmetic sequence",
+    "name": "Arithmetic sequence a(n) = 10n + 3",
     "description": "10 n + 3",
     "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z,Z),Sequence(Z)))}",
     "labeled": false,
@@ -36340,7 +36340,7 @@
   },
   "974": {
     "id": 974,
-    "name": "Arithmetic sequence",
+    "name": "Arithmetic sequence a(n) = 10n + 4",
     "description": "10 n + 4",
     "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z,Z,Z),Sequence(Z)))}",
     "labeled": false,
@@ -36378,7 +36378,7 @@
   },
   "975": {
     "id": 975,
-    "name": "Arithmetic sequence",
+    "name": "Arithmetic sequence a(n) = 10n + 5",
     "description": "10 n + 5",
     "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z,Z,Z,Z),Sequence(Z)))}",
     "labeled": false,
@@ -36416,7 +36416,7 @@
   },
   "976": {
     "id": 976,
-    "name": "Arithmetic sequence",
+    "name": "Arithmetic sequence a(n) = 10n + 6",
     "description": "10 n + 6",
     "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z,Z,Z,Z,Z),Sequence(Z)))}",
     "labeled": false,
@@ -36454,7 +36454,7 @@
   },
   "977": {
     "id": 977,
-    "name": "Arithmetic sequence",
+    "name": "Arithmetic sequence a(n) = 10n + 7",
     "description": "10 n + 7",
     "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z,Z,Z,Z,Z,Z),Sequence(Z)))}",
     "labeled": false,
@@ -36492,7 +36492,7 @@
   },
   "978": {
     "id": 978,
-    "name": "Arithmetic sequence",
+    "name": "Arithmetic sequence a(n) = 10n + 8",
     "description": "10 n + 8",
     "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z)))}",
     "labeled": false,
@@ -36530,7 +36530,7 @@
   },
   "979": {
     "id": 979,
-    "name": "Arithmetic sequence",
+    "name": "Arithmetic sequence a(n) = 10n + 9",
     "description": "10 n + 9",
     "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z)))}",
     "labeled": false,
@@ -36568,7 +36568,7 @@
   },
   "980": {
     "id": 980,
-    "name": "Arithmetic sequence",
+    "name": "Arithmetic sequence a(n) = 11n + 1",
     "description": "11 n + 1",
     "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z),Sequence(Z)))}",
     "labeled": false,
@@ -36606,7 +36606,7 @@
   },
   "981": {
     "id": 981,
-    "name": "Arithmetic sequence",
+    "name": "Arithmetic sequence a(n) = 11n + 2",
     "description": "11 n + 2",
     "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z),Sequence(Z)))}",
     "labeled": false,
@@ -36644,7 +36644,7 @@
   },
   "982": {
     "id": 982,
-    "name": "Arithmetic sequence",
+    "name": "Arithmetic sequence a(n) = 11n + 3",
     "description": "11 n + 3",
     "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z,Z),Sequence(Z)))}",
     "labeled": false,
@@ -36682,7 +36682,7 @@
   },
   "983": {
     "id": 983,
-    "name": "Arithmetic sequence",
+    "name": "Arithmetic sequence a(n) = 11n + 4",
     "description": "11 n + 4",
     "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z,Z,Z),Sequence(Z)))}",
     "labeled": false,
@@ -36720,7 +36720,7 @@
   },
   "984": {
     "id": 984,
-    "name": "Arithmetic sequence",
+    "name": "Arithmetic sequence a(n) = 11n + 5",
     "description": "11 n + 5",
     "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z,Z,Z,Z),Sequence(Z)))}",
     "labeled": false,
@@ -36758,7 +36758,7 @@
   },
   "985": {
     "id": 985,
-    "name": "Arithmetic sequence",
+    "name": "Arithmetic sequence a(n) = 11n + 6",
     "description": "11 n + 6",
     "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z,Z,Z,Z,Z),Sequence(Z)))}",
     "labeled": false,
@@ -36796,7 +36796,7 @@
   },
   "986": {
     "id": 986,
-    "name": "Arithmetic sequence",
+    "name": "Arithmetic sequence a(n) = 11n + 7",
     "description": "11 n + 7",
     "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z,Z,Z,Z,Z,Z),Sequence(Z)))}",
     "labeled": false,
@@ -36834,7 +36834,7 @@
   },
   "987": {
     "id": 987,
-    "name": "Arithmetic sequence",
+    "name": "Arithmetic sequence a(n) = 11n + 8",
     "description": "11 n + 8",
     "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z)))}",
     "labeled": false,
@@ -36872,7 +36872,7 @@
   },
   "988": {
     "id": 988,
-    "name": "Arithmetic sequence",
+    "name": "Arithmetic sequence a(n) = 11n + 9",
     "description": "11 n + 9",
     "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z)))}",
     "labeled": false,
@@ -36910,7 +36910,7 @@
   },
   "989": {
     "id": 989,
-    "name": "Arithmetic sequence",
+    "name": "Arithmetic sequence a(n) = 11n + 10",
     "description": "11 n + 10",
     "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z)))}",
     "labeled": false,
@@ -36948,7 +36948,7 @@
   },
   "990": {
     "id": 990,
-    "name": "Arithmetic sequence",
+    "name": "Arithmetic sequence a(n) = 12n + 1",
     "description": "12 n + 1",
     "specification": "{S= Union(Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z),Sequence(Z)))}",
     "labeled": false,
@@ -36986,7 +36986,7 @@
   },
   "991": {
     "id": 991,
-    "name": "Arithmetic sequence",
+    "name": "Arithmetic sequence a(n) = 12n + 2",
     "description": "12 n + 2",
     "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z),Sequence(Z)))}",
     "labeled": false,
@@ -37024,7 +37024,7 @@
   },
   "992": {
     "id": 992,
-    "name": "Arithmetic sequence",
+    "name": "Arithmetic sequence a(n) = 12n + 3",
     "description": "12 n + 3",
     "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z,Z),Sequence(Z)))}",
     "labeled": false,
@@ -37062,7 +37062,7 @@
   },
   "993": {
     "id": 993,
-    "name": "Arithmetic sequence",
+    "name": "Arithmetic sequence a(n) = 12n + 4",
     "description": "12 n + 4",
     "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z,Z,Z),Sequence(Z)))}",
     "labeled": false,
@@ -37100,7 +37100,7 @@
   },
   "994": {
     "id": 994,
-    "name": "Arithmetic sequence",
+    "name": "Arithmetic sequence a(n) = 12n + 5",
     "description": "12 n + 5",
     "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z,Z,Z,Z),Sequence(Z)))}",
     "labeled": false,
@@ -37138,7 +37138,7 @@
   },
   "995": {
     "id": 995,
-    "name": "Arithmetic sequence",
+    "name": "Arithmetic sequence a(n) = 12n + 6",
     "description": "12 n + 6",
     "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z,Z,Z,Z,Z),Sequence(Z)))}",
     "labeled": false,
@@ -37176,7 +37176,7 @@
   },
   "996": {
     "id": 996,
-    "name": "Arithmetic sequence",
+    "name": "Arithmetic sequence a(n) = 12n + 7",
     "description": "12 n + 7",
     "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z,Z,Z,Z,Z,Z),Sequence(Z)))}",
     "labeled": false,
@@ -37214,7 +37214,7 @@
   },
   "997": {
     "id": 997,
-    "name": "Arithmetic sequence",
+    "name": "Arithmetic sequence a(n) = 12n + 8",
     "description": "12 n + 8",
     "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z)))}",
     "labeled": false,
@@ -37252,7 +37252,7 @@
   },
   "998": {
     "id": 998,
-    "name": "Arithmetic sequence",
+    "name": "Arithmetic sequence a(n) = 12n + 9",
     "description": "12 n + 9",
     "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z)))}",
     "labeled": false,
@@ -37290,7 +37290,7 @@
   },
   "999": {
     "id": 999,
-    "name": "Arithmetic sequence",
+    "name": "Arithmetic sequence a(n) = 12n + 10",
     "description": "12 n + 10",
     "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z)))}",
     "labeled": false,
@@ -37328,7 +37328,7 @@
   },
   "1000": {
     "id": 1000,
-    "name": "Arithmetic sequence",
+    "name": "Arithmetic sequence a(n) = 12n + 11",
     "description": "12 n + 11",
     "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z)))}",
     "labeled": false,
@@ -37708,7 +37708,7 @@
   },
   "1010": {
     "id": 1010,
-    "name": "Constant sequence",
+    "name": "Constant sequence a(n) = 2",
     "description": "All 2's",
     "specification": "{S = Prod(Union(Z,Z),Sequence(Z))}",
     "labeled": false,
@@ -37746,7 +37746,7 @@
   },
   "1011": {
     "id": 1011,
-    "name": "Constant sequence",
+    "name": "Constant sequence a(n) = 3",
     "description": "All 3's",
     "specification": "{S = Prod(Union(Z,Z,Z),Sequence(Z))}",
     "labeled": false,
@@ -37784,7 +37784,7 @@
   },
   "1012": {
     "id": 1012,
-    "name": "Constant sequence",
+    "name": "Constant sequence a(n) = 4",
     "description": "All 4's",
     "specification": "{S =Prod(Union(Z,Z,Z,Z),Sequence(Z))}",
     "labeled": false,
@@ -37822,7 +37822,7 @@
   },
   "1013": {
     "id": 1013,
-    "name": "Constant sequence",
+    "name": "Constant sequence a(n) = 5",
     "description": "All 5's",
     "specification": "{S = Prod(Union(Z,Z,Z,Z,Z),Sequence(Z))}",
     "labeled": false,
@@ -37860,7 +37860,7 @@
   },
   "1014": {
     "id": 1014,
-    "name": "Constant sequence",
+    "name": "Constant sequence a(n) = 6",
     "description": "All 6's",
     "specification": "{S = Prod(Union(Z,Z,Z,Z,Z,Z),Sequence(Z))}",
     "labeled": false,
@@ -37898,7 +37898,7 @@
   },
   "1015": {
     "id": 1015,
-    "name": "Constant sequence",
+    "name": "Constant sequence a(n) = 7",
     "description": "All 7's",
     "specification": "{S = Prod(Union(Z,Z,Z,Z,Z,Z,Z),Sequence(Z))}",
     "labeled": false,
@@ -37936,7 +37936,7 @@
   },
   "1016": {
     "id": 1016,
-    "name": "Constant sequence",
+    "name": "Constant sequence a(n) = 8",
     "description": "All 8's",
     "specification": "{S = Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z))}",
     "labeled": false,
@@ -37974,7 +37974,7 @@
   },
   "1017": {
     "id": 1017,
-    "name": "Constant sequence",
+    "name": "Constant sequence a(n) = 9",
     "description": "All 9's",
     "specification": "{S = Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z))}",
     "labeled": false,

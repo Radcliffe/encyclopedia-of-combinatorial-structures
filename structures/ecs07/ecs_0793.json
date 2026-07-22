@@ -1,6 +1,6 @@
 {
     "id": 793,
-    "name": "A simple grammar",
+    "name": "Unions of cycles and cycles of cycles",
     "description": "Union of Cycles and Cycles of Cycles",
     "specification": "{B = Cycle(C), C = Cycle(Z), S = Union(C,B)}",
     "labeled": true,

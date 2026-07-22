@@ -1,6 +1,6 @@
 {
     "id": 244,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 1, 3, 5, 7, 9",
     "description": "number of ways to make n cents with coins of 1 3 5 7 9 cents",
     "specification": "{S = Prod(Sequence(Z),Sequence(Prod(Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z)))}",
     "labeled": false,

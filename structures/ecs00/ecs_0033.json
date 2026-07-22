@@ -1,6 +1,6 @@
 {
     "id": 33,
-    "name": "Cycles Set",
+    "name": "Permutations with exactly four cycles",
     "description": "Permutation with exactly 4 cycles; Stirling numbers of first kind",
     "specification": "{S = Set(Cycle(Z),card = 4)}",
     "labeled": true,

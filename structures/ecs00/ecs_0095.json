@@ -1,6 +1,6 @@
 {
     "id": 95,
-    "name": "Non-planar trees",
+    "name": "Non-planar unlabelled trees with neither unary nor binary nodes",
     "description": "Non-planar unlabelled trees with neither unary nor binary nodes",
     "specification": "{B = Union(S,Z), S = Set(B,3 <= card)}",
     "labeled": false,

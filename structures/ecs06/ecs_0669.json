@@ -1,6 +1,6 @@
 {
     "id": 669,
-    "name": "A simple context-free grammar in a labelled universe",
+    "name": "Factorial-weighted powers of 2 times Catalan numbers",
     "description": "square root singularity",
     "specification": "{B = Prod(S,S), C =Union(B,Z), S = Union(Z,C)}",
     "labeled": true,

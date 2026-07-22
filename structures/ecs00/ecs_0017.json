@@ -1,6 +1,6 @@
 {
     "id": 17,
-    "name": "Set partitions",
+    "name": "Set partitions with blocks of size at most 2 (involutions)",
     "description": "Set partitions with all blocks of size <=2; self-conjugate permutations on n letters; involution numbers a(n)=a(n-1)+(n-1)a(n-2)",
     "specification": "{S = Set(Union(Set(Z,card = 1),Set(Z,card = 2)))}",
     "labeled": true,

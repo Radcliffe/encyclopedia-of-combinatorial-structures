@@ -1,6 +1,6 @@
 {
     "id": 69,
-    "name": "Hierarchies",
+    "name": "Hierarchies (Schroeder's fourth problem)",
     "description": "Hierarchies; Schroeder's fourth problem",
     "specification": "{S = Union(Z,Set(S,2 <= card))}",
     "labeled": true,

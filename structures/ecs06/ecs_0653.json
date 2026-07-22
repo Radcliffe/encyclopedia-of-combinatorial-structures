@@ -1,6 +1,6 @@
 {
     "id": 653,
-    "name": "A simple context-free grammar",
+    "name": "Powers of 2 times Catalan numbers: a(n) = 2^n C(n-1)",
     "description": "square root singularity",
     "specification": "{B = Union(C,Z), C = Prod(S,S), S = Union(B,Z)}",
     "labeled": false,

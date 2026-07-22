@@ -1,6 +1,6 @@
 {
     "id": 787,
-    "name": "A simple grammar",
+    "name": "Pairs of cycles of cycles",
     "description": "pairs of Cycles of Cycles",
     "specification": "{B = Cycle(Z), C = Cycle(B), S = Prod(C,C)}",
     "labeled": true,

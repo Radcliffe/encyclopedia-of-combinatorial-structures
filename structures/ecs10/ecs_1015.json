@@ -1,6 +1,6 @@
 {
     "id": 1015,
-    "name": "Constant sequence",
+    "name": "Constant sequence a(n) = 7",
     "description": "All 7's",
     "specification": "{S = Prod(Union(Z,Z,Z,Z,Z,Z,Z),Sequence(Z))}",
     "labeled": false,

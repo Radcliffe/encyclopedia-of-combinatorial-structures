@@ -1,6 +1,6 @@
 {
     "id": 993,
-    "name": "Arithmetic sequence",
+    "name": "Arithmetic sequence a(n) = 12n + 4",
     "description": "12 n + 4",
     "specification": "{S = Union(Prod(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z),Sequence(Z),Sequence(Z)),Prod(Union(Z,Z,Z,Z),Sequence(Z)))}",
     "labeled": false,

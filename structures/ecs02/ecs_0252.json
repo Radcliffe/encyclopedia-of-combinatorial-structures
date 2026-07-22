@@ -1,6 +1,6 @@
 {
     "id": 252,
-    "name": "Denumerant",
+    "name": "Denumerant for coin values 2, 8, 12, 14, 18, 20, 24, 30",
     "description": "number of ways to make n cents with coins of 2 8 12 14 18 20 24 30 cents",
     "specification": "{S = Prod(Sequence(Prod(Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)))}",
     "labeled": false,

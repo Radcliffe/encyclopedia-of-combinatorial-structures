@@ -1,6 +1,6 @@
 {
     "id": 30,
-    "name": "Cycles Set",
+    "name": "Permutations with at least two cycles",
     "description": "Permutation with at least two cycles",
     "specification": "{S = Set(Cycle(Z),2 <= card)}",
     "labeled": true,

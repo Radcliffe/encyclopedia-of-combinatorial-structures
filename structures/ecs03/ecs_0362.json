@@ -1,6 +1,6 @@
 {
     "id": 362,
-    "name": "Lists",
+    "name": "Power sum a(n) = 1^n + ... + 2^n",
     "description": "Sum of nth powers",
     "specification": "{S = Union(Sequence(Z),Sequence(Union(Z,Z)))}",
     "labeled": false,

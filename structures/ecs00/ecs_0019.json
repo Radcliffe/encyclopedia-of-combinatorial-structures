@@ -1,6 +1,6 @@
 {
     "id": 19,
-    "name": "Set partitions",
+    "name": "Set partitions with blocks of size at most 4",
     "description": "Set partitions with all blocks of size <=4; the partition function G(n,4)",
     "specification": "{S = Set(Union(Set(Z,card = 1),Set(Z,card = 2),Set(Z,card = 3),Set(Z,card = 4)))}",
     "labeled": true,

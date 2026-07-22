@@ -1,6 +1,6 @@
 {
     "id": 759,
-    "name": "A simple grammar",
+    "name": "Labelled pairs of sequences of cycles",
     "description": "labelled pairs of Sequences of Cycles",
     "specification": "{B = Sequence(C), C = Cycle(Z), S = Prod(B,B)}",
     "labeled": true,

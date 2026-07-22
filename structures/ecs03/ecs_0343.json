@@ -1,6 +1,6 @@
 {
     "id": 343,
-    "name": "k-gonal numbers",
+    "name": "6-gonal numbers",
     "description": "6-gonal numbers",
     "specification": "{B = Prod(C,C,C), C = Sequence(Z), E = Prod(Z,B), S = Union(B,E,E,E,E,E,E)}",
     "labeled": false,

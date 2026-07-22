@@ -1,6 +1,6 @@
 {
     "id": 821,
-    "name": "A simple grammar",
+    "name": "Cycles of rooted sets",
     "description": "A simple grammar",
     "specification": "{B = Set(S), C = Prod(Z,B), S = Cycle(C)}",
     "labeled": false,

@@ -1,6 +1,6 @@
 {
     "id": 448,
-    "name": "Unknown structure",
+    "name": "Partitions into parts 2 and 3",
     "description": "Unknown structure",
     "specification": "{B = Union(Z,Epsilon), C = Prod(Z,Z,B), S = Set(C)}",
     "labeled": false,

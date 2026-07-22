@@ -1,6 +1,6 @@
 {
     "id": 776,
-    "name": "A simple grammar",
+    "name": "Power sets of pairs of sequences",
     "description": "PowerSet of pairs of Sequences",
     "specification": "{B = Sequence(Z,1 <= card), C = Prod(B,B), S = PowerSet(C)}",
     "labeled": false,

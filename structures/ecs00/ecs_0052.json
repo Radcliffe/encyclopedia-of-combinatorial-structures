@@ -1,6 +1,6 @@
 {
     "id": 52,
-    "name": "Unlabelled Plane Binary Trees",
+    "name": "Unlabelled plane binary trees counted by leaves",
     "description": "Unlabelled binary trees of n leaves (external nodes)",
     "specification": "{S = Union(Z,Prod(S,S))}",
     "labeled": false,

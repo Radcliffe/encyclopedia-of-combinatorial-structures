@@ -1,6 +1,6 @@
 {
     "id": 730,
-    "name": "A simple grammar",
+    "name": "Sets of rooted quaternary structures",
     "description": "A simple grammar",
     "specification": "{B = Prod(Z,S,S,S,S), S = Set(B)}",
     "labeled": false,

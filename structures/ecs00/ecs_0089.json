@@ -1,6 +1,6 @@
 {
     "id": 89,
-    "name": "Labelled mobile",
+    "name": "Labelled mobile with cycles of length at least 2",
     "description": "Labelled mobile with cycles of length at least 2",
     "specification": "{B = Cycle(S,2 <= card), S = Union(B,Z)}",
     "labeled": true,

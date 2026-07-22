@@ -1,6 +1,6 @@
 {
     "id": 67,
-    "name": "maps",
+    "name": "Partial maps",
     "description": "Partial maps; (n+1)^n",
     "specification": "{S = Set(Connected), Tree = Prod(Z,Set(Tree)), Connected = Union(Cycle(Tree),Prod(Undefined,Tree)), Undefined = Epsilon}",
     "labeled": true,

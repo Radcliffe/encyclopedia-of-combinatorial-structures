@@ -1,6 +1,6 @@
 {
     "id": 351,
-    "name": "Integer partition",
+    "name": "Integer partitions into at most 2 parts",
     "description": "Partition of n in at most 2 parts",
     "specification": "{S = Set(Sequence(Z,1 <= card),card <= 2)}",
     "labeled": false,

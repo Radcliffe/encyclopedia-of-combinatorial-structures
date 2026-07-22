@@ -1,6 +1,6 @@
 {
     "id": 289,
-    "name": "Trees",
+    "name": "Planar trees with arity 6",
     "description": "Planar trees with arity 6",
     "specification": "{B = Prod(Z,S,S,S,S,S,S), S = Sequence(B)}",
     "labeled": false,

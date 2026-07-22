@@ -1,6 +1,6 @@
 {
     "id": 15,
-    "name": "Set partitions",
+    "name": "Set partitions with nonempty blocks (Bell numbers)",
     "description": "Set partitions with all blocks of size >=1; Bell numbers",
     "specification": "{S = Set(Set(Z,1 <= card))}",
     "labeled": true,
