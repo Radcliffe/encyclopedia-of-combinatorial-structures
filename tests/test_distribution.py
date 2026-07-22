@@ -14,9 +14,11 @@ from combstruct import (
     GeneratingFunctionParser,
     GFBinary,
     GFComplex,
+    GFEquation,
     GFFunction,
     GFInteger,
     GFRootOf,
+    GFSeriesCall,
     GFVariable,
     Parser,
     Reference,
@@ -49,12 +51,15 @@ class PublicApiTests(unittest.TestCase):
             "Expression",
             "GFBinary",
             "GFComplex",
+            "GFEquation",
             "GFExpression",
             "GFFunction",
             "GFIndex",
             "GFInfiniteSum",
             "GFInteger",
+            "GFParseResult",
             "GFRootOf",
+            "GFSeriesCall",
             "GFTotient",
             "GFUnary",
             "GFVariable",
@@ -141,6 +146,21 @@ class PublicApiTests(unittest.TestCase):
                     "/",
                     combstruct.GFUnary("-", GFInteger(1)),
                     GFInteger(2),
+                ),
+            ),
+        )
+
+    def test_implicit_equation_syntax_tree_is_available_from_package(self):
+        equation = parse_generating_function("A(x)=x+A(x)^2")
+
+        self.assertEqual(
+            equation,
+            GFEquation(
+                GFSeriesCall("A", GFVariable()),
+                GFBinary(
+                    "+",
+                    GFVariable(),
+                    GFBinary("^", GFSeriesCall("A", GFVariable()), GFInteger(2)),
                 ),
             ),
         )

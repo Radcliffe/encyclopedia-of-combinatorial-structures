@@ -4,7 +4,8 @@ The public API parses Maple ``combstruct``-style specifications, computes exact
 sequence terms, derives finite generating functions and selected quadratic
 closed forms from specifications, and parses and exactly expands finite
 elementary and supported principal ``LambertW`` generating functions in the ECS
-catalogue, including faithful syntax trees for unselected ``RootOf`` equations.
+catalogue, including faithful syntax trees for named implicit equations and
+unselected ``RootOf`` equations.
 Indexed infinite sums are parsed with lexical summation-variable scope and
 expanded when coefficientwise finiteness can be proved. The catalogue's
 one-argument Maple ``Complex`` constructor is preserved explicitly.
@@ -32,12 +33,15 @@ from .generating_function import (
     GeneratingFunctionParser,
     GFBinary,
     GFComplex,
+    GFEquation,
     GFExpression,
     GFFunction,
     GFIndex,
     GFInfiniteSum,
     GFInteger,
+    GFParseResult,
     GFRootOf,
+    GFSeriesCall,
     GFTotient,
     GFUnary,
     GFVariable,
@@ -74,12 +78,15 @@ __all__ = [
     "Expression",
     "GFBinary",
     "GFComplex",
+    "GFEquation",
     "GFExpression",
     "GFFunction",
     "GFIndex",
     "GFInfiniteSum",
     "GFInteger",
+    "GFParseResult",
     "GFRootOf",
+    "GFSeriesCall",
     "GFTotient",
     "GFUnary",
     "GFVariable",

@@ -25,6 +25,7 @@ from .generating_function import (
     GFInfiniteSum,
     GFInteger,
     GFRootOf,
+    GFSeriesCall,
     GFTotient,
     GFUnary,
     GFVariable,
@@ -130,6 +131,11 @@ def _substitute_variable(expression: GFExpression, exponent: int) -> GFExpressio
         )
     if isinstance(expression, GFFunction):
         return GFFunction(
+            expression.name,
+            _substitute_variable(expression.argument, exponent),
+        )
+    if isinstance(expression, GFSeriesCall):
+        return GFSeriesCall(
             expression.name,
             _substitute_variable(expression.argument, exponent),
         )
