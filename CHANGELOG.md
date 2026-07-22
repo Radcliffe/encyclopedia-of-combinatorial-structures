@@ -19,6 +19,8 @@ or date section and leave this section in place for subsequent work.
   documentation after the successful `0.1.0a0` publication.
 - Read the expected artifact version from `pyproject.toml` so release validation
   has a single version source of truth.
+- Migrated b-file generation to the public `combstruct` catalogue and term
+  evaluator APIs, with an explicit package dependency for maintenance tools.
 
 ## 0.1.0a0 - 2026-07-22
 

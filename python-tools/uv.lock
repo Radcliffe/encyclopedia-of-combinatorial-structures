@@ -3,6 +3,15 @@ revision = 3
 requires-python = ">=3.12"
 
 [[package]]
+name = "combstruct"
+version = "0.1.0a0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/54/06/de20944c274f4799a917cb2e3b6a9684580195b81005e353939ccaf3337c/combstruct-0.1.0a0.tar.gz", hash = "sha256:229ac0efc687c65f681c7b20610079249134ad5c809aa8052b86e404f2e74c2d", size = 342358, upload-time = "2026-07-22T15:06:52.625Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/ff/30/9ae80c09ae837f99577a21df72b88413527bfdc22a36f32eb212f5abb465/combstruct-0.1.0a0-py3-none-any.whl", hash = "sha256:cdf462a4fda4b7bdef92cf11a09d7d31ef66ab1abf0138b4bafceac5ff7b12cf", size = 770987, upload-time = "2026-07-22T15:06:51.032Z" },
+]
+
+[[package]]
 name = "et-xmlfile"
 version = "2.0.0"
 source = { registry = "https://pypi.org/simple" }
@@ -137,12 +146,14 @@ name = "python-tools"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
+    { name = "combstruct" },
     { name = "openpyxl" },
     { name = "pandas" },
 ]
 
 [package.metadata]
 requires-dist = [
+    { name = "combstruct", specifier = ">=0.1.0a0,<0.2" },
     { name = "openpyxl", specifier = ">=3.1.5" },
     { name = "pandas", specifier = ">=2.3.2" },
 ]
