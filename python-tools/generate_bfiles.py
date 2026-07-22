@@ -5,12 +5,11 @@ from __future__ import annotations
 
 import argparse
 import concurrent.futures
-import json
 import os
+from collections.abc import Iterable
 from pathlib import Path
-from typing import Iterable
 
-from compute_terms import compute_terms, default_dataset
+from combstruct import Catalog, Structure, compute_terms
 
 
 def bfile_name(structure_id: int) -> str:
@@ -21,37 +20,39 @@ def format_bfile(terms: Iterable[int]) -> str:
     return "".join(f"{index} {term}\n" for index, term in enumerate(terms))
 
 
-def generate_record(task: tuple[dict, str, int, int]) -> tuple[int, int, int]:
-    record, output_directory, max_index, max_digits = task
+def generate_record(task: tuple[Structure, str, int, int]) -> tuple[int, int, int]:
+    structure, output_directory, max_index, max_digits = task
     terms = compute_terms(
-        record["specification"],
-        labelled=bool(record["labeled"]),
+        structure.specification,
+        labelled=structure.labeled,
         term_count=max_index + 1,
-        symbol=record.get("symbol") or "S",
+        symbol=structure.symbol,
         max_digits=max_digits,
     )
 
-    destination = Path(output_directory) / bfile_name(record["id"])
+    destination = Path(output_directory) / bfile_name(structure.id)
     temporary = destination.with_suffix(".tmp")
     text = format_bfile(terms)
     temporary.write_text(text, encoding="ascii")
     temporary.replace(destination)
-    return record["id"], len(terms), len(text)
+    return structure.id, len(terms), len(text)
 
 
-def load_records(dataset: Path, selected_ids: set[int] | None = None) -> list[dict]:
-    with dataset.open(encoding="utf-8") as source:
-        records = json.load(source)
-    selected = [
-        record
-        for record in records.values()
-        if selected_ids is None or record["id"] in selected_ids
+def load_structures(
+    dataset: Path | None,
+    selected_ids: set[int] | None = None,
+) -> list[Structure]:
+    """Load selected structures through the public catalogue API."""
+
+    return [
+        structure
+        for structure in Catalog(dataset)
+        if selected_ids is None or structure.id in selected_ids
     ]
-    return sorted(selected, key=lambda record: record["id"])
 
 
 def generate_bfiles(
-    dataset: Path,
+    dataset: Path | None,
     output_directory: Path,
     *,
     max_index: int = 1000,
@@ -60,11 +61,8 @@ def generate_bfiles(
     selected_ids: set[int] | None = None,
 ) -> list[tuple[int, int, int]]:
     output_directory.mkdir(parents=True, exist_ok=True)
-    records = load_records(dataset, selected_ids)
-    tasks = [
-        (record, str(output_directory), max_index, max_digits)
-        for record in records
-    ]
+    structures = load_structures(dataset, selected_ids)
+    tasks = [(structure, str(output_directory), max_index, max_digits) for structure in structures]
 
     if jobs == 1:
         results = [generate_record(task) for task in tasks]
@@ -80,7 +78,12 @@ def default_output_directory() -> Path:
 
 def build_argument_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--dataset", type=Path, default=default_dataset())
+    parser.add_argument(
+        "--dataset",
+        type=Path,
+        default=None,
+        help="catalogue directory or consolidated JSON file (default: bundled ECS catalogue)",
+    )
     parser.add_argument("--output", type=Path, default=default_output_directory())
     parser.add_argument("--max-index", type=int, default=1000)
     parser.add_argument("--max-digits", type=int, default=1000)
@@ -90,7 +93,9 @@ def build_argument_parser() -> argparse.ArgumentParser:
         default=min(4, os.cpu_count() or 1),
         help="worker processes (default: up to 4)",
     )
-    parser.add_argument("--id", type=int, action="append", dest="ids", help="generate only this ECS id")
+    parser.add_argument(
+        "--id", type=int, action="append", dest="ids", help="generate only this ECS id"
+    )
     return parser
 
 
