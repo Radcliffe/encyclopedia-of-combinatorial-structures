@@ -15,6 +15,7 @@ from combstruct import (
     GFBinary,
     GFComplex,
     GFEquation,
+    GFEquationSystem,
     GFFunction,
     GFInteger,
     GFRootOf,
@@ -52,6 +53,7 @@ class PublicApiTests(unittest.TestCase):
             "GFBinary",
             "GFComplex",
             "GFEquation",
+            "GFEquationSystem",
             "GFExpression",
             "GFFunction",
             "GFIndex",
@@ -161,6 +163,22 @@ class PublicApiTests(unittest.TestCase):
                     "+",
                     GFVariable(),
                     GFBinary("^", GFSeriesCall("A", GFVariable()), GFInteger(2)),
+                ),
+            ),
+        )
+
+    def test_equation_system_syntax_tree_is_available_from_package(self):
+        system = parse_generating_function("A(x)=x,B(x)=A(x)")
+
+        self.assertEqual(
+            system,
+            GFEquationSystem(
+                (
+                    GFEquation(GFSeriesCall("A", GFVariable()), GFVariable()),
+                    GFEquation(
+                        GFSeriesCall("B", GFVariable()),
+                        GFSeriesCall("A", GFVariable()),
+                    ),
                 ),
             ),
         )
