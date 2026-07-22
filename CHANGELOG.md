@@ -21,6 +21,8 @@ or date section and leave this section in place for subsequent work.
   has a single version source of truth.
 - Migrated b-file generation to the public `combstruct` catalogue and term
   evaluator APIs, with an explicit package dependency for maintenance tools.
+- Migrated Maple script generation and sequence validation to the typed public
+  catalogue API and extended static quality checks to migrated tools.
 
 ## 0.1.0a0 - 2026-07-22
 
