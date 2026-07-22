@@ -176,13 +176,69 @@ class GeneratingFunctionDerivationTests(unittest.TestCase):
         ):
             derive_generating_function("{S = Union(Z,S)}", labelled=False)
 
-    def test_recursive_system_reports_the_cycle(self):
+    def test_mutual_linear_system_is_eliminated(self):
+        expression = derive_generating_function(
+            "{A = Prod(Z,B), B = Union(Z,A), S = A}",
+            labelled=False,
+        )
+
+        self.assertEqual(
+            generating_function_coefficients(expression, 7),
+            tuple(Fraction(value) for value in (0, 0, 1, 1, 1, 1, 1)),
+        )
+
+    def test_mutual_quadratic_system_is_eliminated(self):
+        expression = derive_generating_function(
+            "{A = Union(B,Z), B = Prod(A,A), S = A}",
+            labelled=False,
+        )
+
+        self.assertEqual(
+            generating_function_coefficients(expression, 8),
+            tuple(Fraction(value) for value in (0, 1, 1, 2, 5, 14, 42, 132)),
+        )
+
+    def test_three_symbol_quadratic_component_is_eliminated(self):
+        expression = derive_generating_function(
+            "{B = Union(C,Z), C = Prod(S,S), S = Union(B,C)}",
+            labelled=False,
+        )
+
+        self.assertEqual(
+            generating_function_coefficients(expression, 6),
+            tuple(Fraction(value) for value in (0, 1, 2, 8, 40, 224)),
+        )
+
+    def test_dependent_recursive_components_are_solved_in_order(self):
+        expression = derive_generating_function(
+            "{B = Union(C,Z), C = Prod(B,Z), E = Union(S,B), S = Prod(C,E)}",
+            labelled=False,
+        )
+
+        self.assertEqual(
+            generating_function_coefficients(expression, 10),
+            tuple(Fraction(value) for value in (0, 0, 0, 1, 2, 4, 7, 12, 20, 33)),
+        )
+
+    def test_mutual_cubic_system_remains_explicitly_unsupported(self):
         with self.assertRaisesRegex(
             UnsupportedGeneratingFunctionDerivation,
-            "A -> B -> A",
+            "degree greater than two",
         ):
             derive_generating_function(
-                "{A = Prod(Z,B), B = Union(Z,A), S = A}",
+                "{B = Prod(S,S), C = Prod(S,B), S = Union(B,C,Z)}",
+                labelled=False,
+            )
+
+    def test_component_with_multiple_feedback_symbols_remains_unsupported(self):
+        with self.assertRaisesRegex(
+            UnsupportedGeneratingFunctionDerivation,
+            "removing one feedback symbol",
+        ):
+            derive_generating_function(
+                "{A = Union(Z,Prod(Z,B),Prod(Z,C)), "
+                "B = Union(Z,Prod(Z,A),Prod(Z,C)), "
+                "C = Union(Z,Prod(Z,A),Prod(Z,B)), S = A}",
                 labelled=False,
             )
 
@@ -263,12 +319,12 @@ class GeneratingFunctionDerivationTests(unittest.TestCase):
             self.assertEqual(tuple(independently_computed), terms, f"ECS {structure.id}")
             derived.append(structure.id)
 
-        self.assertEqual(len(derived), 845)
+        self.assertEqual(len(derived), 888)
         self.assertEqual(
             unsupported,
             Counter(
                 {
-                    "recursive": 188,
+                    "recursive": 145,
                     "unlabelled set": 21,
                     "unlabelled cycle": 14,
                     "powerset": 7,

@@ -17,8 +17,8 @@ two things that the repository's existing Python tools already do:
 The distribution also contains the canonical ECS records. The current
 development version parses and exactly expands the finite elementary subset of
 stored generating functions. It also derives finite generating-function
-expressions from acyclic specifications and closed square-root expressions for
-a first class of quadratic recursive specifications. Extending that work to
+expressions from acyclic specifications and closed rational or square-root
+expressions for a first class of recursive systems. Extending that work to more
 general recursive systems and infinite cycle-index forms, parsing the remaining
 special forms, and finding further closed forms remain later milestones.
 
@@ -113,9 +113,11 @@ constructor rules. The finite derivation supports `Union`, `Prod`, and
 `Sequence`; labelled `Set` and `Cycle`; and bounded unlabelled `Set` and
 `Cycle`, including the required cycle-index substitutions. It follows named
 acyclic equations and accepts either source text or a mapping returned by
-`parse_specification`. A single equation that is linear or quadratic in its own
-symbol under `Union` and `Prod` is solved as a rational or square-root closed
-form. For example, the Catalan specification derives its algebraic generating
+`parse_specification`. A recursive component built from `Union` and `Prod` is
+also solved when removing one feedback symbol leaves acyclic equations whose
+expansion is linear or quadratic in that symbol. This produces a rational or
+square-root closed form for both direct and mutually recursive specifications.
+For example, the Catalan specification derives its algebraic generating
 function directly:
 
 ```python
@@ -138,14 +140,15 @@ assert generating_function_coefficients(catalan_gf, 8) == (
 )
 ```
 
-Mutually recursive and higher-degree systems, unrestricted unlabelled `Set` and
+Higher-degree systems, components requiring more than one feedback symbol,
+recursion nested inside another constructor, unrestricted unlabelled `Set` and
 `Cycle`, and `PowerSet` raise `UnsupportedGeneratingFunctionDerivation` because
 their next derivation step requires more general equation solving or an infinite
-cycle-index representation. In the current catalogue, 845 specifications have
-a supported finite derivation: 367 labelled EGFs and 478 unlabelled OGFs.
+cycle-index representation. In the current catalogue, 888 specifications have
+a supported finite derivation: 367 labelled EGFs and 521 unlabelled OGFs.
 Exhaustive tests compare every derived coefficient with both the independent
 term evaluator and the complete stored term prefix. The remaining partition is
-188 recursive specifications, 21 unrestricted unlabelled sets, 14 unrestricted
+145 recursive specifications, 21 unrestricted unlabelled sets, 14 unrestricted
 unlabelled cycles, and seven power sets.
 
 ## Parsing and expanding a stored generating function
@@ -291,9 +294,9 @@ The packaging and first maintenance-tool adoption foundations are now in place:
 - the existing exact term evaluator is packaged and documented;
 - all canonical ECS records ship with a typed, immutable catalogue API;
 - the specification syntax tree and parser have a dedicated public module;
-- 845 specifications derive finite exact generating-function expressions,
-  including seven quadratic recursive closed forms, whose coefficients agree
-  with the independent term evaluator;
+- 888 specifications derive finite exact generating-function expressions,
+  including 50 recursive rational or square-root closed forms, whose
+  coefficients agree with the independent term evaluator;
 - finite elementary stored generating functions have a dedicated immutable AST,
   parser, and exact coefficient evaluator;
 - read-only `python-tools` consumers use the public package, while source-data
@@ -305,8 +308,9 @@ Version `0.1.0a0` was published to
 [PyPI](https://pypi.org/project/combstruct/0.1.0a0/) on 2026-07-22. The next
 milestones remain deliberately incremental:
 
-1. extend equation solving beyond single linear and quadratic recursions and
-   represent infinite unlabelled cycle-index forms;
+1. extend equation solving beyond recursive components reducible through one
+   linear or quadratic feedback symbol and represent infinite unlabelled
+   cycle-index forms;
 2. extend parsing and evaluation to additional stored generating-function
    forms where exact semantics can be specified; and
 3. add further conservative closed-form solving where branch semantics can be

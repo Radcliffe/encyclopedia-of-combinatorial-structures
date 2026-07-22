@@ -100,6 +100,30 @@ expression = derive_generating_function(
 assert generating_function_coefficients(expression, 6) == (0, 1, 1, 1, 1, 1)
 ```
 
+Mutually recursive equations use the same API. Here removing `A` leaves the
+acyclic definition of `B`; substituting it back produces the quadratic equation
+`A = x + A^2`:
+
+```python
+from combstruct import derive_generating_function, generating_function_coefficients
+
+expression = derive_generating_function(
+    "{A = Union(B,Z), B = Prod(A,A), S = A}",
+    labelled=False,
+)
+
+assert generating_function_coefficients(expression, 8) == (
+    0,
+    1,
+    1,
+    2,
+    5,
+    14,
+    42,
+    132,
+)
+```
+
 The supported finite rules are:
 
 - `Union` becomes addition and `Prod` becomes multiplication;
@@ -110,25 +134,27 @@ The supported finite rules are:
 - bounded unlabelled `Set` and `Cycle` use exact finite cycle-index formulas and
   substitutions `_x -> _x^k`.
 
-Named acyclic equations are expanded and memoized. A directly self-recursive
-equation that is linear or quadratic under `Union` and `Prod` is solved as a
-rational or square-root closed form. The least nonnegative constant solution is
-selected when the quadratic equation has two branches, and the formal implicit
-function condition must determine that branch uniquely.
+Named acyclic equations are expanded and memoized. A recursive component under
+`Union` and `Prod` is solved when removing one feedback symbol makes its other
+equations acyclic and their substitution is linear or quadratic in that symbol.
+The least nonnegative constant solution is selected when the quadratic equation
+has two branches, and the formal implicit-function condition must determine
+that branch uniquely.
 
-A mutually recursive dependency, recursion of degree greater than two,
-recursion nested inside another constructor, unrestricted unlabelled `Set` or
-`Cycle`, or `PowerSet` raises `UnsupportedGeneratingFunctionDerivation`; those
-cases need more general equation solving or an infinite cycle-index AST.
-Malformed specifications, missing roots, undefined symbols, and invalid
-constructor arity raise `SpecificationError`.
+A component requiring multiple feedback symbols, recursion of degree greater
+than two, recursion nested inside another constructor, unrestricted unlabelled
+`Set` or `Cycle`, or `PowerSet` raises
+`UnsupportedGeneratingFunctionDerivation`; those cases need more general
+equation solving or an infinite cycle-index AST. Malformed specifications,
+missing roots, undefined symbols, and invalid constructor arity raise
+`SpecificationError`.
 
-The catalogue-wide contract covers 845 records—367 labelled and 478
-unlabelled—including all seven single-equation quadratic `Union`/`Prod`
-recursions. It verifies their full stored term prefixes against both the derived
-expression and the independent specification term evaluator. The 230 remaining
-records partition into 188 recursive systems, 21 unrestricted unlabelled sets,
-14 unrestricted unlabelled cycles, and seven power sets.
+The catalogue-wide contract covers 888 records—367 labelled and 521
+unlabelled—including 50 recursive `Union`/`Prod` records. It verifies their full
+stored term prefixes against both the derived expression and the independent
+specification term evaluator. The 187 remaining records partition into 145
+recursive systems, 21 unrestricted unlabelled sets, 14 unrestricted unlabelled
+cycles, and seven power sets.
 
 ## Stored generating functions
 
