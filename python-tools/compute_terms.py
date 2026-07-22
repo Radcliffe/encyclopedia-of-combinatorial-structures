@@ -11,7 +11,6 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
-
 try:
     from combstruct.terms import *  # noqa: F403
     from combstruct.terms import main

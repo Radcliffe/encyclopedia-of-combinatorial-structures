@@ -1,9 +1,9 @@
-import json
+import subprocess
+import sys
 import unittest
 from pathlib import Path
 
-from compute_terms import Cardinality, Constructor, Parser, Reference, compute_terms, decimal_digit_count
-
+from combstruct import Cardinality, Catalog, Constructor, Parser, Reference, compute_terms
 
 ROOT = Path(__file__).resolve().parents[1]
 DATASET = ROOT / "react-app" / "public" / "ecs.json"
@@ -28,18 +28,17 @@ class ParserTests(unittest.TestCase):
 class ComputationTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        with DATASET.open(encoding="utf-8") as source:
-            cls.records = json.load(source)
+        cls.catalog = Catalog(DATASET)
 
     def assert_record_prefix(self, structure_id, term_count=12):
-        record = self.records[str(structure_id)]
+        structure = self.catalog.get(structure_id)
         actual = compute_terms(
-            record["specification"],
-            labelled=record["labeled"],
+            structure.specification,
+            labelled=structure.labeled,
             term_count=term_count,
-            symbol=record["symbol"],
+            symbol=structure.symbol,
         )
-        expected = [int(term) for term in record["terms"][:term_count]]
+        expected = list(structure.terms[:term_count])
         self.assertEqual(actual[: len(expected)], expected)
 
     def test_representative_ecs_records(self):
@@ -67,19 +66,42 @@ class ComputationTests(unittest.TestCase):
         )
         self.assertEqual(terms[-1], 512)
         self.assertEqual(len(terms), 10)
-        self.assertEqual(decimal_digit_count(terms[-1]), 3)
+        self.assertEqual(len(str(terms[-1])), 3)
 
     def test_every_ecs_record_matches_its_stored_prefix(self):
-        for record in self.records.values():
-            with self.subTest(structure_id=record["id"]):
-                term_count = min(10, len(record["terms"]))
+        for structure in self.catalog:
+            with self.subTest(structure_id=structure.id):
+                term_count = min(10, len(structure.terms))
                 actual = compute_terms(
-                    record["specification"],
-                    labelled=record["labeled"],
+                    structure.specification,
+                    labelled=structure.labeled,
                     term_count=term_count,
-                    symbol=record["symbol"],
+                    symbol=structure.symbol,
                 )
-                self.assertEqual(actual, [int(term) for term in record["terms"][:term_count]])
+                self.assertEqual(actual, list(structure.terms[:term_count]))
+
+
+class CompatibilityWrapperTests(unittest.TestCase):
+    def test_historical_script_entry_point(self):
+        result = subprocess.run(
+            [
+                sys.executable,
+                str(ROOT / "python-tools" / "compute_terms.py"),
+                "--spec",
+                "{S = Union(Epsilon,Prod(Z,S,S))}",
+                "--unlabelled",
+                "--terms",
+                "6",
+                "--plain",
+            ],
+            check=True,
+            capture_output=True,
+            cwd=ROOT,
+            text=True,
+            timeout=30,
+        )
+
+        self.assertEqual(result.stdout.strip(), "1, 1, 2, 5, 14, 42")
 
 
 if __name__ == "__main__":

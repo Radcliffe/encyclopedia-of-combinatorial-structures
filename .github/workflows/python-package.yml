@@ -22,11 +22,13 @@ jobs:
       - name: Lint
         run: >-
           ruff check src/combstruct tests
+          python-tools/compute_terms.py python-tools/test_compute_terms.py
           python-tools/generate_bfiles.py python-tools/test_generate_bfiles.py
           python-tools/write_maple_scripts.py python-tools/test_write_maple_scripts.py
       - name: Check formatting
         run: >-
           ruff format --check src/combstruct tests
+          python-tools/compute_terms.py python-tools/test_compute_terms.py
           python-tools/generate_bfiles.py python-tools/test_generate_bfiles.py
           python-tools/write_maple_scripts.py python-tools/test_write_maple_scripts.py
       - name: Check package and migrated tool types
