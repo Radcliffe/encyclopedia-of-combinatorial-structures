@@ -6,9 +6,10 @@ the test workflow builds and validates artifacts but never uploads them.
 The current audit and confirmed first-release choices are recorded in
 [`release-readiness.md`](release-readiness.md).
 
-## Before the first release
+## Established release choices
 
-The maintainers confirmed these project-level choices on 2026-07-22:
+The maintainers confirmed these project-level choices for the first release on
+2026-07-22:
 
 - The PyPI distribution name is `combstruct`.
 - The first pre-release version is `0.1.0a0`.
@@ -26,10 +27,9 @@ Codeberg maintainer must enable repository Actions and provide a compatible
 runner before relying on it there. Confirm a successful remote run on the
 release commit rather than assuming that local syntax validation is enough.
 
-Check the `combstruct` name immediately before publishing; a name that is
-available today is not reserved until a release or pending trusted publisher
-creates the project. PyPI release files are immutable, so also verify the
-version in the exact artifacts and do not rebuild after validation.
+The `combstruct` project now exists on PyPI. PyPI release files are immutable,
+so choose a new version, verify it in the exact artifacts, and do not rebuild
+after validation.
 
 Use a separate TestPyPI account when testing uploads. TestPyPI and PyPI have
 separate user and project databases.
@@ -74,7 +74,8 @@ that passed these checks; do not rebuild between validation and publication.
 
 ## TestPyPI
 
-Test the manual publishing path before the first production release:
+Test the publishing path before a production release when release tooling or
+metadata has changed:
 
 ```console
 .venv-release/bin/python -m twine upload --repository testpypi dist/*
@@ -93,8 +94,8 @@ PyPI project, GitHub repository owner, workflow filename, and environment name
 are confirmed. Keep publishing permissions in that dedicated workflow; the
 existing test workflow must remain read-only.
 
-For an initial manual upload, use a project-scoped API token and never store it
-in the repository or shell history:
+For a manual upload, use a project-scoped API token and never store it in the
+repository or shell history:
 
 ```console
 .venv-release/bin/python -m twine upload dist/*

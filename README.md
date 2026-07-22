@@ -40,8 +40,14 @@ The app will be available at the URL printed in your terminal (usually http://lo
 
 ### Computing terms from a specification
 
-The reusable evaluator is being developed as the pre-alpha `combstruct` Python
-package. See [`PYTHON_PACKAGE.md`](PYTHON_PACKAGE.md) for its installation,
+The reusable evaluator is available as the pre-alpha
+[`combstruct` Python package](https://pypi.org/project/combstruct/0.1.0a0/):
+
+```sh
+python -m pip install "combstruct==0.1.0a0"
+```
+
+See [`PYTHON_PACKAGE.md`](PYTHON_PACKAGE.md) for its installation,
 Python API, command-line interface, current scope, and roadmap.
 The detailed API reference is in [`docs/api.md`](docs/api.md).
 Contributor setup and package quality checks are in

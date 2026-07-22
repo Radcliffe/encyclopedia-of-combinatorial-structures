@@ -5,7 +5,7 @@
 (ECS). It is intended to make the ECS data and its Maple
 `combstruct`-style specifications useful from ordinary Python programs.
 
-This is a pre-alpha package extraction. The current release candidate does
+This is a pre-alpha package extraction. The first release does
 two things that the repository's existing Python tools already do:
 
 - parse ECS specifications containing `Union`, `Prod`, `Sequence`, `Set`,
@@ -21,14 +21,17 @@ milestone.
 
 ## Installation
 
-Until the first PyPI release, install the project from a checkout:
+Install the released pre-alpha from PyPI:
 
 ```console
-python -m pip install -e .
+python -m pip install "combstruct==0.1.0a0"
 ```
 
 The initial package requires Python 3.12 or newer and has no runtime
 dependencies outside the Python standard library.
+
+Contributors who need an editable source checkout should follow
+[`docs/development.md`](https://codeberg.org/ECS/encyclopedia-of-combinatorial-structures/src/branch/main/docs/development.md).
 
 The installed version is available as `combstruct.__version__`.
 
@@ -153,13 +156,14 @@ The initial packaging foundations are now in place:
 - source and installed-wheel tests cover Python 3.12, 3.13, and 3.14; and
 - CI builds and metadata-checks both source and wheel distributions.
 
-The next milestones remain deliberately incremental:
+Version `0.1.0a0` was published to
+[PyPI](https://pypi.org/project/combstruct/0.1.0a0/) on 2026-07-22. The next
+milestones remain deliberately incremental:
 
-1. publish and verify the confirmed `0.1.0a0` pre-release;
-2. migrate the remaining `python-tools` scripts to the released package;
-3. design parsers for the ECS generating-function fields;
-4. derive generating functions from specifications where supported; and
-5. add conservative closed-form solving for favorable cases.
+1. migrate the remaining `python-tools` scripts to the released package;
+2. design parsers for the ECS generating-function fields;
+3. derive generating functions from specifications where supported; and
+4. add conservative closed-form solving for favorable cases.
 
 The Python code and underlying ECS catalogue are distributed under the GNU
 Lesser General Public License, version 2.1 only. OEIS-derived names,
@@ -189,5 +193,5 @@ The complete public API is described in
 [`docs/api.md`](https://codeberg.org/ECS/encyclopedia-of-combinatorial-structures/src/branch/main/docs/api.md).
 Contributor setup and quality checks are in
 [`docs/development.md`](https://codeberg.org/ECS/encyclopedia-of-combinatorial-structures/src/branch/main/docs/development.md).
-The latest pre-release audit is in
+The first release record is in
 [`docs/release-readiness.md`](https://codeberg.org/ECS/encyclopedia-of-combinatorial-structures/src/branch/main/docs/release-readiness.md).
