@@ -6,10 +6,11 @@ pre-releases, but changes to the top-level API should be deliberate,
 documented in `CHANGELOG.md`, and covered by distribution tests.
 
 For ordinary application code, import names from `combstruct`. The
-`combstruct.specification` module is also public for code that works directly
-with syntax trees. `combstruct.terms` preserves the import surface of the
-repository's historical `compute_terms.py` script during migration; it should
-not be the starting point for new integrations.
+`combstruct.specification` and `combstruct.generating_function` modules are
+also public for code that works directly with syntax trees. `combstruct.terms`
+preserves the import surface of the repository's historical `compute_terms.py`
+script during migration; it should not be the starting point for new
+integrations.
 
 ## Package metadata
 
@@ -77,6 +78,53 @@ is the alias `dict[str, Expression]`.
 
 `Parser(source)` exposes the stateful parser object used by
 `parse_specification`. Most callers should prefer the function API.
+
+## Stored generating functions
+
+### `parse_generating_function(source)`
+
+Parse one finite elementary ECS generating-function expression into an
+immutable `GFExpression` syntax tree.
+
+```python
+from combstruct import GFBinary, parse_generating_function
+
+expression = parse_generating_function("exp(_x)/(1-_x)^2")
+
+assert isinstance(expression, GFBinary)
+assert expression.operator == "/"
+assert isinstance(expression.right, GFBinary)
+assert expression.right.operator == "^"
+```
+
+The supported grammar consists of:
+
+- nonnegative integer literals and the Maple variable `_x`;
+- parentheses and unary `+` or `-`;
+- binary `+`, `-`, `*`, `/`, and right-associative `^`; and
+- `exp(expression)` and `ln(expression)`.
+
+The parser covers 913 of the 1,028 nonempty generating-function fields in the
+bundled catalogue. It explicitly rejects the other 115 current records: 11
+equations, 45 infinite-sum forms, 39 `RootOf` forms, 19 `LambertW` forms, and
+one explicit `Complex` form.
+
+`GeneratingFunctionParser(source)` is the stateful parser used by the function
+API. Malformed input raises `GeneratingFunctionError`. Valid ECS forms outside
+this first grammar raise its subclass `UnsupportedGeneratingFunction`.
+
+### Generating-function syntax-tree types
+
+`GFInteger(value)` stores an integer literal. `GFVariable()` represents `_x`.
+`GFUnary(operator, operand)` stores unary `+` or `-`.
+`GFBinary(operator, left, right)` stores an arithmetic operation.
+`GFFunction(name, argument)` stores an `exp` or `ln` call. `GFExpression` is the
+union of these five immutable node types.
+
+This API parses syntax only. It does not currently evaluate coefficients,
+classify a function as ordinary or exponential, or assume that `Structure.labeled`
+is verified GF metadata. That separation is required by ECS issue #2 and its
+known counterexample, ECS 265.
 
 ## Computing terms
 

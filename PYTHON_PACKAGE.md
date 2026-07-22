@@ -14,10 +14,11 @@ two things that the repository's existing Python tools already do:
   generating-function semantics for labelled structures and ordinary
   generating-function semantics for unlabelled structures.
 
-The distribution also contains the canonical ECS records. Parsing stored
-generating functions, deriving a generating function from a specification,
-and finding closed forms are planned work; they are not part of this initial
-milestone.
+The distribution also contains the canonical ECS records. The current
+development version parses the finite elementary subset of stored generating
+functions. Evaluating those expressions, determining whether each record is an
+OGF or EGF, deriving a generating function from a specification, and finding
+closed forms remain later milestones.
 
 ## Installation
 
@@ -78,6 +79,44 @@ multiple mutually recursive equations and indexed symbols such as `A[1]`.
 `Parser` remains available for callers that need to construct a parser object
 explicitly. The AST and parser are defined in `combstruct.specification`; their
 top-level imports are the recommended stable API.
+
+## Parsing a stored generating function
+
+`parse_generating_function` parses the finite elementary Maple expressions
+found in 913 ECS records:
+
+```python
+from combstruct import GFBinary, GFInteger, GFVariable, parse_generating_function
+
+expression = parse_generating_function("1/(1-_x)^2")
+
+assert isinstance(expression, GFBinary)
+assert expression.operator == "/"
+assert expression.left == GFInteger(1)
+assert expression.right == GFBinary(
+    "^",
+    GFBinary("-", GFInteger(1), GFVariable()),
+    GFInteger(2),
+)
+```
+
+The first grammar supports integers, `_x`, parentheses, unary signs, the five
+arithmetic operators `+`, `-`, `*`, `/`, and `^`, plus `exp` and `ln` calls.
+Power is right-associative and binds more tightly than unary signs, matching
+the stored Maple expressions. The immutable AST uses `GFInteger`,
+`GFVariable`, `GFUnary`, `GFBinary`, and `GFFunction`.
+
+The catalogue currently has 1,028 nonempty `gf` fields. In addition to the 913
+finite elementary expressions, it contains 11 equations and 104 expressions
+using infinite sums, `RootOf`, `LambertW`, or explicit complex values. Those
+forms raise `UnsupportedGeneratingFunction`; malformed input raises
+`GeneratingFunctionError`.
+
+Parsing deliberately does not evaluate a series or decide whether it is an OGF
+or EGF. In particular, the `labeled` field cannot yet be treated as verified GF
+metadata: [ECS issue #2](https://codeberg.org/ECS/encyclopedia-of-combinatorial-structures/issues/2)
+documents known inconsistencies such as ECS 265. The next milestone will compare
+exact coefficients under both interpretations rather than silently infer one.
 
 ## Using the ECS catalogue
 
@@ -148,11 +187,15 @@ until the maintenance scripts are deliberately migrated to the package.
 ## Project status and scope
 
 The package API should be considered unstable until the first mature release.
-The initial packaging foundations are now in place:
+The packaging and first maintenance-tool adoption foundations are now in place:
 
 - the existing exact term evaluator is packaged and documented;
 - all canonical ECS records ship with a typed, immutable catalogue API;
 - the specification syntax tree and parser have a dedicated public module;
+- finite elementary stored generating functions have a dedicated immutable AST
+  and parser;
+- read-only `python-tools` consumers use the public package, while source-data
+  serializers and mutators retain their stricter raw-JSON boundary;
 - source and installed-wheel tests cover Python 3.12, 3.13, and 3.14; and
 - CI builds and metadata-checks both source and wheel distributions.
 
@@ -160,8 +203,10 @@ Version `0.1.0a0` was published to
 [PyPI](https://pypi.org/project/combstruct/0.1.0a0/) on 2026-07-22. The next
 milestones remain deliberately incremental:
 
-1. migrate the remaining `python-tools` scripts to the released package;
-2. design parsers for the ECS generating-function fields;
+1. evaluate parsed elementary expressions as exact truncated series and
+   classify stored functions as OGF, EGF, ambiguous, or inconsistent;
+2. extend parsing to additional ECS generating-function forms where exact
+   semantics can be specified;
 3. derive generating functions from specifications where supported; and
 4. add conservative closed-form solving for favorable cases.
 
