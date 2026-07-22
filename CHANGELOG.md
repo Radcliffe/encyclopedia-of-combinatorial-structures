@@ -1,17 +1,26 @@
 # Changelog
 
-This file records notable changes that reach the `prod` branch and are therefore
-eligible for production deployment.
+This file records notable changes to the ECS website, data, tools, and
+`combstruct` Python distribution.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
-The project does not currently use versioned releases, so deployed changes are
-grouped by date.
+Python package releases use version headings; website and data deployments that
+do not have a corresponding package release are grouped by date.
 
 ## Unreleased
 
 Add production-bound changes here under `Added`, `Changed`, `Fixed`, or `Removed`.
-When `prod` is deployed, move the entries into a new `YYYY-MM-DD` section and leave
-this section in place for subsequent work.
+When a package is released or `prod` is deployed, move the entries into a version
+or date section and leave this section in place for subsequent work.
+
+### Changed
+
+- Started the `0.1.0a1` development cycle and updated installation and release
+  documentation after the successful `0.1.0a0` publication.
+- Read the expected artifact version from `pyproject.toml` so release validation
+  has a single version source of truth.
+
+## 0.1.0a0 - 2026-07-22
 
 ### Added
 

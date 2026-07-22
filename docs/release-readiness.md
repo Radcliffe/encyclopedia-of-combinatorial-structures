@@ -1,10 +1,31 @@
-# `combstruct` pre-release readiness
+# `combstruct` 0.1.0a0 release record
 
 Audit date: 2026-07-22
 
-This document records the evidence and confirmed choices for the first
-`combstruct` pre-release. It is not a substitute for rerunning
-`docs/releasing.md` against the exact release commit.
+This document records the evidence, confirmed choices, and publication outcome
+for the first `combstruct` pre-release.
+
+## Release outcome
+
+Version `0.1.0a0` was published successfully on 2026-07-22:
+
+- [PyPI release](https://pypi.org/project/combstruct/0.1.0a0/)
+- [TestPyPI release](https://test.pypi.org/project/combstruct/0.1.0a0/)
+- signed source tag `v0.1.0a0`, which identifies merge commit
+  `52257132324ee3d091ba40337380d45556077026`
+- [successful tag-triggered GitHub Actions run](https://github.com/Radcliffe/encyclopedia-of-combinatorial-structures/actions/runs/29932518492)
+
+The exact published artifacts were:
+
+| Artifact | SHA-256 |
+| --- | --- |
+| `combstruct-0.1.0a0-py3-none-any.whl` | `cdf462a4fda4b7bdef92cf11a09d7d31ef66ab1abf0138b4bafceac5ff7b12cf` |
+| `combstruct-0.1.0a0.tar.gz` | `229ac0efc687c65f681c7b20610079249134ad5c809aa8052b86e404f2e74c2d` |
+
+Fresh, uncached installations from production PyPI passed all 17 installed
+distribution tests, both command-line forms, and `pip check` on Python 3.12,
+3.13, and 3.14. PyPI's published hashes match the validated candidate hashes
+above.
 
 ## Technically ready
 
@@ -73,16 +94,16 @@ and `NOTICE.md` identifies component boundaries, attribution, source links,
 and later modifications. Artifact checks validate the metadata format and
 file inclusion; they do not constitute legal review.
 
-## Deliberately not performed
+## Hosting notes
 
-- Nothing has been uploaded to TestPyPI or PyPI.
-- No PyPI project or trusted publisher has been created.
-- No credentials, API tokens, tags, commits, or releases have been created.
-- The local CI workflow has been syntax-checked, but it cannot run remotely
-  until these changes are committed and pushed. The GitHub mirror can run it
-  from `.github/workflows`; Codeberg's Forgejo fallback additionally requires
-  repository Actions and a compatible runner to be configured.
+- Publishing used scoped API tokens for the first manual release. A dedicated
+  Trusted Publishing workflow remains future release-infrastructure work.
+- The test workflow ran successfully on the GitHub mirror for both the release
+  branch and signed release tag.
+- Codeberg repository Actions are currently disabled. The canonical repository
+  remains Codeberg; the GitHub mirror supplies the remote CI runner.
 
-Follow `docs/releasing.md` against a clean release commit. Migrate the
-remaining `python-tools` scripts only after the resulting package pre-release
-is available and its public API is confirmed.
+Future releases must follow `docs/releasing.md` against a clean release commit
+and must use a new version because PyPI artifacts are immutable. The released
+public API is now available for incremental migration of the remaining
+`python-tools` scripts.

@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import tarfile
+import tomllib
 import zipfile
 from email import policy
 from email.parser import BytesParser
@@ -12,7 +13,15 @@ from pathlib import Path
 
 EXPECTED_RECORD_COUNT = 1075
 EXPECTED_LICENSE_EXPRESSION = "LGPL-2.1-only AND CC-BY-SA-4.0"
-EXPECTED_VERSION = "0.1.0a0"
+
+
+def project_version() -> str:
+    """Read the expected artifact version from the project metadata."""
+
+    project_root = Path(__file__).resolve().parents[1]
+    with (project_root / "pyproject.toml").open("rb") as metadata_file:
+        metadata = tomllib.load(metadata_file)
+    return str(metadata["project"]["version"])
 
 
 def require_members(members: set[str], expected: set[str], artifact: Path) -> None:
@@ -65,7 +74,8 @@ def check_wheel(path: Path) -> None:
         metadata = BytesParser(policy=policy.default).parsebytes(wheel.read(metadata_members[0]))
         if metadata["Name"] != "combstruct":
             raise AssertionError(f"Unexpected distribution name: {metadata['Name']}")
-        if metadata["Version"] != EXPECTED_VERSION:
+        expected_version = project_version()
+        if metadata["Version"] != expected_version:
             raise AssertionError(f"Unexpected distribution version: {metadata['Version']}")
         if metadata["License-Expression"] != EXPECTED_LICENSE_EXPRESSION:
             raise AssertionError(f"Unexpected license expression: {metadata['License-Expression']}")
