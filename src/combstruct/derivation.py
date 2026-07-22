@@ -18,6 +18,7 @@ from math import factorial, isqrt
 
 from .generating_function import (
     GFBinary,
+    GFComplex,
     GFExpression,
     GFFunction,
     GFIndex,
@@ -134,6 +135,8 @@ def _substitute_variable(expression: GFExpression, exponent: int) -> GFExpressio
         )
     if isinstance(expression, GFRootOf):
         return GFRootOf(_substitute_variable(expression.equation, exponent))
+    if isinstance(expression, GFComplex):
+        return GFComplex(_substitute_variable(expression.value, exponent))
     if isinstance(expression, GFInfiniteSum):
         return GFInfiniteSum(
             _substitute_variable(expression.summand, exponent),

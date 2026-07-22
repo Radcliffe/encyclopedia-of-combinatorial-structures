@@ -1,12 +1,13 @@
 """Parse and expand finite ECS generating functions exactly.
 
 The parser recognizes the finite elementary grammar, principal ``LambertW``
-calls, unselected ``RootOf`` equations, and indexed infinite sums used by 1,016
-stored ECS generating functions. Equations and explicit complex values are
-rejected clearly for later parser milestones. The series evaluator uses exact
-rational arithmetic and expands ``LambertW`` compositions whose argument has
-constant term zero. Unselected roots and infinite sums remain explicit
-evaluation boundaries; the evaluator never guesses a branch or truncation.
+calls, unselected ``RootOf`` equations, indexed infinite sums, and the
+one-argument ``Complex`` constructor used by 1,017 stored ECS generating
+functions. Heterogeneous equation fields are rejected clearly for a later
+parser milestone. The series evaluator uses exact rational arithmetic and
+expands ``LambertW`` compositions whose argument has constant term zero.
+Unselected roots, infinite sums, and complex series remain explicit evaluation
+boundaries; the evaluator never guesses a branch or truncation.
 """
 
 from __future__ import annotations
@@ -82,6 +83,13 @@ class GFRootOf:
 
 
 @dataclass(frozen=True, slots=True)
+class GFComplex:
+    """A one-argument Maple ``Complex`` constructor representing ``I * value``."""
+
+    value: GFExpression
+
+
+@dataclass(frozen=True, slots=True)
 class GFIndex:
     """A Maple indexed summation variable such as ``j[1]``."""
 
@@ -110,6 +118,7 @@ type GFExpression = (
     | GFBinary
     | GFFunction
     | GFRootOf
+    | GFComplex
     | GFIndex
     | GFTotient
     | GFInfiniteSum
@@ -217,6 +226,15 @@ class GeneratingFunctionParser:
                 self.root_depth -= 1
             self._expect(")")
             return GFRootOf(equation)
+        if token == "Complex":
+            self._expect("(")
+            value = self._parse_expression()
+            if self._peek() == ",":
+                raise UnsupportedGeneratingFunction(
+                    "Only the one-argument Complex form used by the ECS catalogue is supported",
+                )
+            self._expect(")")
+            return GFComplex(value)
         if token == "numtheory:-phi":
             self._expect("(")
             self._expect("j")
@@ -275,6 +293,9 @@ class GeneratingFunctionParser:
             return
         if isinstance(expression, GFRootOf):
             self._validate_indices(expression.equation, bound)
+            return
+        if isinstance(expression, GFComplex):
+            self._validate_indices(expression.value, bound)
             return
         if isinstance(expression, GFTotient):
             self._validate_indices(expression.index, bound)
@@ -655,6 +676,10 @@ def _evaluate_series(expression: GFExpression) -> _FormalSeries:
             "RootOf has no branch selector; exact coefficient expansion requires "
             "an explicit formal-series branch",
         )
+    if isinstance(expression, GFComplex):
+        raise GeneratingFunctionEvaluationError(
+            "Complex exact coefficient expansion requires complex formal-series support",
+        )
     if isinstance(expression, GFInfiniteSum):
         raise GeneratingFunctionEvaluationError(
             "Infinite Sum exact expansion requires a proven finite truncation bound",
@@ -680,6 +705,38 @@ def _evaluate_series(expression: GFExpression) -> _FormalSeries:
     if expression.operator == "*":
         return _multiply(left, right)
     return _divide(left, right)
+
+
+def _require_supported_evaluation(expression: GFExpression) -> None:
+    """Reject semantic boundaries before local series conditions obscure them."""
+
+    if isinstance(expression, GFRootOf):
+        raise GeneratingFunctionEvaluationError(
+            "RootOf has no branch selector; exact coefficient expansion requires "
+            "an explicit formal-series branch",
+        )
+    if isinstance(expression, GFComplex):
+        raise GeneratingFunctionEvaluationError(
+            "Complex exact coefficient expansion requires complex formal-series support",
+        )
+    if isinstance(expression, GFInfiniteSum):
+        raise GeneratingFunctionEvaluationError(
+            "Infinite Sum exact expansion requires a proven finite truncation bound",
+        )
+    if isinstance(expression, (GFIndex, GFTotient)):
+        raise GeneratingFunctionEvaluationError(
+            "A summation index can only be evaluated inside a supported infinite Sum",
+        )
+    if isinstance(expression, (GFInteger, GFVariable)):
+        return
+    if isinstance(expression, GFUnary):
+        _require_supported_evaluation(expression.operand)
+        return
+    if isinstance(expression, GFFunction):
+        _require_supported_evaluation(expression.argument)
+        return
+    _require_supported_evaluation(expression.left)
+    _require_supported_evaluation(expression.right)
 
 
 def generating_function_coefficients(
@@ -710,6 +767,7 @@ def generating_function_coefficients(
             GFBinary,
             GFFunction,
             GFRootOf,
+            GFComplex,
             GFIndex,
             GFTotient,
             GFInfiniteSum,
@@ -717,6 +775,7 @@ def generating_function_coefficients(
     ):
         raise TypeError("source must be generating-function text or a GFExpression")
 
+    _require_supported_evaluation(expression)
     series = _evaluate_series(expression)
     if not series.is_zero and series.valuation() < 0:
         raise GeneratingFunctionEvaluationError(
@@ -727,6 +786,7 @@ def generating_function_coefficients(
 
 __all__ = [
     "GFBinary",
+    "GFComplex",
     "GFExpression",
     "GFFunction",
     "GFIndex",

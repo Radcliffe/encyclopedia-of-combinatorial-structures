@@ -9,6 +9,7 @@ from combstruct.generating_function import (
     GeneratingFunctionEvaluationError,
     GeneratingFunctionParser,
     GFBinary,
+    GFComplex,
     GFFunction,
     GFIndex,
     GFInfiniteSum,
@@ -120,6 +121,14 @@ class GeneratingFunctionParserTests(unittest.TestCase):
             ),
         )
 
+    def test_one_argument_complex_constructor(self):
+        self.assertEqual(
+            parse_generating_function("Complex(-1/2)"),
+            GFComplex(
+                GFBinary("/", GFUnary("-", GFInteger(1)), GFInteger(2)),
+            ),
+        )
+
     def test_summation_indices_are_lexically_scoped(self):
         cases = {
             "j[1]": "not bound",
@@ -177,8 +186,8 @@ class GeneratingFunctionParserTests(unittest.TestCase):
             else:
                 supported.append(structure.id)
 
-        self.assertEqual(len(supported), 1016)
-        self.assertEqual(len(unsupported), 12)
+        self.assertEqual(len(supported), 1017)
+        self.assertEqual(len(unsupported), 11)
         self.assertEqual(len(supported) + len(unsupported), 1028)
 
 
@@ -309,9 +318,24 @@ class GeneratingFunctionCoefficientTests(unittest.TestCase):
             ):
                 generating_function_coefficients(value, 6)
 
+    def test_complex_requires_complex_formal_series(self):
+        source = "Complex(-1/2)*_x"
+        expression = parse_generating_function(source)
+
+        for value in (source, expression):
+            with (
+                self.subTest(value=value),
+                self.assertRaisesRegex(
+                    GeneratingFunctionEvaluationError,
+                    "complex formal-series support",
+                ),
+            ):
+                generating_function_coefficients(value, 6)
+
     def test_every_parsed_catalogue_function_matches_its_stored_terms(self):
         ordinary = []
         exponential = []
+        complex_forms = []
         infinite_sums = []
         unselected_roots = []
 
@@ -350,6 +374,15 @@ class GeneratingFunctionCoefficientTests(unittest.TestCase):
                 infinite_sums.append(structure.id)
                 continue
 
+            if "Complex(" in source:
+                with self.assertRaisesRegex(
+                    GeneratingFunctionEvaluationError,
+                    "complex formal-series support",
+                ):
+                    generating_function_coefficients(expression, len(structure.terms))
+                complex_forms.append(structure.id)
+                continue
+
             coefficients = generating_function_coefficients(expression, len(structure.terms))
             ordinary_match = all(
                 coefficient == term
@@ -377,6 +410,7 @@ class GeneratingFunctionCoefficientTests(unittest.TestCase):
         self.assertEqual(len(ordinary), 503)
         self.assertEqual(len(exponential), 428)
         self.assertEqual(len(ordinary) + len(exponential), 931)
+        self.assertEqual(complex_forms, [47])
         self.assertEqual(len(infinite_sums), 45)
         self.assertEqual(len(unselected_roots), 39)
 

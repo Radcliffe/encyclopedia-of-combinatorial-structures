@@ -183,13 +183,14 @@ The supported grammar consists of:
 - unselected `RootOf(expression)` equations, with the Maple-local variable
   `_Z` scoped to that equation; and
 - indexed `Sum(expression,j[k]=1..infinity)` forms, including
-  `numtheory:-phi(j[k])`.
+  `numtheory:-phi(j[k])`; and
+- the one-argument `Complex(expression)` form used by the catalogue.
 
-The parser covers 1,016 of the 1,028 nonempty generating-function fields in the
+The parser covers 1,017 of the 1,028 nonempty generating-function fields in the
 bundled catalogue: all 913 finite elementary forms, all 19 `LambertW` forms,
-all 39 unselected `RootOf` forms, and all 45 indexed infinite-sum forms. It
-explicitly rejects the other 12 current records: 11 equations and one explicit
-`Complex` form.
+all 39 unselected `RootOf` forms, all 45 indexed infinite-sum forms, and the one
+`Complex` form. It explicitly rejects the other 11 current equation or prose
+records.
 
 `GeneratingFunctionParser(source)` is the stateful parser used by the function
 API. Malformed input raises `GeneratingFunctionError`. Valid ECS forms outside
@@ -205,8 +206,9 @@ while `GFVariable("_Z")` represents the root-local variable.
 `GFRootOf(equation)` stores an unselected root equation whose local variable is
 `GFVariable("_Z")`. `GFIndex(level)` stores `j[level]`, `GFTotient(index)`
 stores `numtheory:-phi(index)`, and `GFInfiniteSum(summand, index)` stores an
-indexed sum from one through infinity. `GFExpression` is the union of these nine
-immutable node types. Sum indices are lexically scoped: a summand may reference
+indexed sum from one through infinity. `GFComplex(value)` stores a one-argument
+Maple complex constructor. `GFExpression` is the union of these ten immutable
+node types. Sum indices are lexically scoped: a summand may reference
 its own index and outer indices, while unbound indices and nested rebinding of
 the same level are rejected.
 
@@ -228,6 +230,14 @@ indexed_sum = parse_generating_function(
 assert isinstance(indexed_sum, GFInfiniteSum)
 assert indexed_sum.index.level == 1
 assert isinstance(indexed_sum.summand.left.left, GFTotient)
+```
+
+```python
+from combstruct import GFComplex, parse_generating_function
+
+complex_value = parse_generating_function("Complex(-1/2)")
+
+assert isinstance(complex_value, GFComplex)
 ```
 
 ### `generating_function_coefficients(source, coefficient_count)`
@@ -276,8 +286,9 @@ but its shifted nonzero `LambertW` argument is outside the exact formal-series
 contract and raises `GeneratingFunctionEvaluationError`. That record and the 96
 other non-evaluable fields are not covered by this result. Of those 96, the 39
 `RootOf` fields are parsed but have no branch selector, 45 indexed infinite sums
-are parsed but have no proven general truncation rule, and 12 fields remain
-outside the parser grammar.
+are parsed but have no proven general truncation rule, the one `Complex` field
+requires complex formal-series arithmetic, and 11 fields remain outside the
+parser grammar.
 
 Maple documents unselected `RootOf` as representing unspecified roots and uses
 explicit selectors to identify one root. Because the ECS strings do not contain
@@ -293,6 +304,12 @@ Coefficient evaluation of `GFInfiniteSum` similarly raises
 index structure does not by itself prove that terms beyond a finite bound
 cannot affect the requested coefficients, so the evaluator does not silently
 truncate the infinite range.
+
+`GFComplex` coefficient evaluation also raises
+`GeneratingFunctionEvaluationError` until exact complex formal-series
+arithmetic is available. Maple defines one-argument `Complex(x)` as the purely
+imaginary value `I*x`; see the official
+[`Complex` constructor documentation](https://www.maplesoft.com/support/help/Maple/view.aspx?path=complex).
 
 ## Computing terms
 

@@ -12,6 +12,7 @@ from combstruct import (
     GeneratingFunctionEvaluationError,
     GeneratingFunctionParser,
     GFBinary,
+    GFComplex,
     GFFunction,
     GFInteger,
     GFRootOf,
@@ -46,6 +47,7 @@ class PublicApiTests(unittest.TestCase):
             "Constructor",
             "Expression",
             "GFBinary",
+            "GFComplex",
             "GFExpression",
             "GFFunction",
             "GFIndex",
@@ -112,6 +114,20 @@ class PublicApiTests(unittest.TestCase):
         self.assertEqual(
             expression,
             GFRootOf(GFBinary("-", GFVariable("_Z"), GFVariable())),
+        )
+
+    def test_complex_syntax_tree_is_available_from_package(self):
+        expression = parse_generating_function("Complex(-1/2)")
+
+        self.assertEqual(
+            expression,
+            GFComplex(
+                GFBinary(
+                    "/",
+                    combstruct.GFUnary("-", GFInteger(1)),
+                    GFInteger(2),
+                ),
+            ),
         )
 
     def test_generating_function_derivation_is_available_from_package(self):
