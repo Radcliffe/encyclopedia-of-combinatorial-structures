@@ -388,16 +388,16 @@ or recognized-shift contract. A parsed expression that violates these exact
 formal-series conditions raises
 `GeneratingFunctionEvaluationError`. A negative `coefficient_count` raises
 `ValueError`; a non-integer count or invalid source object raises `TypeError`.
-Named-series assignments of the form `A(x)=expression` are expanded by exact,
-simultaneous fixed-point iteration. The solver selects the combinatorial branch
-reached from zero series and returns only after every requested coefficient
-stabilizes exactly. It then constructs the graph of dependencies that can
-affect the same positive-degree coefficient. The graph must be acyclic, proving
-that every recursive cycle introduces a positive degree delay; one or several
-sample starting values are not treated as a proof. Equation results receive the
-same negative-power check as standalone expressions. Named-series composition
-requires a zero-constant argument. In a multi-equation system, `symbol` is
-required to select the returned series:
+Named-series equations are expanded by exact simultaneous fixed-point iteration
+when a structural same-coefficient dependency graph proves contraction. For
+zero-delay cycles and non-assignment square implicit systems, the evaluator
+instead applies formal directional differentiation, constructs the exact
+coefficient Jacobian, and solves a rational linear system in each degree. This
+path requires every Jacobian to be nonsingular and named-series composition
+arguments to be independent of the unknown series. Sample values are not used
+as a proof of affinity or uniqueness. Equation results receive the same
+negative-power check as standalone expressions. In a multi-equation system,
+`symbol` is required to select the returned series:
 
 ```python
 from combstruct import generating_function_coefficients
@@ -410,28 +410,27 @@ coefficients = generating_function_coefficients(
 assert coefficients == (0, 1, 1, 1, 2, 3, 6, 11, 23, 46)
 ```
 
-This contract solves ECS 1, 43, 45, 56, and 57, as well as the simultaneous
-`B`, `C`, and `S` assignments in ECS 118. It includes indexed infinite sums
-whose coefficientwise finiteness follows after substituting the current named
-series approximants. ECS 79 and 91 have same-degree feedback and do not
-stabilize under this iteration; ECS 89 is not an assignment, ECS 44 is a
-symbolic-product coefficient equation, and ECS 95 does not provide a
-coefficientwise-finite sum at its implied constant term. Those forms raise
-`GeneratingFunctionEvaluationError` rather than selecting an unjustified
-solution. Standalone `GFSeriesCall`, `GFInfiniteProduct`, and
-`GFIndexedCoefficient` values likewise remain explicit boundaries.
+This contract solves ECS 1, 43, 45, 56, and 57, the simultaneous `B`, `C`, and
+`S` assignments in ECS 118, and the coefficient-recursive equations in ECS 79,
+89, and 91. ECS 89 reproduces its stored EGF. The equations stored for ECS 79
+and 91 are also solved exactly, but their respective coefficients begin
+`0, 2, 6, 29, ...` and `0, 1, 0, 1/3, 1/4, ...`; neither agrees with the stored
+sequence under OGF or EGF normalization. ECS 44 remains a symbolic-product
+coefficient equation, and ECS 95 does not provide a coefficientwise-finite sum
+at its implied constant term. Standalone `GFSeriesCall`, `GFInfiniteProduct`,
+and `GFIndexedCoefficient` values likewise remain explicit boundaries.
 
-Catalogue-wide tests establish that 983 parsed functions match their full
-stored term prefixes and their `Structure.labeled` flags: 554 are OGFs and 429
-are EGFs, with no ambiguous or inconsistent result in this subset. In
+Catalogue-wide tests establish that 984 parsed functions match their full
+stored term prefixes and their `Structure.labeled` flags: 554 are OGFs and 430
+are EGFs, with no ambiguous result in this subset. ECS 79 and 91 are separately
+recorded as exactly evaluable source-data inconsistencies. In
 particular, ECS 265's coefficients are `1, 6, 21, 56, ...`; applying EGF
 normalization produces its stored terms `1, 6, 42, 336, ...`. ECS 69 uses the
 recognized center `c=-1/2`; exact expansion reproduces all 21 of its stored EGF
-terms. The 45 non-evaluable fields consist of 39 parsed `RootOf` fields without
+terms. The 42 non-evaluable fields consist of 39 parsed `RootOf` fields without
 a branch selector, the one `Complex` field requiring complex formal-series
-arithmetic, and five individual equations requiring stronger solvers (ECS 44,
-79, 89, 91, and 95). There are no remaining catalogue fields outside the parser
-grammar.
+arithmetic, and two individual equations requiring stronger solvers (ECS 44
+and 95). There are no remaining catalogue fields outside the parser grammar.
 
 Maple documents unselected `RootOf` as representing unspecified roots and uses
 explicit selectors to identify one root. Because the ECS strings do not contain
@@ -447,7 +446,7 @@ constant coefficient zero and every occurrence of `_x` is scaled by the bound
 index. Coefficient `n` can then receive contributions only from indices at or
 above `lower_bound` that divide `n`, so the infinite range reduces to a finite
 exact sum. Nested sums also account for the proven product of their outer index
-scales. All 45 exactly evaluable catalogue indexed-sum records meet this
+scales. All 46 exactly evaluable catalogue indexed-sum records meet this
 contract. A sum that does not meet it raises `GeneratingFunctionEvaluationError`
 rather than being silently truncated.
 

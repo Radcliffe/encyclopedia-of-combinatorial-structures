@@ -26,14 +26,17 @@ or date section and leave this section in place for subsequent work.
   remain explicit, named series calls remain explicit, recognized ellipses
   normalize to infinite sums, and `Complex(x)` retains its purely imaginary
   meaning.
-- Added dependency-free exact coefficient expansion for 983 parsed generating
+- Added dependency-free exact coefficient expansion for 986 parsed generating
   functions, including rational powers, removable singularities, principal
-  `LambertW` compositions at zero and recognized rational centers, and all 45
+  `LambertW` compositions at zero and recognized rational centers, and all 46
   coefficientwise-finite indexed sums, plus exact fixed-point solving for five
-  contractive named-series equations and the three-series system in ECS 118;
-  catalogue tests verify 554 OGFs and 429 EGFs against every stored term. The 39
-  unselected `RootOf` expressions, one complex expression, and five equations
-  requiring stronger solvers remain explicit exact-evaluation boundaries.
+  contractive named-series equations and the three-series system in ECS 118,
+  and exact coefficient-recursive solving for ECS 79, 89, and 91. Catalogue
+  tests verify 554 OGFs and 430 EGFs against every stored term; the exact series
+  defined by ECS 79 and 91 disagree with both interpretations of their stored
+  sequences and are recorded as data inconsistencies. The 39 unselected
+  `RootOf` expressions, one complex expression, and two equations requiring
+  stronger solvers remain explicit exact-evaluation boundaries.
 - Added finite generating-function derivation for 888 specifications, including
   labelled constructor rules, bounded unlabelled cycle-index substitutions, and
   rational or square-root closed forms for 50 recursive `Union`/`Prod` records.

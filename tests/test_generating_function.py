@@ -604,12 +604,73 @@ class GeneratingFunctionCoefficientTests(unittest.TestCase):
             tuple(Fraction(term) for term in (0, 1, 1, 1, 1, 1, 1, 1)),
         )
 
-    def test_noncontractive_or_nonassignment_equations_are_rejected(self):
+    def test_coefficient_recursive_and_implicit_equations(self):
+        self.assertEqual(
+            generating_function_coefficients("A(x)=x/2+A(x)/2", 6),
+            tuple(Fraction(term) for term in (0, 1, 0, 0, 0, 0)),
+        )
+        self.assertEqual(
+            generating_function_coefficients("A(x)+A(x)^2=x", 7),
+            tuple(Fraction(term) for term in (0, 1, -1, 2, -5, 14, -42)),
+        )
+        self.assertEqual(
+            generating_function_coefficients(
+                "A(x)=LambertW(1*exp(1+(x+A(x))))-1",
+                7,
+            ),
+            (Fraction(0), *(Fraction(1, factorial(degree)) for degree in range(1, 7))),
+        )
+        system = "A(x)=x+B(x)/2, B(x)=A(x)/3"
+        self.assertEqual(
+            generating_function_coefficients(system, 5, symbol="A"),
+            (Fraction(0), Fraction(6, 5), Fraction(0), Fraction(0), Fraction(0)),
+        )
+        self.assertEqual(
+            generating_function_coefficients(system, 5, symbol="B"),
+            (Fraction(0), Fraction(2, 5), Fraction(0), Fraction(0), Fraction(0)),
+        )
+
+    def test_coefficient_recursive_catalogue_equations(self):
+        expected_prefixes = {
+            79: (0, 2, 6, 29, 186, 1314, 10181, 82344, 690711, 5941864),
+            91: (
+                Fraction(0),
+                Fraction(1),
+                Fraction(0),
+                Fraction(1, 3),
+                Fraction(1, 4),
+                Fraction(8, 15),
+                Fraction(3, 4),
+                Fraction(1727, 1260),
+                Fraction(93, 40),
+                Fraction(192827, 45360),
+            ),
+        }
+        for identifier, prefix in expected_prefixes.items():
+            with self.subTest(identifier=identifier):
+                self.assertEqual(
+                    generating_function_coefficients(
+                        Catalog().get(identifier).generating_function,
+                        len(prefix),
+                    ),
+                    tuple(Fraction(term) for term in prefix),
+                )
+
+        structure = Catalog().get(89)
+        coefficients = generating_function_coefficients(
+            structure.generating_function,
+            len(structure.terms),
+        )
+        self.assertEqual(
+            tuple(
+                coefficient * factorial(degree) for degree, coefficient in enumerate(coefficients)
+            ),
+            structure.terms,
+        )
+
+    def test_remaining_implicit_equation_boundaries_are_rejected(self):
         cases = {
-            44: "left side to be a named series",
-            79: "same-degree feedback",
-            89: "left side to be a named series",
-            91: "same-degree feedback",
+            44: "symbolic-product solver",
             95: "zero-constant summand.*scaled",
         }
         for identifier, message in cases.items():
@@ -622,12 +683,14 @@ class GeneratingFunctionCoefficientTests(unittest.TestCase):
 
     def test_fixed_point_solver_rejects_ambiguous_and_malformed_systems(self):
         cases = {
-            "A(x)=A(x)": "not contractive",
-            "A(x)=B(x), B(x)=A(x)": "zero-delay dependency graph.*A, B",
+            "A(x)=A(x)": "singular at degree 1",
+            "A(x)=B(x), B(x)=A(x)": "singular at degree 1",
             "A(x)=B(x)": "B.*no defining equation",
             "A(x)=x, A(x)=x^2": "more than one defining equation",
-            "A(x+1)=x": "left side to be a named series",
+            "A(x+1)=x": "named-series left side.*evaluated at x",
             "A(x)=A(x+1)": "constant coefficient 0",
+            "A(x)+B(x)=x": "square system",
+            "A(x)=x+A(A(x))": "arguments independent.*A",
             "A(x)=1/_x": "negative powers",
             "A(x)=x, B(x)=1/_x": "negative powers",
             (
@@ -769,6 +832,7 @@ class GeneratingFunctionCoefficientTests(unittest.TestCase):
         complex_forms = []
         infinite_sums = []
         implicit_equations = []
+        catalogue_mismatches = []
         solved_systems = []
         unselected_roots = []
 
@@ -836,6 +900,10 @@ class GeneratingFunctionCoefficientTests(unittest.TestCase):
                 )
             )
 
+            if not ordinary_match and not exponential_match:
+                catalogue_mismatches.append(structure.id)
+                continue
+
             self.assertNotEqual(
                 ordinary_match,
                 exponential_match,
@@ -851,10 +919,11 @@ class GeneratingFunctionCoefficientTests(unittest.TestCase):
             (exponential if exponential_match else ordinary).append(structure.id)
 
         self.assertEqual(len(ordinary), 554)
-        self.assertEqual(len(exponential), 429)
-        self.assertEqual(len(ordinary) + len(exponential), 983)
+        self.assertEqual(len(exponential), 430)
+        self.assertEqual(len(ordinary) + len(exponential), 984)
         self.assertEqual(complex_forms, [47])
-        self.assertEqual(implicit_equations, [44, 79, 89, 91, 95])
+        self.assertEqual(implicit_equations, [44, 95])
+        self.assertEqual(catalogue_mismatches, [79, 91])
         self.assertEqual(solved_systems, [118])
         self.assertEqual(len(infinite_sums), 46)
         self.assertEqual(len(unselected_roots), 39)
