@@ -2,11 +2,12 @@
 
 The parser recognizes the finite elementary grammar, principal ``LambertW``
 calls, unselected ``RootOf`` equations, indexed infinite sums, and the
-one-argument ``Complex`` constructor used by 1,017 stored ECS generating
-functions. Heterogeneous equation fields are rejected clearly for a later
-parser milestone. The series evaluator uses exact rational arithmetic and
-expands principal ``LambertW`` compositions at zero or recognized rational
-centers, plus indexed sums whose requested coefficients have a provable bound.
+one-argument ``Complex`` constructor used by stored ECS generating functions,
+plus a bounded implicit-equation grammar. The remaining heterogeneous fields
+are rejected clearly for later parser milestones. The series evaluator uses
+exact rational arithmetic and expands principal ``LambertW`` compositions at
+zero or recognized rational centers, plus indexed sums whose requested
+coefficients have a provable bound.
 Unselected roots and complex series remain explicit evaluation boundaries; the
 evaluator never guesses a branch or truncation.
 """
@@ -78,6 +79,14 @@ class GFFunction:
 
 
 @dataclass(frozen=True, slots=True)
+class GFSeriesCall:
+    """A named formal series evaluated at an expression, such as ``A(x^2)``."""
+
+    name: str
+    argument: GFExpression
+
+
+@dataclass(frozen=True, slots=True)
 class GFRootOf:
     """An unselected Maple ``RootOf`` equation in its local ``_Z`` variable."""
 
@@ -113,18 +122,28 @@ class GFInfiniteSum:
     index: GFIndex
 
 
+@dataclass(frozen=True, slots=True)
+class GFEquation:
+    """One implicit generating-function equation."""
+
+    left: GFExpression
+    right: GFExpression
+
+
 type GFExpression = (
     GFInteger
     | GFVariable
     | GFUnary
     | GFBinary
     | GFFunction
+    | GFSeriesCall
     | GFRootOf
     | GFComplex
     | GFIndex
     | GFTotient
     | GFInfiniteSum
 )
+type GFParseResult = GFExpression | GFEquation
 
 
 TOKEN_RE = re.compile(
@@ -142,7 +161,7 @@ UNARY_BINDING_POWER = 30
 
 
 class GeneratingFunctionParser:
-    """Parse the supported finite expression syntax used by the ECS."""
+    """Parse the supported expression and implicit-equation syntax used by the ECS."""
 
     def __init__(self, source: str):
         self.source = source
@@ -172,14 +191,26 @@ class GeneratingFunctionParser:
             position = match.end()
         return tokens
 
-    def parse(self) -> GFExpression:
-        """Parse and return one immutable generating-function expression."""
+    def parse(self) -> GFParseResult:
+        """Parse and return one immutable expression or implicit equation."""
 
-        expression = self._parse_expression()
+        left = self._parse_expression()
+        result: GFParseResult = left
+        if self._peek() == "=":
+            self.position += 1
+            result = GFEquation(left, self._parse_expression())
         if self.position != len(self.tokens):
+            if isinstance(result, GFEquation) and self._peek() == ",":
+                raise UnsupportedGeneratingFunction(
+                    "Multiple generating-function equations are not supported",
+                )
             raise self._error(f"Unexpected token {self._peek()!r} after expression")
-        self._validate_indices(expression, frozenset())
-        return expression
+        if isinstance(result, GFEquation):
+            self._validate_indices(result.left, frozenset())
+            self._validate_indices(result.right, frozenset())
+        else:
+            self._validate_indices(result, frozenset())
+        return result
 
     def _parse_expression(self, minimum_binding_power: int = 0) -> GFExpression:
         left = self._parse_prefix()
@@ -197,7 +228,7 @@ class GeneratingFunctionParser:
         token = self._take()
         if token.isdigit():
             return GFInteger(int(token))
-        if token == "_x":
+        if token in {"_x", "x"}:
             return GFVariable()
         if token == "_Z":
             if self.root_depth == 0:
@@ -214,11 +245,12 @@ class GeneratingFunctionParser:
             expression = self._parse_expression()
             self._expect(")")
             return expression
-        if token in {"exp", "ln", "LambertW"}:
+        if token in {"exp", "ln", "log", "LambertW"}:
             self._expect("(")
             argument = self._parse_expression()
             self._expect(")")
-            return GFFunction(cast(FunctionName, token), argument)
+            name = "ln" if token == "log" else token
+            return GFFunction(cast(FunctionName, name), argument)
         if token == "RootOf":
             self._expect("(")
             self.root_depth += 1
@@ -257,6 +289,11 @@ class GeneratingFunctionParser:
             self._expect(")")
             return GFInfiniteSum(summand, index)
         if IDENTIFIER_RE.fullmatch(token):
+            if self._peek() == "(":
+                self.position += 1
+                argument = self._parse_expression()
+                self._expect(")")
+                return GFSeriesCall(token, argument)
             raise UnsupportedGeneratingFunction(
                 f"Generating-function identifier {token!r} is not supported",
             )
@@ -291,6 +328,9 @@ class GeneratingFunctionParser:
             self._validate_indices(expression.right, bound)
             return
         if isinstance(expression, GFFunction):
+            self._validate_indices(expression.argument, bound)
+            return
+        if isinstance(expression, GFSeriesCall):
             self._validate_indices(expression.argument, bound)
             return
         if isinstance(expression, GFRootOf):
@@ -328,8 +368,8 @@ class GeneratingFunctionParser:
         return GeneratingFunctionError(f"{message} near {nearby!r}")
 
 
-def parse_generating_function(source: str) -> GFExpression:
-    """Parse a supported finite ECS generating-function expression."""
+def parse_generating_function(source: str) -> GFParseResult:
+    """Parse a supported ECS generating-function expression or equation."""
 
     return GeneratingFunctionParser(source).parse()
 
@@ -805,6 +845,8 @@ def _is_x_free(expression: GFExpression) -> bool:
         return _is_x_free(expression.operand)
     if isinstance(expression, GFFunction):
         return _is_x_free(expression.argument)
+    if isinstance(expression, GFSeriesCall):
+        return False
     if isinstance(expression, GFRootOf):
         return _is_x_free(expression.equation)
     if isinstance(expression, GFComplex):
@@ -857,7 +899,7 @@ def _is_index_scaled(expression: GFExpression, level: int) -> bool:
     monomial_factors = _x_monomial_index_factors(expression)
     if monomial_factors is not None and level in monomial_factors:
         return True
-    if isinstance(expression, GFVariable | GFInteger | GFIndex | GFTotient):
+    if isinstance(expression, GFVariable | GFInteger | GFIndex | GFTotient | GFSeriesCall):
         return False
     if isinstance(expression, GFUnary):
         return _is_index_scaled(expression.operand, level)
@@ -896,7 +938,7 @@ def _constant_term(expression: GFExpression) -> Fraction | None:
         return Fraction(expression.value)
     if isinstance(expression, GFVariable):
         return Fraction() if expression.name == "_x" else None
-    if isinstance(expression, GFIndex | GFTotient | GFRootOf | GFComplex):
+    if isinstance(expression, GFIndex | GFTotient | GFRootOf | GFComplex | GFSeriesCall):
         return None
     if isinstance(expression, GFUnary):
         value = _constant_term(expression.operand)
@@ -1074,6 +1116,10 @@ def _evaluate_series(
         )
     if isinstance(expression, GFInfiniteSum):
         return _infinite_sum(expression, index_values)
+    if isinstance(expression, GFSeriesCall):
+        raise GeneratingFunctionEvaluationError(
+            f"Named series call {expression.name}(...) requires an implicit-equation solver",
+        )
     if expression.operator == "^":
         return _rational_power(
             _evaluate_series(expression.left, index_values),
@@ -1108,6 +1154,10 @@ def _require_supported_evaluation(
         raise GeneratingFunctionEvaluationError(
             "Complex exact coefficient expansion requires complex formal-series support",
         )
+    if isinstance(expression, GFSeriesCall):
+        raise GeneratingFunctionEvaluationError(
+            f"Named series call {expression.name}(...) requires an implicit-equation solver",
+        )
     if isinstance(expression, GFInfiniteSum):
         nested_bound_indices = bound_indices | {expression.index.level}
         _require_supported_evaluation(expression.summand, nested_bound_indices)
@@ -1139,12 +1189,12 @@ def _require_supported_evaluation(
 
 
 def generating_function_coefficients(
-    source: str | GFExpression,
+    source: str | GFParseResult,
     coefficient_count: int,
 ) -> tuple[Fraction, ...]:
     """Return exact coefficients from degree zero through ``count - 1``.
 
-    ``source`` may be either stored ECS text or an expression returned by
+    ``source`` may be either stored ECS text or a result returned by
     :func:`parse_generating_function`. The coefficients are the raw formal
     series coefficients. Callers interpreting an exponential generating
     function must multiply coefficient ``n`` by ``n!`` to obtain its counting
@@ -1157,6 +1207,10 @@ def generating_function_coefficients(
         raise ValueError("coefficient_count must be nonnegative")
 
     expression = parse_generating_function(source) if isinstance(source, str) else source
+    if isinstance(expression, GFEquation):
+        raise GeneratingFunctionEvaluationError(
+            "Implicit generating-function equations require a named-series solver",
+        )
     if not isinstance(
         expression,
         (
@@ -1165,6 +1219,7 @@ def generating_function_coefficients(
             GFUnary,
             GFBinary,
             GFFunction,
+            GFSeriesCall,
             GFRootOf,
             GFComplex,
             GFIndex,
@@ -1172,7 +1227,7 @@ def generating_function_coefficients(
             GFInfiniteSum,
         ),
     ):
-        raise TypeError("source must be generating-function text or a GFExpression")
+        raise TypeError("source must be generating-function text or a GFParseResult")
 
     _require_supported_evaluation(expression)
     series = _evaluate_series(expression)
@@ -1186,12 +1241,15 @@ def generating_function_coefficients(
 __all__ = [
     "GFBinary",
     "GFComplex",
+    "GFEquation",
     "GFExpression",
     "GFFunction",
     "GFIndex",
     "GFInfiniteSum",
     "GFInteger",
+    "GFParseResult",
     "GFRootOf",
+    "GFSeriesCall",
     "GFTotient",
     "GFUnary",
     "GFVariable",

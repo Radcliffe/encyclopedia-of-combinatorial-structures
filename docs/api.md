@@ -160,8 +160,8 @@ cycles, and seven power sets.
 
 ### `parse_generating_function(source)`
 
-Parse one supported finite ECS generating-function expression into an immutable
-`GFExpression` syntax tree.
+Parse one supported ECS generating-function expression or implicit equation
+into an immutable `GFParseResult` syntax tree.
 
 ```python
 from combstruct import GFBinary, parse_generating_function
@@ -179,18 +179,21 @@ The supported grammar consists of:
 - nonnegative integer literals and the Maple variable `_x`;
 - parentheses and unary `+` or `-`;
 - binary `+`, `-`, `*`, `/`, and right-associative `^`;
-- `exp(expression)`, `ln(expression)`, and `LambertW(expression)`; and
+- `exp(expression)`, `ln(expression)`, and `LambertW(expression)`;
 - unselected `RootOf(expression)` equations, with the Maple-local variable
-  `_Z` scoped to that equation; and
+  `_Z` scoped to that equation;
 - indexed `Sum(expression,j[k]=1..infinity)` forms, including
-  `numtheory:-phi(j[k])`; and
-- the one-argument `Complex(expression)` form used by the catalogue.
+  `numtheory:-phi(j[k])`;
+- the one-argument `Complex(expression)` form used by the catalogue; and
+- the variable spelling `x`, the function alias `log`, and named formal-series
+  calls such as `A(x^2)` inside one implicit equation.
 
-The parser covers 1,017 of the 1,028 nonempty generating-function fields in the
+The parser covers 1,022 of the 1,028 nonempty generating-function fields in the
 bundled catalogue: all 913 finite elementary forms, all 19 `LambertW` forms,
 all 39 unselected `RootOf` forms, all 45 indexed infinite-sum forms, and the one
-`Complex` form. It explicitly rejects the other 11 current equation or prose
-records.
+`Complex` form, plus the five homogeneous implicit equations in ECS 1, 43, 45,
+89, and 91. It explicitly rejects the other six fields, whose notation uses a
+symbolic product, ellipses, alternate sum ranges, or multiple equations.
 
 `GeneratingFunctionParser(source)` is the stateful parser used by the function
 API. Malformed input raises `GeneratingFunctionError`. Valid ECS forms outside
@@ -203,14 +206,18 @@ while `GFVariable("_Z")` represents the root-local variable.
 `GFUnary(operator, operand)` stores unary `+` or `-`.
 `GFBinary(operator, left, right)` stores an arithmetic operation.
 `GFFunction(name, argument)` stores an `exp`, `ln`, or `LambertW` call.
+`GFSeriesCall(name, argument)` stores a named formal-series call such as
+`A(x^2)`; the spellings `x` and `_x` both become `GFVariable()` and `log`
+becomes `GFFunction("ln", argument)`.
 `GFRootOf(equation)` stores an unselected root equation whose local variable is
 `GFVariable("_Z")`. `GFIndex(level)` stores `j[level]`, `GFTotient(index)`
 stores `numtheory:-phi(index)`, and `GFInfiniteSum(summand, index)` stores an
 indexed sum from one through infinity. `GFComplex(value)` stores a one-argument
-Maple complex constructor. `GFExpression` is the union of these ten immutable
-node types. Sum indices are lexically scoped: a summand may reference
-its own index and outer indices, while unbound indices and nested rebinding of
-the same level are rejected.
+Maple complex constructor. `GFExpression` is the union of these eleven immutable
+expression-node types. `GFEquation(left, right)` stores one implicit equality,
+and `GFParseResult` is the union of `GFExpression` and `GFEquation`. Sum indices
+are lexically scoped: a summand may reference its own index and outer indices,
+while unbound indices and nested rebinding of the same level are rejected.
 
 ```python
 from combstruct import GFBinary, GFRootOf, GFVariable, parse_generating_function
@@ -240,9 +247,18 @@ complex_value = parse_generating_function("Complex(-1/2)")
 assert isinstance(complex_value, GFComplex)
 ```
 
+```python
+from combstruct import GFEquation, GFSeriesCall, GFVariable, parse_generating_function
+
+equation = parse_generating_function("A(x)=x+(A(x)^2+A(x^2))/2")
+
+assert isinstance(equation, GFEquation)
+assert equation.left == GFSeriesCall("A", GFVariable())
+```
+
 ### `generating_function_coefficients(source, coefficient_count)`
 
-Expand generating-function text or a parsed `GFExpression` and return an exact
+Expand generating-function text or a parsed `GFParseResult` and return an exact
 tuple of `fractions.Fraction` coefficients from degree zero through
 `coefficient_count - 1`.
 
@@ -322,6 +338,9 @@ or recognized-shift contract. A parsed expression that violates these exact
 formal-series conditions raises
 `GeneratingFunctionEvaluationError`. A negative `coefficient_count` raises
 `ValueError`; a non-integer count or invalid source object raises `TypeError`.
+Parsed `GFEquation` and standalone `GFSeriesCall` values raise
+`GeneratingFunctionEvaluationError`: preserving implicit syntax does not choose
+a solution for its named formal series.
 
 Catalogue-wide tests establish that 977 parsed functions match their full
 stored term prefixes and their `Structure.labeled` flags: 548 are OGFs and 429
@@ -331,7 +350,8 @@ normalization produces its stored terms `1, 6, 42, 336, ...`. ECS 69 uses the
 recognized center `c=-1/2`; exact expansion reproduces all 21 of its stored EGF
 terms. The 51 non-evaluable fields consist of 39 parsed `RootOf` fields without
 a branch selector, the one `Complex` field requiring complex formal-series
-arithmetic, and 11 fields outside the parser grammar.
+arithmetic, five parsed implicit equations requiring a named-series solver, and
+six fields outside the parser grammar.
 
 Maple documents unselected `RootOf` as representing unspecified roots and uses
 explicit selectors to identify one root. Because the ECS strings do not contain
