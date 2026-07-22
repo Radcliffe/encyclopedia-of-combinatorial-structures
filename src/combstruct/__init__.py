@@ -5,7 +5,8 @@ sequence terms, derives finite generating functions and selected quadratic
 closed forms from specifications, and parses and exactly expands finite
 elementary and supported principal ``LambertW`` generating functions in the ECS
 catalogue, including faithful syntax trees for named implicit equations and
-equation systems, plus unselected ``RootOf`` equations.
+equation systems, exact fixed-point expansion for supported named-series
+assignments, and unselected ``RootOf`` equations.
 Indexed infinite sums are parsed with lexical summation-variable scope and
 expanded when coefficientwise finiteness can be proved. The catalogue's
 symbolic infinite product, indexed coefficients, and one-argument Maple

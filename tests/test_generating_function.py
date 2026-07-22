@@ -523,19 +523,16 @@ class GeneratingFunctionCoefficientTests(unittest.TestCase):
             ):
                 generating_function_coefficients(value, 6)
 
-    def test_implicit_equation_requires_a_named_series_solver(self):
+    def test_contractive_named_series_equation(self):
         source = "A(x)=x+(1/2)*(A(x)^2+A(x^2))"
         equation = parse_generating_function(source)
 
         for value in (source, equation):
-            with (
-                self.subTest(value=value),
-                self.assertRaisesRegex(
-                    GeneratingFunctionEvaluationError,
-                    "Implicit generating-function equations.*solver",
-                ),
-            ):
-                generating_function_coefficients(value, 6)
+            with self.subTest(value=value):
+                self.assertEqual(
+                    generating_function_coefficients(value, 10),
+                    tuple(Fraction(term) for term in (0, 1, 1, 1, 2, 3, 6, 11, 23, 46)),
+                )
 
         with self.assertRaisesRegex(
             GeneratingFunctionEvaluationError,
@@ -543,21 +540,95 @@ class GeneratingFunctionCoefficientTests(unittest.TestCase):
         ):
             generating_function_coefficients("A(x)", 6)
 
-    def test_implicit_equation_system_requires_a_named_series_solver(self):
+    def test_contractive_named_series_equations_match_the_catalogue(self):
+        for identifier in (1, 43, 45, 56, 57):
+            structure = Catalog().get(identifier)
+            with self.subTest(identifier=identifier):
+                self.assertEqual(
+                    generating_function_coefficients(
+                        structure.generating_function,
+                        len(structure.terms),
+                    ),
+                    tuple(Fraction(term) for term in structure.terms),
+                )
+
+    def test_contractive_equation_system_and_symbol_selection(self):
         source = Catalog().get(118).generating_function
 
         self.assertIsNotNone(source)
         assert source is not None
         system = parse_generating_function(source)
-        for value in (source, system):
+        expected = tuple(Fraction(term) for term in Catalog().get(118).terms)
+        self.assertEqual(
+            generating_function_coefficients(source, len(expected), symbol="S"),
+            expected,
+        )
+        expected_prefixes = {
+            "B": (0, 1, 1, 2, 4, 9, 20, 48),
+            "C": (1, 1, 2, 4, 9, 20, 48, 115),
+            "S": (0, 1, 2, 4, 9, 20, 51, 125),
+        }
+        for symbol, prefix in expected_prefixes.items():
+            with self.subTest(symbol=symbol):
+                self.assertEqual(
+                    generating_function_coefficients(system, len(prefix), symbol=symbol),
+                    tuple(Fraction(term) for term in prefix),
+                )
+
+        with self.assertRaisesRegex(
+            GeneratingFunctionEvaluationError,
+            "requires a symbol",
+        ):
+            generating_function_coefficients(system, 6)
+        with self.assertRaisesRegex(
+            GeneratingFunctionEvaluationError,
+            "no defining equation.*'A'",
+        ):
+            generating_function_coefficients(system, 6, symbol="A")
+
+    def test_noncontractive_or_nonassignment_equations_are_rejected(self):
+        cases = {
+            44: "left side to be a named series",
+            79: "same-degree feedback",
+            89: "left side to be a named series",
+            91: "same-degree feedback",
+            95: "zero-constant summand.*scaled",
+        }
+        for identifier, message in cases.items():
+            structure = Catalog().get(identifier)
             with (
-                self.subTest(value=value),
-                self.assertRaisesRegex(
-                    GeneratingFunctionEvaluationError,
-                    "Implicit generating-function equations.*solver",
-                ),
+                self.subTest(identifier=identifier),
+                self.assertRaisesRegex(GeneratingFunctionEvaluationError, message),
             ):
-                generating_function_coefficients(value, 6)
+                generating_function_coefficients(structure.generating_function, 8)
+
+    def test_fixed_point_solver_rejects_ambiguous_and_malformed_systems(self):
+        cases = {
+            "A(x)=A(x)": "not contractive",
+            "A(x)=B(x)": "B.*no defining equation",
+            "A(x)=x, A(x)=x^2": "more than one defining equation",
+            "A(x+1)=x": "left side to be a named series",
+            "A(x)=A(x+1)": "constant coefficient 0",
+        }
+        for source, message in cases.items():
+            with (
+                self.subTest(source=source),
+                self.assertRaisesRegex(GeneratingFunctionEvaluationError, message),
+            ):
+                generating_function_coefficients(source, 5, symbol="A")
+
+    def test_fixed_point_argument_validation_and_empty_prefix(self):
+        source = "A(x)=1+x*A(x)"
+        self.assertEqual(generating_function_coefficients(source, 0), ())
+        self.assertEqual(
+            generating_function_coefficients(source, 6),
+            (Fraction(1),) * 6,
+        )
+        for symbol in (True, 1, ""):
+            with self.subTest(symbol=symbol), self.assertRaises(TypeError):
+                generating_function_coefficients(source, 3, symbol=symbol)
+        with self.assertRaisesRegex(ValueError, "only select.*equation"):
+            generating_function_coefficients("1+x", 3, symbol="A")
 
     def test_symbolic_infinite_product_requires_an_equation_solver(self):
         source = "Product_{k>0} 1/(1-x^k)^a_k"
@@ -664,7 +735,7 @@ class GeneratingFunctionCoefficientTests(unittest.TestCase):
         complex_forms = []
         infinite_sums = []
         implicit_equations = []
-        implicit_systems = []
+        solved_systems = []
         unselected_roots = []
 
         for structure in Catalog():
@@ -677,24 +748,28 @@ class GeneratingFunctionCoefficientTests(unittest.TestCase):
                 continue
 
             if isinstance(expression, GFEquation):
-                with self.assertRaisesRegex(
-                    GeneratingFunctionEvaluationError,
-                    "Implicit generating-function equations.*solver",
-                ):
-                    generating_function_coefficients(expression, len(structure.terms))
-                implicit_equations.append(structure.id)
-                continue
+                try:
+                    generating_function_coefficients(
+                        expression,
+                        min(4, len(structure.terms)),
+                    )
+                except GeneratingFunctionEvaluationError:
+                    implicit_equations.append(structure.id)
+                    continue
+                coefficients = generating_function_coefficients(
+                    expression,
+                    len(structure.terms),
+                )
 
-            if isinstance(expression, GFEquationSystem):
-                with self.assertRaisesRegex(
-                    GeneratingFunctionEvaluationError,
-                    "Implicit generating-function equations.*solver",
-                ):
-                    generating_function_coefficients(expression, len(structure.terms))
-                implicit_systems.append(structure.id)
-                continue
+            elif isinstance(expression, GFEquationSystem):
+                coefficients = generating_function_coefficients(
+                    expression,
+                    len(structure.terms),
+                    symbol=structure.symbol,
+                )
+                solved_systems.append(structure.id)
 
-            if "RootOf(" in source:
+            elif "RootOf(" in source:
                 with self.assertRaisesRegex(
                     GeneratingFunctionEvaluationError,
                     "no branch selector",
@@ -703,7 +778,7 @@ class GeneratingFunctionCoefficientTests(unittest.TestCase):
                 unselected_roots.append(structure.id)
                 continue
 
-            if "Complex(" in source:
+            elif "Complex(" in source:
                 with self.assertRaisesRegex(
                     GeneratingFunctionEvaluationError,
                     "complex formal-series support",
@@ -711,8 +786,11 @@ class GeneratingFunctionCoefficientTests(unittest.TestCase):
                     generating_function_coefficients(expression, len(structure.terms))
                 complex_forms.append(structure.id)
                 continue
-
-            coefficients = generating_function_coefficients(expression, len(structure.terms))
+            else:
+                coefficients = generating_function_coefficients(
+                    expression,
+                    len(structure.terms),
+                )
             ordinary_match = all(
                 coefficient == term
                 for coefficient, term in zip(coefficients, structure.terms, strict=True)
@@ -738,13 +816,13 @@ class GeneratingFunctionCoefficientTests(unittest.TestCase):
                 infinite_sums.append(structure.id)
             (exponential if exponential_match else ordinary).append(structure.id)
 
-        self.assertEqual(len(ordinary), 548)
+        self.assertEqual(len(ordinary), 554)
         self.assertEqual(len(exponential), 429)
-        self.assertEqual(len(ordinary) + len(exponential), 977)
+        self.assertEqual(len(ordinary) + len(exponential), 983)
         self.assertEqual(complex_forms, [47])
-        self.assertEqual(implicit_equations, [1, 43, 44, 45, 56, 57, 79, 89, 91, 95])
-        self.assertEqual(implicit_systems, [118])
-        self.assertEqual(len(infinite_sums), 45)
+        self.assertEqual(implicit_equations, [44, 79, 89, 91, 95])
+        self.assertEqual(solved_systems, [118])
+        self.assertEqual(len(infinite_sums), 46)
         self.assertEqual(len(unselected_roots), 39)
 
 

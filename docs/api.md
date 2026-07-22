@@ -306,7 +306,7 @@ assert isinstance(system, GFEquationSystem)
 assert len(system.equations) == 2
 ```
 
-### `generating_function_coefficients(source, coefficient_count)`
+### `generating_function_coefficients(source, coefficient_count, *, symbol=None)`
 
 Expand generating-function text or a parsed `GFParseResult` and return an exact
 tuple of `fractions.Fraction` coefficients from degree zero through
@@ -388,22 +388,47 @@ or recognized-shift contract. A parsed expression that violates these exact
 formal-series conditions raises
 `GeneratingFunctionEvaluationError`. A negative `coefficient_count` raises
 `ValueError`; a non-integer count or invalid source object raises `TypeError`.
-Parsed `GFEquation` and `GFEquationSystem` values, plus standalone
-`GFSeriesCall`, `GFInfiniteProduct`, and `GFIndexedCoefficient` values, raise
-`GeneratingFunctionEvaluationError`: preserving symbolic syntax does not choose
-a solution or invent the missing equation solver.
+Named-series assignments of the form `A(x)=expression` are expanded by exact,
+simultaneous fixed-point iteration. The solver selects the combinatorial branch
+reached from zero series, verifies the same truncated fixed point from an
+independent positive-degree probe, and returns only after every requested
+coefficient stabilizes exactly. Named-series composition requires a
+zero-constant argument. In a multi-equation system, `symbol` is required to
+select the returned series:
 
-Catalogue-wide tests establish that 977 parsed functions match their full
-stored term prefixes and their `Structure.labeled` flags: 548 are OGFs and 429
+```python
+from combstruct import generating_function_coefficients
+
+coefficients = generating_function_coefficients(
+    "A(x)=x+(A(x)^2+A(x^2))/2",
+    10,
+)
+
+assert coefficients == (0, 1, 1, 1, 2, 3, 6, 11, 23, 46)
+```
+
+This contract solves ECS 1, 43, 45, 56, and 57, as well as the simultaneous
+`B`, `C`, and `S` assignments in ECS 118. It includes indexed infinite sums
+whose coefficientwise finiteness follows after substituting the current named
+series approximants. ECS 79 and 91 have same-degree feedback and do not
+stabilize under this iteration; ECS 89 is not an assignment, ECS 44 is a
+symbolic-product coefficient equation, and ECS 95 does not provide a
+coefficientwise-finite sum at its implied constant term. Those forms raise
+`GeneratingFunctionEvaluationError` rather than selecting an unjustified
+solution. Standalone `GFSeriesCall`, `GFInfiniteProduct`, and
+`GFIndexedCoefficient` values likewise remain explicit boundaries.
+
+Catalogue-wide tests establish that 983 parsed functions match their full
+stored term prefixes and their `Structure.labeled` flags: 554 are OGFs and 429
 are EGFs, with no ambiguous or inconsistent result in this subset. In
 particular, ECS 265's coefficients are `1, 6, 21, 56, ...`; applying EGF
 normalization produces its stored terms `1, 6, 42, 336, ...`. ECS 69 uses the
 recognized center `c=-1/2`; exact expansion reproduces all 21 of its stored EGF
-terms. The 51 non-evaluable fields consist of 39 parsed `RootOf` fields without
+terms. The 45 non-evaluable fields consist of 39 parsed `RootOf` fields without
 a branch selector, the one `Complex` field requiring complex formal-series
-arithmetic, and eleven parsed equation records requiring an equation solver
-(ten individual equations and the system in ECS 118). There are no remaining
-catalogue fields outside the parser grammar.
+arithmetic, and five individual equations requiring stronger solvers (ECS 44,
+79, 89, 91, and 95). There are no remaining catalogue fields outside the parser
+grammar.
 
 Maple documents unselected `RootOf` as representing unspecified roots and uses
 explicit selectors to identify one root. Because the ECS strings do not contain
