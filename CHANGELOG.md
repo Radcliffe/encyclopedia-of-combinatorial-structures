@@ -17,17 +17,19 @@ or date section and leave this section in place for subsequent work.
 
 - Added an immutable AST and parser for the finite elementary, `LambertW`,
   unselected `RootOf`, both indexed infinite-`Sum` notations, and one-argument
-  `Complex` syntax plus seven individual implicit equations and one
-  three-equation system used by 1,025 stored ECS generating-function fields.
+  `Complex` syntax, plus the two fully determined positive and alternating
+  ellipsis patterns, nine individual implicit equations, and one three-equation
+  system used by 1,027 stored ECS generating-function fields.
   `RootOf` retains its unspecified-branch meaning, infinite sums retain their
   lexical index binding and lower bound, named series calls remain explicit,
-  and `Complex(x)` retains its purely imaginary meaning.
+  recognized ellipses normalize to infinite sums, and `Complex(x)` retains its
+  purely imaginary meaning.
 - Added dependency-free exact coefficient expansion for 977 parsed generating
   functions, including rational powers, removable singularities, principal
   `LambertW` compositions at zero and recognized rational centers, and all 45
   coefficientwise-finite indexed sums; catalogue tests verify 548 OGFs and 429
   EGFs against every stored term. The 39 unselected `RootOf` expressions, one
-  complex expression, seven individual implicit equations, and one implicit
+  complex expression, nine individual implicit equations, and one implicit
   equation system remain explicit exact-evaluation boundaries.
 - Added finite generating-function derivation for 888 specifications, including
   labelled constructor rules, bounded unlabelled cycle-index substitutions, and

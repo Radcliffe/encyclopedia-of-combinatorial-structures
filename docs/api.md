@@ -186,18 +186,21 @@ The supported grammar consists of:
   `numtheory:-phi(j[k])`;
 - alternate `Sum_{j=m..inf} expression` and `Sum_{j>m} expression` forms,
   including `phi(j)`;
+- the exact positive and alternating four-term ellipsis patterns used by ECS 56
+  and 57, normalized to `GFInfiniteSum`;
 - the one-argument `Complex(expression)` form used by the catalogue; and
 - the variable spelling `x`, the function alias `log`, and named formal-series
   calls such as `A(x^2)` inside implicit equations, including comma-separated
   systems.
 
-The parser covers 1,025 of the 1,028 nonempty generating-function fields in the
+The parser covers 1,027 of the 1,028 nonempty generating-function fields in the
 bundled catalogue: all 913 finite elementary forms, all 19 `LambertW` forms,
 all 39 unselected `RootOf` forms, all 45 Maple-form indexed infinite sums, and
-the one `Complex` form, plus seven individual implicit equations in ECS 1, 43,
-45, 79, 89, 91, and 95 and the three-equation system in ECS 118. It explicitly
-rejects only ECS 44, 56, and 57, whose notation uses a symbolic product or
-ellipses.
+the one `Complex` form, plus nine individual implicit equations in ECS 1, 43,
+45, 56, 57, 79, 89, 91, and 95 and the three-equation system in ECS 118. It
+explicitly rejects only ECS 44, whose notation uses a symbolic product.
+Arbitrary ellipses that do not match either fully determined catalogue pattern
+also remain unsupported.
 
 `GeneratingFunctionParser(source)` is the stateful parser used by the function
 API. Malformed input raises `GeneratingFunctionError`. Valid ECS forms outside
@@ -267,6 +270,14 @@ equation = parse_generating_function("A(x)=x+(A(x)^2+A(x^2))/2")
 
 assert isinstance(equation, GFEquation)
 assert equation.left == GFSeriesCall("A", GFVariable())
+
+patterned = parse_generating_function(
+    "A(x)=x*exp(A(x)-A(x^2)/2+A(x^3)/3-A(x^4)/4+...)"
+)
+
+assert isinstance(patterned, GFEquation)
+assert isinstance(patterned.right, GFBinary)
+assert isinstance(patterned.right.right.argument, GFInfiniteSum)
 ```
 
 ```python
@@ -372,9 +383,9 @@ normalization produces its stored terms `1, 6, 42, 336, ...`. ECS 69 uses the
 recognized center `c=-1/2`; exact expansion reproduces all 21 of its stored EGF
 terms. The 51 non-evaluable fields consist of 39 parsed `RootOf` fields without
 a branch selector, the one `Complex` field requiring complex formal-series
-arithmetic, eight parsed implicit-equation records requiring a named-series
-solver (seven individual equations and the system in ECS 118), and three fields
-outside the parser grammar.
+arithmetic, ten parsed implicit-equation records requiring a named-series solver
+(nine individual equations and the system in ECS 118), and one field outside
+the parser grammar.
 
 Maple documents unselected `RootOf` as representing unspecified roots and uses
 explicit selectors to identify one root. Because the ECS strings do not contain
