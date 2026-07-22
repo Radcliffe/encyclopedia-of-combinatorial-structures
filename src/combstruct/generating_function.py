@@ -1,13 +1,14 @@
 """Parse and expand finite ECS generating functions exactly.
 
 The parser recognizes the finite elementary grammar, principal ``LambertW``
-calls, unselected ``RootOf`` equations, both indexed infinite-sum notations, and
-the one-argument ``Complex`` constructor used by stored ECS generating
-functions, plus a bounded implicit-equation and equation-system grammar. The
-remaining heterogeneous fields are rejected clearly for later parser
-milestones. The series evaluator uses exact rational arithmetic and expands
-principal ``LambertW`` compositions at zero or recognized rational centers,
-plus indexed sums whose requested coefficients have a provable bound.
+calls, unselected ``RootOf`` equations, both indexed infinite-sum notations, the
+two fully determined patterned ellipses, and the one-argument ``Complex``
+constructor used by stored ECS generating functions, plus a bounded
+implicit-equation and equation-system grammar. The remaining heterogeneous
+field is rejected clearly for a later parser milestone. The series evaluator
+uses exact rational arithmetic and expands principal ``LambertW`` compositions
+at zero or recognized rational centers, plus indexed sums whose requested
+coefficients have a provable bound.
 Unselected roots and complex series remain explicit evaluation boundaries; the
 evaluator never guesses a branch or truncation.
 """
@@ -168,6 +169,29 @@ INFIX_BINDING_POWER: dict[str, tuple[int, int]] = {
 UNARY_BINDING_POWER = 30
 
 
+def _normalize_patterned_ellipsis(source: str) -> str:
+    """Rewrite the two fully determined ellipsis patterns stored by the ECS."""
+
+    compact = re.sub(r"\s+", "", source)
+    match = re.fullmatch(
+        r"(?P<name>[A-Za-z_][A-Za-z0-9_]*)\(x\)=x\*exp\((?P<body>.*)\)",
+        compact,
+    )
+    if match is None:
+        return source
+    name = match.group("name")
+    body = match.group("body")
+    positive_prefix = f"{name}(x)+{name}(x^2)/2+{name}(x^3)/3+{name}(x^4)/4+..."
+    alternating_prefix = f"{name}(x)-{name}(x^2)/2+{name}(x^3)/3-{name}(x^4)/4+..."
+    if body == positive_prefix:
+        summand = f"{name}(x^j[1])/j[1]"
+    elif body == alternating_prefix:
+        summand = f"(-1)^(j[1]+1)*{name}(x^j[1])/j[1]"
+    else:
+        return source
+    return f"{name}(x)=x*exp(Sum({summand},j[1]=1..infinity))"
+
+
 class GeneratingFunctionParser:
     """Parse supported expressions and implicit equations used by the ECS."""
 
@@ -182,9 +206,10 @@ class GeneratingFunctionParser:
     def _tokenize(source: str) -> list[str]:
         if source.strip() == "":
             raise GeneratingFunctionError("Generating-function source must not be empty")
+        source = _normalize_patterned_ellipsis(source)
         if "..." in source:
             raise UnsupportedGeneratingFunction(
-                "Infinite or ellipsis-based generating functions are not supported",
+                "Unrecognized ellipsis-based generating functions are not supported",
             )
 
         tokens: list[str] = []

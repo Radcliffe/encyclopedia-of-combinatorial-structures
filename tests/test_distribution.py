@@ -191,6 +191,20 @@ class PublicApiTests(unittest.TestCase):
         self.assertEqual(expression.index, combstruct.GFIndex(1))
         self.assertEqual(expression.lower_bound, 3)
 
+    def test_patterned_ellipsis_is_available_from_package(self):
+        source = get_structure(57).generating_function
+
+        self.assertIsNotNone(source)
+        assert source is not None
+        equation = parse_generating_function(source)
+        self.assertIsInstance(equation, GFEquation)
+        assert isinstance(equation, GFEquation)
+        self.assertIsInstance(equation.right, GFBinary)
+        assert isinstance(equation.right, GFBinary)
+        self.assertIsInstance(equation.right.right, GFFunction)
+        assert isinstance(equation.right.right, GFFunction)
+        self.assertIsInstance(equation.right.right.argument, combstruct.GFInfiniteSum)
+
     def test_generating_function_derivation_is_available_from_package(self):
         expression = derive_generating_function("{S = Sequence(Z)}", labelled=False)
 

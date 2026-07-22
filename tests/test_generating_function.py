@@ -154,6 +154,40 @@ class GeneratingFunctionParserTests(unittest.TestCase):
             GFBinary("+", later, GFInteger(1)),
         )
 
+    def test_patterned_ellipsis_normalizes_to_an_infinite_sum(self):
+        index = GFIndex(1)
+        call = GFSeriesCall("A", GFBinary("^", GFVariable(), index))
+        positive_sum = GFInfiniteSum(GFBinary("/", call, index), index)
+        alternating_sum = GFInfiniteSum(
+            GFBinary(
+                "/",
+                GFBinary(
+                    "*",
+                    GFBinary(
+                        "^",
+                        GFUnary("-", GFInteger(1)),
+                        GFBinary("+", index, GFInteger(1)),
+                    ),
+                    call,
+                ),
+                index,
+            ),
+            index,
+        )
+
+        for structure_id, infinite_sum in ((56, alternating_sum), (57, positive_sum)):
+            source = Catalog().get(structure_id).generating_function
+            self.assertIsNotNone(source)
+            assert source is not None
+            with self.subTest(structure_id=structure_id):
+                self.assertEqual(
+                    parse_generating_function(source),
+                    GFEquation(
+                        GFSeriesCall("A", GFVariable()),
+                        GFBinary("*", GFVariable(), GFFunction("exp", infinite_sum)),
+                    ),
+                )
+
     def test_one_argument_complex_constructor(self):
         self.assertEqual(
             parse_generating_function("Complex(-1/2)"),
@@ -249,6 +283,7 @@ class GeneratingFunctionParserTests(unittest.TestCase):
         for source in (
             "Complex(0,1)*_x",
             "exp(_x+...)",
+            "A(x)=x*exp(A(x)+A(x^2)/2-A(x^3)/3+...)",
         ):
             with (
                 self.subTest(source=source),
@@ -279,10 +314,10 @@ class GeneratingFunctionParserTests(unittest.TestCase):
                 elif isinstance(result, GFEquationSystem):
                     systems.append(structure.id)
 
-        self.assertEqual(len(supported), 1025)
-        self.assertEqual(equations, [1, 43, 45, 79, 89, 91, 95])
+        self.assertEqual(len(supported), 1027)
+        self.assertEqual(equations, [1, 43, 45, 56, 57, 79, 89, 91, 95])
         self.assertEqual(systems, [118])
-        self.assertEqual(unsupported, [44, 56, 57])
+        self.assertEqual(unsupported, [44])
         self.assertEqual(len(supported) + len(unsupported), 1028)
 
 
@@ -633,7 +668,7 @@ class GeneratingFunctionCoefficientTests(unittest.TestCase):
         self.assertEqual(len(exponential), 429)
         self.assertEqual(len(ordinary) + len(exponential), 977)
         self.assertEqual(complex_forms, [47])
-        self.assertEqual(implicit_equations, [1, 43, 45, 79, 89, 91, 95])
+        self.assertEqual(implicit_equations, [1, 43, 45, 56, 57, 79, 89, 91, 95])
         self.assertEqual(implicit_systems, [118])
         self.assertEqual(len(infinite_sums), 45)
         self.assertEqual(len(unselected_roots), 39)
