@@ -1,8 +1,9 @@
 """Tools for working with Encyclopedia of Combinatorial Structures data.
 
 The public API parses Maple ``combstruct``-style specifications, computes exact
-sequence terms, derives finite generating functions from acyclic specifications,
-and parses and expands stored generating-function syntax in the ECS catalogue.
+sequence terms, derives finite generating functions and selected quadratic
+closed forms from specifications, and parses and expands stored
+generating-function syntax in the ECS catalogue.
 """
 
 from importlib.metadata import PackageNotFoundError as _PackageNotFoundError

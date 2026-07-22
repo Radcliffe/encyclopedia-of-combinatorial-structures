@@ -1,18 +1,19 @@
 """Derive finite generating-function expressions from ECS specifications.
 
-This module translates acyclic specifications into the generating-function AST
+This module translates finite specifications into the generating-function AST
 defined by :mod:`combstruct.generating_function`. Labelled constructions use
 exponential-generating-function rules and unlabelled constructions use
-ordinary-generating-function rules. Recursive systems and constructions whose
-unlabelled cycle-index expansion is inherently infinite remain explicit later
-milestones.
+ordinary-generating-function rules. A single self-recursive equation that is
+linear or quadratic in its own symbol is solved in closed form. More general
+recursive systems and constructions whose unlabelled cycle-index expansion is
+inherently infinite remain explicit later milestones.
 """
 
 from __future__ import annotations
 
 from collections.abc import Iterable, Mapping
 from fractions import Fraction
-from math import factorial
+from math import factorial, isqrt
 
 from .generating_function import (
     GFBinary,
@@ -21,6 +22,7 @@ from .generating_function import (
     GFInteger,
     GFUnary,
     GFVariable,
+    generating_function_coefficients,
 )
 from .specification import (
     Cardinality,
@@ -85,6 +87,14 @@ def _power(base: GFExpression, exponent: int) -> GFExpression:
     return GFBinary("^", base, GFInteger(exponent))
 
 
+def _square_root(expression: GFExpression) -> GFExpression:
+    return GFBinary(
+        "^",
+        expression,
+        GFBinary("/", GFInteger(1), GFInteger(2)),
+    )
+
+
 def _scale(expression: GFExpression, scalar: Fraction) -> GFExpression:
     if scalar == 0 or _is_integer(expression, 0):
         return GFInteger(0)
@@ -141,6 +151,21 @@ def _divisors(value: int) -> Iterable[int]:
     return (divisor for divisor in range(1, value + 1) if value % divisor == 0)
 
 
+def _rational_square_root(value: Fraction) -> Fraction | None:
+    if value < 0:
+        return None
+    numerator = isqrt(value.numerator)
+    denominator = isqrt(value.denominator)
+    if numerator * numerator != value.numerator:
+        return None
+    if denominator * denominator != value.denominator:
+        return None
+    return Fraction(numerator, denominator)
+
+
+type _QuadraticPolynomial = tuple[GFExpression, GFExpression, GFExpression]
+
+
 class _GeneratingFunctionDeriver:
     def __init__(self, equations: Mapping[str, Expression], labelled: bool):
         self.equations = dict(equations)
@@ -152,6 +177,15 @@ class _GeneratingFunctionDeriver:
         if symbol not in self.equations:
             raise SpecificationError(f"Specification does not define {symbol!r}")
         return self._reference(symbol)
+
+    @staticmethod
+    def _contains_reference(expression: Expression, name: str) -> bool:
+        if isinstance(expression, Reference):
+            return expression.name == name
+        return any(
+            _GeneratingFunctionDeriver._contains_reference(argument, name)
+            for argument in expression.arguments
+        )
 
     def _reference(self, name: str) -> GFExpression:
         if name == "Epsilon":
@@ -169,6 +203,10 @@ class _GeneratingFunctionDeriver:
                 "Recursive generating-function derivation is not supported yet: "
                 + " -> ".join(cycle),
             )
+        if self._contains_reference(self.equations[name], name):
+            result = self._solve_self_recursive(name)
+            self.memo[name] = result
+            return result
 
         self.active.append(name)
         try:
@@ -185,6 +223,13 @@ class _GeneratingFunctionDeriver:
             raise TypeError("Specification values must be Reference or Constructor expressions")
 
         arguments = [self._expression(argument) for argument in expression.arguments]
+        return self._construction(expression, arguments)
+
+    def _construction(
+        self,
+        expression: Constructor,
+        arguments: list[GFExpression],
+    ) -> GFExpression:
         name = expression.name.lower()
         if name == "union":
             if expression.cardinality is not None:
@@ -231,6 +276,168 @@ class _GeneratingFunctionDeriver:
         raise UnsupportedGeneratingFunctionDerivation(
             f"Unsupported constructor {expression.name!r}",
         )
+
+    def _solve_self_recursive(self, symbol: str) -> GFExpression:
+        self.active.append(symbol)
+        try:
+            constant, linear, quadratic = self._quadratic_expression(
+                self.equations[symbol],
+                symbol,
+            )
+        finally:
+            self.active.pop()
+
+        one_minus_linear = _subtract(GFInteger(1), linear)
+        if _is_integer(quadratic, 0):
+            if _is_integer(linear, 1):
+                raise UnsupportedGeneratingFunctionDerivation(
+                    f"Recursive equation for {symbol!r} is not well founded",
+                )
+            return _divide(constant, one_minus_linear)
+
+        discriminant = _subtract(
+            _power(one_minus_linear, 2),
+            _scale(_product((quadratic, constant)), Fraction(4)),
+        )
+        square_root = _square_root(discriminant)
+        denominator = _scale(quadratic, Fraction(2))
+        minus_root = _divide(_subtract(one_minus_linear, square_root), denominator)
+        plus_root = _divide(_sum((one_minus_linear, square_root)), denominator)
+        return self._select_quadratic_root(
+            constant,
+            linear,
+            quadratic,
+            minus_root,
+            plus_root,
+            symbol,
+        )
+
+    def _quadratic_expression(
+        self,
+        expression: Expression,
+        symbol: str,
+    ) -> _QuadraticPolynomial:
+        zero = GFInteger(0)
+        if isinstance(expression, Reference):
+            if expression.name == symbol:
+                return zero, GFInteger(1), zero
+            return self._reference(expression.name), zero, zero
+
+        arguments = [
+            self._quadratic_expression(argument, symbol) for argument in expression.arguments
+        ]
+        name = expression.name.lower()
+        if name == "union":
+            if expression.cardinality is not None:
+                raise SpecificationError("Union does not accept a cardinality constraint")
+            return (
+                _sum(argument[0] for argument in arguments),
+                _sum(argument[1] for argument in arguments),
+                _sum(argument[2] for argument in arguments),
+            )
+        if name == "prod":
+            if expression.cardinality is not None:
+                raise SpecificationError("Prod does not accept a cardinality constraint")
+            result: _QuadraticPolynomial = (GFInteger(1), zero, zero)
+            for argument in arguments:
+                result = self._multiply_quadratic(result, argument, symbol)
+            return result
+
+        if len(arguments) != 1:
+            raise SpecificationError(f"{expression.name} requires exactly one component argument")
+        if any(
+            not _is_integer(coefficient, 0)
+            for argument in arguments
+            for coefficient in argument[1:]
+        ):
+            raise UnsupportedGeneratingFunctionDerivation(
+                f"Recursive symbol {symbol!r} occurs inside {expression.name}; "
+                "only Union and Prod recursion is supported",
+            )
+        return (
+            self._construction(
+                expression,
+                [argument[0] for argument in arguments],
+            ),
+            zero,
+            zero,
+        )
+
+    @staticmethod
+    def _multiply_quadratic(
+        left: _QuadraticPolynomial,
+        right: _QuadraticPolynomial,
+        symbol: str,
+    ) -> _QuadraticPolynomial:
+        coefficients: list[list[GFExpression]] = [[], [], []]
+        for left_degree, left_coefficient in enumerate(left):
+            if _is_integer(left_coefficient, 0):
+                continue
+            for right_degree, right_coefficient in enumerate(right):
+                if _is_integer(right_coefficient, 0):
+                    continue
+                degree = left_degree + right_degree
+                if degree > 2:
+                    raise UnsupportedGeneratingFunctionDerivation(
+                        f"Recursive equation for {symbol!r} has degree greater than two",
+                    )
+                coefficients[degree].append(
+                    _product((left_coefficient, right_coefficient)),
+                )
+        return (
+            _sum(coefficients[0]),
+            _sum(coefficients[1]),
+            _sum(coefficients[2]),
+        )
+
+    @staticmethod
+    def _select_quadratic_root(
+        constant: GFExpression,
+        linear: GFExpression,
+        quadratic: GFExpression,
+        minus_root: GFExpression,
+        plus_root: GFExpression,
+        symbol: str,
+    ) -> GFExpression:
+        constant_term = generating_function_coefficients(constant, 1)[0]
+        linear_term = generating_function_coefficients(linear, 1)[0]
+        quadratic_term = generating_function_coefficients(quadratic, 1)[0]
+        one_minus_linear = Fraction(1) - linear_term
+        discriminant = one_minus_linear**2 - 4 * quadratic_term * constant_term
+        square_root = _rational_square_root(discriminant)
+        if square_root is None:
+            raise UnsupportedGeneratingFunctionDerivation(
+                f"Recursive equation for {symbol!r} has no rational formal-series branch",
+            )
+
+        if quadratic_term == 0:
+            if one_minus_linear == 0:
+                raise UnsupportedGeneratingFunctionDerivation(
+                    f"Recursive equation for {symbol!r} has an indeterminate constant term",
+                )
+            return minus_root if one_minus_linear > 0 else plus_root
+
+        minus_constant = (one_minus_linear - square_root) / (2 * quadratic_term)
+        plus_constant = (one_minus_linear + square_root) / (2 * quadratic_term)
+        nonnegative = [
+            (value, root)
+            for value, root in (
+                (minus_constant, minus_root),
+                (plus_constant, plus_root),
+            )
+            if value >= 0
+        ]
+        if not nonnegative:
+            raise UnsupportedGeneratingFunctionDerivation(
+                f"Recursive equation for {symbol!r} has no nonnegative constant solution",
+            )
+        selected_constant, selected_root = min(nonnegative, key=lambda item: item[0])
+        derivative = 2 * quadratic_term * selected_constant + linear_term - 1
+        if derivative == 0:
+            raise UnsupportedGeneratingFunctionDerivation(
+                f"Recursive equation for {symbol!r} does not determine a unique formal-series branch",
+            )
+        return selected_root
 
     @staticmethod
     def _bounds(
@@ -353,11 +560,13 @@ def derive_generating_function(
     labelled: bool,
     symbol: str = "S",
 ) -> GFExpression:
-    """Derive a finite OGF or EGF expression from an acyclic specification.
+    """Derive a finite OGF or EGF expression from a supported specification.
 
     Source text and the mapping returned by :func:`parse_specification` are both
     accepted. ``labelled=True`` applies exponential-generating-function rules;
-    ``False`` applies ordinary-generating-function rules.
+    ``False`` applies ordinary-generating-function rules. A directly
+    self-recursive equation that is linear or quadratic under ``Union`` and
+    ``Prod`` is returned as a rational or square-root closed form.
     """
 
     if not isinstance(labelled, bool):

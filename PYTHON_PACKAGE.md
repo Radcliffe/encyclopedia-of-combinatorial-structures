@@ -17,9 +17,10 @@ two things that the repository's existing Python tools already do:
 The distribution also contains the canonical ECS records. The current
 development version parses and exactly expands the finite elementary subset of
 stored generating functions. It also derives finite generating-function
-expressions from acyclic specifications. Extending that work to recursive and
-infinite cycle-index forms, parsing the remaining special forms, and finding
-closed forms remain later milestones.
+expressions from acyclic specifications and closed square-root expressions for
+a first class of quadratic recursive specifications. Extending that work to
+general recursive systems and infinite cycle-index forms, parsing the remaining
+special forms, and finding further closed forms remain later milestones.
 
 ## Installation
 
@@ -83,7 +84,7 @@ top-level imports are the recommended stable API.
 
 ## Deriving a generating function
 
-`derive_generating_function` translates an acyclic specification into the same
+`derive_generating_function` translates a supported specification into the same
 immutable `GFExpression` tree used by the stored-function parser:
 
 ```python
@@ -112,17 +113,40 @@ constructor rules. The finite derivation supports `Union`, `Prod`, and
 `Sequence`; labelled `Set` and `Cycle`; and bounded unlabelled `Set` and
 `Cycle`, including the required cycle-index substitutions. It follows named
 acyclic equations and accepts either source text or a mapping returned by
-`parse_specification`.
+`parse_specification`. A single equation that is linear or quadratic in its own
+symbol under `Union` and `Prod` is solved as a rational or square-root closed
+form. For example, the Catalan specification derives its algebraic generating
+function directly:
 
-Recursive systems, unrestricted unlabelled `Set` and `Cycle`, and `PowerSet`
-raise `UnsupportedGeneratingFunctionDerivation` because their next derivation
-step requires equation solving or an infinite cycle-index representation. In
-the current catalogue, 838 specifications have a supported finite derivation:
-365 labelled EGFs and 473 unlabelled OGFs. Exhaustive tests compare every
-derived coefficient with both the independent term evaluator and the complete
-stored term prefix. The remaining partition is 195 recursive specifications,
-21 unrestricted unlabelled sets, 14 unrestricted unlabelled cycles, and seven
-power sets.
+```python
+from combstruct import derive_generating_function, generating_function_coefficients
+
+catalan_gf = derive_generating_function(
+    "{S = Union(Z,Prod(S,S))}",
+    labelled=False,
+)
+
+assert generating_function_coefficients(catalan_gf, 8) == (
+    0,
+    1,
+    1,
+    2,
+    5,
+    14,
+    42,
+    132,
+)
+```
+
+Mutually recursive and higher-degree systems, unrestricted unlabelled `Set` and
+`Cycle`, and `PowerSet` raise `UnsupportedGeneratingFunctionDerivation` because
+their next derivation step requires more general equation solving or an infinite
+cycle-index representation. In the current catalogue, 845 specifications have
+a supported finite derivation: 367 labelled EGFs and 478 unlabelled OGFs.
+Exhaustive tests compare every derived coefficient with both the independent
+term evaluator and the complete stored term prefix. The remaining partition is
+188 recursive specifications, 21 unrestricted unlabelled sets, 14 unrestricted
+unlabelled cycles, and seven power sets.
 
 ## Parsing and expanding a stored generating function
 
@@ -256,8 +280,8 @@ combstruct --id 56 --terms 30
 ```
 
 Run `combstruct --help` for all current options. The historical command
-`python python-tools/compute_terms.py` remains available in this repository
-until the maintenance scripts are deliberately migrated to the package.
+`python python-tools/compute_terms.py` remains available as a compatibility
+wrapper around the package entry point.
 
 ## Project status and scope
 
@@ -267,8 +291,9 @@ The packaging and first maintenance-tool adoption foundations are now in place:
 - the existing exact term evaluator is packaged and documented;
 - all canonical ECS records ship with a typed, immutable catalogue API;
 - the specification syntax tree and parser have a dedicated public module;
-- 838 acyclic specifications derive finite exact generating-function
-  expressions whose coefficients agree with the independent term evaluator;
+- 845 specifications derive finite exact generating-function expressions,
+  including seven quadratic recursive closed forms, whose coefficients agree
+  with the independent term evaluator;
 - finite elementary stored generating functions have a dedicated immutable AST,
   parser, and exact coefficient evaluator;
 - read-only `python-tools` consumers use the public package, while source-data
@@ -280,10 +305,12 @@ Version `0.1.0a0` was published to
 [PyPI](https://pypi.org/project/combstruct/0.1.0a0/) on 2026-07-22. The next
 milestones remain deliberately incremental:
 
-1. derive recursive systems and infinite unlabelled cycle-index forms;
+1. extend equation solving beyond single linear and quadratic recursions and
+   represent infinite unlabelled cycle-index forms;
 2. extend parsing and evaluation to additional stored generating-function
    forms where exact semantics can be specified; and
-3. add conservative closed-form solving for favorable cases.
+3. add further conservative closed-form solving where branch semantics can be
+   proved.
 
 The Python code and underlying ECS catalogue are distributed under the GNU
 Lesser General Public License, version 2.1 only. OEIS-derived names,
