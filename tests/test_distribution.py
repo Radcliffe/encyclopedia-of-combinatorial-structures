@@ -1,6 +1,7 @@
 import json
 import unittest
 from dataclasses import FrozenInstanceError
+from fractions import Fraction
 from importlib.metadata import PackageNotFoundError, distribution, version
 
 import combstruct
@@ -105,6 +106,13 @@ class PublicApiTests(unittest.TestCase):
         self.assertEqual(
             generating_function_coefficients("1/(1-_x)", 5),
             (1, 1, 1, 1, 1),
+        )
+        self.assertEqual(
+            generating_function_coefficients(
+                "Sum(_x^j[1]/j[1],j[1]=1..infinity)",
+                5,
+            ),
+            (Fraction(0), Fraction(1), Fraction(1, 2), Fraction(1, 3), Fraction(1, 4)),
         )
         self.assertTrue(issubclass(GeneratingFunctionEvaluationError, ValueError))
 

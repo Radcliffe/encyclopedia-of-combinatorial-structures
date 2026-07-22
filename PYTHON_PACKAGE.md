@@ -18,11 +18,12 @@ The distribution also contains the canonical ECS records. The current
 development version parses the finite elementary, `LambertW`, unselected
 `RootOf`, indexed infinite-sum, and one-argument `Complex` subset of stored
 generating functions and exactly expands principal `LambertW` compositions at
-zero. It also derives finite generating-function
-expressions from acyclic specifications and closed rational or square-root
-expressions for a first class of recursive systems. Extending that work to more
-general recursive systems and infinite cycle-index forms, parsing the remaining
-special forms, and finding further closed forms remain later milestones.
+zero and coefficientwise-finite indexed sums. It also derives finite
+generating-function expressions from acyclic specifications and closed rational
+or square-root expressions for a first class of recursive systems. Extending
+that work to more general recursive systems and infinite cycle-index forms,
+parsing the remaining special forms, and finding further closed forms remain
+later milestones.
 
 ## Installation
 
@@ -224,10 +225,27 @@ assert coefficients == (
 )
 ```
 
+The same function expands coefficientwise-finite indexed sums:
+
+```python
+coefficients = generating_function_coefficients(
+    "Sum(_x^j[1]/j[1],j[1]=1..infinity)",
+    5,
+)
+
+assert coefficients == (
+    Fraction(0),
+    Fraction(1),
+    Fraction(1, 2),
+    Fraction(1, 3),
+    Fraction(1, 4),
+)
+```
+
 These are raw series coefficients. For an ordinary generating function,
 coefficient `n` is the counting term. For an exponential generating function,
 multiply coefficient `n` by `n!`. The evaluator supports the exact analytic
-conditions used by the finite catalogue expressions, including removable
+conditions used by the supported catalogue expressions, including removable
 singularities, square roots with constant term one, `exp` arguments with
 constant term zero, `ln` arguments with constant term one, and the principal
 formal `LambertW` series when its argument has constant term zero. Its exact
@@ -250,11 +268,13 @@ instead of choosing a branch from the stored term list. See Maple's
 and its
 [`index` selector rules](https://www.maplesoft.com/support/help/Maple/view.aspx?path=RootOf%2Findexed).
 
-Indexed infinite sums are likewise preserved without pretending that every
-formal sum can be truncated at the requested coefficient degree. Until a
-finite truncation bound is proved for these forms,
-`generating_function_coefficients` raises
-`GeneratingFunctionEvaluationError` with an infinite-sum-specific message.
+Indexed infinite sums are expanded when the evaluator can prove that the
+summand has constant coefficient zero and every occurrence of `_x` is scaled by
+the bound index. A coefficient of degree `n` can then receive contributions
+only from positive divisors of `n`, giving an exact finite computation even for
+the catalogue's nested sums. All 45 parsed indexed-sum records meet this
+contract. An arbitrary sum for which either condition cannot be proved raises
+`GeneratingFunctionEvaluationError` instead of being silently truncated.
 
 The `GFComplex` node likewise preserves the exact Maple constructor but remains
 an explicit coefficient-evaluation boundary until complex formal-series
@@ -263,7 +283,7 @@ see the official [`Complex` constructor documentation](https://www.maplesoft.com
 
 The evaluator deliberately returns coefficients rather than silently deciding
 whether an expression is an OGF or EGF. Exhaustive tests compare every stored
-term for 931 exactly evaluable records under both interpretations: 503
+term for 976 exactly evaluable records under both interpretations: 548
 unlabelled records match as OGFs and 428 labelled records match as EGFs, with no
 ambiguous or inconsistent record in this subset. ECS 265, cited in
 [archived ECS issue #2](https://github.com/Radcliffe/encyclopedia-of-combinatorial-structures/blob/main/docs/codeberg-archive.md#issue-2-distinguish-between-ordinary-and-exponential-generating-functions),
@@ -272,8 +292,8 @@ multiplication by `n!` gives the stored terms `1, 6, 42, 336`. ECS 69 is parsed
 but its `LambertW` argument has a nonzero transcendental constant; exact
 expansion therefore raises `GeneratingFunctionEvaluationError` until a shifted
 branch representation is defined. Together with the 39 unselected `RootOf`
-fields, 45 indexed infinite sums, the one complex expression, and 11 parser
-exclusions, it is one of 97 fields still requiring separate exact verification.
+fields, the one complex expression, and 11 parser exclusions, it is one of 52
+fields still requiring separate exact verification.
 
 ## Using the ECS catalogue
 
@@ -354,8 +374,9 @@ The packaging and first maintenance-tool adoption foundations are now in place:
   coefficients agree with the independent term evaluator;
 - finite elementary, `LambertW`, `RootOf`, indexed infinite-sum, and
   one-argument `Complex` generating functions have a dedicated immutable AST
-  and parser, with exact coefficient evaluation for elementary expressions and
-  principal `LambertW` compositions at zero;
+  and parser, with exact coefficient evaluation for elementary expressions,
+  principal `LambertW` compositions at zero, and coefficientwise-finite indexed
+  sums;
 - read-only `python-tools` consumers use the public package, while source-data
   serializers and mutators retain their stricter raw-JSON boundary;
 - source and installed-wheel tests cover Python 3.12, 3.13, and 3.14; and

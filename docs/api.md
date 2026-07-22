@@ -262,14 +262,36 @@ assert coefficients == (
 )
 ```
 
+Indexed sums use the same API and return exact rational coefficients:
+
+```python
+from fractions import Fraction
+
+from combstruct import generating_function_coefficients
+
+coefficients = generating_function_coefficients(
+    "Sum(_x^j[1]/j[1],j[1]=1..infinity)",
+    5,
+)
+
+assert coefficients == (
+    Fraction(0),
+    Fraction(1),
+    Fraction(1, 2),
+    Fraction(1, 3),
+    Fraction(1, 4),
+)
+```
+
 The values are raw formal-series coefficients. They equal counting terms for an
 ordinary generating function. For an exponential generating function,
 coefficient `n` must be multiplied by `n!`. The function does not silently
 choose an interpretation.
 
 The evaluator uses exact recurrences for arithmetic, integer and rational
-powers, `exp`, `ln`, and principal `LambertW`; intermediate Laurent series allow
-removable singularities to cancel. Nonintegral powers currently require
+powers, `exp`, `ln`, principal `LambertW`, and coefficientwise-finite indexed
+sums; intermediate Laurent series allow removable singularities to cancel.
+Nonintegral powers currently require
 constant coefficient one, `exp` and `LambertW` require constant coefficient
 zero, and `ln` requires constant coefficient one. `LambertW` uses its exact
 formal series `sum((-k)^(k-1) * z^k / k!, k >= 1)`. A parsed expression that
@@ -277,16 +299,15 @@ violates those exact formal-series conditions raises
 `GeneratingFunctionEvaluationError`. A negative `coefficient_count` raises
 `ValueError`; a non-integer count or invalid source object raises `TypeError`.
 
-Catalogue-wide tests establish that 931 parsed functions match their full
-stored term prefixes and their `Structure.labeled` flags: 503 are OGFs and 428
+Catalogue-wide tests establish that 976 parsed functions match their full
+stored term prefixes and their `Structure.labeled` flags: 548 are OGFs and 428
 are EGFs, with no ambiguous or inconsistent result in this subset. In
 particular, ECS 265's coefficients are `1, 6, 21, 56, ...`; applying EGF
 normalization produces its stored terms `1, 6, 42, 336, ...`. ECS 69 is parsed,
 but its shifted nonzero `LambertW` argument is outside the exact formal-series
-contract and raises `GeneratingFunctionEvaluationError`. That record and the 96
-other non-evaluable fields are not covered by this result. Of those 96, the 39
-`RootOf` fields are parsed but have no branch selector, 45 indexed infinite sums
-are parsed but have no proven general truncation rule, the one `Complex` field
+contract and raises `GeneratingFunctionEvaluationError`. That record and the 51
+other non-evaluable fields are not covered by this result. Of those 51, the 39
+`RootOf` fields are parsed but have no branch selector, the one `Complex` field
 requires complex formal-series arithmetic, and 11 fields remain outside the
 parser grammar.
 
@@ -299,11 +320,13 @@ terms. See Maple's
 and
 [`indexed RootOf` rules](https://www.maplesoft.com/support/help/Maple/view.aspx?path=RootOf%2Findexed).
 
-Coefficient evaluation of `GFInfiniteSum` similarly raises
-`GeneratingFunctionEvaluationError` with a sum-specific message. Parsing the
-index structure does not by itself prove that terms beyond a finite bound
-cannot affect the requested coefficients, so the evaluator does not silently
-truncate the infinite range.
+Coefficient evaluation of `GFInfiniteSum` requires a proof that its summand has
+constant coefficient zero and every occurrence of `_x` is scaled by the bound
+index. Coefficient `n` can then receive contributions only from indices that
+divide `n`, so the infinite range reduces to a finite exact sum. Nested sums
+also account for the proven product of their outer index scales. All 45 parsed
+indexed-sum records meet this contract. A sum that does not meet it raises
+`GeneratingFunctionEvaluationError` rather than being silently truncated.
 
 `GFComplex` coefficient evaluation also raises
 `GeneratingFunctionEvaluationError` until exact complex formal-series

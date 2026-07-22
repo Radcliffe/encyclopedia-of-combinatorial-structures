@@ -20,12 +20,12 @@ or date section and leave this section in place for subsequent work.
   used by 1,017 stored ECS generating functions. `RootOf` retains its
   unspecified-branch meaning, infinite sums retain their lexical index binding,
   and `Complex(x)` retains its purely imaginary meaning.
-- Added dependency-free exact coefficient expansion for 931 parsed generating
-  functions, including rational powers, removable singularities, and principal
-  `LambertW` compositions at zero; catalogue tests verify 503 OGFs and 428 EGFs
-  against every stored term. The one shifted `LambertW` expression, 39
-  unselected `RootOf` expressions, 45 indexed infinite sums, and the one complex
-  expression remain explicit exact-evaluation boundaries.
+- Added dependency-free exact coefficient expansion for 976 parsed generating
+  functions, including rational powers, removable singularities, principal
+  `LambertW` compositions at zero, and all 45 coefficientwise-finite indexed
+  sums; catalogue tests verify 548 OGFs and 428 EGFs against every stored term.
+  The one shifted `LambertW` expression, 39 unselected `RootOf` expressions,
+  and the one complex expression remain explicit exact-evaluation boundaries.
 - Added finite generating-function derivation for 888 specifications, including
   labelled constructor rules, bounded unlabelled cycle-index substitutions, and
   rational or square-root closed forms for 50 recursive `Union`/`Prod` records.

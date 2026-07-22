@@ -5,9 +5,10 @@ calls, unselected ``RootOf`` equations, indexed infinite sums, and the
 one-argument ``Complex`` constructor used by 1,017 stored ECS generating
 functions. Heterogeneous equation fields are rejected clearly for a later
 parser milestone. The series evaluator uses exact rational arithmetic and
-expands ``LambertW`` compositions whose argument has constant term zero.
-Unselected roots, infinite sums, and complex series remain explicit evaluation
-boundaries; the evaluator never guesses a branch or truncation.
+expands ``LambertW`` compositions whose argument has constant term zero and
+indexed sums whose requested coefficients have a provable finite bound.
+Unselected roots and complex series remain explicit evaluation boundaries; the
+evaluator never guesses a branch or truncation.
 """
 
 from __future__ import annotations
@@ -16,7 +17,8 @@ import re
 from collections.abc import Callable
 from dataclasses import dataclass
 from fractions import Fraction
-from math import factorial
+from functools import cache
+from math import factorial, prod
 from typing import Literal, cast
 
 type UnaryOperator = Literal["+", "-"]
@@ -623,15 +625,47 @@ def _lambert_w(series: _FormalSeries) -> _FormalSeries:
     return _FormalSeries(valuation, coefficient)
 
 
-def _constant_expression_value(expression: GFExpression) -> Fraction:
+@cache
+def _euler_totient(value: int) -> int:
+    """Return Euler's totient for a positive summation-index value."""
+
+    result = value
+    remaining = value
+    divisor = 2
+    while divisor * divisor <= remaining:
+        if remaining % divisor == 0:
+            while remaining % divisor == 0:
+                remaining //= divisor
+            result -= result // divisor
+        divisor += 1
+    if remaining > 1:
+        result -= result // remaining
+    return result
+
+
+def _constant_expression_value(
+    expression: GFExpression,
+    index_values: dict[int, int],
+) -> Fraction:
     if isinstance(expression, GFInteger):
         return Fraction(expression.value)
+    if isinstance(expression, GFIndex):
+        try:
+            return Fraction(index_values[expression.level])
+        except KeyError as error:
+            raise GeneratingFunctionEvaluationError(
+                f"Summation index j[{expression.level}] has no evaluation value",
+            ) from error
+    if isinstance(expression, GFTotient):
+        return Fraction(
+            _euler_totient(int(_constant_expression_value(expression.index, index_values)))
+        )
     if isinstance(expression, GFUnary):
-        value = _constant_expression_value(expression.operand)
+        value = _constant_expression_value(expression.operand, index_values)
         return value if expression.operator == "+" else -value
     if isinstance(expression, GFBinary):
-        left = _constant_expression_value(expression.left)
-        right = _constant_expression_value(expression.right)
+        left = _constant_expression_value(expression.left, index_values)
+        right = _constant_expression_value(expression.right, index_values)
         if expression.operator == "+":
             return left + right
         if expression.operator == "-":
@@ -649,9 +683,247 @@ def _constant_expression_value(expression: GFExpression) -> Fraction:
     raise GeneratingFunctionEvaluationError("A power exponent must be a rational constant")
 
 
-def _evaluate_series(expression: GFExpression) -> _FormalSeries:
+def _is_x_free(expression: GFExpression) -> bool:
+    if isinstance(expression, GFInteger | GFIndex | GFTotient):
+        return True
+    if isinstance(expression, GFVariable):
+        return expression.name != "_x"
+    if isinstance(expression, GFUnary):
+        return _is_x_free(expression.operand)
+    if isinstance(expression, GFFunction):
+        return _is_x_free(expression.argument)
+    if isinstance(expression, GFRootOf):
+        return _is_x_free(expression.equation)
+    if isinstance(expression, GFComplex):
+        return _is_x_free(expression.value)
+    if isinstance(expression, GFInfiniteSum):
+        return _is_x_free(expression.summand)
+    return _is_x_free(expression.left) and _is_x_free(expression.right)
+
+
+def _positive_exponent_index_factors(expression: GFExpression) -> frozenset[int] | None:
+    """Return known index factors of a positive integer exponent expression."""
+
+    if isinstance(expression, GFInteger):
+        return frozenset() if expression.value > 0 else None
+    if isinstance(expression, GFIndex):
+        return frozenset({expression.level})
+    if isinstance(expression, GFUnary) and expression.operator == "+":
+        return _positive_exponent_index_factors(expression.operand)
+    if isinstance(expression, GFBinary) and expression.operator == "*":
+        left = _positive_exponent_index_factors(expression.left)
+        right = _positive_exponent_index_factors(expression.right)
+        if left is not None and right is not None:
+            return left | right
+    if isinstance(expression, GFBinary) and expression.operator == "^":
+        base = _positive_exponent_index_factors(expression.left)
+        exponent = _positive_exponent_index_factors(expression.right)
+        if base is not None and exponent is not None:
+            return base | exponent
+    return None
+
+
+def _x_monomial_index_factors(expression: GFExpression) -> frozenset[int] | None:
+    """Return index factors known to divide the degree of an x monomial."""
+
+    if isinstance(expression, GFVariable) and expression.name == "_x":
+        return frozenset()
+    if isinstance(expression, GFBinary) and expression.operator == "^":
+        base = _x_monomial_index_factors(expression.left)
+        exponent = _positive_exponent_index_factors(expression.right)
+        if base is not None and exponent is not None:
+            return base | exponent
+    return None
+
+
+def _is_index_scaled(expression: GFExpression, level: int) -> bool:
+    """Prove syntactically that ``expression`` is a series in ``x^j[level]``."""
+
+    if _is_x_free(expression):
+        return True
+    monomial_factors = _x_monomial_index_factors(expression)
+    if monomial_factors is not None and level in monomial_factors:
+        return True
+    if isinstance(expression, GFVariable | GFInteger | GFIndex | GFTotient):
+        return False
+    if isinstance(expression, GFUnary):
+        return _is_index_scaled(expression.operand, level)
+    if isinstance(expression, GFFunction):
+        return _is_index_scaled(expression.argument, level)
+    if isinstance(expression, GFRootOf):
+        return False
+    if isinstance(expression, GFComplex):
+        return _is_index_scaled(expression.value, level)
+    if isinstance(expression, GFInfiniteSum):
+        return _is_index_scaled(expression.summand, level)
+    if expression.operator == "^":
+        return _is_index_scaled(expression.left, level) and _is_x_free(expression.right)
+    return _is_index_scaled(expression.left, level) and _is_index_scaled(
+        expression.right,
+        level,
+    )
+
+
+def _provably_positive(expression: GFExpression) -> bool:
+    if isinstance(expression, GFInteger):
+        return expression.value > 0
+    if isinstance(expression, GFIndex | GFTotient):
+        return True
+    if isinstance(expression, GFUnary):
+        return expression.operator == "+" and _provably_positive(expression.operand)
+    if isinstance(expression, GFBinary) and expression.operator == "*":
+        return _provably_positive(expression.left) and _provably_positive(expression.right)
+    return False
+
+
+def _constant_term(expression: GFExpression) -> Fraction | None:
+    """Return a provable index-independent constant term, or ``None``."""
+
+    if isinstance(expression, GFInteger):
+        return Fraction(expression.value)
+    if isinstance(expression, GFVariable):
+        return Fraction() if expression.name == "_x" else None
+    if isinstance(expression, GFIndex | GFTotient | GFRootOf | GFComplex):
+        return None
+    if isinstance(expression, GFUnary):
+        value = _constant_term(expression.operand)
+        if value is None:
+            return None
+        return value if expression.operator == "+" else -value
+    if isinstance(expression, GFFunction):
+        value = _constant_term(expression.argument)
+        if expression.name == "exp" and value == 0:
+            return Fraction(1)
+        if expression.name == "ln" and value == 1:
+            return Fraction()
+        if expression.name == "LambertW" and value == 0:
+            return Fraction()
+        return None
+    if isinstance(expression, GFInfiniteSum):
+        return Fraction() if _has_finite_sum_bound(expression) else None
+
+    left = _constant_term(expression.left)
+    right = _constant_term(expression.right)
+    if expression.operator == "+":
+        return left + right if left is not None and right is not None else None
+    if expression.operator == "-":
+        if expression.left == expression.right:
+            return Fraction()
+        return left - right if left is not None and right is not None else None
+    if expression.operator == "*":
+        if left == 0 or right == 0:
+            return Fraction()
+        return left * right if left is not None and right is not None else None
+    if expression.operator == "/":
+        if left == 0 and _provably_nonzero_constant(expression.right):
+            return Fraction()
+        if left is not None and right not in {None, Fraction()}:
+            return left / right
+        return None
+    if left == 1:
+        return Fraction(1)
+    if left == 0 and _provably_positive(expression.right):
+        return Fraction()
+    if left is not None and right is not None and right.denominator == 1:
+        if left == 0 and right < 0:
+            return None
+        return left**right.numerator
+    return None
+
+
+def _provably_nonzero_constant(expression: GFExpression) -> bool:
+    value = _constant_term(expression)
+    if value is not None:
+        return value != 0
+    if isinstance(expression, GFIndex | GFTotient):
+        return True
+    if isinstance(expression, GFUnary):
+        return _provably_nonzero_constant(expression.operand)
+    if isinstance(expression, GFBinary) and expression.operator in {"*", "/"}:
+        return _provably_nonzero_constant(
+            expression.left,
+        ) and _provably_nonzero_constant(expression.right)
+    if isinstance(expression, GFBinary) and expression.operator == "^":
+        return _provably_nonzero_constant(expression.left)
+    return False
+
+
+def _has_finite_sum_bound(expression: GFInfiniteSum) -> bool:
+    """Prove that coefficient n only needs summation indices through n."""
+
+    return (
+        _is_index_scaled(expression.summand, expression.index.level)
+        and _constant_term(
+            expression.summand,
+        )
+        == 0
+    )
+
+
+@cache
+def _positive_divisors(value: int) -> tuple[int, ...]:
+    small: list[int] = []
+    large: list[int] = []
+    divisor = 1
+    while divisor * divisor <= value:
+        if value % divisor == 0:
+            small.append(divisor)
+            if divisor * divisor != value:
+                large.append(value // divisor)
+        divisor += 1
+    return tuple(small + large[::-1])
+
+
+def _infinite_sum(
+    expression: GFInfiniteSum,
+    index_values: dict[int, int],
+) -> _FormalSeries:
+    if not _has_finite_sum_bound(expression):
+        raise GeneratingFunctionEvaluationError(
+            "Infinite Sum exact expansion requires a zero-constant summand whose "
+            f"x degrees are all scaled by j[{expression.index.level}]",
+        )
+
+    outer_values = dict(index_values)
+    outer_scale = prod(
+        value
+        for level, value in outer_values.items()
+        if _is_index_scaled(expression.summand, level)
+    )
+    summands: dict[int, _FormalSeries] = {}
+
+    def summand(index: int) -> _FormalSeries:
+        if index not in summands:
+            values = outer_values | {expression.index.level: index}
+            summands[index] = _evaluate_series(expression.summand, values)
+        return summands[index]
+
+    def coefficient(degree: int) -> Fraction:
+        if degree % outer_scale:
+            return Fraction()
+        return sum(
+            (
+                summand(index).coefficient(degree)
+                for index in _positive_divisors(degree // outer_scale)
+            ),
+            Fraction(),
+        )
+
+    return _FormalSeries(outer_scale, coefficient)
+
+
+def _evaluate_series(
+    expression: GFExpression,
+    index_values: dict[int, int] | None = None,
+) -> _FormalSeries:
+    if index_values is None:
+        index_values = {}
     if isinstance(expression, GFInteger):
         return _constant_series(expression.value)
+    if isinstance(expression, GFIndex):
+        return _constant_series(_constant_expression_value(expression, index_values))
+    if isinstance(expression, GFTotient):
+        return _constant_series(_constant_expression_value(expression, index_values))
     if isinstance(expression, GFVariable):
         if expression.name == "_Z":
             raise GeneratingFunctionEvaluationError(
@@ -662,10 +934,10 @@ def _evaluate_series(expression: GFExpression) -> _FormalSeries:
             lambda degree: Fraction(1) if degree == 1 else Fraction(),
         )
     if isinstance(expression, GFUnary):
-        operand = _evaluate_series(expression.operand)
+        operand = _evaluate_series(expression.operand, index_values)
         return operand if expression.operator == "+" else _negate(operand)
     if isinstance(expression, GFFunction):
-        argument = _evaluate_series(expression.argument)
+        argument = _evaluate_series(expression.argument, index_values)
         if expression.name == "exp":
             return _exponential(argument)
         if expression.name == "ln":
@@ -681,23 +953,17 @@ def _evaluate_series(expression: GFExpression) -> _FormalSeries:
             "Complex exact coefficient expansion requires complex formal-series support",
         )
     if isinstance(expression, GFInfiniteSum):
-        raise GeneratingFunctionEvaluationError(
-            "Infinite Sum exact expansion requires a proven finite truncation bound",
-        )
-    if isinstance(expression, (GFIndex, GFTotient)):
-        raise GeneratingFunctionEvaluationError(
-            "A summation index can only be evaluated inside a supported infinite Sum",
-        )
+        return _infinite_sum(expression, index_values)
     if expression.operator == "^":
         return _rational_power(
-            _evaluate_series(expression.left),
-            _constant_expression_value(expression.right),
+            _evaluate_series(expression.left, index_values),
+            _constant_expression_value(expression.right, index_values),
         )
     if expression.operator == "-" and expression.left == expression.right:
         return _constant_series(0)
 
-    left = _evaluate_series(expression.left)
-    right = _evaluate_series(expression.right)
+    left = _evaluate_series(expression.left, index_values)
+    right = _evaluate_series(expression.right, index_values)
     if expression.operator == "+":
         return _add(left, right)
     if expression.operator == "-":
@@ -707,7 +973,10 @@ def _evaluate_series(expression: GFExpression) -> _FormalSeries:
     return _divide(left, right)
 
 
-def _require_supported_evaluation(expression: GFExpression) -> None:
+def _require_supported_evaluation(
+    expression: GFExpression,
+    bound_indices: frozenset[int] = frozenset(),
+) -> None:
     """Reject semantic boundaries before local series conditions obscure them."""
 
     if isinstance(expression, GFRootOf):
@@ -720,23 +989,33 @@ def _require_supported_evaluation(expression: GFExpression) -> None:
             "Complex exact coefficient expansion requires complex formal-series support",
         )
     if isinstance(expression, GFInfiniteSum):
-        raise GeneratingFunctionEvaluationError(
-            "Infinite Sum exact expansion requires a proven finite truncation bound",
-        )
-    if isinstance(expression, (GFIndex, GFTotient)):
-        raise GeneratingFunctionEvaluationError(
-            "A summation index can only be evaluated inside a supported infinite Sum",
-        )
+        nested_bound_indices = bound_indices | {expression.index.level}
+        _require_supported_evaluation(expression.summand, nested_bound_indices)
+        if not _has_finite_sum_bound(expression):
+            raise GeneratingFunctionEvaluationError(
+                "Infinite Sum exact expansion requires a zero-constant summand whose "
+                f"x degrees are all scaled by j[{expression.index.level}]",
+            )
+        return
+    if isinstance(expression, GFIndex):
+        if expression.level not in bound_indices:
+            raise GeneratingFunctionEvaluationError(
+                "A summation index can only be evaluated inside a supported infinite Sum",
+            )
+        return
+    if isinstance(expression, GFTotient):
+        _require_supported_evaluation(expression.index, bound_indices)
+        return
     if isinstance(expression, (GFInteger, GFVariable)):
         return
     if isinstance(expression, GFUnary):
-        _require_supported_evaluation(expression.operand)
+        _require_supported_evaluation(expression.operand, bound_indices)
         return
     if isinstance(expression, GFFunction):
-        _require_supported_evaluation(expression.argument)
+        _require_supported_evaluation(expression.argument, bound_indices)
         return
-    _require_supported_evaluation(expression.left)
-    _require_supported_evaluation(expression.right)
+    _require_supported_evaluation(expression.left, bound_indices)
+    _require_supported_evaluation(expression.right, bound_indices)
 
 
 def generating_function_coefficients(
@@ -777,7 +1056,7 @@ def generating_function_coefficients(
 
     _require_supported_evaluation(expression)
     series = _evaluate_series(expression)
-    if not series.is_zero and series.valuation() < 0:
+    if not series.is_zero and series.lower_bound < 0 and series.valuation() < 0:
         raise GeneratingFunctionEvaluationError(
             "The expression has negative powers and is not a formal power series",
         )
