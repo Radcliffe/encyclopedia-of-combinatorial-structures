@@ -4,7 +4,7 @@ The public API parses Maple ``combstruct``-style specifications, computes exact
 sequence terms, derives finite generating functions and selected quadratic
 closed forms from specifications, and parses and exactly expands finite
 elementary and principal-at-zero ``LambertW`` generating functions in the ECS
-catalogue.
+catalogue, including faithful syntax trees for unselected ``RootOf`` equations.
 """
 
 from importlib.metadata import PackageNotFoundError as _PackageNotFoundError
@@ -31,6 +31,7 @@ from .generating_function import (
     GFExpression,
     GFFunction,
     GFInteger,
+    GFRootOf,
     GFUnary,
     GFVariable,
     UnsupportedGeneratingFunction,
@@ -68,6 +69,7 @@ __all__ = [
     "GFExpression",
     "GFFunction",
     "GFInteger",
+    "GFRootOf",
     "GFUnary",
     "GFVariable",
     "GeneratingFunctionError",

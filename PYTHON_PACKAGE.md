@@ -15,9 +15,9 @@ two things that the repository's existing Python tools already do:
   generating-function semantics for unlabelled structures.
 
 The distribution also contains the canonical ECS records. The current
-development version parses the finite elementary and `LambertW` subset of
-stored generating functions and exactly expands principal `LambertW`
-compositions at zero. It also derives finite generating-function
+development version parses the finite elementary, `LambertW`, and unselected
+`RootOf` subset of stored generating functions and exactly expands principal
+`LambertW` compositions at zero. It also derives finite generating-function
 expressions from acyclic specifications and closed rational or square-root
 expressions for a first class of recursive systems. Extending that work to more
 general recursive systems and infinite cycle-index forms, parsing the remaining
@@ -155,7 +155,7 @@ unlabelled cycles, and seven power sets.
 ## Parsing and expanding a stored generating function
 
 `parse_generating_function` parses the supported finite Maple expressions found
-in 932 ECS records:
+in 971 ECS records:
 
 ```python
 from combstruct import GFBinary, GFInteger, GFVariable, parse_generating_function
@@ -173,10 +173,11 @@ assert expression.right == GFBinary(
 ```
 
 The grammar supports integers, `_x`, parentheses, unary signs, the five
-arithmetic operators `+`, `-`, `*`, `/`, and `^`, plus `exp`, `ln`, and
-`LambertW` calls. Power is right-associative and binds more tightly than unary
+arithmetic operators `+`, `-`, `*`, `/`, and `^`, plus `exp`, `ln`, `LambertW`,
+and `RootOf` calls. Power is right-associative and binds more tightly than unary
 signs, matching the stored Maple expressions. The immutable AST uses
-`GFInteger`, `GFVariable`, `GFUnary`, `GFBinary`, and `GFFunction`.
+`GFInteger`, `GFVariable`, `GFUnary`, `GFBinary`, `GFFunction`, and `GFRootOf`.
+The Maple-local root variable `_Z` is valid only inside `RootOf`.
 
 `generating_function_coefficients` expands either source text or an already
 parsed expression using exact `fractions.Fraction` arithmetic:
@@ -209,11 +210,20 @@ coefficients use
 `W(z) = sum((-k)^(k-1) * z^k / k!, k >= 1)` without a numerical dependency.
 
 The catalogue currently has 1,028 nonempty `gf` fields. The parser accepts all
-913 finite elementary expressions and all 19 `LambertW` expressions. It rejects
-the remaining 96 fields: 11 equations, 45 infinite-sum forms, 39 `RootOf`
-forms, and one explicit complex expression. Those forms raise
-`UnsupportedGeneratingFunction`; malformed input raises
+913 finite elementary expressions, all 19 `LambertW` expressions, and all 39
+unselected `RootOf` expressions. It rejects the remaining 57 fields: 11
+equations, 45 infinite-sum forms, and one explicit complex expression. Those
+forms raise `UnsupportedGeneratingFunction`; malformed input raises
 `GeneratingFunctionError`.
+
+Maple defines an unselected `RootOf(expression)` as representing unspecified
+roots; a particular root requires a selector. The ECS `RootOf` strings contain
+no selectors. Accordingly, `GFRootOf` faithfully stores the equation but
+`generating_function_coefficients` raises `GeneratingFunctionEvaluationError`
+instead of choosing a branch from the stored term list. See Maple's
+[`RootOf` documentation](https://www.maplesoft.com/support/help/Maple/view.aspx?path=RootOf)
+and its
+[`index` selector rules](https://www.maplesoft.com/support/help/Maple/view.aspx?path=RootOf%2Findexed).
 
 The evaluator deliberately returns coefficients rather than silently deciding
 whether an expression is an OGF or EGF. Exhaustive tests compare every stored
@@ -225,8 +235,9 @@ does match EGF semantics: its raw coefficients begin `1, 6, 21, 56`, and
 multiplication by `n!` gives the stored terms `1, 6, 42, 336`. ECS 69 is parsed
 but its `LambertW` argument has a nonzero transcendental constant; exact
 expansion therefore raises `GeneratingFunctionEvaluationError` until a shifted
-branch representation is defined. Together with the 96 parser exclusions, it
-is one of 97 fields still requiring separate exact verification.
+branch representation is defined. Together with the 39 unselected `RootOf`
+fields and 57 parser exclusions, it is one of 97 fields still requiring
+separate exact verification.
 
 ## Using the ECS catalogue
 
@@ -305,9 +316,9 @@ The packaging and first maintenance-tool adoption foundations are now in place:
 - 888 specifications derive finite exact generating-function expressions,
   including 50 recursive rational or square-root closed forms, whose
   coefficients agree with the independent term evaluator;
-- finite elementary and `LambertW` generating functions have a dedicated
-  immutable AST, parser, and exact coefficient evaluator for principal
-  compositions at zero;
+- finite elementary, `LambertW`, and `RootOf` generating functions have a
+  dedicated immutable AST and parser, with exact coefficient evaluation for
+  elementary expressions and principal `LambertW` compositions at zero;
 - read-only `python-tools` consumers use the public package, while source-data
   serializers and mutators retain their stricter raw-JSON boundary;
 - source and installed-wheel tests cover Python 3.12, 3.13, and 3.14; and

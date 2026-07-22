@@ -15,14 +15,15 @@ or date section and leave this section in place for subsequent work.
 
 ### Added
 
-- Added an immutable AST and parser for the finite elementary and `LambertW`
-  syntax used by 932 stored ECS generating functions, with explicit errors for
-  unsupported equations and other special-function forms.
+- Added an immutable AST and parser for the finite elementary, `LambertW`, and
+  unselected `RootOf` syntax used by 971 stored ECS generating functions, with
+  explicit errors for unsupported equations and infinite-sum forms. `RootOf`
+  retains its unspecified-branch meaning instead of guessing from stored terms.
 - Added dependency-free exact coefficient expansion for 931 parsed generating
   functions, including rational powers, removable singularities, and principal
   `LambertW` compositions at zero; catalogue tests verify 503 OGFs and 428 EGFs
-  against every stored term. The one shifted `LambertW` expression remains an
-  explicit exact-evaluation boundary.
+  against every stored term. The one shifted `LambertW` expression and 39
+  unselected `RootOf` expressions remain explicit exact-evaluation boundaries.
 - Added finite generating-function derivation for 888 specifications, including
   labelled constructor rules, bounded unlabelled cycle-index substitutions, and
   rational or square-root closed forms for 50 recursive `Union`/`Prod` records.

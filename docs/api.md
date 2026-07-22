@@ -178,13 +178,15 @@ The supported grammar consists of:
 
 - nonnegative integer literals and the Maple variable `_x`;
 - parentheses and unary `+` or `-`;
-- binary `+`, `-`, `*`, `/`, and right-associative `^`; and
-- `exp(expression)`, `ln(expression)`, and `LambertW(expression)`.
+- binary `+`, `-`, `*`, `/`, and right-associative `^`;
+- `exp(expression)`, `ln(expression)`, and `LambertW(expression)`; and
+- unselected `RootOf(expression)` equations, with the Maple-local variable
+  `_Z` scoped to that equation.
 
-The parser covers 932 of the 1,028 nonempty generating-function fields in the
-bundled catalogue: all 913 finite elementary forms and all 19 `LambertW` forms.
-It explicitly rejects the other 96 current records: 11 equations, 45
-infinite-sum forms, 39 `RootOf` forms, and one explicit `Complex` form.
+The parser covers 971 of the 1,028 nonempty generating-function fields in the
+bundled catalogue: all 913 finite elementary forms, all 19 `LambertW` forms,
+and all 39 unselected `RootOf` forms. It explicitly rejects the other 57 current
+records: 11 equations, 45 infinite-sum forms, and one explicit `Complex` form.
 
 `GeneratingFunctionParser(source)` is the stateful parser used by the function
 API. Malformed input raises `GeneratingFunctionError`. Valid ECS forms outside
@@ -192,11 +194,22 @@ the supported grammar raise its subclass `UnsupportedGeneratingFunction`.
 
 ### Generating-function syntax-tree types
 
-`GFInteger(value)` stores an integer literal. `GFVariable()` represents `_x`.
+`GFInteger(value)` stores an integer literal. `GFVariable()` represents `_x`,
+while `GFVariable("_Z")` represents the root-local variable.
 `GFUnary(operator, operand)` stores unary `+` or `-`.
 `GFBinary(operator, left, right)` stores an arithmetic operation.
 `GFFunction(name, argument)` stores an `exp`, `ln`, or `LambertW` call.
-`GFExpression` is the union of these five immutable node types.
+`GFRootOf(equation)` stores an unselected root equation whose local variable is
+`GFVariable("_Z")`. `GFExpression` is the union of these six immutable node
+types.
+
+```python
+from combstruct import GFBinary, GFRootOf, GFVariable, parse_generating_function
+
+root = parse_generating_function("RootOf(_Z-_x)")
+
+assert root == GFRootOf(GFBinary("-", GFVariable("_Z"), GFVariable()))
+```
 
 ### `generating_function_coefficients(source, coefficient_count)`
 
@@ -242,7 +255,18 @@ particular, ECS 265's coefficients are `1, 6, 21, 56, ...`; applying EGF
 normalization produces its stored terms `1, 6, 42, 336, ...`. ECS 69 is parsed,
 but its shifted nonzero `LambertW` argument is outside the exact formal-series
 contract and raises `GeneratingFunctionEvaluationError`. That record and the 96
-forms rejected by the parser are not covered by this result.
+other non-evaluable fields are not covered by this result. Of those 96, the 39
+`RootOf` fields are parsed but have no branch selector, while 57 fields remain
+outside the parser grammar.
+
+Maple documents unselected `RootOf` as representing unspecified roots and uses
+explicit selectors to identify one root. Because the ECS strings do not contain
+selectors, coefficient evaluation raises `GeneratingFunctionEvaluationError`
+with a branch-specific message rather than inferring a root from catalogue
+terms. See Maple's
+[`RootOf` documentation](https://www.maplesoft.com/support/help/Maple/view.aspx?path=RootOf)
+and
+[`indexed RootOf` rules](https://www.maplesoft.com/support/help/Maple/view.aspx?path=RootOf%2Findexed).
 
 ## Computing terms
 

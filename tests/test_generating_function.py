@@ -11,6 +11,7 @@ from combstruct.generating_function import (
     GFBinary,
     GFFunction,
     GFInteger,
+    GFRootOf,
     GFUnary,
     GFVariable,
     UnsupportedGeneratingFunction,
@@ -18,7 +19,7 @@ from combstruct.generating_function import (
     parse_generating_function,
 )
 
-UNSUPPORTED_FORMS = ("Sum(", "RootOf(", "Complex(", "infinity", "...")
+UNSUPPORTED_FORMS = ("Sum(", "Complex(", "infinity", "...")
 
 
 def is_supported_expression(source: str) -> bool:
@@ -79,6 +80,28 @@ class GeneratingFunctionParserTests(unittest.TestCase):
             GFFunction("LambertW", GFUnary("-", GFVariable())),
         )
 
+    def test_rootof_equation_and_local_variable(self):
+        self.assertEqual(
+            parse_generating_function("RootOf(_Z^3*_x-_Z+1)"),
+            GFRootOf(
+                GFBinary(
+                    "+",
+                    GFBinary(
+                        "-",
+                        GFBinary(
+                            "*",
+                            GFBinary("^", GFVariable("_Z"), GFInteger(3)),
+                            GFVariable(),
+                        ),
+                        GFVariable("_Z"),
+                    ),
+                    GFInteger(1),
+                ),
+            ),
+        )
+        with self.assertRaisesRegex(GeneratingFunctionError, "only valid inside RootOf"):
+            parse_generating_function("_Z+_x")
+
     def test_ast_is_immutable(self):
         expression = GFInteger(1)
 
@@ -97,7 +120,6 @@ class GeneratingFunctionParserTests(unittest.TestCase):
         for source in (
             "S(_x) = _x+S(_x)^2",
             "Sum(_x^j,j=1..infinity)",
-            "RootOf(_Z^2+_x)",
             "Complex(0,1)*_x",
             "exp(_x+...)",
         ):
@@ -125,8 +147,8 @@ class GeneratingFunctionParserTests(unittest.TestCase):
                     parse_generating_function(source)
                 unsupported.append(structure.id)
 
-        self.assertEqual(len(supported), 932)
-        self.assertEqual(len(unsupported), 96)
+        self.assertEqual(len(supported), 971)
+        self.assertEqual(len(unsupported), 57)
         self.assertEqual(len(supported) + len(unsupported), 1028)
 
 
@@ -229,9 +251,24 @@ class GeneratingFunctionCoefficientTests(unittest.TestCase):
             ):
                 generating_function_coefficients(source, 4)
 
+    def test_unselected_rootof_requires_a_formal_series_branch(self):
+        source = "RootOf(_Z^3*_x-_Z+1)"
+        expression = parse_generating_function(source)
+
+        for value in (source, expression):
+            with (
+                self.subTest(value=value),
+                self.assertRaisesRegex(
+                    GeneratingFunctionEvaluationError,
+                    "no branch selector",
+                ),
+            ):
+                generating_function_coefficients(value, 6)
+
     def test_every_parsed_catalogue_function_matches_its_stored_terms(self):
         ordinary = []
         exponential = []
+        unselected_roots = []
 
         for structure in Catalog():
             source = structure.generating_function
@@ -244,6 +281,15 @@ class GeneratingFunctionCoefficientTests(unittest.TestCase):
                     "constant coefficient 0",
                 ):
                     generating_function_coefficients(source, len(structure.terms))
+                continue
+
+            if "RootOf(" in source:
+                with self.assertRaisesRegex(
+                    GeneratingFunctionEvaluationError,
+                    "no branch selector",
+                ):
+                    generating_function_coefficients(source, len(structure.terms))
+                unselected_roots.append(structure.id)
                 continue
 
             coefficients = generating_function_coefficients(source, len(structure.terms))
@@ -273,6 +319,7 @@ class GeneratingFunctionCoefficientTests(unittest.TestCase):
         self.assertEqual(len(ordinary), 503)
         self.assertEqual(len(exponential), 428)
         self.assertEqual(len(ordinary) + len(exponential), 931)
+        self.assertEqual(len(unselected_roots), 39)
 
 
 if __name__ == "__main__":
