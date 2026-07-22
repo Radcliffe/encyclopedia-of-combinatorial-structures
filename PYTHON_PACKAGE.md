@@ -18,7 +18,8 @@ The distribution also contains the canonical ECS records. The current
 development version parses the finite elementary, `LambertW`, unselected
 `RootOf`, indexed infinite-sum, and one-argument `Complex` subset of stored
 generating functions and exactly expands principal `LambertW` compositions at
-zero and coefficientwise-finite indexed sums. It also derives finite
+zero or recognized rational centers, plus coefficientwise-finite indexed sums.
+It also derives finite
 generating-function expressions from acyclic specifications and closed rational
 or square-root expressions for a first class of recursive systems. Extending
 that work to more general recursive systems and infinite cycle-index forms,
@@ -242,15 +243,42 @@ assert coefficients == (
 )
 ```
 
+A recognized shifted principal `LambertW` expression is exact as well:
+
+```python
+coefficients = generating_function_coefficients(
+    "-LambertW(-1/2*exp(-1/2+1/2*_x))-1/2+1/2*_x",
+    6,
+)
+
+assert coefficients == (
+    Fraction(0),
+    Fraction(1),
+    Fraction(1, 2),
+    Fraction(2, 3),
+    Fraction(13, 12),
+    Fraction(59, 30),
+)
+```
+
 These are raw series coefficients. For an ordinary generating function,
 coefficient `n` is the counting term. For an exponential generating function,
 multiply coefficient `n` by `n!`. The evaluator supports the exact analytic
 conditions used by the supported catalogue expressions, including removable
 singularities, square roots with constant term one, `exp` arguments with
 constant term zero, `ln` arguments with constant term one, and the principal
-formal `LambertW` series when its argument has constant term zero. Its exact
-coefficients use
+formal `LambertW` series when its argument has constant term zero or has the
+recognized shifted form `c*exp(c+h)` described below. Its coefficients at zero
+use
 `W(z) = sum((-k)^(k-1) * z^k / k!, k >= 1)` without a numerical dependency.
+
+For a rational principal-branch center `c > -1`, `c != 0`, and a formal series
+`h` with constant coefficient zero, the evaluator also expands
+`LambertW(c*exp(c+h))` exactly. Writing the result as `c+u` reduces the defining
+equation to `ln(1+u/c)+u=h`, whose coefficients are rationally recursive. The
+branch point `c=-1` and centers below it are rejected rather than assigned an
+ambiguous or singular expansion. All 19 parsed catalogue `LambertW` fields meet
+the zero-centered or recognized-shift contract.
 
 The catalogue currently has 1,028 nonempty `gf` fields. The parser accepts all
 913 finite elementary expressions, all 19 `LambertW` expressions, all 39
@@ -283,17 +311,16 @@ see the official [`Complex` constructor documentation](https://www.maplesoft.com
 
 The evaluator deliberately returns coefficients rather than silently deciding
 whether an expression is an OGF or EGF. Exhaustive tests compare every stored
-term for 976 exactly evaluable records under both interpretations: 548
-unlabelled records match as OGFs and 428 labelled records match as EGFs, with no
+term for 977 exactly evaluable records under both interpretations: 548
+unlabelled records match as OGFs and 429 labelled records match as EGFs, with no
 ambiguous or inconsistent record in this subset. ECS 265, cited in
 [archived ECS issue #2](https://github.com/Radcliffe/encyclopedia-of-combinatorial-structures/blob/main/docs/codeberg-archive.md#issue-2-distinguish-between-ordinary-and-exponential-generating-functions),
 does match EGF semantics: its raw coefficients begin `1, 6, 21, 56`, and
-multiplication by `n!` gives the stored terms `1, 6, 42, 336`. ECS 69 is parsed
-but its `LambertW` argument has a nonzero transcendental constant; exact
-expansion therefore raises `GeneratingFunctionEvaluationError` until a shifted
-branch representation is defined. Together with the 39 unselected `RootOf`
-fields, the one complex expression, and 11 parser exclusions, it is one of 52
-fields still requiring separate exact verification.
+multiplication by `n!` gives the stored terms `1, 6, 42, 336`. ECS 69 uses the
+shifted center `c=-1/2`; its exact coefficients reproduce all 21 stored EGF
+terms. The 39 unselected `RootOf` fields, the one complex expression, and 11
+parser exclusions are the 51 fields still requiring separate exact
+verification.
 
 ## Using the ECS catalogue
 
@@ -375,8 +402,8 @@ The packaging and first maintenance-tool adoption foundations are now in place:
 - finite elementary, `LambertW`, `RootOf`, indexed infinite-sum, and
   one-argument `Complex` generating functions have a dedicated immutable AST
   and parser, with exact coefficient evaluation for elementary expressions,
-  principal `LambertW` compositions at zero, and coefficientwise-finite indexed
-  sums;
+  principal `LambertW` compositions at zero or recognized rational centers, and
+  coefficientwise-finite indexed sums;
 - read-only `python-tools` consumers use the public package, while source-data
   serializers and mutators retain their stricter raw-JSON boundary;
 - source and installed-wheel tests cover Python 3.12, 3.13, and 3.14; and

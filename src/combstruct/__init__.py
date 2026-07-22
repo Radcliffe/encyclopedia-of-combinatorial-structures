@@ -3,7 +3,7 @@
 The public API parses Maple ``combstruct``-style specifications, computes exact
 sequence terms, derives finite generating functions and selected quadratic
 closed forms from specifications, and parses and exactly expands finite
-elementary and principal-at-zero ``LambertW`` generating functions in the ECS
+elementary and supported principal ``LambertW`` generating functions in the ECS
 catalogue, including faithful syntax trees for unselected ``RootOf`` equations.
 Indexed infinite sums are parsed with lexical summation-variable scope and
 expanded when coefficientwise finiteness can be proved. The catalogue's
