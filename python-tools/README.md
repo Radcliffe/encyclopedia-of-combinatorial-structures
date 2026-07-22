@@ -33,9 +33,10 @@ consolidated JSON mapping. `--id` may be repeated to generate only selected ECS
 records; `--output`, `--max-index`, `--max-digits`, and `--jobs` control the
 generation run.
 
-The historical `compute_terms.py` entry point remains a compatibility wrapper
-for now. New maintenance code should import the documented top-level
-`combstruct` API directly.
+The evaluator regression suite imports the documented top-level `combstruct`
+API and reads records through `Catalog`. The historical `compute_terms.py`
+entry point remains a compatibility wrapper and has a dedicated command-line
+smoke test.
 
 ## Maple and OEIS validation
 

@@ -23,6 +23,8 @@ or date section and leave this section in place for subsequent work.
   evaluator APIs, with an explicit package dependency for maintenance tools.
 - Migrated Maple script generation and sequence validation to the typed public
   catalogue API and extended static quality checks to migrated tools.
+- Migrated the term-evaluator regression suite to the public top-level API and
+  added an explicit smoke test for the historical script entry point.
 
 ## 0.1.0a0 - 2026-07-22
 
