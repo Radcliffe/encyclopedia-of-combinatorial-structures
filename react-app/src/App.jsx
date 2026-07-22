@@ -114,6 +114,7 @@ export default function App() {
   function selectStructure(item) {
     setSelected(item);
     setSideView("results");
+    window.scrollTo({ top: 0, left: 0 });
     const next = new URLSearchParams(searchParams);
     next.set("nbr", String(item.id));
     next.delete("page");
