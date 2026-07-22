@@ -15,8 +15,9 @@ two things that the repository's existing Python tools already do:
   generating-function semantics for unlabelled structures.
 
 The distribution also contains the canonical ECS records. The current
-development version parses and exactly expands the finite elementary subset of
-stored generating functions. It also derives finite generating-function
+development version parses the finite elementary and `LambertW` subset of
+stored generating functions and exactly expands principal `LambertW`
+compositions at zero. It also derives finite generating-function
 expressions from acyclic specifications and closed rational or square-root
 expressions for a first class of recursive systems. Extending that work to more
 general recursive systems and infinite cycle-index forms, parsing the remaining
@@ -153,8 +154,8 @@ unlabelled cycles, and seven power sets.
 
 ## Parsing and expanding a stored generating function
 
-`parse_generating_function` parses the finite elementary Maple expressions
-found in 913 ECS records:
+`parse_generating_function` parses the supported finite Maple expressions found
+in 932 ECS records:
 
 ```python
 from combstruct import GFBinary, GFInteger, GFVariable, parse_generating_function
@@ -171,11 +172,11 @@ assert expression.right == GFBinary(
 )
 ```
 
-The first grammar supports integers, `_x`, parentheses, unary signs, the five
-arithmetic operators `+`, `-`, `*`, `/`, and `^`, plus `exp` and `ln` calls.
-Power is right-associative and binds more tightly than unary signs, matching
-the stored Maple expressions. The immutable AST uses `GFInteger`,
-`GFVariable`, `GFUnary`, `GFBinary`, and `GFFunction`.
+The grammar supports integers, `_x`, parentheses, unary signs, the five
+arithmetic operators `+`, `-`, `*`, `/`, and `^`, plus `exp`, `ln`, and
+`LambertW` calls. Power is right-associative and binds more tightly than unary
+signs, matching the stored Maple expressions. The immutable AST uses
+`GFInteger`, `GFVariable`, `GFUnary`, `GFBinary`, and `GFFunction`.
 
 `generating_function_coefficients` expands either source text or an already
 parsed expression using exact `fractions.Fraction` arithmetic:
@@ -202,23 +203,30 @@ coefficient `n` is the counting term. For an exponential generating function,
 multiply coefficient `n` by `n!`. The evaluator supports the exact analytic
 conditions used by the finite catalogue expressions, including removable
 singularities, square roots with constant term one, `exp` arguments with
-constant term zero, and `ln` arguments with constant term one.
+constant term zero, `ln` arguments with constant term one, and the principal
+formal `LambertW` series when its argument has constant term zero. Its exact
+coefficients use
+`W(z) = sum((-k)^(k-1) * z^k / k!, k >= 1)` without a numerical dependency.
 
-The catalogue currently has 1,028 nonempty `gf` fields. In addition to the 913
-finite elementary expressions, it contains 11 equations and 104 expressions
-using infinite sums, `RootOf`, `LambertW`, or explicit complex values. Those
-forms raise `UnsupportedGeneratingFunction`; malformed input raises
+The catalogue currently has 1,028 nonempty `gf` fields. The parser accepts all
+913 finite elementary expressions and all 19 `LambertW` expressions. It rejects
+the remaining 96 fields: 11 equations, 45 infinite-sum forms, 39 `RootOf`
+forms, and one explicit complex expression. Those forms raise
+`UnsupportedGeneratingFunction`; malformed input raises
 `GeneratingFunctionError`.
 
 The evaluator deliberately returns coefficients rather than silently deciding
 whether an expression is an OGF or EGF. Exhaustive tests compare every stored
-term for the 913 parsed records under both interpretations: 503 unlabelled
-records match as OGFs and 410 labelled records match as EGFs, with no ambiguous
-or inconsistent record in this subset. ECS 265, cited in
+term for 931 exactly evaluable records under both interpretations: 503
+unlabelled records match as OGFs and 428 labelled records match as EGFs, with no
+ambiguous or inconsistent record in this subset. ECS 265, cited in
 [ECS issue #2](https://codeberg.org/ECS/encyclopedia-of-combinatorial-structures/issues/2),
 does match EGF semantics: its raw coefficients begin `1, 6, 21, 56`, and
-multiplication by `n!` gives the stored terms `1, 6, 42, 336`. The remaining 115
-special forms still require separate verification.
+multiplication by `n!` gives the stored terms `1, 6, 42, 336`. ECS 69 is parsed
+but its `LambertW` argument has a nonzero transcendental constant; exact
+expansion therefore raises `GeneratingFunctionEvaluationError` until a shifted
+branch representation is defined. Together with the 96 parser exclusions, it
+is one of 97 fields still requiring separate exact verification.
 
 ## Using the ECS catalogue
 
@@ -297,8 +305,9 @@ The packaging and first maintenance-tool adoption foundations are now in place:
 - 888 specifications derive finite exact generating-function expressions,
   including 50 recursive rational or square-root closed forms, whose
   coefficients agree with the independent term evaluator;
-- finite elementary stored generating functions have a dedicated immutable AST,
-  parser, and exact coefficient evaluator;
+- finite elementary and `LambertW` generating functions have a dedicated
+  immutable AST, parser, and exact coefficient evaluator for principal
+  compositions at zero;
 - read-only `python-tools` consumers use the public package, while source-data
   serializers and mutators retain their stricter raw-JSON boundary;
 - source and installed-wheel tests cover Python 3.12, 3.13, and 3.14; and
