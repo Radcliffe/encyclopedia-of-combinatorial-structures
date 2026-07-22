@@ -13,6 +13,12 @@ Add production-bound changes here under `Added`, `Changed`, `Fixed`, or `Removed
 When a package is released or `prod` is deployed, move the entries into a version
 or date section and leave this section in place for subsequent work.
 
+### Added
+
+- Added an immutable AST and parser for the finite elementary syntax used by
+  913 stored ECS generating functions, with explicit errors for unsupported
+  equations and special-function forms.
+
 ### Changed
 
 - Started the `0.1.0a1` development cycle and updated installation and release

@@ -9,6 +9,11 @@ from combstruct import (
     Cardinality,
     Catalog,
     Constructor,
+    GeneratingFunctionParser,
+    GFBinary,
+    GFFunction,
+    GFInteger,
+    GFVariable,
     Parser,
     Reference,
     SpecificationError,
@@ -20,6 +25,7 @@ from combstruct import (
     get_structure,
     iter_structures,
     load_record,
+    parse_generating_function,
     parse_specification,
 )
 from combstruct.specification import Parser as SpecificationParser
@@ -34,6 +40,14 @@ class PublicApiTests(unittest.TestCase):
             "CatalogError",
             "Constructor",
             "Expression",
+            "GFBinary",
+            "GFExpression",
+            "GFFunction",
+            "GFInteger",
+            "GFUnary",
+            "GFVariable",
+            "GeneratingFunctionError",
+            "GeneratingFunctionParser",
             "Parser",
             "Reference",
             "Specification",
@@ -41,17 +55,36 @@ class PublicApiTests(unittest.TestCase):
             "Structure",
             "StructureNotFoundError",
             "UnsupportedConstruction",
+            "UnsupportedGeneratingFunction",
             "__version__",
             "compute_terms",
             "default_dataset",
             "get_structure",
             "iter_structures",
             "load_record",
+            "parse_generating_function",
             "parse_specification",
         }
 
         self.assertEqual(set(combstruct.__all__), expected)
         self.assertTrue(all(hasattr(combstruct, name) for name in expected))
+
+    def test_generating_function_parser_is_available_from_package(self):
+        expression = GeneratingFunctionParser("exp(_x)/(1-_x)^2").parse()
+
+        self.assertEqual(expression, parse_generating_function("exp(_x)/(1-_x)^2"))
+        self.assertEqual(
+            expression,
+            GFBinary(
+                "/",
+                GFFunction("exp", GFVariable()),
+                GFBinary(
+                    "^",
+                    GFBinary("-", GFInteger(1), GFVariable()),
+                    GFInteger(2),
+                ),
+            ),
+        )
 
     def test_legacy_term_module_exports_the_original_script_surface(self):
         expected = {
