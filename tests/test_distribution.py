@@ -114,6 +114,13 @@ class PublicApiTests(unittest.TestCase):
             ),
             (Fraction(0), Fraction(1), Fraction(1, 2), Fraction(1, 3), Fraction(1, 4)),
         )
+        self.assertEqual(
+            generating_function_coefficients(
+                "-LambertW(-1/2*exp(-1/2+1/2*_x))-1/2+1/2*_x",
+                5,
+            ),
+            (Fraction(0), Fraction(1), Fraction(1, 2), Fraction(2, 3), Fraction(13, 12)),
+        )
         self.assertTrue(issubclass(GeneratingFunctionEvaluationError, ValueError))
 
     def test_rootof_syntax_tree_is_available_from_package(self):

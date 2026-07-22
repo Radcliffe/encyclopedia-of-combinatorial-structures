@@ -5,8 +5,8 @@ calls, unselected ``RootOf`` equations, indexed infinite sums, and the
 one-argument ``Complex`` constructor used by 1,017 stored ECS generating
 functions. Heterogeneous equation fields are rejected clearly for a later
 parser milestone. The series evaluator uses exact rational arithmetic and
-expands ``LambertW`` compositions whose argument has constant term zero and
-indexed sums whose requested coefficients have a provable finite bound.
+expands principal ``LambertW`` compositions at zero or recognized rational
+centers, plus indexed sums whose requested coefficients have a provable bound.
 Unselected roots and complex series remain explicit evaluation boundaries; the
 evaluator never guesses a branch or truncation.
 """
@@ -625,6 +625,55 @@ def _lambert_w(series: _FormalSeries) -> _FormalSeries:
     return _FormalSeries(valuation, coefficient)
 
 
+def _shifted_lambert_w(
+    logarithmic_perturbation: _FormalSeries,
+    center: Fraction,
+) -> _FormalSeries:
+    """Expand principal W around ``center * exp(center)`` exactly."""
+
+    if center == -1:
+        raise GeneratingFunctionEvaluationError(
+            "Shifted LambertW expansion is singular at the branch point -1/e",
+        )
+    if center == 0:
+        raise GeneratingFunctionEvaluationError(
+            "A shifted LambertW center must be nonzero",
+        )
+    if logarithmic_perturbation.is_zero:
+        return _constant_series(center)
+
+    valuation = logarithmic_perturbation.valuation()
+    if valuation < 1:
+        raise GeneratingFunctionEvaluationError(
+            "Shifted LambertW requires a logarithmic perturbation with constant coefficient 0",
+        )
+
+    linear_coefficient = 1 + 1 / center
+    displacement: _FormalSeries
+    powers: list[_FormalSeries]
+
+    def power(exponent: int) -> _FormalSeries:
+        while len(powers) <= exponent:
+            powers.append(_multiply(powers[-1], displacement))
+        return powers[exponent]
+
+    def coefficient(degree: int) -> Fraction:
+        nonlinear = sum(
+            (
+                Fraction((-1) ** (exponent + 1), exponent)
+                * power(exponent).coefficient(degree)
+                / center**exponent
+                for exponent in range(2, degree // valuation + 1)
+            ),
+            Fraction(),
+        )
+        return (logarithmic_perturbation.coefficient(degree) - nonlinear) / linear_coefficient
+
+    displacement = _FormalSeries(valuation, coefficient)
+    powers = [_constant_series(1), displacement]
+    return _add(_constant_series(center), displacement)
+
+
 @cache
 def _euler_totient(value: int) -> int:
     """Return Euler's totient for a positive summation-index value."""
@@ -681,6 +730,70 @@ def _constant_expression_value(
         if left == 1:
             return Fraction(1)
     raise GeneratingFunctionEvaluationError("A power exponent must be a rational constant")
+
+
+def _try_constant_expression_value(
+    expression: GFExpression,
+    index_values: dict[int, int],
+) -> Fraction | None:
+    try:
+        return _constant_expression_value(expression, index_values)
+    except GeneratingFunctionEvaluationError:
+        return None
+
+
+def _constant_addend_and_remainder(
+    expression: GFExpression,
+    index_values: dict[int, int],
+) -> tuple[Fraction, GFExpression] | None:
+    constant = _try_constant_expression_value(expression, index_values)
+    if constant is not None:
+        return constant, GFInteger(0)
+    if not isinstance(expression, GFBinary):
+        return None
+    if expression.operator == "+":
+        left = _try_constant_expression_value(expression.left, index_values)
+        if left is not None:
+            return left, expression.right
+        right = _try_constant_expression_value(expression.right, index_values)
+        if right is not None:
+            return right, expression.left
+    if expression.operator == "-":
+        right = _try_constant_expression_value(expression.right, index_values)
+        if right is not None:
+            return -right, expression.left
+    return None
+
+
+def _match_shifted_lambert_w(
+    argument: GFExpression,
+    index_values: dict[int, int],
+) -> tuple[Fraction, GFExpression] | None:
+    """Recognize ``c * exp(c + h)`` for a principal-branch center ``c``."""
+
+    if not isinstance(argument, GFBinary) or argument.operator != "*":
+        return None
+    pairs = ((argument.left, argument.right), (argument.right, argument.left))
+    for constant_expression, exponential_expression in pairs:
+        center = _try_constant_expression_value(constant_expression, index_values)
+        if (
+            center is None
+            or center == 0
+            or center < -1
+            or not isinstance(exponential_expression, GFFunction)
+            or exponential_expression.name != "exp"
+        ):
+            continue
+        decomposition = _constant_addend_and_remainder(
+            exponential_expression.argument,
+            index_values,
+        )
+        if decomposition is None:
+            continue
+        exponential_center, remainder = decomposition
+        if exponential_center == center:
+            return center, remainder
+    return None
 
 
 def _is_x_free(expression: GFExpression) -> bool:
@@ -937,12 +1050,19 @@ def _evaluate_series(
         operand = _evaluate_series(expression.operand, index_values)
         return operand if expression.operator == "+" else _negate(operand)
     if isinstance(expression, GFFunction):
+        if expression.name == "LambertW":
+            shifted = _match_shifted_lambert_w(expression.argument, index_values)
+            if shifted is not None:
+                center, remainder = shifted
+                return _shifted_lambert_w(
+                    _evaluate_series(remainder, index_values),
+                    center,
+                )
+            return _lambert_w(_evaluate_series(expression.argument, index_values))
         argument = _evaluate_series(expression.argument, index_values)
         if expression.name == "exp":
             return _exponential(argument)
-        if expression.name == "ln":
-            return _logarithm(argument)
-        return _lambert_w(argument)
+        return _logarithm(argument)
     if isinstance(expression, GFRootOf):
         raise GeneratingFunctionEvaluationError(
             "RootOf has no branch selector; exact coefficient expansion requires "

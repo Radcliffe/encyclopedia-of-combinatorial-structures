@@ -283,6 +283,24 @@ assert coefficients == (
 )
 ```
 
+The shifted principal `LambertW` form used by ECS 69 is also exact:
+
+```python
+coefficients = generating_function_coefficients(
+    "-LambertW(-1/2*exp(-1/2+1/2*_x))-1/2+1/2*_x",
+    6,
+)
+
+assert coefficients == (
+    Fraction(0),
+    Fraction(1),
+    Fraction(1, 2),
+    Fraction(2, 3),
+    Fraction(13, 12),
+    Fraction(59, 30),
+)
+```
+
 The values are raw formal-series coefficients. They equal counting terms for an
 ordinary generating function. For an exponential generating function,
 coefficient `n` must be multiplied by `n!`. The function does not silently
@@ -291,25 +309,29 @@ choose an interpretation.
 The evaluator uses exact recurrences for arithmetic, integer and rational
 powers, `exp`, `ln`, principal `LambertW`, and coefficientwise-finite indexed
 sums; intermediate Laurent series allow removable singularities to cancel.
-Nonintegral powers currently require
-constant coefficient one, `exp` and `LambertW` require constant coefficient
-zero, and `ln` requires constant coefficient one. `LambertW` uses its exact
-formal series `sum((-k)^(k-1) * z^k / k!, k >= 1)`. A parsed expression that
-violates those exact formal-series conditions raises
+Nonintegral powers currently require constant coefficient one, `exp` requires
+constant coefficient zero, and `ln` requires constant coefficient one.
+`LambertW` uses its exact formal series
+`sum((-k)^(k-1) * z^k / k!, k >= 1)` at zero. It also recognizes
+`LambertW(c*exp(c+h))` for a rational principal-branch center `c > -1`, `c != 0`,
+and a zero-constant formal series `h`. If `W=c+u`, the equation becomes
+`ln(1+u/c)+u=h`, providing an exact rational recurrence without representing
+the transcendental constant `exp(c)`. The branch point `c=-1` and lower centers
+are rejected. All 19 parsed catalogue `LambertW` fields meet the zero-centered
+or recognized-shift contract. A parsed expression that violates these exact
+formal-series conditions raises
 `GeneratingFunctionEvaluationError`. A negative `coefficient_count` raises
 `ValueError`; a non-integer count or invalid source object raises `TypeError`.
 
-Catalogue-wide tests establish that 976 parsed functions match their full
-stored term prefixes and their `Structure.labeled` flags: 548 are OGFs and 428
+Catalogue-wide tests establish that 977 parsed functions match their full
+stored term prefixes and their `Structure.labeled` flags: 548 are OGFs and 429
 are EGFs, with no ambiguous or inconsistent result in this subset. In
 particular, ECS 265's coefficients are `1, 6, 21, 56, ...`; applying EGF
-normalization produces its stored terms `1, 6, 42, 336, ...`. ECS 69 is parsed,
-but its shifted nonzero `LambertW` argument is outside the exact formal-series
-contract and raises `GeneratingFunctionEvaluationError`. That record and the 51
-other non-evaluable fields are not covered by this result. Of those 51, the 39
-`RootOf` fields are parsed but have no branch selector, the one `Complex` field
-requires complex formal-series arithmetic, and 11 fields remain outside the
-parser grammar.
+normalization produces its stored terms `1, 6, 42, 336, ...`. ECS 69 uses the
+recognized center `c=-1/2`; exact expansion reproduces all 21 of its stored EGF
+terms. The 51 non-evaluable fields consist of 39 parsed `RootOf` fields without
+a branch selector, the one `Complex` field requiring complex formal-series
+arithmetic, and 11 fields outside the parser grammar.
 
 Maple documents unselected `RootOf` as representing unspecified roots and uses
 explicit selectors to identify one root. Because the ECS strings do not contain

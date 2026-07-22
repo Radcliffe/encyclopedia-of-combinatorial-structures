@@ -239,6 +239,34 @@ class GeneratingFunctionCoefficientTests(unittest.TestCase):
             ),
         )
 
+    def test_shifted_principal_lambert_w(self):
+        source = "-LambertW(-1/2*exp(-1/2+1/2*_x))-1/2+1/2*_x"
+        expression = parse_generating_function(source)
+
+        for value in (source, expression):
+            with self.subTest(value=value):
+                self.assertEqual(
+                    generating_function_coefficients(value, 8),
+                    (
+                        Fraction(0),
+                        Fraction(1),
+                        Fraction(1, 2),
+                        Fraction(2, 3),
+                        Fraction(13, 12),
+                        Fraction(59, 30),
+                        Fraction(172, 45),
+                        Fraction(4901, 630),
+                    ),
+                )
+        self.assertEqual(
+            generating_function_coefficients("LambertW(exp(1+_x^2)*1)", 5),
+            (Fraction(1), Fraction(0), Fraction(1, 2), Fraction(0), Fraction(1, 16)),
+        )
+        self.assertEqual(
+            generating_function_coefficients("LambertW(2*exp(2))", 3),
+            (Fraction(2), Fraction(0), Fraction(0)),
+        )
+
     def test_square_root_and_removable_singularity(self):
         self.assertEqual(
             generating_function_coefficients(
@@ -279,6 +307,8 @@ class GeneratingFunctionCoefficientTests(unittest.TestCase):
             "exp(1+_x)": "constant coefficient 0",
             "ln(2+_x)": "constant coefficient 1",
             "LambertW(1+_x)": "constant coefficient 0",
+            "LambertW(-1*exp(-1+_x))": "branch point",
+            "LambertW(-2*exp(-2+_x))": "constant coefficient 0",
             "_x^_x": "rational constant",
             "(2+_x)^(1/2)": "constant coefficient 1",
             "_x^(-1)": "negative powers",
@@ -385,14 +415,6 @@ class GeneratingFunctionCoefficientTests(unittest.TestCase):
             except UnsupportedGeneratingFunction:
                 continue
 
-            if structure.id == 69:
-                with self.assertRaisesRegex(
-                    GeneratingFunctionEvaluationError,
-                    "constant coefficient 0",
-                ):
-                    generating_function_coefficients(expression, len(structure.terms))
-                continue
-
             if "RootOf(" in source:
                 with self.assertRaisesRegex(
                     GeneratingFunctionEvaluationError,
@@ -438,8 +460,8 @@ class GeneratingFunctionCoefficientTests(unittest.TestCase):
             (exponential if exponential_match else ordinary).append(structure.id)
 
         self.assertEqual(len(ordinary), 548)
-        self.assertEqual(len(exponential), 428)
-        self.assertEqual(len(ordinary) + len(exponential), 976)
+        self.assertEqual(len(exponential), 429)
+        self.assertEqual(len(ordinary) + len(exponential), 977)
         self.assertEqual(complex_forms, [47])
         self.assertEqual(len(infinite_sums), 45)
         self.assertEqual(len(unselected_roots), 39)
