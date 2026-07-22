@@ -38,6 +38,36 @@ yarn dev
 
 The app will be available at the URL printed in your terminal (usually http://localhost:5173/).
 
+### Computing terms from a specification
+
+`python-tools/compute_terms.py` evaluates the Maple `combstruct`-style specifications stored in the ECS using exact arithmetic. It uses ordinary generating functions for unlabelled structures and exponential generating functions for labelled structures.
+
+Compute 30 terms for an existing ECS record:
+
+```sh
+python3 python-tools/compute_terms.py --id 56 --terms 30
+```
+
+Evaluate a specification directly:
+
+```sh
+python3 python-tools/compute_terms.py \
+  --spec '{S = Union(Epsilon,Prod(Z,S,S))}' \
+  --unlabelled \
+  --terms 12 \
+  --plain
+```
+
+The supported constructors are `Union`, `Prod`, `Sequence`, `Set`, `Cycle`, and `PowerSet`, including ECS cardinality constraints such as `card = 2`, `card <= 3`, and `1 <= card`. Specifications may contain multiple mutually recursive equations.
+
+Generate the public OEIS-style b-files:
+
+```sh
+python3 python-tools/generate_bfiles.py
+```
+
+This creates `react-app/public/b-files/bNNNNNN.txt` for every ECS record. Each file includes terms through `a(1000)` unless a term first exceeds 1,000 decimal digits, in which case that term and all subsequent terms are omitted.
+
 ### Building for Production
 
 To build the app for production:
