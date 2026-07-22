@@ -1,12 +1,12 @@
-"""Parse and expand finite elementary ECS generating functions exactly.
+"""Parse and expand finite ECS generating functions exactly.
 
-The first parser milestone recognizes the exact finite-expression grammar used
-by 913 stored ECS generating functions. Equations, infinite sums, algebraic
-``RootOf`` values, ``LambertW``, and explicit complex values are rejected
-clearly for later parser milestones. The series evaluator expands the finite
-grammar with exact rational arithmetic; it deliberately returns coefficients
-without deciding whether they represent an ordinary or exponential generating
-function.
+The parser recognizes the finite elementary grammar and principal ``LambertW``
+calls used by 932 stored ECS generating functions. Equations, infinite sums,
+algebraic ``RootOf`` values, and explicit complex values are rejected clearly
+for later parser milestones. The series evaluator uses exact rational
+arithmetic and expands ``LambertW`` compositions whose argument has constant
+term zero; it deliberately returns coefficients without deciding whether they
+represent an ordinary or exponential generating function.
 """
 
 from __future__ import annotations
@@ -15,11 +15,12 @@ import re
 from collections.abc import Callable
 from dataclasses import dataclass
 from fractions import Fraction
+from math import factorial
 from typing import Literal, cast
 
 type UnaryOperator = Literal["+", "-"]
 type BinaryOperator = Literal["+", "-", "*", "/", "^"]
-type FunctionName = Literal["exp", "ln"]
+type FunctionName = Literal["exp", "ln", "LambertW"]
 
 
 class GeneratingFunctionError(ValueError):
@@ -67,7 +68,7 @@ class GFBinary:
 
 @dataclass(frozen=True, slots=True)
 class GFFunction:
-    """An elementary function call recognized in the finite ECS corpus."""
+    """A function call recognized in the finite ECS corpus."""
 
     name: FunctionName
     argument: GFExpression
@@ -89,7 +90,7 @@ UNARY_BINDING_POWER = 30
 
 
 class GeneratingFunctionParser:
-    """Parse the finite elementary expression syntax used by the ECS."""
+    """Parse the supported finite expression syntax used by the ECS."""
 
     def __init__(self, source: str):
         self.source = source
@@ -153,7 +154,7 @@ class GeneratingFunctionParser:
             expression = self._parse_expression()
             self._expect(")")
             return expression
-        if token in {"exp", "ln"}:
+        if token in {"exp", "ln", "LambertW"}:
             self._expect("(")
             argument = self._parse_expression()
             self._expect(")")
@@ -185,7 +186,7 @@ class GeneratingFunctionParser:
 
 
 def parse_generating_function(source: str) -> GFExpression:
-    """Parse a finite elementary ECS generating-function expression."""
+    """Parse a supported finite ECS generating-function expression."""
 
     return GeneratingFunctionParser(source).parse()
 
@@ -450,6 +451,37 @@ def _logarithm(series: _FormalSeries) -> _FormalSeries:
     )
 
 
+def _lambert_w(series: _FormalSeries) -> _FormalSeries:
+    """Return the principal formal Lambert W series composed with ``series``."""
+
+    if series.is_zero:
+        return _constant_series(0)
+    valuation = series.valuation()
+    if valuation < 1:
+        raise GeneratingFunctionEvaluationError(
+            "LambertW requires an argument with constant coefficient 0",
+        )
+
+    powers = [_constant_series(1), series]
+
+    def power(exponent: int) -> _FormalSeries:
+        while len(powers) <= exponent:
+            powers.append(_multiply(powers[-1], series))
+        return powers[exponent]
+
+    def coefficient(degree: int) -> Fraction:
+        return sum(
+            (
+                Fraction((-exponent) ** (exponent - 1), factorial(exponent))
+                * power(exponent).coefficient(degree)
+                for exponent in range(1, degree // valuation + 1)
+            ),
+            Fraction(),
+        )
+
+    return _FormalSeries(valuation, coefficient)
+
+
 def _constant_expression_value(expression: GFExpression) -> Fraction:
     if isinstance(expression, GFInteger):
         return Fraction(expression.value)
@@ -489,7 +521,11 @@ def _evaluate_series(expression: GFExpression) -> _FormalSeries:
         return operand if expression.operator == "+" else _negate(operand)
     if isinstance(expression, GFFunction):
         argument = _evaluate_series(expression.argument)
-        return _exponential(argument) if expression.name == "exp" else _logarithm(argument)
+        if expression.name == "exp":
+            return _exponential(argument)
+        if expression.name == "ln":
+            return _logarithm(argument)
+        return _lambert_w(argument)
     if expression.operator == "^":
         return _rational_power(
             _evaluate_series(expression.left),

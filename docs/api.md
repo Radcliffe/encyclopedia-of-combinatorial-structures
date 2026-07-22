@@ -160,8 +160,8 @@ cycles, and seven power sets.
 
 ### `parse_generating_function(source)`
 
-Parse one finite elementary ECS generating-function expression into an
-immutable `GFExpression` syntax tree.
+Parse one supported finite ECS generating-function expression into an immutable
+`GFExpression` syntax tree.
 
 ```python
 from combstruct import GFBinary, parse_generating_function
@@ -179,24 +179,24 @@ The supported grammar consists of:
 - nonnegative integer literals and the Maple variable `_x`;
 - parentheses and unary `+` or `-`;
 - binary `+`, `-`, `*`, `/`, and right-associative `^`; and
-- `exp(expression)` and `ln(expression)`.
+- `exp(expression)`, `ln(expression)`, and `LambertW(expression)`.
 
-The parser covers 913 of the 1,028 nonempty generating-function fields in the
-bundled catalogue. It explicitly rejects the other 115 current records: 11
-equations, 45 infinite-sum forms, 39 `RootOf` forms, 19 `LambertW` forms, and
-one explicit `Complex` form.
+The parser covers 932 of the 1,028 nonempty generating-function fields in the
+bundled catalogue: all 913 finite elementary forms and all 19 `LambertW` forms.
+It explicitly rejects the other 96 current records: 11 equations, 45
+infinite-sum forms, 39 `RootOf` forms, and one explicit `Complex` form.
 
 `GeneratingFunctionParser(source)` is the stateful parser used by the function
 API. Malformed input raises `GeneratingFunctionError`. Valid ECS forms outside
-this first grammar raise its subclass `UnsupportedGeneratingFunction`.
+the supported grammar raise its subclass `UnsupportedGeneratingFunction`.
 
 ### Generating-function syntax-tree types
 
 `GFInteger(value)` stores an integer literal. `GFVariable()` represents `_x`.
 `GFUnary(operator, operand)` stores unary `+` or `-`.
 `GFBinary(operator, left, right)` stores an arithmetic operation.
-`GFFunction(name, argument)` stores an `exp` or `ln` call. `GFExpression` is the
-union of these five immutable node types.
+`GFFunction(name, argument)` stores an `exp`, `ln`, or `LambertW` call.
+`GFExpression` is the union of these five immutable node types.
 
 ### `generating_function_coefficients(source, coefficient_count)`
 
@@ -225,20 +225,23 @@ ordinary generating function. For an exponential generating function,
 coefficient `n` must be multiplied by `n!`. The function does not silently
 choose an interpretation.
 
-The evaluator handles every expression accepted from the current catalogue. It
-uses exact recurrences for arithmetic, integer and rational powers, `exp`, and
-`ln`; intermediate Laurent series allow removable singularities to cancel.
-Nonintegral powers currently require constant coefficient one, `exp` requires
-constant coefficient zero, and `ln` requires constant coefficient one. A
-parsed expression that violates those exact formal-series conditions raises
+The evaluator uses exact recurrences for arithmetic, integer and rational
+powers, `exp`, `ln`, and principal `LambertW`; intermediate Laurent series allow
+removable singularities to cancel. Nonintegral powers currently require
+constant coefficient one, `exp` and `LambertW` require constant coefficient
+zero, and `ln` requires constant coefficient one. `LambertW` uses its exact
+formal series `sum((-k)^(k-1) * z^k / k!, k >= 1)`. A parsed expression that
+violates those exact formal-series conditions raises
 `GeneratingFunctionEvaluationError`. A negative `coefficient_count` raises
 `ValueError`; a non-integer count or invalid source object raises `TypeError`.
 
-Catalogue-wide tests establish that all 913 parsed functions match their full
-stored term prefixes and their `Structure.labeled` flags: 503 are OGFs and 410
+Catalogue-wide tests establish that 931 parsed functions match their full
+stored term prefixes and their `Structure.labeled` flags: 503 are OGFs and 428
 are EGFs, with no ambiguous or inconsistent result in this subset. In
 particular, ECS 265's coefficients are `1, 6, 21, 56, ...`; applying EGF
-normalization produces its stored terms `1, 6, 42, 336, ...`. The 115 special
+normalization produces its stored terms `1, 6, 42, 336, ...`. ECS 69 is parsed,
+but its shifted nonzero `LambertW` argument is outside the exact formal-series
+contract and raises `GeneratingFunctionEvaluationError`. That record and the 96
 forms rejected by the parser are not covered by this result.
 
 ## Computing terms

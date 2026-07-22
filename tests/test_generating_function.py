@@ -18,11 +18,11 @@ from combstruct.generating_function import (
     parse_generating_function,
 )
 
-SPECIAL_FORMS = ("Sum(", "RootOf(", "LambertW(", "Complex(", "infinity", "...")
+UNSUPPORTED_FORMS = ("Sum(", "RootOf(", "Complex(", "infinity", "...")
 
 
-def is_finite_elementary_expression(source: str) -> bool:
-    return "=" not in source and not any(token in source for token in SPECIAL_FORMS)
+def is_supported_expression(source: str) -> bool:
+    return "=" not in source and not any(token in source for token in UNSUPPORTED_FORMS)
 
 
 class GeneratingFunctionParserTests(unittest.TestCase):
@@ -73,6 +73,12 @@ class GeneratingFunctionParserTests(unittest.TestCase):
             ),
         )
 
+    def test_lambert_w_function(self):
+        self.assertEqual(
+            parse_generating_function("LambertW(-_x)"),
+            GFFunction("LambertW", GFUnary("-", GFVariable())),
+        )
+
     def test_ast_is_immutable(self):
         expression = GFInteger(1)
 
@@ -92,7 +98,6 @@ class GeneratingFunctionParserTests(unittest.TestCase):
             "S(_x) = _x+S(_x)^2",
             "Sum(_x^j,j=1..infinity)",
             "RootOf(_Z^2+_x)",
-            "LambertW(-_x)",
             "Complex(0,1)*_x",
             "exp(_x+...)",
         ):
@@ -112,7 +117,7 @@ class GeneratingFunctionParserTests(unittest.TestCase):
             source = structure.generating_function
             if source is None:
                 continue
-            if is_finite_elementary_expression(source):
+            if is_supported_expression(source):
                 parse_generating_function(source)
                 supported.append(structure.id)
             else:
@@ -120,8 +125,8 @@ class GeneratingFunctionParserTests(unittest.TestCase):
                     parse_generating_function(source)
                 unsupported.append(structure.id)
 
-        self.assertEqual(len(supported), 913)
-        self.assertEqual(len(unsupported), 115)
+        self.assertEqual(len(supported), 932)
+        self.assertEqual(len(unsupported), 96)
         self.assertEqual(len(supported) + len(unsupported), 1028)
 
 
@@ -136,6 +141,30 @@ class GeneratingFunctionCoefficientTests(unittest.TestCase):
         self.assertEqual(
             generating_function_coefficients("exp(_x)", 6),
             tuple(Fraction(1, factorial(degree)) for degree in range(6)),
+        )
+
+    def test_lambert_w_and_composition(self):
+        self.assertEqual(
+            generating_function_coefficients("LambertW(_x)", 6),
+            (
+                Fraction(0),
+                Fraction(1),
+                Fraction(-1),
+                Fraction(3, 2),
+                Fraction(-8, 3),
+                Fraction(125, 24),
+            ),
+        )
+        self.assertEqual(
+            generating_function_coefficients("-LambertW(-_x)/_x", 6),
+            (
+                Fraction(1),
+                Fraction(1),
+                Fraction(3, 2),
+                Fraction(8, 3),
+                Fraction(125, 24),
+                Fraction(54, 5),
+            ),
         )
         self.assertEqual(
             generating_function_coefficients("ln(1/(1-_x))", 6),
@@ -188,6 +217,7 @@ class GeneratingFunctionCoefficientTests(unittest.TestCase):
             "1/0": "zero series",
             "exp(1+_x)": "constant coefficient 0",
             "ln(2+_x)": "constant coefficient 1",
+            "LambertW(1+_x)": "constant coefficient 0",
             "_x^_x": "rational constant",
             "(2+_x)^(1/2)": "constant coefficient 1",
             "_x^(-1)": "negative powers",
@@ -205,7 +235,15 @@ class GeneratingFunctionCoefficientTests(unittest.TestCase):
 
         for structure in Catalog():
             source = structure.generating_function
-            if source is None or not is_finite_elementary_expression(source):
+            if source is None or not is_supported_expression(source):
+                continue
+
+            if structure.id == 69:
+                with self.assertRaisesRegex(
+                    GeneratingFunctionEvaluationError,
+                    "constant coefficient 0",
+                ):
+                    generating_function_coefficients(source, len(structure.terms))
                 continue
 
             coefficients = generating_function_coefficients(source, len(structure.terms))
@@ -233,7 +271,8 @@ class GeneratingFunctionCoefficientTests(unittest.TestCase):
             (exponential if exponential_match else ordinary).append(structure.id)
 
         self.assertEqual(len(ordinary), 503)
-        self.assertEqual(len(exponential), 410)
+        self.assertEqual(len(exponential), 428)
+        self.assertEqual(len(ordinary) + len(exponential), 931)
 
 
 if __name__ == "__main__":
