@@ -100,6 +100,82 @@ class GeneratingFunctionDerivationTests(unittest.TestCase):
             tuple(Fraction(value) for value in (0, 1, 1, 1, 1, 1)),
         )
 
+    def test_linear_self_recursion_derives_a_rational_function(self):
+        expression = derive_generating_function(
+            "{S = Union(Z,Prod(Z,S))}",
+            labelled=False,
+        )
+
+        self.assertEqual(
+            generating_function_coefficients(expression, 7),
+            tuple(Fraction(value) for value in (0, 1, 1, 1, 1, 1, 1)),
+        )
+
+    def test_quadratic_self_recursion_selects_the_formal_series_root(self):
+        expression = derive_generating_function(
+            "{S = Union(Z,Prod(S,S))}",
+            labelled=False,
+        )
+
+        self.assertEqual(
+            generating_function_coefficients(expression, 8),
+            tuple(Fraction(value) for value in (0, 1, 1, 2, 5, 14, 42, 132)),
+        )
+
+    def test_quadratic_root_handles_a_removable_singularity(self):
+        expression = derive_generating_function(
+            "{S = Union(Epsilon,Prod(Z,S,S))}",
+            labelled=False,
+        )
+
+        self.assertEqual(
+            generating_function_coefficients(expression, 8),
+            tuple(Fraction(value) for value in (1, 1, 2, 5, 14, 42, 132, 429)),
+        )
+
+    def test_named_quadratic_equation_is_available_through_an_alias(self):
+        expression = derive_generating_function(
+            "{A = Union(Z,Prod(A,A)), S = A}",
+            labelled=False,
+        )
+
+        self.assertEqual(
+            generating_function_coefficients(expression, 7),
+            tuple(Fraction(value) for value in (0, 1, 1, 2, 5, 14, 42)),
+        )
+
+    def test_labelled_quadratic_self_recursion_yields_egf_coefficients(self):
+        expression = derive_generating_function(
+            "{S = Union(Z,Prod(S,S))}",
+            labelled=True,
+        )
+
+        coefficients = generating_function_coefficients(expression, 7)
+        terms = tuple(
+            coefficient * factorial(degree) for degree, coefficient in enumerate(coefficients)
+        )
+        self.assertEqual(terms, (0, 1, 2, 12, 120, 1680, 30240))
+
+    def test_higher_degree_and_nested_recursion_remain_explicitly_unsupported(self):
+        for specification, message in (
+            ("{S = Union(Z,Prod(S,S,S))}", "degree greater than two"),
+            ("{S = Sequence(S)}", "inside Sequence"),
+        ):
+            with (
+                self.subTest(specification=specification),
+                self.assertRaisesRegex(
+                    UnsupportedGeneratingFunctionDerivation,
+                    message,
+                ),
+            ):
+                derive_generating_function(specification, labelled=False)
+
+        with self.assertRaisesRegex(
+            UnsupportedGeneratingFunctionDerivation,
+            "not well founded",
+        ):
+            derive_generating_function("{S = Union(Z,S)}", labelled=False)
+
     def test_recursive_system_reports_the_cycle(self):
         with self.assertRaisesRegex(
             UnsupportedGeneratingFunctionDerivation,
@@ -187,12 +263,12 @@ class GeneratingFunctionDerivationTests(unittest.TestCase):
             self.assertEqual(tuple(independently_computed), terms, f"ECS {structure.id}")
             derived.append(structure.id)
 
-        self.assertEqual(len(derived), 838)
+        self.assertEqual(len(derived), 845)
         self.assertEqual(
             unsupported,
             Counter(
                 {
-                    "recursive": 195,
+                    "recursive": 188,
                     "unlabelled set": 21,
                     "unlabelled cycle": 14,
                     "powerset": 7,

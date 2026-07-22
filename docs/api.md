@@ -84,7 +84,7 @@ is the alias `dict[str, Expression]`.
 
 ### `derive_generating_function(specification, *, labelled, symbol="S")`
 
-Translate an acyclic ECS specification into a finite `GFExpression`.
+Translate a supported ECS specification into a finite `GFExpression`.
 `specification` may be source text or a mapping returned by
 `parse_specification`. `labelled=True` applies EGF constructor rules and
 `False` applies OGF rules. `symbol` selects the named equation to derive.
@@ -110,17 +110,25 @@ The supported finite rules are:
 - bounded unlabelled `Set` and `Cycle` use exact finite cycle-index formulas and
   substitutions `_x -> _x^k`.
 
-Named acyclic equations are expanded and memoized. A recursive dependency,
-unrestricted unlabelled `Set` or `Cycle`, or `PowerSet` raises
-`UnsupportedGeneratingFunctionDerivation`; those cases need equation solving or
-an infinite cycle-index AST. Malformed specifications, missing roots, undefined
-symbols, and invalid constructor arity raise `SpecificationError`.
+Named acyclic equations are expanded and memoized. A directly self-recursive
+equation that is linear or quadratic under `Union` and `Prod` is solved as a
+rational or square-root closed form. The least nonnegative constant solution is
+selected when the quadratic equation has two branches, and the formal implicit
+function condition must determine that branch uniquely.
 
-The catalogue-wide contract covers 838 records—365 labelled and 473
-unlabelled—and verifies their full stored term prefixes against both the
-derived expression and the independent specification term evaluator. The 237
-remaining records partition into 195 recursive systems, 21 unrestricted
-unlabelled sets, 14 unrestricted unlabelled cycles, and seven power sets.
+A mutually recursive dependency, recursion of degree greater than two,
+recursion nested inside another constructor, unrestricted unlabelled `Set` or
+`Cycle`, or `PowerSet` raises `UnsupportedGeneratingFunctionDerivation`; those
+cases need more general equation solving or an infinite cycle-index AST.
+Malformed specifications, missing roots, undefined symbols, and invalid
+constructor arity raise `SpecificationError`.
+
+The catalogue-wide contract covers 845 records—367 labelled and 478
+unlabelled—including all seven single-equation quadratic `Union`/`Prod`
+recursions. It verifies their full stored term prefixes against both the derived
+expression and the independent specification term evaluator. The 230 remaining
+records partition into 188 recursive systems, 21 unrestricted unlabelled sets,
+14 unrestricted unlabelled cycles, and seven power sets.
 
 ## Stored generating functions
 

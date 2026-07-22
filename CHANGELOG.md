@@ -21,9 +21,11 @@ or date section and leave this section in place for subsequent work.
 - Added dependency-free exact coefficient expansion for all 913 parsed
   generating functions, including rational powers and removable singularities;
   catalogue tests verify 503 OGFs and 410 EGFs against every stored term.
-- Added finite generating-function derivation for 838 acyclic specifications,
-  including labelled constructor rules and bounded unlabelled cycle-index
-  substitutions, verified against the independent term evaluator.
+- Added finite generating-function derivation for 845 specifications, including
+  labelled constructor rules, bounded unlabelled cycle-index substitutions, and
+  rational or square-root closed forms for all seven directly self-recursive
+  quadratic `Union`/`Prod` records, verified against the independent term
+  evaluator.
 
 ### Changed
 

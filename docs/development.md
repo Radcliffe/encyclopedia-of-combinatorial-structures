@@ -1,9 +1,10 @@
 # Developing `combstruct`
 
-The first package milestone extracts and stabilizes behavior already present
-in `python-tools/compute_terms.py`. New symbolic capabilities belong in later,
-separately designed milestones. Keeping that boundary explicit makes package
-regressions distinguishable from future mathematics work.
+The first package milestone extracted and stabilized behavior already present
+in `python-tools/compute_terms.py`. Subsequent symbolic capabilities are added
+in small, separately designed milestones with catalogue-wide verification.
+Keeping those boundaries explicit makes evaluator regressions distinguishable
+from intentional mathematics work.
 
 ## Environment
 
@@ -34,8 +35,9 @@ PYTHONPATH=src .venv/bin/python -m unittest discover -s tests -v
 
 The package test suite validates the recommended API, parser coverage for all
 1,075 canonical specifications, catalogue conversion, and term computation.
-The historical suite remains mandatory until the maintenance scripts are
-migrated because it detects changes to the extracted evaluator's behavior.
+The maintenance-tools suite remains mandatory after migration because it
+detects regressions in package consumers and the historical compatibility
+entry point.
 
 The repository workflow repeats both suites on all supported Python versions.
 A separate quality job runs strict static typing, lint, and formatting checks.
