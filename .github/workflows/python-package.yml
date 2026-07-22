@@ -20,11 +20,17 @@ jobs:
       - name: Install quality tools
         run: python -m pip install ".[quality]"
       - name: Lint
-        run: ruff check src/combstruct tests
+        run: >-
+          ruff check src/combstruct tests
+          python-tools/generate_bfiles.py python-tools/test_generate_bfiles.py
+          python-tools/write_maple_scripts.py python-tools/test_write_maple_scripts.py
       - name: Check formatting
-        run: ruff format --check src/combstruct tests
-      - name: Check package types
-        run: mypy
+        run: >-
+          ruff format --check src/combstruct tests
+          python-tools/generate_bfiles.py python-tools/test_generate_bfiles.py
+          python-tools/write_maple_scripts.py python-tools/test_write_maple_scripts.py
+      - name: Check package and migrated tool types
+        run: mypy src/combstruct python-tools/generate_bfiles.py python-tools/write_maple_scripts.py
 
   test:
     name: Python ${{ matrix.python-version }}

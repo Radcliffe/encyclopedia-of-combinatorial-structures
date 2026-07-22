@@ -36,3 +36,16 @@ generation run.
 The historical `compute_terms.py` entry point remains a compatibility wrapper
 for now. New maintenance code should import the documented top-level
 `combstruct` API directly.
+
+## Maple and OEIS validation
+
+`write_maple_scripts.py` uses the same public catalogue API to create the
+historical Maple `combstruct[count]` input and to compare Maple or locally
+stored OEIS output with ECS terms. Its default input is the bundled catalogue;
+its default text files remain `maple_script.txt` and `maple_output.txt` beside
+the script.
+
+The module functions also accept explicit catalogue, output, and OEIS-data
+paths. This keeps maintenance runs independent of the current working
+directory and allows validation against a selected catalogue without changing
+checked-in artifacts.
