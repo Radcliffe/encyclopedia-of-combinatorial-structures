@@ -47,10 +47,10 @@ release = [
 
 [project.urls]
 Homepage = "https://combstruct.netlify.app"
-Documentation = "https://codeberg.org/ECS/encyclopedia-of-combinatorial-structures/src/branch/main/PYTHON_PACKAGE.md"
-Repository = "https://codeberg.org/ECS/encyclopedia-of-combinatorial-structures"
-Issues = "https://codeberg.org/ECS/encyclopedia-of-combinatorial-structures/issues"
-Changelog = "https://codeberg.org/ECS/encyclopedia-of-combinatorial-structures/src/branch/main/CHANGELOG.md"
+Documentation = "https://github.com/Radcliffe/encyclopedia-of-combinatorial-structures/blob/main/PYTHON_PACKAGE.md"
+Repository = "https://github.com/Radcliffe/encyclopedia-of-combinatorial-structures"
+Issues = "https://github.com/Radcliffe/encyclopedia-of-combinatorial-structures/issues"
+Changelog = "https://github.com/Radcliffe/encyclopedia-of-combinatorial-structures/blob/main/CHANGELOG.md"
 
 [project.scripts]
 combstruct = "combstruct.terms:main"

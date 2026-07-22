@@ -17,7 +17,7 @@ The ECS is currently deployed at http://combstruct.netlify.app.
 
 1. Clone this repository:
    ```sh
-   git clone https://codeberg.org/Radcliffe/encyclopedia-of-combinatorial-structures.git
+   git clone https://github.com/Radcliffe/encyclopedia-of-combinatorial-structures.git
    cd encyclopedia-of-combinatorial-structures/react-app
    ```
 2. Install dependencies:

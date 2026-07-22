@@ -36,7 +36,7 @@ The initial package requires Python 3.12 or newer and has no runtime
 dependencies outside the Python standard library.
 
 Contributors who need an editable source checkout should follow
-[`docs/development.md`](https://codeberg.org/ECS/encyclopedia-of-combinatorial-structures/src/branch/main/docs/development.md).
+[`docs/development.md`](https://github.com/Radcliffe/encyclopedia-of-combinatorial-structures/blob/main/docs/development.md).
 
 The installed version is available as `combstruct.__version__`.
 
@@ -266,7 +266,7 @@ whether an expression is an OGF or EGF. Exhaustive tests compare every stored
 term for 931 exactly evaluable records under both interpretations: 503
 unlabelled records match as OGFs and 428 labelled records match as EGFs, with no
 ambiguous or inconsistent record in this subset. ECS 265, cited in
-[ECS issue #2](https://codeberg.org/ECS/encyclopedia-of-combinatorial-structures/issues/2),
+[archived ECS issue #2](https://github.com/Radcliffe/encyclopedia-of-combinatorial-structures/blob/main/docs/codeberg-archive.md#issue-2-distinguish-between-ordinary-and-exponential-generating-functions),
 does match EGF semantics: its raw coefficients begin `1, 6, 21, 56`, and
 multiplication by `n!` gives the stored terms `1, 6, 42, 336`. ECS 69 is parsed
 but its `LambertW` argument has a nonzero transcendental constant; exact
@@ -396,10 +396,10 @@ Sequences. See `NOTICE.md` for the exact historical counts, provenance, and
 attribution.
 
 Contributor build and release instructions are in
-[`docs/releasing.md`](https://codeberg.org/ECS/encyclopedia-of-combinatorial-structures/src/branch/main/docs/releasing.md).
+[`docs/releasing.md`](https://github.com/Radcliffe/encyclopedia-of-combinatorial-structures/blob/main/docs/releasing.md).
 The complete public API is described in
-[`docs/api.md`](https://codeberg.org/ECS/encyclopedia-of-combinatorial-structures/src/branch/main/docs/api.md).
+[`docs/api.md`](https://github.com/Radcliffe/encyclopedia-of-combinatorial-structures/blob/main/docs/api.md).
 Contributor setup and quality checks are in
-[`docs/development.md`](https://codeberg.org/ECS/encyclopedia-of-combinatorial-structures/src/branch/main/docs/development.md).
+[`docs/development.md`](https://github.com/Radcliffe/encyclopedia-of-combinatorial-structures/blob/main/docs/development.md).
 The first release record is in
-[`docs/release-readiness.md`](https://codeberg.org/ECS/encyclopedia-of-combinatorial-structures/src/branch/main/docs/release-readiness.md).
+[`docs/release-readiness.md`](https://github.com/Radcliffe/encyclopedia-of-combinatorial-structures/blob/main/docs/release-readiness.md).

@@ -35,6 +35,9 @@ or date section and leave this section in place for subsequent work.
 
 ### Changed
 
+- Moved the canonical source repository and issue tracker from Codeberg to
+  GitHub, updated package and website links, and archived the former Codeberg
+  issue and pull-request records under `docs/codeberg-archive.md`.
 - Started the `0.1.0a1` development cycle and updated installation and release
   documentation after the successful `0.1.0a0` publication.
 - Read the expected artifact version from `pyproject.toml` so release validation

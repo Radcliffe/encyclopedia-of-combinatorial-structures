@@ -43,7 +43,7 @@ above.
   texts, and the provenance notice.
 - The source distribution contains the changelog, API/development/release
   documentation, tests, both license texts, and all canonical records.
-- Package metadata contains live homepage and canonical Codeberg links.
+- Package metadata contains live homepage and canonical GitHub links.
 - The test CI workflow is read-only and checks source, legacy tools,
   artifact metadata and contents, installation, and both command-line entry
   points.
@@ -98,10 +98,9 @@ file inclusion; they do not constitute legal review.
 
 - Publishing used scoped API tokens for the first manual release. A dedicated
   Trusted Publishing workflow remains future release-infrastructure work.
-- The test workflow ran successfully on the GitHub mirror for both the release
-  branch and signed release tag.
-- Codeberg repository Actions are currently disabled. The canonical repository
-  remains Codeberg; the GitHub mirror supplies the remote CI runner.
+- The test workflow ran successfully on GitHub for both the release branch and
+  signed release tag.
+- GitHub is the canonical source repository and CI host.
 
 Future releases must follow `docs/releasing.md` against a clean release commit
 and must use a new version because PyPI artifacts are immutable. The released

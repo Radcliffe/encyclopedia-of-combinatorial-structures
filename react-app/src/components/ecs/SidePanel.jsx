@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { makeBfileLink, makeReferenceLink } from "@/lib/ecs";
 
-const CODE_URL = "https://codeberg.org/ECS/encyclopedia-of-combinatorial-structures";
+const CODE_URL = "https://github.com/Radcliffe/encyclopedia-of-combinatorial-structures";
 
 SidePanel.propTypes = {
   view: PropTypes.string.isRequired,
@@ -202,7 +202,7 @@ function AboutPanel() {
         <p>
           The code is available on{" "}
           <a href={CODE_URL} target="_blank" rel="noreferrer" className="underline">
-            Codeberg
+            GitHub
           </a>
           .
         </p>

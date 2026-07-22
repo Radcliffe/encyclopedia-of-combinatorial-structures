@@ -18,14 +18,12 @@ The maintainers confirmed these project-level choices for the first release on
   BY-SA 4.0. The package uses the SPDX expression
   `LGPL-2.1-only AND CC-BY-SA-4.0` and ships both license texts plus
   `NOTICE.md`.
-- The `ECS/encyclopedia-of-combinatorial-structures` Codeberg repository is
+- The `Radcliffe/encyclopedia-of-combinatorial-structures` GitHub repository is
   the canonical source repository.
 
-The test workflow is stored in `.github/workflows`. It runs on the GitHub
-mirror; Forgejo also looks there when `.forgejo/workflows` is absent, but a
-Codeberg maintainer must enable repository Actions and provide a compatible
-runner before relying on it there. Confirm a successful remote run on the
-release commit rather than assuming that local syntax validation is enough.
+The test workflow is stored in `.github/workflows` and runs in the canonical
+GitHub repository. Confirm a successful remote run on the release commit rather
+than assuming that local syntax validation is enough.
 
 The `combstruct` project now exists on PyPI. PyPI release files are immutable,
 so choose a new version, verify it in the exact artifacts, and do not rebuild

@@ -41,10 +41,8 @@ entry point.
 
 The repository workflow repeats both suites on all supported Python versions.
 A separate quality job runs strict static typing, lint, and formatting checks.
-The distribution job runs only after both jobs succeed. The workflow is stored
-under `.github/workflows`, so it runs on the GitHub mirror and is also a
-Forgejo fallback workflow. Running it on Codeberg requires repository Actions
-and a compatible runner to be configured by a maintainer.
+The distribution job runs only after both jobs succeed. The canonical GitHub
+repository runs the workflow stored under `.github/workflows`.
 
 ## Public API discipline
 
