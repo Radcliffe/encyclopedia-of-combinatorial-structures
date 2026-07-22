@@ -304,19 +304,56 @@ class GeneratingFunctionCoefficientTests(unittest.TestCase):
             ):
                 generating_function_coefficients(value, 6)
 
-    def test_infinite_sum_requires_a_proven_truncation_bound(self):
+    def test_coefficientwise_finite_infinite_sum(self):
         source = "Sum(_x^j[1]/j[1],j[1]=1..infinity)"
         expression = parse_generating_function(source)
 
         for value in (source, expression):
+            with self.subTest(value=value):
+                self.assertEqual(
+                    generating_function_coefficients(value, 6),
+                    tuple(Fraction(1, degree) if degree else Fraction() for degree in range(6)),
+                )
+
+    def test_totient_and_nested_infinite_sums(self):
+        self.assertEqual(
+            generating_function_coefficients(
+                "Sum(numtheory:-phi(j[1])*_x^j[1],j[1]=1..infinity)",
+                7,
+            ),
+            tuple(Fraction(value) for value in (0, 1, 1, 2, 2, 4, 2)),
+        )
+        self.assertEqual(
+            generating_function_coefficients(
+                "Sum(Sum((_x^j[1])^j[2]/(j[1]*j[2]),j[2]=1..infinity),j[1]=1..infinity)",
+                7,
+            ),
+            (
+                Fraction(0),
+                Fraction(1),
+                Fraction(1),
+                Fraction(2, 3),
+                Fraction(3, 4),
+                Fraction(2, 5),
+                Fraction(2, 3),
+            ),
+        )
+
+    def test_infinite_sum_requires_a_provable_coefficient_bound(self):
+        cases = (
+            "Sum(_x/j[1],j[1]=1..infinity)",
+            "Sum(1+_x^j[1],j[1]=1..infinity)",
+            "Sum(j[1]-1+_x^j[1],j[1]=1..infinity)",
+        )
+        for source in cases:
             with (
-                self.subTest(value=value),
+                self.subTest(source=source),
                 self.assertRaisesRegex(
                     GeneratingFunctionEvaluationError,
-                    "proven finite truncation bound",
+                    "zero-constant summand.*scaled",
                 ),
             ):
-                generating_function_coefficients(value, 6)
+                generating_function_coefficients(source, 6)
 
     def test_complex_requires_complex_formal_series(self):
         source = "Complex(-1/2)*_x"
@@ -365,15 +402,6 @@ class GeneratingFunctionCoefficientTests(unittest.TestCase):
                 unselected_roots.append(structure.id)
                 continue
 
-            if "Sum(" in source:
-                with self.assertRaisesRegex(
-                    GeneratingFunctionEvaluationError,
-                    "proven finite truncation bound",
-                ):
-                    generating_function_coefficients(expression, len(structure.terms))
-                infinite_sums.append(structure.id)
-                continue
-
             if "Complex(" in source:
                 with self.assertRaisesRegex(
                     GeneratingFunctionEvaluationError,
@@ -405,11 +433,13 @@ class GeneratingFunctionCoefficientTests(unittest.TestCase):
                 structure.labeled,
                 f"ECS {structure.id} disagrees with its labeled field",
             )
+            if "Sum(" in source:
+                infinite_sums.append(structure.id)
             (exponential if exponential_match else ordinary).append(structure.id)
 
-        self.assertEqual(len(ordinary), 503)
+        self.assertEqual(len(ordinary), 548)
         self.assertEqual(len(exponential), 428)
-        self.assertEqual(len(ordinary) + len(exponential), 931)
+        self.assertEqual(len(ordinary) + len(exponential), 976)
         self.assertEqual(complex_forms, [47])
         self.assertEqual(len(infinite_sums), 45)
         self.assertEqual(len(unselected_roots), 39)
