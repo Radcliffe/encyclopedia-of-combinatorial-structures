@@ -3,10 +3,11 @@
 This module translates finite specifications into the generating-function AST
 defined by :mod:`combstruct.generating_function`. Labelled constructions use
 exponential-generating-function rules and unlabelled constructions use
-ordinary-generating-function rules. A single self-recursive equation that is
-linear or quadratic in its own symbol is solved in closed form. More general
-recursive systems and constructions whose unlabelled cycle-index expansion is
-inherently infinite remain explicit later milestones.
+ordinary-generating-function rules. A recursive component is solved in closed
+form when removing one feedback symbol leaves an acyclic system whose expansion
+is linear or quadratic in that symbol. More general recursive systems and
+constructions whose unlabelled cycle-index expansion is inherently infinite
+remain explicit later milestones.
 """
 
 from __future__ import annotations
@@ -166,12 +167,61 @@ def _rational_square_root(value: Fraction) -> Fraction | None:
 type _QuadraticPolynomial = tuple[GFExpression, GFExpression, GFExpression]
 
 
+def _expression_references(expression: Expression) -> set[str]:
+    if isinstance(expression, Reference):
+        return {expression.name}
+    references: set[str] = set()
+    for argument in expression.arguments:
+        references.update(_expression_references(argument))
+    return references
+
+
+def _recursive_component_map(
+    equations: Mapping[str, Expression],
+) -> dict[str, tuple[str, ...]]:
+    """Return every symbol in a recursive SCC mapped to that ordered SCC."""
+
+    graph = {
+        name: _expression_references(expression) & equations.keys()
+        for name, expression in equations.items()
+    }
+
+    def reachable(start: str) -> set[str]:
+        visited: set[str] = set()
+        pending = [start]
+        while pending:
+            name = pending.pop()
+            if name in visited:
+                continue
+            visited.add(name)
+            pending.extend(graph[name] - visited)
+        return visited
+
+    reachability = {name: reachable(name) for name in equations}
+    result: dict[str, tuple[str, ...]] = {}
+    assigned: set[str] = set()
+    for name in equations:
+        if name in assigned:
+            continue
+        component = tuple(
+            candidate
+            for candidate in equations
+            if candidate in reachability[name] and name in reachability[candidate]
+        )
+        if len(component) > 1 or name in graph[name]:
+            result.update((candidate, component) for candidate in component)
+        assigned.update(component)
+    return result
+
+
 class _GeneratingFunctionDeriver:
     def __init__(self, equations: Mapping[str, Expression], labelled: bool):
         self.equations = dict(equations)
         self.labelled = labelled
         self.memo: dict[str, GFExpression] = {}
         self.active: list[str] = []
+        self.recursive_components = _recursive_component_map(self.equations)
+        self.solving_components: set[tuple[str, ...]] = set()
 
     def derive(self, symbol: str) -> GFExpression:
         if symbol not in self.equations:
@@ -195,6 +245,10 @@ class _GeneratingFunctionDeriver:
         if name not in self.equations:
             raise SpecificationError(f"Undefined symbol {name!r}")
         if name in self.memo:
+            return self.memo[name]
+        component = self.recursive_components.get(name)
+        if component is not None and len(component) > 1:
+            self._solve_mutual_recursive(component)
             return self.memo[name]
         if name in self.active:
             cycle_start = self.active.index(name)
@@ -287,6 +341,111 @@ class _GeneratingFunctionDeriver:
         finally:
             self.active.pop()
 
+        return self._solve_quadratic_polynomial(
+            symbol,
+            constant,
+            linear,
+            quadratic,
+        )
+
+    def _solve_mutual_recursive(self, component: tuple[str, ...]) -> None:
+        if all(name in self.memo for name in component):
+            return
+        if component in self.solving_components:
+            cycle = " -> ".join((*component, component[0]))
+            raise UnsupportedGeneratingFunctionDerivation(
+                f"Recursive component cannot be reduced safely: {cycle}",
+            )
+
+        self.solving_components.add(component)
+        try:
+            candidates: list[
+                tuple[
+                    int,
+                    int,
+                    str,
+                    dict[str, _QuadraticPolynomial],
+                    _QuadraticPolynomial,
+                ]
+            ] = []
+            first_error: UnsupportedGeneratingFunctionDerivation | None = None
+            component_set = set(component)
+            for root_index, root in enumerate(component):
+                expansions: dict[str, _QuadraticPolynomial] = {}
+                remaining = component_set - {root}
+                dependencies = {
+                    name: _expression_references(self.equations[name]) & remaining
+                    for name in remaining
+                }
+                while dependencies:
+                    ready = [
+                        name
+                        for name in component
+                        if name in dependencies and dependencies[name] <= expansions.keys()
+                    ]
+                    if not ready:
+                        break
+                    for name in ready:
+                        try:
+                            expansions[name] = self._quadratic_expression(
+                                self.equations[name],
+                                root,
+                                component=component_set,
+                                expansions=expansions,
+                            )
+                        except UnsupportedGeneratingFunctionDerivation as error:
+                            first_error = first_error or error
+                            dependencies.clear()
+                            break
+                        del dependencies[name]
+                if dependencies or len(expansions) != len(remaining):
+                    continue
+                try:
+                    polynomial = self._quadratic_expression(
+                        self.equations[root],
+                        root,
+                        component=component_set,
+                        expansions=expansions,
+                    )
+                except UnsupportedGeneratingFunctionDerivation as error:
+                    first_error = first_error or error
+                    continue
+                degree = 2 if not _is_integer(polynomial[2], 0) else 1
+                candidates.append((degree, root_index, root, expansions, polynomial))
+
+            for _, _, root, expansions, polynomial in sorted(candidates):
+                try:
+                    root_expression = self._solve_quadratic_polynomial(
+                        root,
+                        *polynomial,
+                    )
+                except UnsupportedGeneratingFunctionDerivation as error:
+                    first_error = first_error or error
+                    continue
+                self.memo[root] = root_expression
+                for name, expansion in expansions.items():
+                    self.memo[name] = self._evaluate_quadratic(
+                        expansion,
+                        root_expression,
+                    )
+                return
+
+            if first_error is not None:
+                raise first_error
+            cycle = " -> ".join((*component, component[0]))
+            raise UnsupportedGeneratingFunctionDerivation(
+                "Recursive component cannot be reduced by removing one feedback symbol: " + cycle,
+            )
+        finally:
+            self.solving_components.remove(component)
+
+    def _solve_quadratic_polynomial(
+        self,
+        symbol: str,
+        constant: GFExpression,
+        linear: GFExpression,
+        quadratic: GFExpression,
+    ) -> GFExpression:
         one_minus_linear = _subtract(GFInteger(1), linear)
         if _is_integer(quadratic, 0):
             if _is_integer(linear, 1):
@@ -316,15 +475,33 @@ class _GeneratingFunctionDeriver:
         self,
         expression: Expression,
         symbol: str,
+        *,
+        component: set[str] | None = None,
+        expansions: Mapping[str, _QuadraticPolynomial] | None = None,
     ) -> _QuadraticPolynomial:
+        component = {symbol} if component is None else component
+        expansions = {} if expansions is None else expansions
         zero = GFInteger(0)
         if isinstance(expression, Reference):
             if expression.name == symbol:
                 return zero, GFInteger(1), zero
+            if expression.name in component:
+                try:
+                    return expansions[expression.name]
+                except KeyError as error:
+                    raise RuntimeError(
+                        f"Recursive symbol {expression.name!r} was expanded out of order",
+                    ) from error
             return self._reference(expression.name), zero, zero
 
         arguments = [
-            self._quadratic_expression(argument, symbol) for argument in expression.arguments
+            self._quadratic_expression(
+                argument,
+                symbol,
+                component=component,
+                expansions=expansions,
+            )
+            for argument in expression.arguments
         ]
         name = expression.name.lower()
         if name == "union":
@@ -361,6 +538,19 @@ class _GeneratingFunctionDeriver:
             ),
             zero,
             zero,
+        )
+
+    @staticmethod
+    def _evaluate_quadratic(
+        polynomial: _QuadraticPolynomial,
+        value: GFExpression,
+    ) -> GFExpression:
+        return _sum(
+            (
+                polynomial[0],
+                _product((polynomial[1], value)),
+                _product((polynomial[2], _power(value, 2))),
+            ),
         )
 
     @staticmethod
@@ -564,9 +754,9 @@ def derive_generating_function(
 
     Source text and the mapping returned by :func:`parse_specification` are both
     accepted. ``labelled=True`` applies exponential-generating-function rules;
-    ``False`` applies ordinary-generating-function rules. A directly
-    self-recursive equation that is linear or quadratic under ``Union`` and
-    ``Prod`` is returned as a rational or square-root closed form.
+    ``False`` applies ordinary-generating-function rules. A recursive
+    ``Union``/``Prod`` component reducible to one linear or quadratic equation
+    is returned as a rational or square-root closed form.
     """
 
     if not isinstance(labelled, bool):
