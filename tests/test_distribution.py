@@ -20,9 +20,11 @@ from combstruct import (
     SpecificationError,
     Structure,
     StructureNotFoundError,
+    UnsupportedGeneratingFunctionDerivation,
     __version__,
     compute_terms,
     default_dataset,
+    derive_generating_function,
     generating_function_coefficients,
     get_structure,
     iter_structures,
@@ -59,9 +61,11 @@ class PublicApiTests(unittest.TestCase):
             "StructureNotFoundError",
             "UnsupportedConstruction",
             "UnsupportedGeneratingFunction",
+            "UnsupportedGeneratingFunctionDerivation",
             "__version__",
             "compute_terms",
             "default_dataset",
+            "derive_generating_function",
             "generating_function_coefficients",
             "get_structure",
             "iter_structures",
@@ -96,6 +100,15 @@ class PublicApiTests(unittest.TestCase):
             (1, 1, 1, 1, 1),
         )
         self.assertTrue(issubclass(GeneratingFunctionEvaluationError, ValueError))
+
+    def test_generating_function_derivation_is_available_from_package(self):
+        expression = derive_generating_function("{S = Sequence(Z)}", labelled=False)
+
+        self.assertEqual(
+            generating_function_coefficients(expression, 5),
+            (1, 1, 1, 1, 1),
+        )
+        self.assertTrue(issubclass(UnsupportedGeneratingFunctionDerivation, ValueError))
 
     def test_legacy_term_module_exports_the_original_script_surface(self):
         expected = {
