@@ -25,6 +25,8 @@ or date section and leave this section in place for subsequent work.
   catalogue API and extended static quality checks to migrated tools.
 - Migrated the term-evaluator regression suite to the public top-level API and
   added an explicit smoke test for the historical script entry point.
+- Migrated the legacy OEIS report to typed catalogue records and documented why
+  source-data serializers and mutators intentionally retain raw JSON access.
 
 ## 0.1.0a0 - 2026-07-22
 
