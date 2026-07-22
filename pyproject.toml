@@ -1,0 +1,77 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "combstruct"
+version = "0.1.0a0"
+description = "Combinatorial species and data from the Encyclopedia of Combinatorial Structures"
+readme = "PYTHON_PACKAGE.md"
+requires-python = ">=3.12"
+license = "LGPL-2.1-only AND CC-BY-SA-4.0"
+license-files = ["LICENSE.md", "LICENSES/*.txt", "NOTICE.md"]
+authors = [
+    {name = "David Radcliffe"},
+]
+keywords = [
+    "combinatorics",
+    "combinatorial species",
+    "generating functions",
+    "integer sequences",
+]
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Education",
+    "Intended Audience :: Science/Research",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Scientific/Engineering :: Mathematics",
+    "Typing :: Typed",
+]
+dependencies = []
+
+[project.optional-dependencies]
+quality = [
+    "mypy>=2.3",
+    "ruff>=0.15",
+]
+release = [
+    "build>=1.3",
+    "check-wheel-contents>=0.6",
+    "twine>=6.2",
+]
+
+[project.urls]
+Homepage = "https://combstruct.netlify.app"
+Documentation = "https://codeberg.org/ECS/encyclopedia-of-combinatorial-structures/src/branch/main/PYTHON_PACKAGE.md"
+Repository = "https://codeberg.org/ECS/encyclopedia-of-combinatorial-structures"
+Issues = "https://codeberg.org/ECS/encyclopedia-of-combinatorial-structures/issues"
+Changelog = "https://codeberg.org/ECS/encyclopedia-of-combinatorial-structures/src/branch/main/CHANGELOG.md"
+
+[project.scripts]
+combstruct = "combstruct.terms:main"
+
+[tool.setuptools]
+package-dir = {"" = "src", "combstruct.data" = "structures"}
+packages = ["combstruct", "combstruct.data"]
+include-package-data = false
+
+[tool.setuptools.package-data]
+combstruct = ["py.typed"]
+"combstruct.data" = ["ecs*/*.json"]
+
+[tool.mypy]
+files = ["src/combstruct"]
+python_version = "3.12"
+strict = true
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I", "UP", "B", "SIM", "RUF"]

@@ -24,3 +24,11 @@ dist-ssr
 *.sw?
 
 oeisdata
+
+# Python build and test artifacts
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv*/
+build/
+dist/

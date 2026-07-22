@@ -40,6 +40,13 @@ The app will be available at the URL printed in your terminal (usually http://lo
 
 ### Computing terms from a specification
 
+The reusable evaluator is being developed as the pre-alpha `combstruct` Python
+package. See [`PYTHON_PACKAGE.md`](PYTHON_PACKAGE.md) for its installation,
+Python API, command-line interface, current scope, and roadmap.
+The detailed API reference is in [`docs/api.md`](docs/api.md).
+Contributor setup and package quality checks are in
+[`docs/development.md`](docs/development.md).
+
 `python-tools/compute_terms.py` evaluates the Maple `combstruct`-style specifications stored in the ECS using exact arithmetic. It uses ordinary generating functions for unlabelled structures and exponential generating functions for labelled structures.
 
 Compute 30 terms for an existing ECS record:
@@ -141,8 +148,10 @@ Unfortunately, it has been offline for several years.
 The underlying data is from Jérémie Lumbroso's Github repository
 [jlumbroso/encyclopedia-of-combinatorial-structures-data](https://github.com/jlumbroso/encyclopedia-of-combinatorial-structures-data).
 
-Where names and descriptions of combinatorial structures were missing,
-they were added from the corresponding [OEIS](https://oeis.org) entries.
+Names and descriptions were enriched from corresponding
+[OEIS](https://oeis.org) entries. See [`NOTICE.md`](NOTICE.md) for exact
+historical provenance, contributor credits, attribution, and licensing
+information.
 
 The initial prototype was created using OpenAI ChatGPT, so it incorporates
 the uncredited contributions of countless developers, on whose work the
