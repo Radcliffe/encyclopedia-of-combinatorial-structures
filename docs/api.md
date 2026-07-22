@@ -390,11 +390,14 @@ formal-series conditions raises
 `ValueError`; a non-integer count or invalid source object raises `TypeError`.
 Named-series assignments of the form `A(x)=expression` are expanded by exact,
 simultaneous fixed-point iteration. The solver selects the combinatorial branch
-reached from zero series, verifies the same truncated fixed point from an
-independent positive-degree probe, and returns only after every requested
-coefficient stabilizes exactly. Named-series composition requires a
-zero-constant argument. In a multi-equation system, `symbol` is required to
-select the returned series:
+reached from zero series and returns only after every requested coefficient
+stabilizes exactly. It then constructs the graph of dependencies that can
+affect the same positive-degree coefficient. The graph must be acyclic, proving
+that every recursive cycle introduces a positive degree delay; one or several
+sample starting values are not treated as a proof. Equation results receive the
+same negative-power check as standalone expressions. Named-series composition
+requires a zero-constant argument. In a multi-equation system, `symbol` is
+required to select the returned series:
 
 ```python
 from combstruct import generating_function_coefficients

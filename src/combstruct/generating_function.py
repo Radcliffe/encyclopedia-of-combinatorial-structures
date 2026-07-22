@@ -1003,6 +1003,9 @@ def _constant_addend_and_remainder(
         if right is not None:
             return right, expression.left
     if expression.operator == "-":
+        left = _try_constant_expression_value(expression.left, index_values)
+        if left is not None:
+            return left, GFUnary("-", expression.right)
         right = _try_constant_expression_value(expression.right, index_values)
         if right is not None:
             return -right, expression.left
@@ -1080,7 +1083,7 @@ def _positive_exponent_index_factors(expression: GFExpression) -> frozenset[int]
         base = _positive_exponent_index_factors(expression.left)
         exponent = _positive_exponent_index_factors(expression.right)
         if base is not None and exponent is not None:
-            return base | exponent
+            return base
     return None
 
 
@@ -1527,6 +1530,148 @@ def _assignment_expressions(
     return assignments
 
 
+def _require_formal_power_series(
+    series: _FormalSeries,
+    *,
+    context: str,
+) -> None:
+    if not series.is_zero and series.lower_bound < 0 and series.valuation() < 0:
+        raise GeneratingFunctionEvaluationError(
+            f"{context} has negative powers and is not a formal power series",
+        )
+
+
+def _zero_delay_dependencies(
+    expression: GFExpression,
+    series_values: Mapping[str, _FormalSeries],
+    index_values: dict[int, int] | None = None,
+) -> frozenset[str]:
+    """Return named inputs that can affect the same positive-degree coefficient."""
+
+    if index_values is None:
+        index_values = {}
+    if isinstance(expression, GFSeriesCall):
+        argument_dependencies = _zero_delay_dependencies(
+            expression.argument,
+            series_values,
+            index_values,
+        )
+        if argument_dependencies:
+            raise GeneratingFunctionEvaluationError(
+                "Contractivity proof requires named-series arguments independent "
+                "of the equation-system series",
+            )
+        argument = _evaluate_series(expression.argument, index_values, series_values)
+        _require_formal_power_series(
+            argument,
+            context=f"Argument of named series {expression.name!r}",
+        )
+        if argument.coefficient(0) != 0:
+            raise GeneratingFunctionEvaluationError(
+                "Named-series composition requires an argument with constant coefficient 0",
+            )
+        if argument.is_zero or argument.valuation() > 1:
+            return frozenset()
+        return frozenset({expression.name})
+    if isinstance(expression, GFInteger | GFVariable | GFIndex | GFTotient):
+        return frozenset()
+    if isinstance(expression, GFUnary):
+        return _zero_delay_dependencies(expression.operand, series_values, index_values)
+    if isinstance(expression, GFFunction):
+        return _zero_delay_dependencies(expression.argument, series_values, index_values)
+    if isinstance(expression, GFInfiniteSum):
+        nested_values = dict(index_values)
+        nested_values[expression.index.level] = expression.lower_bound
+        return _zero_delay_dependencies(expression.summand, series_values, nested_values)
+    if isinstance(
+        expression,
+        GFRootOf | GFComplex | GFIndexedCoefficient | GFInfiniteProduct,
+    ):
+        raise GeneratingFunctionEvaluationError(
+            "Contractivity proof encountered an unsupported symbolic expression",
+        )
+
+    if expression.operator == "-" and expression.left == expression.right:
+        return frozenset()
+    if expression.operator == "^":
+        exponent = _constant_expression_value(expression.right, index_values)
+        if exponent == 0:
+            return frozenset()
+        left_dependencies = _zero_delay_dependencies(
+            expression.left,
+            series_values,
+            index_values,
+        )
+        base = _evaluate_series(expression.left, index_values, series_values)
+        _require_formal_power_series(base, context="Power base")
+        if exponent == 1 or base.coefficient(0) != 0:
+            return left_dependencies
+        if exponent.denominator == 1 and exponent > 1:
+            return frozenset()
+        raise GeneratingFunctionEvaluationError(
+            "Contractivity proof requires negative and nonintegral powers to have "
+            "a nonzero constant term",
+        )
+
+    left_dependencies = _zero_delay_dependencies(
+        expression.left,
+        series_values,
+        index_values,
+    )
+    right_dependencies = _zero_delay_dependencies(
+        expression.right,
+        series_values,
+        index_values,
+    )
+    if expression.operator in {"+", "-"}:
+        return left_dependencies | right_dependencies
+
+    left = _evaluate_series(expression.left, index_values, series_values)
+    right = _evaluate_series(expression.right, index_values, series_values)
+    _require_formal_power_series(left, context="Left arithmetic operand")
+    _require_formal_power_series(right, context="Right arithmetic operand")
+    if expression.operator == "*":
+        dependencies: frozenset[str] = frozenset()
+        if right.coefficient(0) != 0:
+            dependencies |= left_dependencies
+        if left.coefficient(0) != 0:
+            dependencies |= right_dependencies
+        return dependencies
+
+    if right.coefficient(0) == 0:
+        raise GeneratingFunctionEvaluationError(
+            "Contractivity proof requires division by a formal power series with "
+            "nonzero constant term",
+        )
+    dependencies = left_dependencies
+    if left.coefficient(0) != 0:
+        dependencies |= right_dependencies
+    return dependencies
+
+
+def _require_contractive_assignments(
+    assignments: Mapping[str, GFExpression],
+    values: Mapping[str, tuple[Fraction, ...]],
+) -> None:
+    series_values = {name: _truncated_series(coefficients) for name, coefficients in values.items()}
+    zero_delay_graph: dict[str, frozenset[str]] = {}
+    for name, expression in assignments.items():
+        result = _evaluate_series(expression, series_values=series_values)
+        _require_formal_power_series(result, context=f"Equation for named series {name!r}")
+        zero_delay_graph[name] = _zero_delay_dependencies(expression, series_values)
+
+    remaining = set(assignments)
+    while remaining:
+        removable = {name for name in remaining if not (zero_delay_graph[name] & remaining)}
+        if not removable:
+            cycle = ", ".join(sorted(remaining))
+            raise GeneratingFunctionEvaluationError(
+                "Named-series equations are not contractive: their zero-delay "
+                f"dependency graph contains a cycle through {cycle}",
+            )
+        remaining -= removable
+
+
 def _fixed_point_iteration(
     assignments: Mapping[str, GFExpression],
     initial_values: Mapping[str, tuple[Fraction, ...]],
@@ -1574,7 +1719,7 @@ def _fixed_point_coefficients(
     else:
         selected = symbol
 
-    probe_count = max(2, coefficient_count)
+    validation_count = max(2, coefficient_count)
     constants = {name: Fraction() for name in names}
     for expression in assignments.values():
         _require_supported_evaluation(
@@ -1583,23 +1728,13 @@ def _fixed_point_coefficients(
             series_constants=constants,
         )
 
-    zero = (Fraction(),) * probe_count
+    zero = (Fraction(),) * validation_count
     least = _fixed_point_iteration(
         assignments,
         {name: zero for name in names},
-        probe_count,
+        validation_count,
     )
-    positive_probe = (Fraction(),) + (Fraction(1),) * (probe_count - 1)
-    checked = _fixed_point_iteration(
-        assignments,
-        {name: positive_probe for name in names},
-        probe_count,
-    )
-    if checked != least:
-        raise GeneratingFunctionEvaluationError(
-            "Named-series equations are not contractive on zero-constant formal "
-            "series; a more general implicit-equation solver is required",
-        )
+    _require_contractive_assignments(assignments, least)
     return least[selected][:coefficient_count]
 
 
