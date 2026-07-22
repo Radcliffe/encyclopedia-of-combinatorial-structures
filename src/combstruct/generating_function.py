@@ -8,9 +8,9 @@ coefficients, two fully determined patterned ellipses, and the one-argument
 syntax. The series evaluator uses exact rational arithmetic and expands
 principal ``LambertW`` compositions at zero or recognized rational centers,
 plus indexed sums whose requested coefficients have a provable bound and
-coefficientwise-convergent named-series assignments. Unselected roots and
-complex series remain explicit evaluation boundaries; the evaluator never
-guesses a branch or truncation.
+formally nonsingular named-series equations. Unselected roots and complex
+series remain explicit evaluation boundaries; the evaluator never guesses a
+branch or truncation.
 """
 
 from __future__ import annotations
@@ -38,6 +38,10 @@ class UnsupportedGeneratingFunction(GeneratingFunctionError):
 
 class GeneratingFunctionEvaluationError(GeneratingFunctionError):
     """A parsed expression cannot be expanded as an exact formal series."""
+
+
+class _FixedPointIterationFailure(GeneratingFunctionEvaluationError):
+    """Exact fixed-point iteration did not stabilize within its proven bound."""
 
 
 @dataclass(frozen=True, slots=True)
@@ -1065,6 +1069,68 @@ def _is_x_free(expression: GFExpression) -> bool:
     return _is_x_free(expression.left) and _is_x_free(expression.right)
 
 
+@cache
+def _series_call_names(expression: GFExpression) -> frozenset[str]:
+    """Return every named formal series referenced by an expression."""
+
+    if isinstance(expression, GFSeriesCall):
+        return frozenset({expression.name}) | _series_call_names(expression.argument)
+    if isinstance(expression, GFInteger | GFVariable | GFIndex | GFTotient):
+        return frozenset()
+    if isinstance(expression, GFUnary):
+        return _series_call_names(expression.operand)
+    if isinstance(expression, GFFunction):
+        return _series_call_names(expression.argument)
+    if isinstance(expression, GFRootOf):
+        return _series_call_names(expression.equation)
+    if isinstance(expression, GFComplex):
+        return _series_call_names(expression.value)
+    if isinstance(expression, GFInfiniteSum):
+        return _series_call_names(expression.summand)
+    if isinstance(expression, GFInfiniteProduct):
+        return _series_call_names(expression.factor)
+    if isinstance(expression, GFIndexedCoefficient):
+        return frozenset()
+    return _series_call_names(expression.left) | _series_call_names(expression.right)
+
+
+def _require_series_independent_arguments(expression: GFExpression) -> None:
+    """Require every named-series composition argument to be fixed."""
+
+    if isinstance(expression, GFSeriesCall):
+        if names := _series_call_names(expression.argument):
+            formatted = ", ".join(sorted(names))
+            raise GeneratingFunctionEvaluationError(
+                "Coefficient recursion requires named-series arguments independent "
+                f"of the equation-system series; found {formatted}",
+            )
+        return
+    if isinstance(expression, GFInteger | GFVariable | GFIndex | GFTotient):
+        return
+    if isinstance(expression, GFUnary):
+        _require_series_independent_arguments(expression.operand)
+        return
+    if isinstance(expression, GFFunction):
+        _require_series_independent_arguments(expression.argument)
+        return
+    if isinstance(expression, GFRootOf):
+        _require_series_independent_arguments(expression.equation)
+        return
+    if isinstance(expression, GFComplex):
+        _require_series_independent_arguments(expression.value)
+        return
+    if isinstance(expression, GFInfiniteSum):
+        _require_series_independent_arguments(expression.summand)
+        return
+    if isinstance(expression, GFInfiniteProduct):
+        _require_series_independent_arguments(expression.factor)
+        return
+    if isinstance(expression, GFIndexedCoefficient):
+        return
+    _require_series_independent_arguments(expression.left)
+    _require_series_independent_arguments(expression.right)
+
+
 def _positive_exponent_index_factors(expression: GFExpression) -> frozenset[int] | None:
     """Return known index factors of a positive integer exponent expression."""
 
@@ -1397,6 +1463,162 @@ def _evaluate_series(
     return _divide(left, right)
 
 
+def _evaluate_series_directional(
+    expression: GFExpression,
+    index_values: dict[int, int],
+    series_values: Mapping[str, _FormalSeries],
+    series_directions: Mapping[str, _FormalSeries],
+    active_names: frozenset[str] | None = None,
+) -> tuple[_FormalSeries, _FormalSeries]:
+    """Evaluate a series and one exact formal directional derivative."""
+
+    if active_names is None:
+        active_names = frozenset(
+            name for name, direction in series_directions.items() if not direction.is_zero
+        )
+    if not (_series_call_names(expression) & active_names):
+        return (
+            _evaluate_series(expression, index_values, series_values),
+            _constant_series(0),
+        )
+
+    def evaluate(child: GFExpression) -> tuple[_FormalSeries, _FormalSeries]:
+        return _evaluate_series_directional(
+            child,
+            index_values,
+            series_values,
+            series_directions,
+            active_names,
+        )
+
+    if isinstance(expression, GFUnary):
+        value, direction = evaluate(expression.operand)
+        if expression.operator == "+":
+            return value, direction
+        return _negate(value), _negate(direction)
+    if isinstance(expression, GFFunction):
+        if expression.name == "LambertW":
+            shifted = _match_shifted_lambert_w(expression.argument, index_values)
+            if shifted is not None:
+                center, remainder = shifted
+                perturbation, perturbation_direction = evaluate(remainder)
+                value = _shifted_lambert_w(perturbation, center)
+                multiplier = _divide(value, _add(_constant_series(1), value))
+                return value, _multiply(multiplier, perturbation_direction)
+            argument, argument_direction = evaluate(expression.argument)
+            value = _lambert_w(argument)
+            denominator = _multiply(
+                _exponential(value),
+                _add(_constant_series(1), value),
+            )
+            return value, _divide(argument_direction, denominator)
+        argument, argument_direction = evaluate(expression.argument)
+        if expression.name == "exp":
+            value = _exponential(argument)
+            return value, _multiply(value, argument_direction)
+        return _logarithm(argument), _divide(argument_direction, argument)
+    if isinstance(expression, GFInfiniteSum):
+        value = _infinite_sum(expression, index_values, series_values)
+        outer_values = dict(index_values)
+        outer_scale = prod(
+            index
+            for level, index in outer_values.items()
+            if _is_index_scaled(expression.summand, level)
+        )
+        summand_directions: dict[int, _FormalSeries] = {}
+
+        def summand_direction(index: int) -> _FormalSeries:
+            if index not in summand_directions:
+                nested_values = outer_values | {expression.index.level: index}
+                _, summand_directions[index] = _evaluate_series_directional(
+                    expression.summand,
+                    nested_values,
+                    series_values,
+                    series_directions,
+                    active_names,
+                )
+            return summand_directions[index]
+
+        def direction_coefficient(degree: int) -> Fraction:
+            if degree % outer_scale:
+                return Fraction()
+            return sum(
+                (
+                    summand_direction(index).coefficient(degree)
+                    for index in _positive_divisors(degree // outer_scale)
+                    if index >= expression.lower_bound
+                ),
+                Fraction(),
+            )
+
+        return value, _FormalSeries(outer_scale, direction_coefficient)
+    if isinstance(expression, GFSeriesCall):
+        if names := _series_call_names(expression.argument):
+            formatted = ", ".join(sorted(names))
+            raise GeneratingFunctionEvaluationError(
+                "Coefficient recursion requires named-series arguments independent "
+                f"of the equation-system series; found {formatted}",
+            )
+        if expression.name not in series_values:
+            raise GeneratingFunctionEvaluationError(
+                f"Named series call {expression.name}(...) has no defining equation",
+            )
+        inner = _evaluate_series(expression.argument, index_values, series_values)
+        value = _compose(series_values[expression.name], inner)
+        direction = _compose(series_directions[expression.name], inner)
+        return value, direction
+    if isinstance(
+        expression,
+        GFInteger
+        | GFVariable
+        | GFIndex
+        | GFTotient
+        | GFRootOf
+        | GFComplex
+        | GFIndexedCoefficient
+        | GFInfiniteProduct,
+    ):
+        return (
+            _evaluate_series(expression, index_values, series_values),
+            _constant_series(0),
+        )
+    if expression.operator == "-" and expression.left == expression.right:
+        return _constant_series(0), _constant_series(0)
+    if expression.operator == "^":
+        base, base_direction = evaluate(expression.left)
+        exponent = _constant_expression_value(expression.right, index_values)
+        value = _rational_power(base, exponent)
+        if exponent == 0 or base_direction.is_zero:
+            return value, _constant_series(0)
+        multiplier = _scale(_rational_power(base, exponent - 1), exponent)
+        return value, _multiply(multiplier, base_direction)
+
+    left, left_direction = evaluate(expression.left)
+    right, right_direction = evaluate(expression.right)
+    if expression.operator == "+":
+        return _add(left, right), _add(left_direction, right_direction)
+    if expression.operator == "-":
+        return (
+            _add(left, right, right_sign=-1),
+            _add(left_direction, right_direction, right_sign=-1),
+        )
+    if expression.operator == "*":
+        return (
+            _multiply(left, right),
+            _add(
+                _multiply(left_direction, right),
+                _multiply(left, right_direction),
+            ),
+        )
+    value = _divide(left, right)
+    numerator_direction = _add(
+        _multiply(left_direction, right),
+        _multiply(left, right_direction),
+        right_sign=-1,
+    )
+    return value, _divide(numerator_direction, _integer_power(right, 2))
+
+
 def _require_supported_evaluation(
     expression: GFExpression,
     bound_indices: frozenset[int] = frozenset(),
@@ -1510,6 +1732,15 @@ def _truncated_series(coefficients: tuple[Fraction, ...]) -> _FormalSeries:
     )
 
 
+def _monomial_series(degree: int, coefficient: Fraction = Fraction(1)) -> _FormalSeries:
+    if coefficient == 0:
+        return _constant_series(0)
+    return _FormalSeries(
+        degree,
+        lambda requested: coefficient if requested == degree else Fraction(),
+    )
+
+
 def _assignment_expressions(
     equations: GFEquation | GFEquationSystem,
 ) -> dict[str, GFExpression]:
@@ -1527,6 +1758,53 @@ def _assignment_expressions(
                 f"Named series {left.name!r} has more than one defining equation",
             )
         assignments[left.name] = equation.right
+    return assignments
+
+
+def _coefficient_assignment_expressions(
+    equations: GFEquation | GFEquationSystem,
+) -> dict[str, GFExpression]:
+    """Return assignments, normalizing square implicit systems by their residuals."""
+
+    members = equations.equations if isinstance(equations, GFEquationSystem) else (equations,)
+    valid_left_sides = tuple(
+        isinstance(equation.left, GFSeriesCall) and equation.left.argument == GFVariable()
+        for equation in members
+    )
+    if all(valid_left_sides):
+        return _assignment_expressions(equations)
+    if any(isinstance(equation.left, GFSeriesCall) for equation in members):
+        raise GeneratingFunctionEvaluationError(
+            "Fixed-point equation solving requires each named-series left side "
+            "to be evaluated at x",
+        )
+
+    names = sorted(
+        set().union(
+            *(
+                _series_call_names(equation.left) | _series_call_names(equation.right)
+                for equation in members
+            ),
+        ),
+    )
+    if not names:
+        for equation in members:
+            _require_supported_evaluation(equation.left)
+            _require_supported_evaluation(equation.right)
+    if len(names) != len(members):
+        raise GeneratingFunctionEvaluationError(
+            "Implicit coefficient solving requires a square system with one equation "
+            "per named series",
+        )
+
+    assignments: dict[str, GFExpression] = {}
+    for name, equation in zip(names, members, strict=True):
+        residual = GFBinary("-", equation.left, equation.right)
+        assignments[name] = GFBinary(
+            "-",
+            GFSeriesCall(name, GFVariable()),
+            residual,
+        )
     return assignments
 
 
@@ -1578,6 +1856,11 @@ def _zero_delay_dependencies(
     if isinstance(expression, GFUnary):
         return _zero_delay_dependencies(expression.operand, series_values, index_values)
     if isinstance(expression, GFFunction):
+        if expression.name == "LambertW":
+            shifted = _match_shifted_lambert_w(expression.argument, index_values)
+            if shifted is not None:
+                _, remainder = shifted
+                return _zero_delay_dependencies(remainder, series_values, index_values)
         return _zero_delay_dependencies(expression.argument, series_values, index_values)
     if isinstance(expression, GFInfiniteSum):
         nested_values = dict(index_values)
@@ -1672,6 +1955,153 @@ def _require_contractive_assignments(
         remaining -= removable
 
 
+def _require_coefficient_recursive_assignments(
+    assignments: Mapping[str, GFExpression],
+    values: Mapping[str, tuple[Fraction, ...]],
+) -> None:
+    """Prove the formal-series conditions needed for affine coefficient solving."""
+
+    series_values = {name: _truncated_series(coefficients) for name, coefficients in values.items()}
+    for name, expression in assignments.items():
+        _require_series_independent_arguments(expression)
+        result = _evaluate_series(expression, series_values=series_values)
+        _require_formal_power_series(result, context=f"Equation for named series {name!r}")
+        _zero_delay_dependencies(expression, series_values)
+
+
+def _assignment_coefficients(
+    assignments: Mapping[str, GFExpression],
+    values: Mapping[str, tuple[Fraction, ...]],
+    degree: int,
+) -> dict[str, Fraction]:
+    series_values = {name: _truncated_series(coefficients) for name, coefficients in values.items()}
+    return {
+        name: _evaluate_series(expression, series_values=series_values).coefficient(degree)
+        for name, expression in assignments.items()
+    }
+
+
+def _assignment_directional_coefficients(
+    assignments: Mapping[str, GFExpression],
+    values: Mapping[str, tuple[Fraction, ...]],
+    input_name: str,
+    degree: int,
+) -> dict[str, Fraction]:
+    series_values = {name: _truncated_series(coefficients) for name, coefficients in values.items()}
+    series_directions = {
+        name: _monomial_series(degree) if name == input_name else _constant_series(0)
+        for name in assignments
+    }
+    derivatives: dict[str, Fraction] = {}
+    for output_name, expression in assignments.items():
+        _, direction = _evaluate_series_directional(
+            expression,
+            {},
+            series_values,
+            series_directions,
+        )
+        derivatives[output_name] = direction.coefficient(degree)
+    return derivatives
+
+
+def _solve_linear_system(
+    matrix: list[list[Fraction]],
+    right_hand_side: list[Fraction],
+    *,
+    degree: int,
+) -> tuple[Fraction, ...]:
+    size = len(matrix)
+    augmented = [[*row, right_hand_side[index]] for index, row in enumerate(matrix)]
+    for column in range(size):
+        pivot = next(
+            (row for row in range(column, size) if augmented[row][column] != 0),
+            None,
+        )
+        if pivot is None:
+            raise GeneratingFunctionEvaluationError(
+                "Named-series coefficient equations are singular at degree "
+                f"{degree}; the selected formal-series branch is not unique",
+            )
+        augmented[column], augmented[pivot] = augmented[pivot], augmented[column]
+        pivot_value = augmented[column][column]
+        augmented[column] = [value / pivot_value for value in augmented[column]]
+        for row in range(size):
+            if row == column or augmented[row][column] == 0:
+                continue
+            multiplier = augmented[row][column]
+            augmented[row] = [
+                value - multiplier * pivot_entry
+                for value, pivot_entry in zip(
+                    augmented[row],
+                    augmented[column],
+                    strict=True,
+                )
+            ]
+    return tuple(row[-1] for row in augmented)
+
+
+def _coefficient_recursive_values(
+    assignments: Mapping[str, GFExpression],
+    coefficient_count: int,
+) -> dict[str, tuple[Fraction, ...]]:
+    """Solve a formally affine implicit system one exact coefficient at a time.
+
+    Once lower coefficients are fixed, degree ``n`` of every supported analytic
+    series operation is affine in the unknown degree-``n`` inputs: a product of
+    two such perturbations starts in degree ``2*n``, and named-series
+    composition arguments are required to be independent of the unknowns.
+    Formal directional differentiation therefore obtains the exact Jacobian,
+    rather than inferring it from sampled values.
+    """
+
+    names = tuple(assignments)
+    zero_constant = (Fraction(),)
+    constant_values = _fixed_point_iteration(
+        assignments,
+        {name: zero_constant for name in names},
+        1,
+    )
+    _require_coefficient_recursive_assignments(assignments, constant_values)
+    values = {name: list(constant_values[name]) for name in names}
+
+    for degree in range(1, coefficient_count):
+        base_values = {name: (*coefficients, Fraction()) for name, coefficients in values.items()}
+        base = _assignment_coefficients(assignments, base_values, degree)
+        derivatives = {
+            input_name: _assignment_directional_coefficients(
+                assignments,
+                base_values,
+                input_name,
+                degree,
+            )
+            for input_name in names
+        }
+        matrix = [
+            [
+                Fraction(row == column) - derivatives[input_name][output_name]
+                for column, input_name in enumerate(names)
+            ]
+            for row, output_name in enumerate(names)
+        ]
+        solution = _solve_linear_system(
+            matrix,
+            [base[name] for name in names],
+            degree=degree,
+        )
+        solved_values = {
+            name: (*base_values[name][:-1], solution[index]) for index, name in enumerate(names)
+        }
+        solved = _assignment_coefficients(assignments, solved_values, degree)
+        if any(solved[name] != solution[index] for index, name in enumerate(names)):
+            raise GeneratingFunctionEvaluationError(
+                f"Named-series coefficient solution failed verification at degree {degree}",
+            )
+        for index, name in enumerate(names):
+            values[name].append(solution[index])
+
+    return {name: tuple(coefficients) for name, coefficients in values.items()}
+
+
 def _fixed_point_iteration(
     assignments: Mapping[str, GFExpression],
     initial_values: Mapping[str, tuple[Fraction, ...]],
@@ -1693,7 +2123,7 @@ def _fixed_point_iteration(
         if updated == values:
             return updated
         values = updated
-    raise GeneratingFunctionEvaluationError(
+    raise _FixedPointIterationFailure(
         "Named-series equations did not stabilize under exact fixed-point iteration; "
         "same-degree feedback requires a more general implicit-equation solver",
     )
@@ -1704,7 +2134,7 @@ def _fixed_point_coefficients(
     coefficient_count: int,
     symbol: str | None,
 ) -> tuple[Fraction, ...]:
-    assignments = _assignment_expressions(equations)
+    assignments = _coefficient_assignment_expressions(equations)
     names = frozenset(assignments)
     if symbol is None:
         if len(assignments) != 1:
@@ -1729,13 +2159,24 @@ def _fixed_point_coefficients(
         )
 
     zero = (Fraction(),) * validation_count
-    least = _fixed_point_iteration(
-        assignments,
-        {name: zero for name in names},
-        validation_count,
-    )
-    _require_contractive_assignments(assignments, least)
-    return least[selected][:coefficient_count]
+    try:
+        least = _fixed_point_iteration(
+            assignments,
+            {name: zero for name in names},
+            validation_count,
+        )
+    except _FixedPointIterationFailure:
+        pass
+    else:
+        try:
+            _require_contractive_assignments(assignments, least)
+        except GeneratingFunctionEvaluationError:
+            pass
+        else:
+            return least[selected][:coefficient_count]
+
+    solved = _coefficient_recursive_values(assignments, validation_count)
+    return solved[selected][:coefficient_count]
 
 
 def generating_function_coefficients(
@@ -1748,10 +2189,12 @@ def generating_function_coefficients(
 
     ``source`` may be either stored ECS text or a result returned by
     :func:`parse_generating_function`. Contractive named-series assignments are
-    solved by exact fixed-point iteration; ``symbol`` selects the returned
-    member of an equation system. The coefficients are the raw formal series
-    coefficients. Callers interpreting an exponential generating function must
-    multiply coefficient ``n`` by ``n!`` to obtain its counting term.
+    solved by exact fixed-point iteration; other square implicit systems use
+    exact formal directional derivatives and a nonsingular coefficient system.
+    ``symbol`` selects the returned member of an equation system. The
+    coefficients are the raw formal series coefficients. Callers interpreting
+    an exponential generating function must multiply coefficient ``n`` by
+    ``n!`` to obtain its counting term.
     """
 
     if isinstance(coefficient_count, bool) or not isinstance(coefficient_count, int):

@@ -44,20 +44,20 @@ class OeisReportTests(unittest.TestCase):
         self.assertIsInstance(structures["1"], Structure)
         self.assertEqual(structures["1"].terms[:4], (0, 1, 0, 0))
 
-    def test_missing_gf_matches_historical_web_report(self):
+    def test_missing_gf_matches_current_web_report(self):
         output = io.StringIO()
         with redirect_stdout(output):
             missing = missing_gf(WEB_DATA)
 
-        self.assertEqual(len(missing), 58)
+        self.assertEqual(len(missing), 47)
         self.assertEqual(
             missing[:5],
             [
-                (1, "A000598"),
-                (43, "A001190"),
-                (44, "A000669"),
-                (45, "A001190"),
-                (56, "A004111"),
+                (123, "A000107"),
+                (144, "A001372"),
+                (167, "A007563"),
+                (385, "A000106"),
+                (387, "A000151"),
             ],
         )
         self.assertEqual(missing[-1], (869, "A052893"))

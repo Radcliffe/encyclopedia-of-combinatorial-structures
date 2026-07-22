@@ -31,5 +31,5 @@
     "references": [
         "EIS A052523"
     ],
-    "gf": "S(x) = (1/2)*(x - ln(1-S(x)) - (S(x))^2/2)"
+    "gf": "S(x) = (1/2)*(x - Sum(numtheory:-phi(j[1])*ln(1-S(x^j[1]))/j[1],j[1]=1..infinity) - (S(x)^2+S(x^2))/2)"
 }

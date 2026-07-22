@@ -388,6 +388,28 @@ class CatalogTests(unittest.TestCase):
         with self.assertRaises(FrozenInstanceError):
             structure.name = "changed"
 
+    def test_ecs_79_matches_oeis_counted_class(self):
+        structure = Catalog().get(79)
+
+        self.assertEqual(structure.symbol, "B")
+        self.assertEqual(structure.terms[:8], (0, 1, 1, 2, 5, 12, 36, 104))
+        self.assertEqual(
+            compute_terms(
+                structure.specification,
+                labelled=structure.labeled,
+                term_count=len(structure.terms),
+                symbol=structure.symbol,
+            ),
+            list(structure.terms),
+        )
+        self.assertEqual(
+            generating_function_coefficients(
+                structure.generating_function,
+                len(structure.terms),
+            ),
+            tuple(Fraction(term) for term in structure.terms),
+        )
+
     def test_optional_symbolic_fields_use_none(self):
         structure = get_structure(123)
 

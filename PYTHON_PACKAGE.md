@@ -337,14 +337,17 @@ branch point `c=-1` and centers below it are rejected rather than assigned an
 ambiguous or singular expansion. All 19 parsed catalogue `LambertW` fields meet
 the zero-centered or recognized-shift contract.
 
-Named-series assignments are also expanded when exact simultaneous fixed-point
-iteration stabilizes every requested coefficient. The solver selects the
-combinatorial branch reached from zero series, then proves contraction by
-requiring the graph of same-coefficient dependencies to be acyclic. Thus every
-recursive cycle must introduce a positive degree delay; agreement between a few
-starting values is not used as a proof. Equation results are rejected if they
-contain negative powers. Named-series composition requires a zero-constant
-argument. Pass `symbol` to choose the result from an equation system:
+Named-series equations are also expanded exactly. Contractive assignments use
+simultaneous fixed-point iteration from zero series, followed by a structural
+proof that the graph of same-coefficient dependencies is acyclic. When that
+graph has a cycle, the solver instead differentiates the formal-series
+operations symbolically in each degree, forms the exact coefficient Jacobian,
+and solves the resulting rational linear system. This coefficient-recursive
+path accepts assignments and square implicit systems only when each Jacobian is
+nonsingular and every named-series composition argument is independent of the
+unknown series. Agreement between sampled starting values is never used as a
+proof. Equation results containing negative powers are rejected. Pass `symbol`
+to choose the result from an equation system:
 
 ```python
 coefficients = generating_function_coefficients(
@@ -356,20 +359,30 @@ assert coefficients == (0, 1, 1, 1, 2, 3, 6, 11, 23, 46)
 ```
 
 This solves ECS 1, 43, 45, 56, and 57, plus all three assignments in ECS 118;
-`symbol="S"` selects the catalogue series from that system. ECS 79 and 91 have
-same-degree feedback, ECS 89 is not an assignment, ECS 44 needs a symbolic
-product solver, and ECS 95 fails the finite-sum condition at its implied
-constant term. These cases raise `GeneratingFunctionEvaluationError` instead
-of returning an unproved branch.
+`symbol="S"` selects the catalogue series from that system. Exact coefficient
+recursion additionally solves the same-degree equations in ECS 79 and 91 and
+the non-assignment implicit equation in ECS 89. ECS 44 still needs a symbolic
+product solver, while ECS 95 fails the finite-sum condition at its implied
+constant term; both raise `GeneratingFunctionEvaluationError`.
+
+ECS 79 follows OEIS A032203's offset and designates `B = S + Z` as the counted
+class. Its term list has a degree-zero sentinel followed by the OEIS values
+beginning `1, 1, 2, 5, ...` at degrees one through four. The equation
+`B(x) = x/2 - (1/2)*Sum_{j=1..inf} phi(j)/j*log(1-B(x^j))` describes that class;
+the cycle subclass alone is `S = B - Z` and has no degree-one object. ECS 91
+uses the complete unlabelled-cycle Pólya sum and subtracts both the length-one
+and length-two cycle contributions. The corrected equations reproduce all 21
+stored OGF terms for each record; ECS 89 likewise reproduces all of its stored
+EGF terms.
 
 The catalogue currently has 1,028 nonempty `gf` fields, and the parser accepts
 all of them: all 913 finite elementary expressions, all 19 `LambertW`
-expressions, all 39
-unselected `RootOf` expressions, all 45 Maple-form indexed infinite-sum
-expressions, and the one `Complex` expression, plus the alternate indexed sums
-in ECS 79 and 95 and the positive and alternating patterned ellipses in ECS 56
-and 57, the symbolic product and indexed coefficients in ECS 44, for ten
-individual implicit equations total, plus the three-equation system in ECS 118.
+expressions, all 39 unselected `RootOf` expressions, all 47 records containing
+Maple-form indexed infinite sums, and the one `Complex` expression. Supported
+features also include the alternate indexed sums in ECS 79 and 95, the positive
+and alternating patterned ellipses in ECS 56 and 57, the symbolic product and
+indexed coefficients in ECS 44, ten individual implicit equations, and the
+three-equation system in ECS 118; these syntactic categories can overlap.
 Arbitrary unrecognized ellipses and other valid forms outside the supported
 grammar raise `UnsupportedGeneratingFunction`; malformed input raises
 `GeneratingFunctionError`.
@@ -387,7 +400,7 @@ Indexed infinite sums are expanded when the evaluator can prove that the
 summand has constant coefficient zero and every occurrence of `_x` is scaled by
 the bound index. A coefficient of degree `n` can then receive contributions only
 from positive divisors of `n` at or above the stored lower bound, giving an exact
-finite computation even for the catalogue's nested sums. All 45 exactly
+finite computation even for the catalogue's nested sums. All 47 exactly
 evaluable catalogue indexed-sum records meet this contract. An arbitrary sum
 for which either condition cannot be proved raises
 `GeneratingFunctionEvaluationError` instead of being silently truncated.
@@ -399,19 +412,19 @@ see the official [`Complex` constructor documentation](https://www.maplesoft.com
 
 The evaluator deliberately returns coefficients rather than silently deciding
 whether an expression is an OGF or EGF. Exhaustive tests compare every stored
-term for 983 exactly evaluable records under both interpretations: 554
-unlabelled records match as OGFs and 429 labelled records match as EGFs, with no
-ambiguous or inconsistent record in this subset. ECS 265, cited in
+term for all 986 exactly evaluable records under both interpretations: 556
+unlabelled records match as OGFs and 430 labelled records match as EGFs, with no
+ambiguous or inconsistent result. ECS 265, cited in
 [archived ECS issue #2](https://github.com/Radcliffe/encyclopedia-of-combinatorial-structures/blob/main/docs/codeberg-archive.md#issue-2-distinguish-between-ordinary-and-exponential-generating-functions),
 does match EGF semantics: its raw coefficients begin `1, 6, 21, 56`, and
 multiplication by `n!` gives the stored terms `1, 6, 42, 336`. ECS 69 uses the
 shifted center `c=-1/2`; its exact coefficients reproduce all 21 stored EGF
-terms. The 45 fields still requiring separate exact verification are the 39
-unselected `RootOf` fields, the one complex expression, and the five stronger
-equations in ECS 44, 79, 89, 91, and 95. Their symbolic products, indexed
-coefficients, or unsupported feedback forms remain explicit syntax trees;
-coefficient expansion raises `GeneratingFunctionEvaluationError` rather than
-inventing missing branch semantics.
+terms. The 42 non-evaluable fields are the 39 unselected `RootOf` fields, the
+one complex expression, and the two stronger equations in ECS 44 and 95. Their
+symbolic products, indexed coefficients, or unsupported aggregate forms remain
+explicit syntax trees; coefficient expansion raises
+`GeneratingFunctionEvaluationError` rather than inventing missing branch
+semantics.
 
 ## Using the ECS catalogue
 
@@ -496,7 +509,8 @@ The packaging and first maintenance-tool adoption foundations are now in place:
   one-argument `Complex` forms, with exact coefficient evaluation for elementary
   expressions, principal `LambertW` compositions at zero or recognized rational
   centers, coefficientwise-finite indexed sums, five contractive individual
-  named-series equations, and the three-series system in ECS 118;
+  named-series equations, the three-series system in ECS 118, and three
+  coefficient-recursive equations;
 - read-only `python-tools` consumers use the public package, while source-data
   serializers and mutators retain their stricter raw-JSON boundary;
 - source and installed-wheel tests cover Python 3.12, 3.13, and 3.14; and

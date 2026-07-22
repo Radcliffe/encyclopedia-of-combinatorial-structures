@@ -4,10 +4,10 @@
     "description": "Number of series-reduced planted compound windmills with n leaves",
     "specification": "{B = Union(S,Z), S = Cycle(B,2 <= card)}",
     "labeled": false,
-    "symbol": "S",
+    "symbol": "B",
     "terms": [
         0,
-        0,
+        1,
         1,
         2,
         5,
@@ -31,5 +31,5 @@
     "references": [
         "EIS A032203"
     ],
-    "gf": "S(x) = x/2 - (1/2)*Sum_{j=1..inf} phi(j)/j * log(1 - x^j - S(x^j))"
+    "gf": "B(x) = x/2 - (1/2)*Sum_{j=1..inf} phi(j)/j * log(1 - B(x^j))"
 }

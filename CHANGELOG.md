@@ -26,13 +26,14 @@ or date section and leave this section in place for subsequent work.
   remain explicit, named series calls remain explicit, recognized ellipses
   normalize to infinite sums, and `Complex(x)` retains its purely imaginary
   meaning.
-- Added dependency-free exact coefficient expansion for 983 parsed generating
+- Added dependency-free exact coefficient expansion for 986 parsed generating
   functions, including rational powers, removable singularities, principal
-  `LambertW` compositions at zero and recognized rational centers, and all 45
+  `LambertW` compositions at zero and recognized rational centers, and all 47
   coefficientwise-finite indexed sums, plus exact fixed-point solving for five
-  contractive named-series equations and the three-series system in ECS 118;
-  catalogue tests verify 554 OGFs and 429 EGFs against every stored term. The 39
-  unselected `RootOf` expressions, one complex expression, and five equations
+  contractive named-series equations and the three-series system in ECS 118,
+  and exact coefficient-recursive solving for ECS 79, 89, and 91. Catalogue
+  tests verify 556 OGFs and 430 EGFs against every stored term. The 39
+  unselected `RootOf` expressions, one complex expression, and two equations
   requiring stronger solvers remain explicit exact-evaluation boundaries.
 - Added finite generating-function derivation for 888 specifications, including
   labelled constructor rules, bounded unlabelled cycle-index substitutions, and
@@ -68,6 +69,14 @@ or date section and leave this section in place for subsequent work.
 - Corrected indexed-sum coefficient bounds when an index occurs in a power's
   exponent, and recognized constant-minus perturbations in shifted principal
   `LambertW` expressions.
+- Corrected the canonical generating-function equations for ECS 79 and 91.
+  ECS 79 now designates `B = S + Z` as the counted class and includes its
+  size-one object, agreeing with OEIS A032203's offset and terms. ECS 91 now
+  includes the full unlabelled-cycle Pólya sum and removes both length-one and
+  length-two cycles. Both equations reproduce all 21 stored OGF terms.
+- Regenerated the consolidated web catalogue with all canonical implicit
+  generating-function fields and regenerated ECS 79's b-file for its corrected
+  counted class.
 
 ## 0.1.0a0 - 2026-07-22
 
