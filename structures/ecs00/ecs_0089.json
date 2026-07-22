@@ -30,5 +30,6 @@
     ],
     "references": [
         "EIS A032188"
-    ]
+    ],
+    "gf": "log(1-A(x))+2*A(x)-x = 0"
 }

@@ -1,10 +1,15 @@
 import json
 import csv
 
+from combine_json_files import decode_from_web
+
 def load_ecs_data():
     with open('../react-app/public/ecs.json') as fil:
         ecs_data = json.load(fil)
-        return ecs_data
+        return {
+            key: decode_from_web(structure)
+            for key, structure in ecs_data.items()
+        }
 
 def load_oeis_names():
     with open('oeis-names.txt', 'r') as fil:

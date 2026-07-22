@@ -19,6 +19,11 @@ def convert_data_to_maple_code(data):
     code = f"spec := [{symbol}, {spec}{labeled}]: seq(combstruct[count](spec, size = n), n = 0 ..{max_size});\n"
     return code
 
+def convert_gf_to_maple_code(data):
+    spec = data["specification"]
+    labeled = "labeled" if data["labeled"] else "unlabeled"
+    code = f"lprint(rhs(gfsolve({spec}, {labeled}, z)[1]))"
+    return code
 
 def write_maple_scripts():
     with open("maple_script.txt", "w") as out:

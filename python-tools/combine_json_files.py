@@ -1,5 +1,12 @@
 import json
 import os
+from pathlib import Path
+
+
+SCRIPT_DIR = Path(__file__).resolve().parent
+PROJECT_DIR = SCRIPT_DIR.parent
+STRUCTURES_DIR = PROJECT_DIR / 'structures'
+WEB_DATA_PATH = PROJECT_DIR / 'react-app' / 'public' / 'ecs.json'
 
 # ## Example file:
 # {
@@ -90,9 +97,28 @@ def validate_json(struct):
         raise ValueError("Equiv must be a non-empty string")
 
 
+def encode_for_web(struct):
+    """Return a web-safe record without changing the canonical record.
+
+    JSON numbers are parsed as IEEE-754 doubles in browsers, so sequence terms
+    outside JavaScript's safe-integer range must be serialized as strings.
+    """
+    encoded = struct.copy()
+    encoded['terms'] = [str(term) for term in struct['terms']]
+    return encoded
+
+
+def decode_from_web(struct):
+    """Return a canonical record with sequence terms restored to integers."""
+    decoded = struct.copy()
+    decoded['terms'] = [int(term) for term in struct['terms']]
+    return decoded
+
+
 def main():
     obj = {}
-    for dirpath, dirnames, filenames in sorted(os.walk('../structures')):
+    web_obj = {}
+    for dirpath, dirnames, filenames in sorted(os.walk(STRUCTURES_DIR)):
         for filename in sorted(filenames):
             fullpath = os.path.join(dirpath, filename)
             print(fullpath)
@@ -100,8 +126,10 @@ def main():
             validate_json(struct)
             key = str(struct['id'])
             obj[key] = struct
-    with open('ecs-new.json', 'w', encoding='utf-8') as f:
-        json.dump(obj, f, indent=2)
+            web_obj[key] = encode_for_web(struct)
+    with open(WEB_DATA_PATH, 'w', encoding='utf-8') as f:
+        json.dump(web_obj, f, indent=2)
+        f.write('\n')
     convert_to_spreadsheet(obj)
 
 

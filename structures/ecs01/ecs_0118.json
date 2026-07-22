@@ -30,5 +30,6 @@
     ],
     "references": [
         "EIS A002861"
-    ]
+    ],
+    "gf": "B(x) = C(x)*x, C(x) = exp(Sum(B(x^j[1])/j[1],j[1] = 1 .. infinity)), S(x) = Sum(numtheory:-phi(j[2])/j[2]*ln(1/(1-B(x^j[2]))),j[2] = 1 .. infinity)"
 }

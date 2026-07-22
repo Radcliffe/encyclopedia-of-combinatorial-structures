@@ -1,12 +1,15 @@
 import json
 
+from combine_json_files import decode_from_web
+
 def load_ecs_data():
     with open('../react-app/public/ecs.json') as fil:
         ecs_data = json.load(fil)
         return ecs_data
 
 def write_structure_file(structure: dict):
-    filename = f'../structures/ecs_{structure['id']:04d}.json'
+    structure = decode_from_web(structure)
+    filename = f"../structures/ecs_{structure['id']:04d}.json"
     with open(filename, 'w', newline='\n') as fil:
         json.dump(structure, fil, indent=4)
 

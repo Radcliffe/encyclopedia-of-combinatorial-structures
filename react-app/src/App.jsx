@@ -13,6 +13,13 @@ const CodeUrl = "https://codeberg.org/ECS/encyclopedia-of-combinatorial-structur
 
 const prettyNumber = (n) => n.toLocaleString();
 
+function parseSequenceTerm(term) {
+  if (typeof term === "number" && !Number.isSafeInteger(term)) {
+    throw new TypeError("Sequence terms must be encoded as decimal strings when they exceed JavaScript's safe-integer range");
+  }
+  return BigInt(term);
+}
+
 function normalize(s) {
   return (s ?? "")
     .toString()
@@ -134,7 +141,7 @@ export default function App() {
       specification: rec.specification ?? "",
       labeled: Boolean(rec.labeled),
       symbol: rec.symbol ?? "",
-      terms: Array.isArray(rec.terms) ? rec.terms.map((term) => BigInt(term)) : [],
+      terms: Array.isArray(rec.terms) ? rec.terms.map(parseSequenceTerm) : [],
       generating_function: rec.gf ?? "",
       closed_form: rec.closedform ?? "",
       references: Array.isArray(rec.references) ? rec.references : [],

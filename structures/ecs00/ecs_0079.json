@@ -30,5 +30,6 @@
     ],
     "references": [
         "EIS A032203"
-    ]
+    ],
+    "gf": "S(x) = x/2 - (1/2)*Sum_{j=1..inf} phi(j)/j * log(1 - x^j - S(x^j))"
 }

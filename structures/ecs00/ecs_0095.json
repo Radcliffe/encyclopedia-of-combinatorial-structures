@@ -30,5 +30,6 @@
     ],
     "references": [
         "EIS A052525"
-    ]
+    ],
+    "gf": "S(x) = exp(Sum_{j>2} (x^j + S(x^j))/j)"
 }
