@@ -22,6 +22,8 @@ from .generating_function import (
     GFExpression,
     GFFunction,
     GFIndex,
+    GFIndexedCoefficient,
+    GFInfiniteProduct,
     GFInfiniteSum,
     GFInteger,
     GFRootOf,
@@ -120,7 +122,7 @@ def _substitute_variable(expression: GFExpression, exponent: int) -> GFExpressio
 
     if isinstance(expression, GFInteger):
         return expression
-    if isinstance(expression, (GFIndex, GFTotient)):
+    if isinstance(expression, (GFIndex, GFIndexedCoefficient, GFTotient)):
         return expression
     if isinstance(expression, GFVariable):
         return expression if expression.name == "_Z" else _power(expression, exponent)
@@ -146,6 +148,12 @@ def _substitute_variable(expression: GFExpression, exponent: int) -> GFExpressio
     if isinstance(expression, GFInfiniteSum):
         return GFInfiniteSum(
             _substitute_variable(expression.summand, exponent),
+            expression.index,
+            expression.lower_bound,
+        )
+    if isinstance(expression, GFInfiniteProduct):
+        return GFInfiniteProduct(
+            _substitute_variable(expression.factor, exponent),
             expression.index,
             expression.lower_bound,
         )

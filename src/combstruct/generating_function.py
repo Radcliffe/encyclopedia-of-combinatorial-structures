@@ -1,14 +1,13 @@
-"""Parse and expand finite ECS generating functions exactly.
+"""Parse ECS generating functions and expand supported forms exactly.
 
-The parser recognizes the finite elementary grammar, principal ``LambertW``
-calls, unselected ``RootOf`` equations, both indexed infinite-sum notations, the
-two fully determined patterned ellipses, and the one-argument ``Complex``
-constructor used by stored ECS generating functions, plus a bounded
-implicit-equation and equation-system grammar. The remaining heterogeneous
-field is rejected clearly for a later parser milestone. The series evaluator
-uses exact rational arithmetic and expands principal ``LambertW`` compositions
-at zero or recognized rational centers, plus indexed sums whose requested
-coefficients have a provable bound.
+The parser recognizes every stored ECS generating-function field: the finite
+elementary grammar, principal ``LambertW`` calls, unselected ``RootOf``
+equations, indexed infinite sums, the symbolic infinite product and indexed
+coefficients, two fully determined patterned ellipses, and the one-argument
+``Complex`` constructor, plus bounded implicit-equation and equation-system
+syntax. The series evaluator uses exact rational arithmetic and expands
+principal ``LambertW`` compositions at zero or recognized rational centers,
+plus indexed sums whose requested coefficients have a provable bound.
 Unselected roots and complex series remain explicit evaluation boundaries; the
 evaluator never guesses a branch or truncation.
 """
@@ -103,7 +102,7 @@ class GFComplex:
 
 @dataclass(frozen=True, slots=True)
 class GFIndex:
-    """A summation variable such as ``j[1]`` or normalized unindexed ``j``."""
+    """A normalized bound variable represented as ``j[level]``."""
 
     level: int
 
@@ -116,10 +115,27 @@ class GFTotient:
 
 
 @dataclass(frozen=True, slots=True)
+class GFIndexedCoefficient:
+    """A symbolic indexed coefficient such as ``a_k``."""
+
+    name: str
+    index: GFIndex
+
+
+@dataclass(frozen=True, slots=True)
 class GFInfiniteSum:
     """A sum over one indexed variable from a positive bound through infinity."""
 
     summand: GFExpression
+    index: GFIndex
+    lower_bound: int = 1
+
+
+@dataclass(frozen=True, slots=True)
+class GFInfiniteProduct:
+    """A product over one indexed variable from a positive bound through infinity."""
+
+    factor: GFExpression
     index: GFIndex
     lower_bound: int = 1
 
@@ -150,7 +166,9 @@ type GFExpression = (
     | GFComplex
     | GFIndex
     | GFTotient
+    | GFIndexedCoefficient
     | GFInfiniteSum
+    | GFInfiniteProduct
 )
 type GFParseResult = GFExpression | GFEquation | GFEquationSystem
 
@@ -200,7 +218,18 @@ class GeneratingFunctionParser:
         self.tokens = self._tokenize(source)
         self.position = 0
         self.root_depth = 0
-        self.unindexed_sum_depth = 0
+        self.explicit_index_ceiling = max(
+            (
+                int(self.tokens[position + 2])
+                for position in range(len(self.tokens) - 3)
+                if self.tokens[position] == "j"
+                and self.tokens[position + 1] == "["
+                and self.tokens[position + 2].isdigit()
+                and self.tokens[position + 3] == "]"
+            ),
+            default=0,
+        )
+        self.unindexed_bindings: list[tuple[str, GFIndex]] = []
 
     @staticmethod
     def _tokenize(source: str) -> list[str]:
@@ -240,6 +269,8 @@ class GeneratingFunctionParser:
                     raise self._error("An equation system must contain equations")
                 equations.append(equation)
             result = GFEquationSystem(tuple(equations))
+        if self._peek() == "." and self.position == len(self.tokens) - 1:
+            self.position += 1
         if self.position != len(self.tokens):
             raise self._error(f"Unexpected token {self._peek()!r} after expression")
         if isinstance(result, GFEquationSystem):
@@ -285,7 +316,7 @@ class GeneratingFunctionParser:
                 raise self._error("Root variable '_Z' is only valid inside RootOf")
             return GFVariable("_Z")
         if token == "j":
-            return self._parse_index_reference()
+            return self._parse_index_reference("j")
         if token in {"+", "-"}:
             return GFUnary(
                 cast(UnaryOperator, token),
@@ -322,13 +353,13 @@ class GeneratingFunctionParser:
         if token == "numtheory:-phi":
             self._expect("(")
             self._expect("j")
-            index = self._parse_index_reference()
+            index = self._parse_index_reference("j")
             self._expect(")")
             return GFTotient(index)
         if token == "phi":
             self._expect("(")
             self._expect("j")
-            index = self._parse_index_reference()
+            index = self._parse_index_reference("j")
             self._expect(")")
             return GFTotient(index)
         if token == "Sum":
@@ -345,8 +376,19 @@ class GeneratingFunctionParser:
             self._expect(")")
             return GFInfiniteSum(summand, index)
         if token == "Sum_":
-            return self._parse_alternate_sum()
+            return self._parse_alternate_aggregate("Sum")
+        if token == "Product_":
+            return self._parse_alternate_aggregate("Product")
         if IDENTIFIER_RE.fullmatch(token):
+            if active_index := self._active_unindexed_index(token):
+                return active_index
+            coefficient_name, separator, index_name = token.rpartition("_")
+            if (
+                separator
+                and coefficient_name
+                and (coefficient_index := self._active_unindexed_index(index_name))
+            ):
+                return GFIndexedCoefficient(coefficient_name, coefficient_index)
             if self._peek() == "(":
                 self.position += 1
                 argument = self._parse_expression()
@@ -365,24 +407,37 @@ class GeneratingFunctionParser:
         self._expect("]")
         return GFIndex(int(token))
 
-    def _parse_index_reference(self) -> GFIndex:
+    def _active_unindexed_index(self, name: str) -> GFIndex | None:
+        for bound_name, index in reversed(self.unindexed_bindings):
+            if bound_name == name:
+                return index
+        return None
+
+    def _parse_index_reference(self, name: str) -> GFIndex:
         if self._peek() == "[":
             return self._parse_index_suffix()
-        if self.unindexed_sum_depth:
-            return GFIndex(1)
-        raise self._error("Unindexed summation variable 'j' is not bound by a Sum")
+        if index := self._active_unindexed_index(name):
+            return index
+        raise self._error(f"Unindexed variable {name!r} is not bound by a Sum or Product")
 
-    def _parse_alternate_sum(self) -> GFInfiniteSum:
+    def _parse_alternate_aggregate(
+        self,
+        kind: Literal["Sum", "Product"],
+    ) -> GFInfiniteSum | GFInfiniteProduct:
         self._expect("{")
-        self._expect("j")
+        index_name = self._take()
+        if not IDENTIFIER_RE.fullmatch(index_name):
+            raise self._error(f"Expected an index name, found {index_name!r}")
         relation = self._take()
         bound_token = self._take()
         if not bound_token.isdigit():
-            raise self._error(f"Expected an integer sum bound, found {bound_token!r}")
+            raise self._error(
+                f"Expected an integer {kind} bound, found {bound_token!r}",
+            )
         bound = int(bound_token)
         if relation == "=":
             if bound < 1:
-                raise self._error("An infinite sum lower bound must be positive")
+                raise self._error(f"An infinite {kind} lower bound must be positive")
             self._expect(".")
             self._expect(".")
             infinity = self._take()
@@ -392,14 +447,26 @@ class GeneratingFunctionParser:
         elif relation == ">":
             lower_bound = bound + 1
         else:
-            raise self._error(f"Expected '=' or '>' in a sum bound, found {relation!r}")
+            raise self._error(
+                f"Expected '=' or '>' in a {kind} bound, found {relation!r}",
+            )
         self._expect("}")
-        self.unindexed_sum_depth += 1
+        next_level = (
+            max(
+                (index.level for _, index in self.unindexed_bindings),
+                default=self.explicit_index_ceiling,
+            )
+            + 1
+        )
+        index = GFIndex(next_level)
+        self.unindexed_bindings.append((index_name, index))
         try:
-            summand = self._parse_expression(11)
+            body = self._parse_expression(11)
         finally:
-            self.unindexed_sum_depth -= 1
-        return GFInfiniteSum(summand, GFIndex(1), lower_bound)
+            self.unindexed_bindings.pop()
+        if kind == "Sum":
+            return GFInfiniteSum(body, index, lower_bound)
+        return GFInfiniteProduct(body, index, lower_bound)
 
     def _validate_indices(
         self,
@@ -411,7 +478,7 @@ class GeneratingFunctionParser:
         if isinstance(expression, GFIndex):
             if expression.level not in bound:
                 raise GeneratingFunctionError(
-                    f"Summation index j[{expression.level}] is not bound by a Sum",
+                    f"Index j[{expression.level}] is not bound by a Sum or Product",
                 )
             return
         if isinstance(expression, GFUnary):
@@ -436,11 +503,15 @@ class GeneratingFunctionParser:
         if isinstance(expression, GFTotient):
             self._validate_indices(expression.index, bound)
             return
+        if isinstance(expression, GFIndexedCoefficient):
+            self._validate_indices(expression.index, bound)
+            return
         if expression.index.level in bound:
             raise GeneratingFunctionError(
-                f"Nested Sum cannot rebind j[{expression.index.level}]",
+                f"Nested Sum or Product cannot rebind j[{expression.index.level}]",
             )
-        self._validate_indices(expression.summand, bound | {expression.index.level})
+        body = expression.summand if isinstance(expression, GFInfiniteSum) else expression.factor
+        self._validate_indices(body, bound | {expression.index.level})
 
     def _expect(self, expected: str) -> None:
         token = self._take()
@@ -843,6 +914,10 @@ def _constant_expression_value(
         return Fraction(
             _euler_totient(int(_constant_expression_value(expression.index, index_values)))
         )
+    if isinstance(expression, GFIndexedCoefficient):
+        raise GeneratingFunctionEvaluationError(
+            f"Indexed coefficient {expression.name}_k requires an equation solver",
+        )
     if isinstance(expression, GFUnary):
         value = _constant_expression_value(expression.operand, index_values)
         return value if expression.operator == "+" else -value
@@ -931,7 +1006,7 @@ def _match_shifted_lambert_w(
 
 
 def _is_x_free(expression: GFExpression) -> bool:
-    if isinstance(expression, GFInteger | GFIndex | GFTotient):
+    if isinstance(expression, GFInteger | GFIndex | GFTotient | GFIndexedCoefficient):
         return True
     if isinstance(expression, GFVariable):
         return expression.name != "_x"
@@ -947,6 +1022,8 @@ def _is_x_free(expression: GFExpression) -> bool:
         return _is_x_free(expression.value)
     if isinstance(expression, GFInfiniteSum):
         return _is_x_free(expression.summand)
+    if isinstance(expression, GFInfiniteProduct):
+        return _is_x_free(expression.factor)
     return _is_x_free(expression.left) and _is_x_free(expression.right)
 
 
@@ -993,7 +1070,10 @@ def _is_index_scaled(expression: GFExpression, level: int) -> bool:
     monomial_factors = _x_monomial_index_factors(expression)
     if monomial_factors is not None and level in monomial_factors:
         return True
-    if isinstance(expression, GFVariable | GFInteger | GFIndex | GFTotient | GFSeriesCall):
+    if isinstance(
+        expression,
+        GFVariable | GFInteger | GFIndex | GFTotient | GFIndexedCoefficient | GFSeriesCall,
+    ):
         return False
     if isinstance(expression, GFUnary):
         return _is_index_scaled(expression.operand, level)
@@ -1005,6 +1085,8 @@ def _is_index_scaled(expression: GFExpression, level: int) -> bool:
         return _is_index_scaled(expression.value, level)
     if isinstance(expression, GFInfiniteSum):
         return _is_index_scaled(expression.summand, level)
+    if isinstance(expression, GFInfiniteProduct):
+        return _is_index_scaled(expression.factor, level)
     if expression.operator == "^":
         return _is_index_scaled(expression.left, level) and _is_x_free(expression.right)
     return _is_index_scaled(expression.left, level) and _is_index_scaled(
@@ -1032,7 +1114,16 @@ def _constant_term(expression: GFExpression) -> Fraction | None:
         return Fraction(expression.value)
     if isinstance(expression, GFVariable):
         return Fraction() if expression.name == "_x" else None
-    if isinstance(expression, GFIndex | GFTotient | GFRootOf | GFComplex | GFSeriesCall):
+    if isinstance(
+        expression,
+        GFIndex
+        | GFTotient
+        | GFIndexedCoefficient
+        | GFInfiniteProduct
+        | GFRootOf
+        | GFComplex
+        | GFSeriesCall,
+    ):
         return None
     if isinstance(expression, GFUnary):
         value = _constant_term(expression.operand)
@@ -1209,6 +1300,14 @@ def _evaluate_series(
         raise GeneratingFunctionEvaluationError(
             "Complex exact coefficient expansion requires complex formal-series support",
         )
+    if isinstance(expression, GFIndexedCoefficient):
+        raise GeneratingFunctionEvaluationError(
+            f"Indexed coefficient {expression.name}_k requires an equation solver",
+        )
+    if isinstance(expression, GFInfiniteProduct):
+        raise GeneratingFunctionEvaluationError(
+            "Infinite Product exact expansion requires a symbolic-product solver",
+        )
     if isinstance(expression, GFInfiniteSum):
         return _infinite_sum(expression, index_values)
     if isinstance(expression, GFSeriesCall):
@@ -1253,6 +1352,14 @@ def _require_supported_evaluation(
         raise GeneratingFunctionEvaluationError(
             f"Named series call {expression.name}(...) requires an implicit-equation solver",
         )
+    if isinstance(expression, GFIndexedCoefficient):
+        raise GeneratingFunctionEvaluationError(
+            f"Indexed coefficient {expression.name}_k requires an equation solver",
+        )
+    if isinstance(expression, GFInfiniteProduct):
+        raise GeneratingFunctionEvaluationError(
+            "Infinite Product exact expansion requires a symbolic-product solver",
+        )
     if isinstance(expression, GFInfiniteSum):
         nested_bound_indices = bound_indices | {expression.index.level}
         _require_supported_evaluation(expression.summand, nested_bound_indices)
@@ -1265,7 +1372,7 @@ def _require_supported_evaluation(
     if isinstance(expression, GFIndex):
         if expression.level not in bound_indices:
             raise GeneratingFunctionEvaluationError(
-                "A summation index can only be evaluated inside a supported infinite Sum",
+                "An index can only be evaluated inside a supported infinite aggregate",
             )
         return
     if isinstance(expression, GFTotient):
@@ -1304,7 +1411,7 @@ def generating_function_coefficients(
     expression = parse_generating_function(source) if isinstance(source, str) else source
     if isinstance(expression, GFEquation | GFEquationSystem):
         raise GeneratingFunctionEvaluationError(
-            "Implicit generating-function equations require a named-series solver",
+            "Implicit generating-function equations require an equation solver",
         )
     if not isinstance(
         expression,
@@ -1319,7 +1426,9 @@ def generating_function_coefficients(
             GFComplex,
             GFIndex,
             GFTotient,
+            GFIndexedCoefficient,
             GFInfiniteSum,
+            GFInfiniteProduct,
         ),
     ):
         raise TypeError("source must be generating-function text or a GFParseResult")
@@ -1341,6 +1450,8 @@ __all__ = [
     "GFExpression",
     "GFFunction",
     "GFIndex",
+    "GFIndexedCoefficient",
+    "GFInfiniteProduct",
     "GFInfiniteSum",
     "GFInteger",
     "GFParseResult",

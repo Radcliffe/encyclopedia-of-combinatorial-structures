@@ -186,21 +186,23 @@ The supported grammar consists of:
   `numtheory:-phi(j[k])`;
 - alternate `Sum_{j=m..inf} expression` and `Sum_{j>m} expression` forms,
   including `phi(j)`;
+- alternate `Product_{k>m} expression` forms and lexically bound indexed
+  coefficients such as `a_k`;
 - the exact positive and alternating four-term ellipsis patterns used by ECS 56
   and 57, normalized to `GFInfiniteSum`;
-- the one-argument `Complex(expression)` form used by the catalogue; and
+- the one-argument `Complex(expression)` form used by the catalogue;
 - the variable spelling `x`, the function alias `log`, and named formal-series
   calls such as `A(x^2)` inside implicit equations, including comma-separated
-  systems.
+  systems; and
+- one optional final Maple statement period.
 
-The parser covers 1,027 of the 1,028 nonempty generating-function fields in the
-bundled catalogue: all 913 finite elementary forms, all 19 `LambertW` forms,
-all 39 unselected `RootOf` forms, all 45 Maple-form indexed infinite sums, and
-the one `Complex` form, plus nine individual implicit equations in ECS 1, 43,
-45, 56, 57, 79, 89, 91, and 95 and the three-equation system in ECS 118. It
-explicitly rejects only ECS 44, whose notation uses a symbolic product.
-Arbitrary ellipses that do not match either fully determined catalogue pattern
-also remain unsupported.
+The parser covers all 1,028 nonempty generating-function fields in the bundled
+catalogue: all 913 finite elementary forms, all 19 `LambertW` forms, all 39
+unselected `RootOf` forms, all 45 Maple-form indexed infinite sums, and the one
+`Complex` form, plus ten individual implicit equations in ECS 1, 43, 44, 45,
+56, 57, 79, 89, 91, and 95 and the three-equation system in ECS 118. ECS 44 is
+the symbolic infinite-product equation. Arbitrary ellipses that do not match
+either fully determined catalogue pattern remain unsupported.
 
 `GeneratingFunctionParser(source)` is the stateful parser used by the function
 API. Malformed input raises `GeneratingFunctionError`. Valid ECS forms outside
@@ -218,17 +220,20 @@ while `GFVariable("_Z")` represents the root-local variable.
 becomes `GFFunction("ln", argument)`.
 `GFRootOf(equation)` stores an unselected root equation whose local variable is
 `GFVariable("_Z")`. `GFIndex(level)` stores `j[level]`, `GFTotient(index)`
-stores either totient spelling, and
+stores either totient spelling, and `GFIndexedCoefficient(name, index)` stores
+an indexed symbolic coefficient such as `a_k`.
 `GFInfiniteSum(summand, index, lower_bound=1)` stores an indexed sum through
-infinity. Alternate unindexed `j` is normalized to `GFIndex(1)`.
+infinity, while `GFInfiniteProduct(factor, index, lower_bound=1)` stores a
+symbolic product through infinity. Alternate binder names are normalized to
+lexically scoped `GFIndex` levels.
 `GFComplex(value)` stores a one-argument Maple complex constructor.
-`GFExpression` is the union of these eleven immutable expression-node types.
+`GFExpression` is the union of these thirteen immutable expression-node types.
 `GFEquation(left, right)` stores one implicit equality,
 `GFEquationSystem(equations)` stores an ordered tuple of equations, and
 `GFParseResult` is the union of `GFExpression`, `GFEquation`, and
-`GFEquationSystem`. Sum indices are lexically scoped within each equation: a
-summand may reference its own index and outer indices, while unbound indices and
-nested rebinding of the same level are rejected.
+`GFEquationSystem`. Sum and product indices are lexically scoped within each
+equation: a body may reference its own index and outer indices, while unbound
+indices and nested rebinding of the same normalized level are rejected.
 
 ```python
 from combstruct import GFBinary, GFRootOf, GFVariable, parse_generating_function
@@ -253,6 +258,18 @@ later_sum = parse_generating_function("Sum_{j>2} x^j/j")
 
 assert isinstance(later_sum, GFInfiniteSum)
 assert later_sum.lower_bound == 3
+```
+
+```python
+from combstruct import GFEquation, GFIndexedCoefficient, GFInfiniteProduct
+
+product_equation = parse_generating_function(
+    "Product_{k>0} 1/(1-x^k)^a_k = 1+x+2*Sum_{k>1} a_k*x^k."
+)
+
+assert isinstance(product_equation, GFEquation)
+assert isinstance(product_equation.left, GFInfiniteProduct)
+assert isinstance(product_equation.left.factor.right.right, GFIndexedCoefficient)
 ```
 
 ```python
@@ -372,8 +389,9 @@ formal-series conditions raises
 `GeneratingFunctionEvaluationError`. A negative `coefficient_count` raises
 `ValueError`; a non-integer count or invalid source object raises `TypeError`.
 Parsed `GFEquation` and `GFEquationSystem` values, plus standalone
-`GFSeriesCall` values, raise `GeneratingFunctionEvaluationError`: preserving
-implicit syntax does not choose a solution for its named formal series.
+`GFSeriesCall`, `GFInfiniteProduct`, and `GFIndexedCoefficient` values, raise
+`GeneratingFunctionEvaluationError`: preserving symbolic syntax does not choose
+a solution or invent the missing equation solver.
 
 Catalogue-wide tests establish that 977 parsed functions match their full
 stored term prefixes and their `Structure.labeled` flags: 548 are OGFs and 429
@@ -383,9 +401,9 @@ normalization produces its stored terms `1, 6, 42, 336, ...`. ECS 69 uses the
 recognized center `c=-1/2`; exact expansion reproduces all 21 of its stored EGF
 terms. The 51 non-evaluable fields consist of 39 parsed `RootOf` fields without
 a branch selector, the one `Complex` field requiring complex formal-series
-arithmetic, ten parsed implicit-equation records requiring a named-series solver
-(nine individual equations and the system in ECS 118), and one field outside
-the parser grammar.
+arithmetic, and eleven parsed equation records requiring an equation solver
+(ten individual equations and the system in ECS 118). There are no remaining
+catalogue fields outside the parser grammar.
 
 Maple documents unselected `RootOf` as representing unspecified roots and uses
 explicit selectors to identify one root. Because the ECS strings do not contain
@@ -404,6 +422,11 @@ exact sum. Nested sums also account for the proven product of their outer index
 scales. All 45 exactly evaluable catalogue indexed-sum records meet this
 contract. A sum that does not meet it raises `GeneratingFunctionEvaluationError`
 rather than being silently truncated.
+
+`GFInfiniteProduct` and `GFIndexedCoefficient` faithfully retain ECS 44's
+symbolic coefficient equation. Their coefficient evaluation raises
+`GeneratingFunctionEvaluationError` until a symbolic-product equation solver is
+available.
 
 `GFComplex` coefficient evaluation also raises
 `GeneratingFunctionEvaluationError` until exact complex formal-series

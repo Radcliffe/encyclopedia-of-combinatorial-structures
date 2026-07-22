@@ -17,6 +17,8 @@ from combstruct import (
     GFEquation,
     GFEquationSystem,
     GFFunction,
+    GFIndexedCoefficient,
+    GFInfiniteProduct,
     GFInteger,
     GFRootOf,
     GFSeriesCall,
@@ -57,6 +59,8 @@ class PublicApiTests(unittest.TestCase):
             "GFExpression",
             "GFFunction",
             "GFIndex",
+            "GFIndexedCoefficient",
+            "GFInfiniteProduct",
             "GFInfiniteSum",
             "GFInteger",
             "GFParseResult",
@@ -204,6 +208,22 @@ class PublicApiTests(unittest.TestCase):
         self.assertIsInstance(equation.right.right, GFFunction)
         assert isinstance(equation.right.right, GFFunction)
         self.assertIsInstance(equation.right.right.argument, combstruct.GFInfiniteSum)
+
+    def test_symbolic_infinite_product_is_available_from_package(self):
+        source = get_structure(44).generating_function
+
+        self.assertIsNotNone(source)
+        assert source is not None
+        equation = parse_generating_function(source)
+        self.assertIsInstance(equation, GFEquation)
+        assert isinstance(equation, GFEquation)
+        self.assertIsInstance(equation.left, GFInfiniteProduct)
+        assert isinstance(equation.left, GFInfiniteProduct)
+        self.assertIsInstance(equation.left.factor, GFBinary)
+        assert isinstance(equation.left.factor, GFBinary)
+        self.assertIsInstance(equation.left.factor.right, GFBinary)
+        assert isinstance(equation.left.factor.right, GFBinary)
+        self.assertIsInstance(equation.left.factor.right.right, GFIndexedCoefficient)
 
     def test_generating_function_derivation_is_available_from_package(self):
         expression = derive_generating_function("{S = Sequence(Z)}", labelled=False)
