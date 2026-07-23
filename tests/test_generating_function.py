@@ -630,6 +630,28 @@ class GeneratingFunctionCoefficientTests(unittest.TestCase):
             (Fraction(0), Fraction(2, 5), Fraction(0), Fraction(0), Fraction(0)),
         )
 
+    def test_coefficient_recursive_nonzero_constant_terms(self):
+        cases = {
+            "2*A(x)-1=0": Fraction(1, 2),
+            "A(x)=1/2+A(x)/2": Fraction(1),
+        }
+        for source, constant in cases.items():
+            with self.subTest(source=source):
+                self.assertEqual(
+                    generating_function_coefficients(source, 5),
+                    (constant, Fraction(0), Fraction(0), Fraction(0), Fraction(0)),
+                )
+
+        system = "A(x)=1/2+B(x)/2, B(x)=1/3+A(x)/3"
+        self.assertEqual(
+            generating_function_coefficients(system, 4, symbol="A"),
+            (Fraction(4, 5), Fraction(0), Fraction(0), Fraction(0)),
+        )
+        self.assertEqual(
+            generating_function_coefficients(system, 4, symbol="B"),
+            (Fraction(3, 5), Fraction(0), Fraction(0), Fraction(0)),
+        )
+
     def test_coefficient_recursive_catalogue_equations(self):
         windmills = Catalog().get(79)
         self.assertEqual(windmills.symbol, "B")
@@ -667,6 +689,7 @@ class GeneratingFunctionCoefficientTests(unittest.TestCase):
         cases = {
             "A(x)=A(x)": "singular at degree 1",
             "A(x)=B(x), B(x)=A(x)": "singular at degree 1",
+            "A(x)=1-A(x)^2": "failed verification at degree 0",
             "A(x)=B(x)": "B.*no defining equation",
             "A(x)=x, A(x)=x^2": "more than one defining equation",
             "A(x+1)=x": "named-series left side.*evaluated at x",
