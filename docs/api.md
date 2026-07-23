@@ -797,7 +797,8 @@ If the requested class is empty, `draw` raises
 - `"auto"` (the default) uses exact count-directed recursive sampling when
   supported and otherwise selects an exhaustive rank;
 - `"counted"` requires count-directed sampling and raises
-  `UnsupportedCountDirectedSampling` at an unsupported symmetry boundary; and
+  `UnsupportedCountDirectedSampling` for an invalid or non-well-founded
+  count-directed construction; and
 - `"enumerate"` always materializes `allstructs` before choosing a rank.
 
 The count-directed sampler covers terminals, named recursive productions,
@@ -810,13 +811,14 @@ Composition structures also have direct count-weighted samplers, including
 duplicate elements, default sizes, and `"allsizes"`.
 
 Unlabeled Set and PowerSet use grouped component-type counts, binomial
-multiplicity weights, and recursive type unranking; they do not enumerate the
-resulting selection class. Unlabeled Cycle uses exact cycle-index counts and
+multiplicity weights, uniform support selection, and recursive component
+sampling; they do not enumerate the resulting selection class. For a multiset,
+the sampler first chooses the number of distinct component types and then a
+uniform positive multiplicity composition, avoiding the bias caused by
+sorting independent draws. Unlabeled Cycle uses exact cycle-index counts and
 orbit-corrected rejection sampling, so periodic and aperiodic necklaces remain
-uniform. A Set or PowerSet whose component type itself contains an unlabeled
-Cycle remains on the `"auto"` exhaustive fallback because selection unranking
-cannot yet rank those nested cycle types; `"counted"` reports that boundary
-instead of silently changing the distribution.
+uniform. These rules compose, including an unlabeled Cycle nested inside Set
+or PowerSet.
 
 ### `compute_terms(specification, *, labelled, term_count, symbol="S", max_digits=None)`
 

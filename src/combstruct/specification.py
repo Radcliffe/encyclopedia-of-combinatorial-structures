@@ -276,7 +276,9 @@ class _SubstitutionExpander:
         if self._expression_nullable(inner):
             raise SpecificationError("The first argument of Subst cannot produce size-zero objects")
         if self._expression_nullable(outer):
-            raise SpecificationError("The second argument of Subst cannot produce size-zero objects")
+            raise SpecificationError(
+                "The second argument of Subst cannot produce size-zero objects"
+            )
         return inner, outer
 
     def _transform(self, expression: Expression) -> Expression:
@@ -322,10 +324,7 @@ class _SubstitutionExpander:
             return self._substitute(nested_replacement, nested_outer, {})
         return Constructor(
             outer.name,
-            tuple(
-                self._substitute(replacement, argument, clones)
-                for argument in outer.arguments
-            ),
+            tuple(self._substitute(replacement, argument, clones) for argument in outer.arguments),
             outer.cardinality,
         )
 

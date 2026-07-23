@@ -41,11 +41,14 @@ do not have a corresponding package release are grouped by date.
   substitution-expanded forms, labeled Set/Cycle, and every predefined family,
   with explicit algorithm selection and a uniform exhaustive fallback for
   remaining symmetries.
-- Add grouped component-type unranking for unlabeled Set and PowerSet drawing,
+- Add grouped component-type sampling for unlabeled Set and PowerSet drawing,
   including recursively defined multiset classes without top-level
   materialization.
 - Add exact cycle-index-weighted drawing for unlabeled Cycle, with orbit-size
   rejection correction so periodic and aperiodic necklaces are uniform.
+- Complete count-directed drawing across nested unlabeled symmetries by
+  sampling Set and PowerSet component supports and multiplicities directly,
+  including component types containing Cycle.
 
 Add production-bound changes here under `Added`, `Changed`, `Fixed`, or `Removed`.
 When a package is released or `prod` is deployed, move the entries into a version

@@ -213,7 +213,9 @@ class AttributeParser:
         while self._peek() != "}":
             attribute = self._expect_identifier()
             if attribute == "size":
-                raise AttributeSpecificationError("The predefined size attribute cannot be redefined")
+                raise AttributeSpecificationError(
+                    "The predefined size attribute cannot be redefined"
+                )
             self._expect("(")
             symbol = self._expect_identifier()
             self._expect(")")
@@ -390,9 +392,7 @@ def _walk_symbols(expression: AttributeExpression) -> tuple[str, ...]:
         return _walk_symbols(expression.left) + _walk_symbols(expression.right)
     if isinstance(expression, AttributeConstructor):
         return tuple(
-            symbol
-            for argument in expression.arguments
-            for symbol in _walk_symbols(argument)
+            symbol for argument in expression.arguments for symbol in _walk_symbols(argument)
         )
     return ()
 
@@ -415,9 +415,7 @@ def _validate_attribute_grammar(
 
     requested_names = set(requested.values())
     parameter_names = {
-        parameter
-        for expression in attributes.values()
-        for parameter in _walk_symbols(expression)
+        parameter for expression in attributes.values() for parameter in _walk_symbols(expression)
     }
     conflicts = parameter_names & (set(requested) | {"x", "_x", "_Z"})
     if conflicts:
@@ -465,9 +463,7 @@ def _validate_parameters(
         raise TypeError("parameter values must be integers")
 
     required = {
-        parameter
-        for expression in attributes.values()
-        for parameter in _walk_symbols(expression)
+        parameter for expression in attributes.values() for parameter in _walk_symbols(expression)
     }
     missing = required - set(supplied)
     extra = set(supplied) - required
@@ -493,8 +489,7 @@ def _default_attribute_expression(
     return AttributeConstructor(
         expression.name,
         tuple(
-            _default_attribute_expression(argument, attribute)
-            for argument in expression.arguments
+            _default_attribute_expression(argument, attribute) for argument in expression.arguments
         ),
     )
 
@@ -519,8 +514,7 @@ def _affine_value(
     if isinstance(expression, AttributeCall):
         if expression.symbol != symbol:
             raise AttributeSpecificationError(
-                f"{expression.attribute}({expression.symbol}) does not describe "
-                f"component {symbol}",
+                f"{expression.attribute}({expression.symbol}) does not describe component {symbol}",
             )
         return GFInteger(0), GFInteger(0), {expression.attribute: GFInteger(1)}
     if isinstance(expression, AttributeConstructor):
@@ -562,10 +556,7 @@ def _affine_value(
     return (
         _product((scalar, affine_result[0])),
         _product((scalar, affine_result[1])),
-        {
-            name: _product((scalar, coefficient))
-            for name, coefficient in affine_result[2].items()
-        },
+        {name: _product((scalar, coefficient)) for name, coefficient in affine_result[2].items()},
     )
 
 
@@ -604,9 +595,7 @@ def _constructor_and_adjustment(
 
     collect(expression)
     constructors = [
-        (sign, value)
-        for sign, value in terms
-        if isinstance(value, AttributeConstructor)
+        (sign, value) for sign, value in terms if isinstance(value, AttributeConstructor)
     ]
     if len(constructors) != 1 or constructors[0][0] != 1:
         raise AttributeSpecificationError(
@@ -783,11 +772,7 @@ def _divisors(value: int) -> tuple[int, ...]:
 
 
 def _totient(value: int) -> int:
-    return sum(
-        1
-        for candidate in range(1, value + 1)
-        if math.gcd(candidate, value) == 1
-    )
+    return sum(1 for candidate in range(1, value + 1) if math.gcd(candidate, value) == 1)
 
 
 class _AttributeEquationBuilder:

@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import math
 from collections.abc import Iterator, Mapping
+from itertools import pairwise
 from random import Random
 from typing import Literal
 
@@ -33,7 +34,7 @@ type DrawAlgorithm = Literal["auto", "counted", "enumerate"]
 
 
 class UnsupportedCountDirectedSampling(UnsupportedConstruction):
-    """A grammar requires a symmetry-aware sampler not implemented here."""
+    """A grammar cannot use the exact count-directed sampler."""
 
 
 def _weak_compositions(total: int, parts: int) -> Iterator[tuple[int, ...]]:
@@ -120,39 +121,8 @@ class CountDirectedSampler:
             raise UnsupportedCountDirectedSampling(
                 "PowerSet is only defined for unlabeled structures",
             )
-        if (
-            not self.labelled
-            and name in {"set", "powerset"}
-            and self._contains_unrankable_cycle(expression.arguments[0], set())
-        ):
-            raise UnsupportedCountDirectedSampling(
-                f"Count-directed {expression.name} sampling cannot yet unrank "
-                "component types containing an unlabeled Cycle",
-            )
         for argument in expression.arguments:
             self._require_supported_expression(argument, active)
-
-    def _contains_unrankable_cycle(
-        self,
-        expression: Expression,
-        active: set[str],
-    ) -> bool:
-        if isinstance(expression, Reference):
-            if expression.name not in self.equations or expression.name in active:
-                return False
-            active.add(expression.name)
-            result = self._contains_unrankable_cycle(
-                self.equations[expression.name],
-                active,
-            )
-            active.remove(expression.name)
-            return result
-        if expression.name.lower() == "cycle":
-            return True
-        return any(
-            self._contains_unrankable_cycle(argument, active)
-            for argument in expression.arguments
-        )
 
     def _count_expression(self, expression: Expression, size: int) -> int:
         key = (expression, size)
@@ -299,14 +269,10 @@ class CountDirectedSampler:
                 limit = min(limit, type_count)
             result = 0
             for chosen in range(limit + 1):
-                group_ways = (
-                    math.comb(type_count, chosen)
-                    if distinct
-                    else (
-                        1
-                        if chosen == 0
-                        else math.comb(type_count + chosen - 1, chosen)
-                    )
+                group_ways = self._type_selection_count(
+                    type_count,
+                    chosen,
+                    distinct=distinct,
                 )
                 if group_ways:
                     result += group_ways * self._selection_exact_count(
@@ -350,10 +316,7 @@ class CountDirectedSampler:
 
         name = expression.name.lower()
         if name == "union":
-            weights = [
-                self._count_expression(argument, size)
-                for argument in expression.arguments
-            ]
+            weights = [self._count_expression(argument, size) for argument in expression.arguments]
             branch = _weighted_index(weights, self.rng)
             child = self._sample_expression(expression.arguments[branch], size, labels)
             return ConstructionObject("Union", (child,), branch=branch)
@@ -363,11 +326,11 @@ class CountDirectedSampler:
 
         component = expression.arguments[0]
         if not self.labelled and name in {"set", "powerset"}:
-            total = self._count_expression(expression, size)
-            return self._unrank_expression(
-                expression,
+            return self._sample_unlabelled_selection(
+                component,
+                expression.cardinality,
                 size,
-                self.rng.randrange(total),
+                distinct=name == "powerset",
             )
         choices = self._collection_weights(
             name,
@@ -400,173 +363,48 @@ class CountDirectedSampler:
                 size,
                 None,
             )
-            rotations = {
-                children[offset:] + children[:offset]
-                for offset in range(count)
-            }
+            rotations = {children[offset:] + children[:offset] for offset in range(count)}
             orbit_size = len(rotations)
             if self.rng.randrange(orbit_size) == 0:
                 return ConstructionObject("Cycle", _canonical_cycle(children))
 
-    def _unrank_symbol(
-        self,
-        symbol: str,
-        size: int,
-        rank: int,
-    ) -> CombinatorialObject:
-        expression = self.equations[symbol]
-        if expression == Reference("Epsilon") and size == 0:
-            if rank:
-                raise IndexError("object rank is out of range")
-            return EpsilonObject(symbol)
-        return self._unrank_expression(expression, size, rank)
-
-    def _unrank_expression(
-        self,
-        expression: Expression,
-        size: int,
-        rank: int,
-    ) -> CombinatorialObject:
-        total = self._count_expression(expression, size)
-        if rank < 0 or rank >= total:
-            raise IndexError("object rank is out of range")
-        if isinstance(expression, Reference):
-            if expression.name == "Epsilon":
-                return EpsilonObject()
-            if expression.name in {"Atom", "Z"} and expression.name not in self.equations:
-                return AtomObject()
-            return self._unrank_symbol(expression.name, size, rank)
-
-        name = expression.name.lower()
-        if name == "union":
-            for branch, argument in enumerate(expression.arguments):
-                branch_count = self._count_expression(argument, size)
-                if rank < branch_count:
-                    return ConstructionObject(
-                        "Union",
-                        (self._unrank_expression(argument, size, rank),),
-                        branch=branch,
-                    )
-                rank -= branch_count
-            raise AssertionError("union rank was not consumed")
-        if name == "prod":
-            children = self._unrank_ordered_product(
-                expression.arguments,
-                size,
-                rank,
-            )
-            return ConstructionObject("Prod", children)
-        if name == "sequence":
-            component = expression.arguments[0]
-            for count, weight in self._collection_weights(
-                name,
-                component,
-                expression.cardinality,
-                size,
-            ):
-                if rank < weight:
-                    return ConstructionObject(
-                        "Sequence",
-                        self._unrank_ordered_product(
-                            (component,) * count,
-                            size,
-                            rank,
-                        ),
-                    )
-                rank -= weight
-            raise AssertionError("sequence rank was not consumed")
-        if name in {"set", "powerset"} and not self.labelled:
-            return self._unrank_selection(
-                expression.arguments[0],
-                expression.cardinality,
-                size,
-                rank,
-                distinct=name == "powerset",
-            )
-        raise UnsupportedCountDirectedSampling(
-            f"Unranking {expression.name} is not implemented",
-        )
-
-    def _unrank_ordered_product(
-        self,
-        arguments: tuple[Expression, ...],
-        size: int,
-        rank: int,
-    ) -> tuple[CombinatorialObject, ...]:
-        for sizes in _weak_compositions(size, len(arguments)):
-            counts = tuple(
-                self._count_expression(argument, child_size)
-                for argument, child_size in zip(arguments, sizes, strict=True)
-            )
-            weight = math.prod(counts)
-            if rank >= weight:
-                rank -= weight
-                continue
-            child_ranks: list[int] = []
-            for count in reversed(counts):
-                child_ranks.append(rank % count)
-                rank //= count
-            child_ranks.reverse()
-            return tuple(
-                self._unrank_expression(argument, child_size, child_rank)
-                for argument, child_size, child_rank in zip(
-                    arguments,
-                    sizes,
-                    child_ranks,
-                    strict=True,
-                )
-            )
-        raise AssertionError("product rank was not consumed")
-
-    def _unrank_selection(
+    def _sample_unlabelled_selection(
         self,
         component: Expression,
         cardinality: Cardinality | None,
         size: int,
-        rank: int,
         *,
         distinct: bool,
-    ) -> ConstructionObject:
-        minimum = cardinality.minimum if cardinality is not None else 0
-        maximum = (
-            cardinality.maximum
-            if cardinality is not None and cardinality.maximum is not None
-            else size
+    ) -> CombinatorialObject:
+        name = "powerset" if distinct else "set"
+        cardinality_choices = self._collection_weights(
+            name,
+            component,
+            cardinality,
+            size,
         )
-        selected_count: int | None = None
-        for count in range(minimum, maximum + 1):
-            ways = self._selection_exact_count(
-                component,
-                size,
-                count,
-                distinct=distinct,
+        selected_count = cardinality_choices[
+            _weighted_index(
+                [weight for _, weight in cardinality_choices],
+                self.rng,
             )
-            if rank < ways:
-                selected_count = count
-                break
-            rank -= ways
-        if selected_count is None:
-            raise AssertionError("selection cardinality rank was not consumed")
+        ][0]
 
         remaining_size = size
         remaining_count = selected_count
         component_size = 1
-        ranked_groups: list[tuple[int, tuple[int, ...]]] = []
+        children: list[CombinatorialObject] = []
         while remaining_size or remaining_count:
             type_count = self._count_expression(component, component_size)
             limit = min(remaining_count, remaining_size // component_size)
             if distinct:
                 limit = min(limit, type_count)
-            selected = False
+            choices: list[tuple[int, int]] = []
             for chosen in range(limit + 1):
-                group_ways = (
-                    math.comb(type_count, chosen)
-                    if distinct
-                    else (
-                        1
-                        if chosen == 0
-                        else math.comb(type_count + chosen - 1, chosen)
-                    )
+                group_ways = self._type_selection_count(
+                    type_count,
+                    chosen,
+                    distinct=distinct,
                 )
                 suffix_ways = self._selection_exact_count(
                     component,
@@ -575,73 +413,107 @@ class CountDirectedSampler:
                     distinct=distinct,
                     component_size=component_size + 1,
                 )
-                block = group_ways * suffix_ways
-                if rank < block:
-                    group_rank, rank = divmod(rank, suffix_ways)
-                    type_ranks = self._unrank_type_selection(
-                        type_count,
-                        chosen,
-                        group_rank,
-                        distinct=distinct,
-                    )
-                    ranked_groups.append((component_size, type_ranks))
-                    remaining_size -= chosen * component_size
-                    remaining_count -= chosen
-                    selected = True
-                    break
-                rank -= block
-            if not selected:
-                raise AssertionError("selection multiplicity rank was not consumed")
+                if group_ways and suffix_ways:
+                    choices.append((chosen, group_ways * suffix_ways))
+            choice = _weighted_index(
+                [weight for _, weight in choices],
+                self.rng,
+            )
+            chosen = choices[choice][0]
+            children.extend(
+                self._sample_type_selection(
+                    component,
+                    component_size,
+                    type_count,
+                    chosen,
+                    distinct=distinct,
+                ),
+            )
+            remaining_size -= chosen * component_size
+            remaining_count -= chosen
             component_size += 1
 
-        children = tuple(
-            self._unrank_expression(component, child_size, child_rank)
-            for child_size, type_ranks in ranked_groups
-            for child_rank in type_ranks
-        )
         constructor = "PowerSet" if distinct else "Set"
-        return ConstructionObject(constructor, _canonical_children(children))
+        return ConstructionObject(constructor, _canonical_children(tuple(children)))
 
     @staticmethod
-    def _unrank_type_selection(
+    def _type_selection_count(
         type_count: int,
         chosen: int,
-        rank: int,
         *,
         distinct: bool,
-    ) -> tuple[int, ...]:
-        if not distinct:
-            shifted = CountDirectedSampler._unrank_combination(
-                type_count + chosen - 1,
-                chosen,
-                rank,
-            )
-            return tuple(value - index for index, value in enumerate(shifted))
-        return CountDirectedSampler._unrank_combination(type_count, chosen, rank)
-
-    @staticmethod
-    def _unrank_combination(
-        population: int,
-        chosen: int,
-        rank: int,
-    ) -> tuple[int, ...]:
+    ) -> int:
+        if distinct:
+            return math.comb(type_count, chosen)
         if chosen == 0:
-            if rank:
-                raise IndexError("combination rank is out of range")
+            return 1
+        return math.comb(type_count + chosen - 1, chosen)
+
+    def _sample_type_selection(
+        self,
+        component: Expression,
+        component_size: int,
+        type_count: int,
+        chosen: int,
+        *,
+        distinct: bool,
+    ) -> tuple[CombinatorialObject, ...]:
+        if chosen == 0:
             return ()
-        result: list[int] = []
-        start = 0
-        for remaining in range(chosen, 0, -1):
-            for value in range(start, population - remaining + 1):
-                suffixes = math.comb(population - value - 1, remaining - 1)
-                if rank < suffixes:
-                    result.append(value)
-                    start = value + 1
-                    break
-                rank -= suffixes
-            else:
-                raise IndexError("combination rank is out of range")
-        return tuple(result)
+        if distinct:
+            return self._sample_distinct_component_types(
+                component,
+                component_size,
+                chosen,
+            )
+
+        support_choices = [
+            (
+                support,
+                math.comb(type_count, support) * math.comb(chosen - 1, support - 1),
+            )
+            for support in range(1, min(type_count, chosen) + 1)
+        ]
+        support = support_choices[
+            _weighted_index(
+                [weight for _, weight in support_choices],
+                self.rng,
+            )
+        ][0]
+        selected_types = self._sample_distinct_component_types(
+            component,
+            component_size,
+            support,
+        )
+        separators = sorted(self.rng.sample(range(1, chosen), support - 1))
+        boundaries = (0, *separators, chosen)
+        multiplicities = tuple(right - left for left, right in pairwise(boundaries))
+        return tuple(
+            selected_type
+            for selected_type, multiplicity in zip(
+                selected_types,
+                multiplicities,
+                strict=True,
+            )
+            for _ in range(multiplicity)
+        )
+
+    def _sample_distinct_component_types(
+        self,
+        component: Expression,
+        component_size: int,
+        chosen: int,
+    ) -> tuple[CombinatorialObject, ...]:
+        selected: set[CombinatorialObject] = set()
+        while len(selected) < chosen:
+            selected.add(
+                self._sample_expression(
+                    component,
+                    component_size,
+                    None,
+                ),
+            )
+        return _canonical_children(tuple(selected))
 
     def _sample_ordered_product(
         self,

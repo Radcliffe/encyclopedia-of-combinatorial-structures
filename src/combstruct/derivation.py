@@ -86,7 +86,9 @@ class _GeneratingFunctionEquationBuilder:
                 try:
                     symbols = tuple(tagged_symbols)
                 except TypeError as error:
-                    raise TypeError("tagged Epsilon symbols must be strings or iterables") from error
+                    raise TypeError(
+                        "tagged Epsilon symbols must be strings or iterables"
+                    ) from error
             for symbol in symbols:
                 if not isinstance(symbol, str) or not symbol:
                     raise TypeError("tagged Epsilon symbols must be nonempty strings")
@@ -98,9 +100,7 @@ class _GeneratingFunctionEquationBuilder:
                     )
                 variable = GFVariable(variable_name)
                 result[symbol] = (
-                    GFBinary("*", result[symbol], variable)
-                    if symbol in result
-                    else variable
+                    GFBinary("*", result[symbol], variable) if symbol in result else variable
                 )
         return result
 
@@ -149,9 +149,7 @@ class _GeneratingFunctionEquationBuilder:
             inner, outer = expression.arguments
             return self._expression(outer, self._expression(inner, variable))
 
-        arguments = [
-            self._expression(argument, variable) for argument in expression.arguments
-        ]
+        arguments = [self._expression(argument, variable) for argument in expression.arguments]
         if name == "union":
             if expression.cardinality is not None:
                 raise SpecificationError("Union does not accept a cardinality constraint")

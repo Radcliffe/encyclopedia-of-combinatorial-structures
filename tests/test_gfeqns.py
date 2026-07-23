@@ -160,9 +160,7 @@ class GeneratingFunctionEquationTests(unittest.TestCase):
                 )
 
     def test_substitution_is_preserved_as_function_composition(self):
-        specification = (
-            "{A = Prod(Z,Z), B = Sequence(Z,1 <= card), S = Subst(A,B)}"
-        )
+        specification = "{A = Prod(Z,Z), B = Sequence(Z,1 <= card), S = Subst(A,B)}"
         system = gfeqns(specification, labelled=False)
 
         self.assertEqual(
@@ -224,8 +222,7 @@ class GeneratingFunctionEquationTests(unittest.TestCase):
 
     def test_epsilon_marker_tags_become_independent_variables(self):
         system = gfeqns(
-            "{leaf = Epsilon, internal = Epsilon, "
-            "S = Union(Prod(leaf,Z),Prod(internal,Z,Z))}",
+            "{leaf = Epsilon, internal = Epsilon, S = Union(Prod(leaf,Z),Prod(internal,Z,Z))}",
             labelled=False,
             tags={"u": "leaf", "v": ("internal",)},
         )
@@ -252,8 +249,7 @@ class GeneratingFunctionEquationTests(unittest.TestCase):
 
     def test_one_epsilon_marker_can_contribute_to_multiple_variables(self):
         system = gfeqns(
-            "{node2=Epsilon,node3=Epsilon,"
-            "T=Union(Prod(node2,Z,Z),Prod(node3,Z,Z,Z))}",
+            "{node2=Epsilon,node3=Epsilon,T=Union(Prod(node2,Z,Z),Prod(node3,Z,Z,Z))}",
             labelled=False,
             tags={"u": "node2", "v": ("node2", "node3")},
         )

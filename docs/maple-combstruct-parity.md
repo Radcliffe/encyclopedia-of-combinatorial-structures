@@ -44,7 +44,7 @@ and algorithm options as part of the package surface.
 | `gfeqns` | Partial | Unsolved named OGF/EGF equations cover every constructor and all 1,075 catalog grammars, including infinite cycle-index forms and products of Epsilon marker variables; support arbitrary nonmonomial tag values and multivariate evaluation. |
 | `allstructs` | Complete | Grammar-defined and predefined classes have exhaustive generation, including `Subst`, Epsilon marker preservation, defaults, and `allsizes`. |
 | `iterstructs`, `nextstruct`, `finished` | Complete | Both kinds of class use shared explicit iterator state and preserve named Epsilon markers. |
-| `draw` | Partial | Exact count-directed sampling covers recursive Union/Prod/Sequence grammars, Set/PowerSet, labeled Cycle, top-level and product-nested unlabeled Cycle, substitution-expanded forms, and every predefined family. Add component-type ranking for an unlabeled Cycle nested inside Set/PowerSet. |
+| `draw` | Complete | Exact count-directed sampling covers every grammar constructor, nested unlabeled symmetries, substitution-expanded forms, and every predefined family without materializing the requested class. |
 | Predefined structures | Complete | `Combination`/`Subset`, `Permutation`, `Partition`, and `Composition` count, enumerate, iterate, and draw with documented defaults and `allsizes`. |
 | `agfeqns`, `agfseries` | Partial | Linear attribute grammars, atomic constants and coefficients, recursive defaults, multiple markers, acyclic cross-attribute dependencies, symbolic equations, and exact joint OGF/EGF prefixes are supported. Add `Subst` and recurrence-based scaling. |
 | `agfmomentsolve` | Partial | Exact truncated univariate factorial and mixed-moment series are supported. Add Maple-style closed-form solving and recoverable differentiated equation output. |
@@ -259,15 +259,16 @@ unsupported nested symmetry boundaries, keeping every result uniform while
 the remaining component-ranking cases are developed.
 
 Unlabeled Set and PowerSet subsequently gained grouped component-type
-unranking. Exact binomial weights select multiplicities by component size,
-then recursive ranks select the component objects without enumerating the
-resulting multiset or subset class. This also handles recursively defined
-unlabeled Set grammars when component sizes decrease.
+sampling. Exact binomial weights select multiplicities by component size,
+then recursive draws select the component objects without enumerating the
+resulting multiset or subset class. Multisets choose their number of distinct
+types and a positive multiplicity composition with exact weights; PowerSets
+sample distinct types. This also handles recursively defined unlabeled Set
+grammars when component sizes decrease.
 
 Unlabeled Cycle uses totient-weighted cycle-index counts to choose its
 cardinality, then samples ordered component tuples with an orbit-size
 acceptance correction. The correction gives periodic and aperiodic necklaces
-the same probability without materializing the cycle class. A Set or PowerSet
-whose component type contains an unlabeled Cycle is the remaining draw
-boundary because grouped selection needs deterministic ranks for those nested
-cycle types.
+the same probability without materializing the cycle class. Recursive type
+sampling allows this cycle rule to compose inside Set and PowerSet, completing
+count-directed coverage of the documented grammar constructors.

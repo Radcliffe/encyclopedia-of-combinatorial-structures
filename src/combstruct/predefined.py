@@ -310,9 +310,7 @@ def _sample_combination(
     if remaining:
         raise LookupError("No combination exists at the requested size")
     return tuple(
-        item
-        for (item, _), chosen in zip(groups, chosen_counts, strict=True)
-        for _ in range(chosen)
+        item for (item, _), chosen in zip(groups, chosen_counts, strict=True) for _ in range(chosen)
     )
 
 
@@ -325,8 +323,7 @@ def _sample_permutation(
     vectors = [
         (
             counts,
-            math.factorial(size)
-            // math.prod(math.factorial(count) for count in counts),
+            math.factorial(size) // math.prod(math.factorial(count) for count in counts),
         )
         for counts in _multiplicity_vectors(
             tuple(available for _, available in groups),
@@ -339,11 +336,7 @@ def _sample_permutation(
     result: list[Hashable] = []
     for _ in range(size):
         index = _weighted_choice(
-            [
-                (index, count)
-                for index, count in enumerate(remaining)
-                if count
-            ],
+            [(index, count) for index, count in enumerate(remaining) if count],
             rng,
         )
         assert isinstance(index, int)
@@ -363,8 +356,7 @@ def _sample_partition(
             return int(remaining == 0)
         limit = min(maximum, remaining - count + 1)
         return sum(
-            completions(remaining - first, count - 1, first)
-            for first in range(1, limit + 1)
+            completions(remaining - first, count - 1, first) for first in range(1, limit + 1)
         )
 
     remaining = total
@@ -402,10 +394,7 @@ def _sample_composition(
         raise LookupError("No composition exists at the requested size")
     separators = sorted(rng.sample(range(1, total), parts - 1))
     boundaries = (0, *separators, total)
-    return tuple(
-        boundaries[index + 1] - boundaries[index]
-        for index in range(parts)
-    )
+    return tuple(boundaries[index + 1] - boundaries[index] for index in range(parts))
 
 
 def sample_predefined(

@@ -14,7 +14,6 @@ from combstruct import (
     Partition,
     Permutation,
     SpecificationError,
-    UnsupportedCountDirectedSampling,
     allstructs,
     count,
     draw,
@@ -99,22 +98,15 @@ class MapleCompatibleOperationTests(unittest.TestCase):
     def test_draw_is_uniform_by_exact_object_rank_and_reproducible(self):
         specification = "{S = Union(Z,Z)}"
         first_rng = Random(12345)
-        first = [
-            draw(specification, labelled=False, size=1, rng=first_rng)
-            for _ in range(3)
-        ]
+        first = [draw(specification, labelled=False, size=1, rng=first_rng) for _ in range(3)]
         second_rng = Random(12345)
-        second = [
-            draw(specification, labelled=False, size=1, rng=second_rng)
-            for _ in range(3)
-        ]
+        second = [draw(specification, labelled=False, size=1, rng=second_rng) for _ in range(3)]
 
         self.assertEqual(first, second)
 
         rng = Random(8675309)
         branches = [
-            draw(specification, labelled=False, size=1, rng=rng).branch
-            for _ in range(4000)
+            draw(specification, labelled=False, size=1, rng=rng).branch for _ in range(4000)
         ]
         self.assertLess(abs(branches.count(0) - branches.count(1)), 200)
 
@@ -166,10 +158,7 @@ class MapleCompatibleOperationTests(unittest.TestCase):
         structure = Permutation(["a", "a", "b"])
         expected = set(allstructs(structure))
         rng = Random(908)
-        samples = [
-            draw(structure, rng=rng, algorithm="counted")
-            for _ in range(3000)
-        ]
+        samples = [draw(structure, rng=rng, algorithm="counted") for _ in range(3000)]
 
         self.assertEqual(set(samples), expected)
         for obj in expected:
@@ -276,10 +265,7 @@ class MapleCompatibleOperationTests(unittest.TestCase):
                 self.assertEqual(actual, expected)
 
     def test_counted_draw_samples_unlabeled_cycles_without_materializing(self):
-        specification = (
-            "{bead=Union(red,blue),red=Atom,blue=Atom,"
-            "S=Cycle(bead,card=4)}"
-        )
+        specification = "{bead=Union(red,blue),red=Atom,blue=Atom,S=Cycle(bead,card=4)}"
         expected = set(allstructs(specification, labelled=False, size=4))
 
         rng = Random(20260723)
@@ -304,20 +290,37 @@ class MapleCompatibleOperationTests(unittest.TestCase):
         for obj in expected:
             self.assertLess(abs(frequencies[obj] - 1000), 150)
 
-    def test_counted_set_reports_nested_unlabeled_cycle_unranking_boundary(self):
-        specification = "{C=Cycle(Z),S=Set(C)}"
+    def test_counted_draw_samples_nested_cycle_selections_without_materializing(self):
+        for constructor, expected_count in (("Set", 10), ("PowerSet", 6)):
+            with self.subTest(constructor=constructor):
+                specification = (
+                    "{bead=Union(red,blue),red=Atom,blue=Atom,"
+                    "C=Cycle(bead,card=3),"
+                    f"S={constructor}(C,card=2)}}"
+                )
+                expected = set(allstructs(specification, labelled=False, size=6))
+                rng = Random(314159)
+                with patch(
+                    "combstruct.operations.allstructs",
+                    side_effect=AssertionError("exhaustive generation was called"),
+                ):
+                    samples = [
+                        draw(
+                            specification,
+                            labelled=False,
+                            size=6,
+                            rng=rng,
+                            algorithm="counted",
+                        )
+                        for _ in range(6000)
+                    ]
 
-        with self.assertRaisesRegex(
-            UnsupportedCountDirectedSampling,
-            "component types containing an unlabeled Cycle",
-        ):
-            draw(
-                specification,
-                labelled=False,
-                size=4,
-                rng=Random(1),
-                algorithm="counted",
-            )
+                self.assertEqual(len(expected), expected_count)
+                self.assertEqual(set(samples), expected)
+                frequencies = Counter(samples)
+                target = len(samples) / expected_count
+                for obj in expected:
+                    self.assertLess(abs(frequencies[obj] - target), 125)
 
     def test_draw_rejects_empty_classes_and_invalid_random_sources(self):
         with self.assertRaises(EmptyStructureClassError):

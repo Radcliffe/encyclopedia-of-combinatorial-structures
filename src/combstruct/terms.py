@@ -690,9 +690,7 @@ class FixedPowerSetNode(CoefficientNode):
     def value(self, degree: int) -> ExactNumber:
         constant = self.child.coefficients[0]
         if constant:
-            raise UnsupportedConstruction(
-                "An unlabelled PowerSet cannot contain size-zero objects"
-            )
+            raise UnsupportedConstruction("An unlabelled PowerSet cannot contain size-zero objects")
 
         table = [[0 for _ in range(degree + 1)] for _ in range(self.count + 1)]
         table[0][0] = 1
@@ -700,8 +698,7 @@ class FixedPowerSetNode(CoefficientNode):
             type_count = self.child.coefficients[component_size]
             if not is_nonnegative_integer(type_count):
                 raise UnsupportedConstruction(
-                    "Unlabelled PowerSet requires nonnegative integer "
-                    "component coefficients",
+                    "Unlabelled PowerSet requires nonnegative integer component coefficients",
                 )
             available = integer_value(type_count)
             updated = [[0 for _ in range(degree + 1)] for _ in range(self.count + 1)]
@@ -715,9 +712,9 @@ class FixedPowerSetNode(CoefficientNode):
                         (degree - old_degree) // component_size,
                     )
                     for chosen in range(limit + 1):
-                        updated[old_count + chosen][
-                            old_degree + chosen * component_size
-                        ] += old_value * math.comb(available, chosen)
+                        updated[old_count + chosen][old_degree + chosen * component_size] += (
+                            old_value * math.comb(available, chosen)
+                        )
             table = updated
         return table[self.count][degree]
 
@@ -963,15 +960,10 @@ class CoefficientCompiler:
         minimum, maximum = self.bounds(cardinality)
         if maximum is not None:
             return self.sum(
-                [
-                    FixedPowerSetNode(self, child, count)
-                    for count in range(minimum, maximum + 1)
-                ]
+                [FixedPowerSetNode(self, child, count) for count in range(minimum, maximum + 1)]
             )
         unrestricted = EulerSelectionNode(self, child, distinct=True)
-        excluded = self.sum(
-            [FixedPowerSetNode(self, child, count) for count in range(minimum)]
-        )
+        excluded = self.sum([FixedPowerSetNode(self, child, count) for count in range(minimum)])
         return self.sum([unrestricted, self.scale(excluded, Fraction(-1))])
 
     def fixed_cycle(self, child: CoefficientNode, count: int) -> CoefficientNode:

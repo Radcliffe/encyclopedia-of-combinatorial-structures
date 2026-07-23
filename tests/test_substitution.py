@@ -30,9 +30,7 @@ def contains_subst(expression) -> bool:
 
 class SubstitutionConstructorTests(unittest.TestCase):
     def test_parser_preserves_and_expander_desugars_subst(self):
-        equations = parse_specification(
-            "{A = Prod(Z,Z), B = Union(Z,Prod(Z,B)), S = Subst(A,B)}"
-        )
+        equations = parse_specification("{A = Prod(Z,Z), B = Union(Z,Prod(Z,B)), S = Subst(A,B)}")
 
         self.assertEqual(equations["S"].name, "Subst")
         expanded = expand_substitutions(equations)
@@ -41,10 +39,7 @@ class SubstitutionConstructorTests(unittest.TestCase):
         self.assertFalse(any(contains_subst(expression) for expression in expanded.values()))
 
     def test_unlabelled_substitution_preserves_outer_symmetries(self):
-        specification = (
-            "{A = Sequence(Z,1 <= card), "
-            "S = Subst(A,Set(Z,1 <= card))}"
-        )
+        specification = "{A = Sequence(Z,1 <= card), S = Subst(A,Set(Z,1 <= card))}"
 
         expected = [0, 1, 2, 3, 5, 7, 11, 15]
         self.assertEqual(
@@ -52,17 +47,12 @@ class SubstitutionConstructorTests(unittest.TestCase):
             expected,
         )
         self.assertEqual(
-            [
-                len(allstructs(specification, labelled=False, size=size))
-                for size in range(8)
-            ],
+            [len(allstructs(specification, labelled=False, size=size)) for size in range(8)],
             expected,
         )
 
     def test_labelled_substitution_uses_partitional_label_distribution(self):
-        specification = (
-            "{S = Subst(Set(Z,card = 2),Set(Z,1 <= card))}"
-        )
+        specification = "{S = Subst(Set(Z,card = 2),Set(Z,1 <= card))}"
 
         expected = [0, 0, 1, 0, 3, 0, 15, 0, 105]
         self.assertEqual(
@@ -70,17 +60,12 @@ class SubstitutionConstructorTests(unittest.TestCase):
             expected,
         )
         self.assertEqual(
-            [
-                len(allstructs(specification, labelled=True, size=size))
-                for size in range(7)
-            ],
+            [len(allstructs(specification, labelled=True, size=size)) for size in range(7)],
             expected[:7],
         )
 
     def test_named_recursive_outer_grammar_is_cloned(self):
-        specification = (
-            "{A = Prod(Z,Z), B = Union(Z,Prod(Z,B)), S = Subst(A,B)}"
-        )
+        specification = "{A = Prod(Z,Z), B = Union(Z,Prod(Z,B)), S = Subst(A,B)}"
 
         expected = [0, 0, 1, 0, 1, 0, 1, 0, 1]
         self.assertEqual(
@@ -88,22 +73,13 @@ class SubstitutionConstructorTests(unittest.TestCase):
             expected,
         )
         self.assertEqual(
-            [
-                len(allstructs(specification, labelled=False, size=size))
-                for size in range(9)
-            ],
+            [len(allstructs(specification, labelled=False, size=size)) for size in range(9)],
             expected,
         )
 
     def test_nested_substitution_is_associative(self):
-        nested = (
-            "{S = Subst(Prod(Z,Z),"
-            "Subst(Sequence(Z,card = 2),Sequence(Z,1 <= card)))}"
-        )
-        flattened = (
-            "{S = Subst(Subst(Prod(Z,Z),Sequence(Z,card = 2)),"
-            "Sequence(Z,1 <= card))}"
-        )
+        nested = "{S = Subst(Prod(Z,Z),Subst(Sequence(Z,card = 2),Sequence(Z,1 <= card)))}"
+        flattened = "{S = Subst(Subst(Prod(Z,Z),Sequence(Z,card = 2)),Sequence(Z,1 <= card))}"
 
         self.assertEqual(
             [count(nested, labelled=False, size=size) for size in range(13)],
@@ -150,10 +126,7 @@ class SubstitutionConstructorTests(unittest.TestCase):
         )
         coefficients = generating_function_coefficients(labeled_expression, 9)
         self.assertEqual(
-            [
-                int(coefficient * factorial(size))
-                for size, coefficient in enumerate(coefficients)
-            ],
+            [int(coefficient * factorial(size)) for size, coefficient in enumerate(coefficients)],
             [0, 0, 1, 0, 3, 0, 15, 0, 105],
         )
 

@@ -128,7 +128,9 @@ class ExhaustiveGenerationTests(unittest.TestCase):
         objects = allstructs("{S = Union(Z,Z)}", labelled=False, size=1)
 
         self.assertEqual(len(objects), 2)
-        self.assertEqual({obj.branch for obj in objects if isinstance(obj, ConstructionObject)}, {0, 1})
+        self.assertEqual(
+            {obj.branch for obj in objects if isinstance(obj, ConstructionObject)}, {0, 1}
+        )
 
     def test_parsed_equations_and_nondefault_symbol_are_supported(self):
         equations = parse_specification("{A = Sequence(Z)}")

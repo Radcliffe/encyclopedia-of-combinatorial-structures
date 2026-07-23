@@ -124,7 +124,11 @@ def _label_partitions(
         return
     for assignments in product(range(parts), repeat=len(labels)):
         blocks = tuple(
-            tuple(label for label, assignment in zip(labels, assignments, strict=True) if assignment == part)
+            tuple(
+                label
+                for label, assignment in zip(labels, assignments, strict=True)
+                if assignment == part
+            )
             for part in range(parts)
         )
         yield blocks
@@ -242,7 +246,9 @@ class _Enumerator:
         if len(expression.arguments) != 1:
             raise SpecificationError(f"{expression.name} requires exactly one component argument")
         if name == "sequence":
-            return self._collection("Sequence", expression.arguments[0], expression.cardinality, key)
+            return self._collection(
+                "Sequence", expression.arguments[0], expression.cardinality, key
+            )
         if name == "set":
             return self._collection("Set", expression.arguments[0], expression.cardinality, key)
         if name == "cycle":
@@ -305,8 +311,7 @@ class _Enumerator:
             if any(not choice for choice in choices):
                 continue
             result.update(
-                ConstructionObject(constructor, tuple(children))
-                for children in product(*choices)
+                ConstructionObject(constructor, tuple(children)) for children in product(*choices)
             )
         return result
 

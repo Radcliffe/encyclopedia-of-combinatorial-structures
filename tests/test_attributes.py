@@ -24,8 +24,7 @@ from combstruct import (
 class AttributeGrammarTests(unittest.TestCase):
     def test_parser_preserves_mirrored_constructors_and_linear_values(self):
         parsed = parse_attribute_specification(
-            "{path(T)=Union(0,Prod(0,path(T)+size(T),"
-            "2*path(T)+size(T)-1))}",
+            "{path(T)=Union(0,Prod(0,path(T)+size(T),2*path(T)+size(T)-1))}",
         )
 
         self.assertEqual(
@@ -198,14 +197,8 @@ class AttributeGrammarTests(unittest.TestCase):
         self.assertEqual(moments.series("S", 1, 1)[2], 22)
 
     def test_symbolic_costs_remain_symbolic_in_equations_and_bind_for_series(self):
-        grammar = (
-            "{Bit=Union(zero,one),zero=Atom,one=Atom,"
-            "Chain=Sequence(Bit,card=2)}"
-        )
-        attribute_grammar = (
-            "{cost(Bit)=Union(sq,sq+mul),"
-            "cost(Chain)=Sequence(cost(Bit))}"
-        )
+        grammar = "{Bit=Union(zero,one),zero=Atom,one=Atom,Chain=Sequence(Bit,card=2)}"
+        attribute_grammar = "{cost(Bit)=Union(sq,sq+mul),cost(Chain)=Sequence(cost(Bit))}"
         equations = agfeqns(
             grammar,
             attribute_grammar,
@@ -367,10 +360,7 @@ class AttributeGrammarTests(unittest.TestCase):
 
     def test_acyclic_attributes_can_depend_on_other_attributes(self):
         grammar = "{T=Union(Z,Prod(Z,T))}"
-        attribute_grammar = (
-            "{a(T)=Union(1,Prod(0,a(T))),"
-            "b(T)=Union(2,Prod(0,b(T)))+a(T)}"
-        )
+        attribute_grammar = "{a(T)=Union(1,Prod(0,a(T))),b(T)=Union(2,Prod(0,b(T)))+a(T)}"
         attributes = {"u": "a", "v": "b"}
 
         series = agfseries(
