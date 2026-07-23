@@ -1,7 +1,7 @@
 {
     "id": 654,
-    "name": "Expansion of  (1/2)*(1/x^2 - 1/x)*(1-x-sqrt(1-2*x+x^2-4*x^3)) - x",
-    "description": "Expansion of  (1/2)*(1/x^2 - 1/x)*(1-x-sqrt(1-2*x+x^2-4*x^3)) - x",
+    "name": "Expansion of (1/2)*(1/x^2 - 1/x)*(1-x-sqrt(1-2*x+x^2-4*x^3)) - x",
+    "description": "Expansion of (1/2)*(1/x^2 - 1/x)*(1-x-sqrt(1-2*x+x^2-4*x^3)) - x",
     "specification": "{B = Prod(C,Z), C = Union(S,B,Z), S = Prod(B,B)}",
     "labeled": false,
     "symbol": "S",

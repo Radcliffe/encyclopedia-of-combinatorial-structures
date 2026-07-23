@@ -1,7 +1,7 @@
 {
     "id": 674,
-    "name": "E.g.f. 1 - x - sqrt(1-4*x)",
-    "description": "E.g.f. 1 - x - sqrt(1-4*x)",
+    "name": "EGF: 1 - x - sqrt(1-4*x)",
+    "description": "EGF: 1 - x - sqrt(1-4*x)",
     "specification": "{B = Union(Z,C), C= Prod(B,B), S = Union(B,C)}",
     "labeled": true,
     "symbol": "S",

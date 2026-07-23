@@ -1,7 +1,7 @@
 {
     "id": 171,
-    "name": "Expansion of e.g.f.: 1/2 + exp(-4*x)/2",
-    "description": "Expansion of e.g.f.: 1/2 + exp(-4*x)/2",
+    "name": "Expansion of OGF: 1/2 + exp(-4*x)/2",
+    "description": "Expansion of OGF: 1/2 + exp(-4*x)/2",
     "specification": "{B = Sequence(Z,1 <= card), C = Sequence(B,1 <= card), E = Sequence(B,1 <=card), F = Union(C,E), S = Sequence(F)}",
     "labeled": false,
     "symbol": "S",

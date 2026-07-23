@@ -1,7 +1,7 @@
 {
     "id": 695,
-    "name": "E.g.f. (1-sqrt(1-4x-4x^2))/2 -x*(1+x)",
-    "description": "E.g.f. (1-sqrt(1-4x-4x^2))/2 -x*(1+x)",
+    "name": "EGF: (1-sqrt(1-4x-4x^2))/2 -x*(1+x)",
+    "description": "EGF: (1-sqrt(1-4x-4x^2))/2 -x*(1+x)",
     "specification": "{B = Prod(Z,Z), C =Union(B,S,Z), S = Prod(C,C)}",
     "labeled": true,
     "symbol": "S",

@@ -1,7 +1,7 @@
 {
     "id": 631,
-    "name": "Expansion of e.g.f. 2*x^4/(1-x)",
-    "description": "Expansion of e.g.f. 2*x^4/(1-x)",
+    "name": "Expansion of EGF: 2*x^4/(1-x)",
+    "description": "Expansion of EGF: 2*x^4/(1-x)",
     "specification": "{S = Prod(Z,Z,Z,Sequence(Z),Union(Z,Z))}",
     "labeled": true,
     "symbol": "S",

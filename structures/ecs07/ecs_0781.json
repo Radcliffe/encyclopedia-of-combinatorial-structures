@@ -1,7 +1,7 @@
 {
     "id": 781,
-    "name": "Expansion of g.f. (1+x)*Product_{m>0} (1 + x^m)",
-    "description": "Expansion of g.f. (1+x)*Product_{m>0} (1 + x^m)",
+    "name": "Expansion of OGF: (1+x)*Product_{m>0} (1 + x^m)",
+    "description": "Expansion of OGF: (1+x)*Product_{m>0} (1 + x^m)",
     "specification": "{B =Sequence(Z,1 <= card), C = Union(B,Z), S = PowerSet(C)}",
     "labeled": false,
     "symbol": "S",

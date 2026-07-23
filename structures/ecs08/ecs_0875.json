@@ -1,7 +1,7 @@
 {
     "id": 875,
-    "name": "Expansion of g.f.: (1-2*x) / ((x-1)*(4*x^2+2*x-1))",
-    "description": "Expansion of g.f.: (1-2*x) / ((x-1)*(4*x^2+2*x-1))",
+    "name": "Expansion of OGF: (1-2*x) / ((x-1)*(4*x^2+2*x-1))",
+    "description": "Expansion of OGF: (1-2*x) / ((x-1)*(4*x^2+2*x-1))",
     "specification": "{S = Sequence(Prod(Union(Sequence(Union(Z,Z)),Z,Z),Z))}",
     "labeled": false,
     "symbol": "S",

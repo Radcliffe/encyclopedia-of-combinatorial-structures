@@ -1,7 +1,7 @@
 {
     "id": 837,
-    "name": "\"CIJ\" (necklace, indistinct, labeled) transform of 2,1,1,1",
-    "description": "\"CIJ\" (necklace, indistinct, labeled) transform of 2,1,1,1",
+    "name": "\"CIJ\" (necklace, indistinct, labeled) transform of 2, 1, 1, 1",
+    "description": "\"CIJ\" (necklace, indistinct, labeled) transform of 2, 1, 1, 1",
     "specification": "{B = Set(Z,1 <= card), C = Union(Z,B), S = Cycle(C)}",
     "labeled": true,
     "symbol": "S",

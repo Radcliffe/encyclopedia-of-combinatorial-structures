@@ -1,7 +1,7 @@
 {
     "id": 604,
-    "name": "Expansion of e.g.f. x^2/((1-x)^2*(1+x))",
-    "description": "Expansion of e.g.f. x^2/((1-x)^2*(1+x))",
+    "name": "Expansion of EGF: x^2/((1-x)^2*(1+x))",
+    "description": "Expansion of EGF: x^2/((1-x)^2*(1+x))",
     "specification": "{S = Prod(Z,Z,Sequence(Z),Sequence(Prod(Z,Z)))}",
     "labeled": true,
     "symbol": "S",

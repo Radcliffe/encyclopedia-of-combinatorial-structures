@@ -1,7 +1,7 @@
 {
     "id": 642,
-    "name": "Expansion of e.g.f. (1-x)/(1-3*x+x^3)",
-    "description": "Expansion of e.g.f. (1-x)/(1-3*x+x^3)",
+    "name": "Expansion of EGF: (1-x)/(1-3*x+x^3)",
+    "description": "Expansion of EGF: (1-x)/(1-3*x+x^3)",
     "specification": "{S = Sequence(Union(Z,Prod(Z,Union(Z,Sequence(Z)))))}",
     "labeled": true,
     "symbol": "S",

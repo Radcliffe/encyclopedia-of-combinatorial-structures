@@ -1,7 +1,7 @@
 {
     "id": 92,
-    "name": "Planar labelled trees with no unary node",
-    "description": "Planar labelled trees with no unary node",
+    "name": "Planar labeled trees with no unary node",
+    "description": "Planar labeled trees with no unary node",
     "specification": "{B = Sequence(S,2<= card), S = Union(B,Z)}",
     "labeled": true,
     "symbol": "S",

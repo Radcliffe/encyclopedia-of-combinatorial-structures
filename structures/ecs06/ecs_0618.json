@@ -1,7 +1,7 @@
 {
     "id": 618,
-    "name": "Expansion of e.g.f. x^2/(1-4*x)",
-    "description": "Expansion of e.g.f. x^2/(1-4*x)",
+    "name": "Expansion of EGF: x^2/(1-4*x)",
+    "description": "Expansion of EGF: x^2/(1-4*x)",
     "specification": "{S = Prod(Z,Z,Sequence(Union(Z,Z,Z,Z)))}",
     "labeled": true,
     "symbol": "S",

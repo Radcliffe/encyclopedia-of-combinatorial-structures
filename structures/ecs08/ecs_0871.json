@@ -1,7 +1,7 @@
 {
     "id": 871,
-    "name": "E.g.f.: (1/2)/(exp(x) - 1) * (1 - (5 - 4*exp(x))^(1/2))",
-    "description": "E.g.f.: (1/2)/(exp(x) - 1) * (1 - (5 - 4*exp(x))^(1/2))",
+    "name": "EGF: (1/2)/(exp(x) - 1) * (1 - (5 - 4*exp(x))^(1/2))",
+    "description": "EGF: (1/2)/(exp(x) - 1) * (1 - (5 - 4*exp(x))^(1/2))",
     "specification": "{B = Prod(C,S), C = Set(Z,1 <= card), S = Sequence(B)}",
     "labeled": true,
     "symbol": "S",

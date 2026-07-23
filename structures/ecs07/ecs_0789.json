@@ -1,7 +1,7 @@
 {
     "id": 789,
     "name": "Cycles of pairs of cycles",
-    "description": "Cycles of pairs of Cycles",
+    "description": "Cycles of pairs of cycles",
     "specification": "{B = Cycle(Z), C = Prod(B,B), S = Cycle(C)}",
     "labeled": true,
     "symbol": "S",

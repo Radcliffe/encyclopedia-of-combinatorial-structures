@@ -1,7 +1,7 @@
 {
     "id": 551,
-    "name": "E.g.f. (1-x)^2/(1-4x+x^2)",
-    "description": "E.g.f. (1-x)^2/(1-4x+x^2)",
+    "name": "EGF: (1-x)^2/(1-4x+x^2)",
+    "description": "EGF: (1-x)^2/(1-4x+x^2)",
     "specification": "{S = Sequence(Prod(Sequence(Z),Sequence(Z),Union(Z,Z)))}",
     "labeled": true,
     "symbol": "S",

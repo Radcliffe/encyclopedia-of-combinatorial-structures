@@ -1,7 +1,7 @@
 {
     "id": 788,
     "name": "Cycles of pairs of sequences",
-    "description": "Cycles of pairs of Sequences",
+    "description": "Cycles of pairs of sequences",
     "specification": "{B = Sequence(Z,1 <= card), C = Prod(B,B), S =Cycle(C)}",
     "labeled": false,
     "symbol": "S",

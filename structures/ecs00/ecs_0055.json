@@ -1,7 +1,7 @@
 {
     "id": 55,
-    "name": "Unlabelled plane binary trees counted by all nodes",
-    "description": "Unlabelled Binary Trees of n elements (external nodes or internal nodes) with two branches",
+    "name": "Unlabeled plane binary trees counted by all nodes",
+    "description": "Unlabeled binary trees of n elements (external nodes or internal nodes) with two branches",
     "specification": "{S = Union(Z,Prod(Z,S,S))}",
     "labeled": false,
     "symbol": "S",

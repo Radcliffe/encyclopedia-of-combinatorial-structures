@@ -1,7 +1,7 @@
 {
     "id": 239,
     "name": "Denumerant for coin values 4, 8, 12, 20",
-    "description": "number of ways to make n cents with coins of 4 8 12 20 cents",
+    "description": "Number of ways to make n cents with coins of 4 8 12 20 cents",
     "specification": "{S = Prod(Sequence(Prod(Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)),Sequence(Prod(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)))}",
     "labeled": false,
     "symbol": "S",

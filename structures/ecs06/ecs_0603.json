@@ -1,7 +1,7 @@
 {
     "id": 603,
-    "name": "E.g.f. x*(1+2x-4x^2)/(1-2x)",
-    "description": "E.g.f. x*(1+2x-4x^2)/(1-2x)",
+    "name": "EGF: x*(1+2x-4x^2)/(1-2x)",
+    "description": "EGF: x*(1+2x-4x^2)/(1-2x)",
     "specification": "{S = Prod(Z,Union(Z,Z,Sequence(Union(Z,Z))))}",
     "labeled": true,
     "symbol": "S",

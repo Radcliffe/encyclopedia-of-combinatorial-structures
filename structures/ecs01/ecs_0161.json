@@ -1,7 +1,7 @@
 {
     "id": 161,
-    "name": "Number of conjugacy classes in GL(n,2)",
-    "description": "Number of conjugacy classes in GL(n,2)",
+    "name": "Number of conjugacy classes in GL(n, 2)",
+    "description": "Number of conjugacy classes in GL(n, 2)",
     "specification": "{B = Set(E), C = Sequence(Z,1 <= card), E = Cycle(C), S = Prod(B,Z)}",
     "labeled": false,
     "symbol": "S",

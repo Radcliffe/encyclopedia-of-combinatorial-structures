@@ -1,7 +1,7 @@
 {
     "id": 56,
-    "name": "rooted identity trees",
-    "description": "rooted identity trees",
+    "name": "Rooted identity trees",
+    "description": "Rooted identity trees",
     "specification": "{S = Prod(Z,PowerSet(S))}",
     "labeled": false,
     "symbol": "S",

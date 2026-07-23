@@ -1,7 +1,7 @@
 {
     "id": 170,
-    "name": "Pisot sequences E(2,6), L(2,6), P(2,6), T(2,6)",
-    "description": "Pisot sequences E(2,6), L(2,6), P(2,6), T(2,6)",
+    "name": "Pisot sequences E(2, 6), L(2, 6), P(2, 6), T(2, 6)",
+    "description": "Pisot sequences E(2, 6), L(2, 6), P(2, 6), T(2, 6)",
     "specification": "{B = Sequence(Z,1 <= card), C = Union(B,E), E = Sequence(Z,1 <= card), S = Sequence(C)}",
     "labeled": false,
     "symbol": "S",

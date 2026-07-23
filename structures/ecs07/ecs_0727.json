@@ -1,7 +1,7 @@
 {
     "id": 727,
-    "name": "Expansion of e.g.f. log(-1/(-1+x))^4*x",
-    "description": "Expansion of e.g.f. log(-1/(-1+x))^4*x",
+    "name": "Expansion of EGF: log(-1/(-1+x))^4*x",
+    "description": "Expansion of EGF: log(-1/(-1+x))^4*x",
     "specification": "{B = Cycle(Z), S = Prod(Z,B,B,B,B)}",
     "labeled": true,
     "symbol": "S",

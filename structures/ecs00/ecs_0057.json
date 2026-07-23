@@ -1,7 +1,7 @@
 {
     "id": 57,
-    "name": "Rooted non-plane unlabelled trees",
-    "description": "Rooted, non plane, unlabelled Trees",
+    "name": "Rooted non-plane unlabeled trees",
+    "description": "Rooted, non-plane, unlabeled trees",
     "specification": "{S = Prod(Z,Set(S))}",
     "labeled": false,
     "symbol": "S",

@@ -1,7 +1,7 @@
 {
     "id": 726,
-    "name": "E.g.f.: x^3*(exp(x)-1)^2",
-    "description": "E.g.f.: x^3*(exp(x)-1)^2",
+    "name": "EGF: x^3*(exp(x)-1)^2",
+    "description": "EGF: x^3*(exp(x)-1)^2",
     "specification": "{B = Set(Z,1 <= card), S = Prod(Z,Z,Z,B,B)}",
     "labeled": true,
     "symbol": "S",

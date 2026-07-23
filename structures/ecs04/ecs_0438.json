@@ -1,7 +1,7 @@
 {
     "id": 438,
-    "name": "a(n) = 3*binomial(4*n-1,n-1)/(4*n-1)",
-    "description": "a(n) = 3*binomial(4*n-1,n-1)/(4*n-1)",
+    "name": "a(n) = 3*binomial(4*n-1, n-1)/(4*n-1)",
+    "description": "a(n) = 3*binomial(4*n-1, n-1)/(4*n-1)",
     "specification": "{B = Sequence(S), S = Prod(B,B,B,Z)}",
     "labeled": false,
     "symbol": "S",

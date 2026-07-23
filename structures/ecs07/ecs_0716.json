@@ -1,7 +1,7 @@
 {
     "id": 716,
-    "name": "E.g.f.: x^3*log(1/(1-x))",
-    "description": "E.g.f.: x^3*log(1/(1-x))",
+    "name": "EGF: x^3*log(1/(1-x))",
+    "description": "EGF: x^3*log(1/(1-x))",
     "specification": "{B = Cycle(Z), S = Prod(B,Z,Z,Z)}",
     "labeled": true,
     "symbol": "S",

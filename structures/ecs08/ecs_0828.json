@@ -1,7 +1,7 @@
 {
     "id": 828,
     "name": "Rooted sequences of atomic cycles",
-    "description": "rooted Sequences of Cycles",
+    "description": "Rooted sequences of cycles",
     "specification": "{B = Sequence(C), C = Cycle(Z), S = Prod(Z,B)}",
     "labeled": true,
     "symbol": "S",

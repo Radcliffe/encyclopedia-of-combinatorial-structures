@@ -1,7 +1,7 @@
 {
     "id": 815,
-    "name": "G.f.: 1 / Product_{k>=1} (1-x^k)^(k-1)",
-    "description": "G.f.: 1 / Product_{k>=1} (1-x^k)^(k-1)",
+    "name": "OGF: 1 / Product_{k>=1} (1-x^k)^(k-1)",
+    "description": "OGF: 1 / Product_{k>=1} (1-x^k)^(k-1)",
     "specification": "{B = Sequence(Z,1 <= card), C = Prod(B,B), S = Set(C)}",
     "labeled": false,
     "symbol": "S",

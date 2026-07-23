@@ -1,7 +1,7 @@
 {
     "id": 512,
-    "name": "E.g.f. 1/((1-x)(1-x^3))",
-    "description": "E.g.f. 1/((1-x)(1-x^3))",
+    "name": "EGF: 1/((1-x)(1-x^3))",
+    "description": "EGF: 1/((1-x)(1-x^3))",
     "specification": "{S = Prod(Sequence(Prod(Z,Z,Z)),Sequence(Z))}",
     "labeled": true,
     "symbol": "S",

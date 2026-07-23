@@ -1,7 +1,7 @@
 {
     "id": 623,
-    "name": "Expansion of e.g.f. (1-x)/(1-5*x)",
-    "description": "Expansion of e.g.f. (1-x)/(1-5*x)",
+    "name": "Expansion of EGF: (1-x)/(1-5*x)",
+    "description": "Expansion of EGF: (1-x)/(1-5*x)",
     "specification": "{S = Sequence(Prod(Sequence(Z),Union(Z,Z,Z,Z)))}",
     "labeled": true,
     "symbol": "S",

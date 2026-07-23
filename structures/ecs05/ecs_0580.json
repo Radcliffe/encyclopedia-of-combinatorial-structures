@@ -1,7 +1,7 @@
 {
     "id": 580,
-    "name": "Expansion of e.g.f. 1/((1-2*x^2)*(1-x))",
-    "description": "Expansion of e.g.f. 1/((1-2*x^2)*(1-x))",
+    "name": "Expansion of EGF: 1/((1-2*x^2)*(1-x))",
+    "description": "Expansion of EGF: 1/((1-2*x^2)*(1-x))",
     "specification": "{S = Prod(Sequence(Prod(Z,Union(Z,Z))),Sequence(Z))}",
     "labeled": true,
     "symbol": "S",

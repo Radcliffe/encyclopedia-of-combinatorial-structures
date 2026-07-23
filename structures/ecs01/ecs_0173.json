@@ -1,7 +1,7 @@
 {
     "id": 173,
-    "name": "Expansion of e.g.f. log(1+log(1+x)/exp(x))",
-    "description": "Expansion of e.g.f. log(1+log(1+x)/exp(x))",
+    "name": "Expansion of EGF: log(1+log(1+x)/exp(x))",
+    "description": "Expansion of EGF: log(1+log(1+x)/exp(x))",
     "specification": "{B = Set(Z), C = Cycle(Z), E = Prod(B,C), S = Cycle(E)}",
     "labeled": true,
     "symbol": "S",

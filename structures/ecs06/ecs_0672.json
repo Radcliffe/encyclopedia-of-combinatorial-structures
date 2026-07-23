@@ -1,7 +1,7 @@
 {
     "id": 672,
-    "name": "Expansion of e.g.f. (x + 1 - sqrt(1-6*x+x^2))/2",
-    "description": "Expansion of e.g.f. (x + 1 - sqrt(1-6*x+x^2))/2",
+    "name": "Expansion of EGF: (x + 1 - sqrt(1-6*x+x^2))/2",
+    "description": "Expansion of EGF: (x + 1 - sqrt(1-6*x+x^2))/2",
     "specification": "{B = Prod(S,C), C =Union(B,Z), S = Union(Z,C)}",
     "labeled": true,
     "symbol": "S",

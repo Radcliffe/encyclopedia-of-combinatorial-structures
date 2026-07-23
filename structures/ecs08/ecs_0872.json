@@ -1,7 +1,7 @@
 {
     "id": 872,
-    "name": "E.g.f.: (exp(exp(x)-1)-1)^2",
-    "description": "E.g.f.: (exp(exp(x)-1)-1)^2",
+    "name": "EGF: (exp(exp(x)-1)-1)^2",
+    "description": "EGF: (exp(exp(x)-1)-1)^2",
     "specification": "{B = Set(Z,1 <= card),C = Set(B,1 <= card), S = Prod(C,C)}",
     "labeled": true,
     "symbol": "S",

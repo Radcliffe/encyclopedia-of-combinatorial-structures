@@ -1,7 +1,7 @@
 {
     "id": 390,
-    "name": "EULER transform of 3, 2, 2, 2, 2, 2, 2, 2, ",
-    "description": "EULER transform of 3, 2, 2, 2, 2, 2, 2, 2, ",
+    "name": "EULER transform of 3, 2, 2, 2, 2, 2, 2, 2",
+    "description": "EULER transform of 3, 2, 2, 2, 2, 2, 2, 2",
     "specification": "{B = Set(C), C = Sequence(Z,1 <=card), S = Prod(C,B,B)}",
     "labeled": false,
     "symbol": "S",

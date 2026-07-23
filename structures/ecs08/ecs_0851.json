@@ -1,7 +1,7 @@
 {
     "id": 851,
-    "name": "Expansion of e.g.f.: LambertW(1-exp(x))/(1-exp(x))",
-    "description": "Expansion of e.g.f.: LambertW(1-exp(x))/(1-exp(x))",
+    "name": "Expansion of EGF: LambertW(1-exp(x))/(1-exp(x))",
+    "description": "Expansion of EGF: LambertW(1-exp(x))/(1-exp(x))",
     "specification": "{B = Set(Z,1 <= card),C = Prod(B,S), S = Set(C)}",
     "labeled": true,
     "symbol": "S",

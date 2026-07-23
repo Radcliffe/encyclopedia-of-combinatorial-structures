@@ -1,7 +1,7 @@
 {
     "id": 578,
-    "name": "E.g.f. 1/(1-x-x^5)",
-    "description": "E.g.f. 1/(1-x-x^5)",
+    "name": "EGF: 1/(1-x-x^5)",
+    "description": "EGF: 1/(1-x-x^5)",
     "specification": "{S = Sequence(Union(Z,Prod(Z,Z,Z,Z,Z)))}",
     "labeled": true,
     "symbol": "S",

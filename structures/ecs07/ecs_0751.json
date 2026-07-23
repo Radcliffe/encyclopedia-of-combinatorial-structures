@@ -1,7 +1,7 @@
 {
     "id": 751,
-    "name": "E.g.f.: -x^5*log(1-x)",
-    "description": "E.g.f.: -x^5*log(1-x)",
+    "name": "EGF: -x^5*log(1-x)",
+    "description": "EGF: -x^5*log(1-x)",
     "specification": "{B = Cycle(Z), S = Prod(Z,Z,Z,Z,Z,B)}",
     "labeled": true,
     "symbol": "S",

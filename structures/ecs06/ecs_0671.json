@@ -1,7 +1,7 @@
 {
     "id": 671,
-    "name": "Expansion of e.g.f. (1-2*x-sqrt(1-4*x))/2 - x*(1-2*x-sqrt(1-4*x)) - x^2",
-    "description": "Expansion of e.g.f. (1-2*x-sqrt(1-4*x))/2 - x*(1-2*x-sqrt(1-4*x)) - x^2",
+    "name": "Expansion of EGF: (1-2*x-sqrt(1-4*x))/2 - x*(1-2*x-sqrt(1-4*x)) - x^2",
+    "description": "Expansion of EGF: (1-2*x-sqrt(1-4*x))/2 - x*(1-2*x-sqrt(1-4*x)) - x^2",
     "specification": "{B = Union(Z,C), C = Prod(B,B), S = Prod(C,C)}",
     "labeled": true,
     "symbol": "S",

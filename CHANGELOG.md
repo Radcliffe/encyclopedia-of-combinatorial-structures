@@ -15,6 +15,9 @@ or date section and leave this section in place for subsequent work.
 
 ### Changed
 
+- Normalized structure names and descriptions to sentence-style capitalization,
+  consistent punctuation and OGF/EGF abbreviations, and American English
+  spelling, with a reproducible maintenance script and regression tests.
 - Distinguished every stored ordinary and exponential generating function with
   an explicit `gf_type`, exposed that classification through the Python API,
   and added OGF/EGF labels and filtering to the website.

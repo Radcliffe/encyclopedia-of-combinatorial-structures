@@ -1,7 +1,7 @@
 {
     "id": 1054,
-    "name": "Expansion of  ( 1-x ) / ( 1-4*x-3*x^2+3*x^3 )",
-    "description": "Expansion of  ( 1-x ) / ( 1-4*x-3*x^2+3*x^3 )",
+    "name": "Expansion of ( 1-x ) / ( 1-4*x-3*x^2+3*x^3 )",
+    "description": "Expansion of ( 1-x ) / ( 1-4*x-3*x^2+3*x^3 )",
     "specification": "{S = Sequence(Prod(Union(Z,Z,Z),Union(Sequence(Z),Z)))}",
     "labeled": false,
     "symbol": "S",

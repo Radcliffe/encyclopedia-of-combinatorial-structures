@@ -1,7 +1,7 @@
 {
     "id": 450,
-    "name": "Expansion of g.f.: x^4/((1-x)*(1-x^2)^2*(1-x^3))",
-    "description": "Expansion of g.f.: x^4/((1-x)*(1-x^2)^2*(1-x^3))",
+    "name": "Expansion of OGF: x^4/((1-x)*(1-x^2)^2*(1-x^3))",
+    "description": "Expansion of OGF: x^4/((1-x)*(1-x^2)^2*(1-x^3))",
     "specification": "{B = Union(Epsilon,Z), C = Prod(Z,B,B), S = Set(C)}",
     "labeled": false,
     "symbol": "S",

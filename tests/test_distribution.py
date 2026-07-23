@@ -363,7 +363,7 @@ class PublicApiTests(unittest.TestCase):
                 record_count = len(json.load(source))
 
         self.assertEqual(record_count, 1075)
-        self.assertEqual(load_record(dataset, 56)["name"], "rooted identity trees")
+        self.assertEqual(load_record(dataset, 56)["name"], "Rooted identity trees")
 
 
 class CatalogTests(unittest.TestCase):
@@ -381,7 +381,7 @@ class CatalogTests(unittest.TestCase):
         structure = catalog.get(56)
 
         self.assertIsInstance(structure, Structure)
-        self.assertEqual(structure.name, "rooted identity trees")
+        self.assertEqual(structure.name, "Rooted identity trees")
         self.assertEqual(structure.terms[:8], (0, 1, 1, 1, 2, 3, 6, 12))
         self.assertTrue(all(isinstance(term, int) for term in structure.terms))
         self.assertIs(catalog.get(56), structure)

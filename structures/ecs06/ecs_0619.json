@@ -1,7 +1,7 @@
 {
     "id": 619,
-    "name": "Expansion of e.g.f. x^3*(1-x)/(1-2*x)",
-    "description": "Expansion of e.g.f. x^3*(1-x)/(1-2*x)",
+    "name": "Expansion of EGF: x^3*(1-x)/(1-2*x)",
+    "description": "Expansion of EGF: x^3*(1-x)/(1-2*x)",
     "specification": "{S = Prod(Z,Z,Z,Sequence(Prod(Z,Sequence(Z))))}",
     "labeled": true,
     "symbol": "S",

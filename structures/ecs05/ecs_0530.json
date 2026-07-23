@@ -1,7 +1,7 @@
 {
     "id": 530,
-    "name": "E.g.f. 1/(1-x-2*x^2)",
-    "description": "E.g.f. 1/(1-x-2*x^2)",
+    "name": "EGF: 1/(1-x-2*x^2)",
+    "description": "EGF: 1/(1-x-2*x^2)",
     "specification": "{S = Sequence(Union(Z,Prod(Z,Union(Z,Z))))}",
     "labeled": true,
     "symbol": "S",

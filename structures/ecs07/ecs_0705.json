@@ -1,7 +1,7 @@
 {
     "id": 705,
-    "name": "a(n) = 2*n * Stirling2(n-1,2)",
-    "description": "a(n) = 2*n * Stirling2(n-1,2)",
+    "name": "a(n) = 2*n * Stirling2(n-1, 2)",
+    "description": "a(n) = 2*n * Stirling2(n-1, 2)",
     "specification": "{B = Set(Z,1 <= card),S = Prod(Z,B,B)}",
     "labeled": true,
     "symbol": "S",

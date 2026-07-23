@@ -1,7 +1,7 @@
 {
     "id": 564,
-    "name": "E.g.f. 3x^3/(1-x)",
-    "description": "E.g.f. 3x^3/(1-x)",
+    "name": "EGF: 3x^3/(1-x)",
+    "description": "EGF: 3x^3/(1-x)",
     "specification": "{S = Prod(Z,Z,Sequence(Z),Union(Z,Z,Z))}",
     "labeled": true,
     "symbol": "S",

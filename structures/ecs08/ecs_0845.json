@@ -1,7 +1,7 @@
 {
     "id": 845,
-    "name": "E.g.f.: -x/(-1+x)*(exp(-x/(-1+x))-1)",
-    "description": "E.g.f.: -x/(-1+x)*(exp(-x/(-1+x))-1)",
+    "name": "EGF: -x/(-1+x)*(exp(-x/(-1+x))-1)",
+    "description": "EGF: -x/(-1+x)*(exp(-x/(-1+x))-1)",
     "specification": "{B = Set(C,1 <= card), C = Sequence(Z,1 <= card), S = Prod(B,C)}",
     "labeled": true,
     "symbol": "S",

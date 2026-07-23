@@ -1,7 +1,7 @@
 {
     "id": 758,
-    "name": "E.g.f.: x^5*exp(x)-x^5",
-    "description": "E.g.f.: x^5*exp(x)-x^5",
+    "name": "EGF: x^5*exp(x)-x^5",
+    "description": "EGF: x^5*exp(x)-x^5",
     "specification": "{B = Set(Z,1 <= card), S = Prod(Z,Z,Z,Z,Z,B)}",
     "labeled": true,
     "symbol": "S",

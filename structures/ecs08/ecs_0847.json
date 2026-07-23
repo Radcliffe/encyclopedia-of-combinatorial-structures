@@ -1,7 +1,7 @@
 {
     "id": 847,
-    "name": "Expansion of e.g.f. (exp(x)-1)^2/(-2+exp(x))^2",
-    "description": "Expansion of e.g.f. (exp(x)-1)^2/(-2+exp(x))^2",
+    "name": "Expansion of EGF: (exp(x)-1)^2/(-2+exp(x))^2",
+    "description": "Expansion of EGF: (exp(x)-1)^2/(-2+exp(x))^2",
     "specification": "{B = Set(Z,1 <= card), C = Sequence(B,1<= card), S = Prod(C,C)}",
     "labeled": true,
     "symbol": "S",

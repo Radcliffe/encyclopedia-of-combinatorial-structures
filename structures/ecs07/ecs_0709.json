@@ -1,7 +1,7 @@
 {
     "id": 709,
-    "name": "Expansion of e.g.f.: log(1-x)^4",
-    "description": "Expansion of e.g.f.: log(1-x)^4",
+    "name": "Expansion of EGF: log(1-x)^4",
+    "description": "Expansion of EGF: log(1-x)^4",
     "specification": "{B = Cycle(Z), S = Prod(B,B,B,B)}",
     "labeled": true,
     "symbol": "S",

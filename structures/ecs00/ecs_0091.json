@@ -1,7 +1,7 @@
 {
     "id": 91,
-    "name": "Unlabelled mobile",
-    "description": "Unlabelled mobile with cycles of length at least 3",
+    "name": "Unlabeled mobile",
+    "description": "Unlabeled mobile with cycles of length at least 3",
     "specification": "{B = Cycle(S,3 <= card), S = Union(B,Z)}",
     "labeled": false,
     "symbol": "S",

@@ -1,7 +1,7 @@
 {
     "id": 22,
     "name": "Involutions",
-    "description": "involution of n elements",
+    "description": "Involution of n elements",
     "specification": "{S = Set(Cycle(Z,card <= 2))}",
     "labeled": true,
     "symbol": "S",

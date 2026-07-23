@@ -1,7 +1,7 @@
 {
     "id": 263,
-    "name": "Arrangements of n labelled objects in 4 rows",
-    "description": "Arrangements of n labelled objects in 4 rows",
+    "name": "Arrangements of n labeled objects in 4 rows",
+    "description": "Arrangements of n labeled objects in 4 rows",
     "specification": "{B = Sequence(Z), S = Prod(B,B,B,B)}",
     "labeled": true,
     "symbol": "S",

@@ -1,7 +1,7 @@
 {
     "id": 664,
-    "name": "Expansion of g.f. (1-sqrt(1-4*x-4*x^2))/(2*(1+x))",
-    "description": "Expansion of g.f. (1-sqrt(1-4*x-4*x^2))/(2*(1+x))",
+    "name": "Expansion of OGF: (1-sqrt(1-4*x-4*x^2))/(2*(1+x))",
+    "description": "Expansion of OGF: (1-sqrt(1-4*x-4*x^2))/(2*(1+x))",
     "specification": "{B = Prod(S,S), C = Prod(B,Z), S = Union(B,C,Z)}",
     "labeled": false,
     "symbol": "S",

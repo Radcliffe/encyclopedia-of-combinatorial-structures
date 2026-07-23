@@ -1,7 +1,7 @@
 {
     "id": 68,
     "name": "Integer compositions",
-    "description": "integer compositions of size n: Sequences (n1,...,nk) such that n1+n2+...+nk=n, with ni and k positive integers",
+    "description": "Integer compositions of size n: sequences (n1, ..., nk) such that n1+n2+...+nk=n, with ni and k positive integers",
     "specification": "{S = Sequence(Sequence(a,1 <= card)), a = Atom}",
     "labeled": false,
     "symbol": "S",

@@ -1,7 +1,7 @@
 {
     "id": 466,
-    "name": "Periodic sequence: Repeat 2,3",
-    "description": "Periodic sequence: Repeat 2,3",
+    "name": "Periodic sequence: repeat 2, 3",
+    "description": "Periodic sequence: repeat 2, 3",
     "specification": "{S = Union(Sequence(Prod(Z,Z)),Sequence(Z),Sequence(Z))}",
     "labeled": false,
     "symbol": "S",

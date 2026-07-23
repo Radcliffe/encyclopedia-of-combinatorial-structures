@@ -3,7 +3,6 @@ import json
 import re
 from pathlib import Path
 
-
 PROJECT_DIR = Path(__file__).resolve().parent.parent
 STRUCTURES_DIR = PROJECT_DIR / 'structures'
 WEB_DATA_PATH = PROJECT_DIR / 'react-app' / 'public' / 'ecs.json'
@@ -19,7 +18,7 @@ DESCRIPTION_BASED_NAMES = {
     'Functional graphs',
     'Hierarchies',
     'Integer partition',
-    'Labelled mobile',
+    'Labeled mobile',
     'Mobiles',
     'Non-planar trees',
     'Pairs of cycles',
@@ -29,7 +28,7 @@ DESCRIPTION_BASED_NAMES = {
     'Set partitions',
     'Stirling numbers of the second kind',
     'Trees',
-    'Unlabelled Plane Binary Trees',
+    'Unlabeled plane binary trees',
     'k-gonal numbers',
     'maps',
 }
@@ -55,9 +54,9 @@ EXPLICIT_NAMES = {
     35: 'Partial permutations (arrangements)',
     37: 'Connected functional graphs',
     39: 'Idempotent maps (trees of height at most 1)',
-    52: 'Unlabelled plane binary trees counted by leaves',
-    55: 'Unlabelled plane binary trees counted by all nodes',
-    57: 'Rooted non-plane unlabelled trees',
+    52: 'Unlabeled plane binary trees counted by leaves',
+    55: 'Unlabeled plane binary trees counted by all nodes',
+    57: 'Rooted non-plane unlabeled trees',
     64: 'Injective partial maps',
     66: 'Increasing injective partial maps',
     67: 'Partial maps',
@@ -70,9 +69,9 @@ EXPLICIT_NAMES = {
     653: 'Powers of 2 times Catalan numbers: a(n) = 2^n C(n-1)',
     669: 'Factorial-weighted powers of 2 times Catalan numbers',
     707: 'Sets of rooted ternary structures',
-    712: 'Structures with EGF -(1/3) LambertW(-3x)',
+    712: 'Structures with EGF: -(1/3) LambertW(-3x)',
     730: 'Sets of rooted quaternary structures',
-    759: 'Labelled pairs of sequences of cycles',
+    759: 'Labeled pairs of sequences of cycles',
     765: 'Cycles of rooted cycles',
     771: 'Rooted cycles of cycles',
     775: 'Sequences of pairs of cycles',

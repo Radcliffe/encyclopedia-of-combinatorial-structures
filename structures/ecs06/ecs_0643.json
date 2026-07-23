@@ -1,7 +1,7 @@
 {
     "id": 643,
-    "name": "Expansion of e.g.f. (1 + x^3 - 2*x^4)/(1-2*x)",
-    "description": "Expansion of e.g.f. (1 + x^3 - 2*x^4)/(1-2*x)",
+    "name": "Expansion of EGF: (1 + x^3 - 2*x^4)/(1-2*x)",
+    "description": "Expansion of EGF: (1 + x^3 - 2*x^4)/(1-2*x)",
     "specification": "{S = Union(Sequence(Union(Z,Z)),Prod(Z,Z,Z))}",
     "labeled": true,
     "symbol": "S",

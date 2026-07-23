@@ -1,7 +1,7 @@
 {
     "id": 784,
-    "name": "E.g.f. equals the series reversion of x + x*log(1-x)",
-    "description": "E.g.f. equals the series reversion of x + x*log(1-x)",
+    "name": "EGF equals the series reversion of x + x*log(1-x)",
+    "description": "EGF equals the series reversion of x + x*log(1-x)",
     "specification": "{B = Cycle(S), C = Sequence(B), S = Prod(C,Z)}",
     "labeled": true,
     "symbol": "S",

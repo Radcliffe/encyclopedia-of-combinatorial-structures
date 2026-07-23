@@ -1,7 +1,7 @@
 {
     "id": 93,
-    "name": "Planar unlabelled trees with neither unary nor binary nodes",
-    "description": "Planar unlabelled trees with neither unary nor binary nodes",
+    "name": "Planar unlabeled trees with neither unary nor binary nodes",
+    "description": "Planar unlabeled trees with neither unary nor binary nodes",
     "specification": "{B = Sequence(S,3 <= card),S = Union(B,Z)}",
     "labeled": false,
     "symbol": "S",

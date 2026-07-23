@@ -1,7 +1,7 @@
 {
     "id": 2,
-    "name": "Necklaces of 2 colours",
-    "description": "Necklaces of 2 colours; binary irreducible polynomials whose degree divides n",
+    "name": "Necklaces of 2 colors",
+    "description": "Necklaces of 2 colors; binary irreducible polynomials whose degree divides n",
     "specification": "{S = Cycle(Union(c1,c2)), c1 = Atom, c2 =Atom}",
     "labeled": false,
     "symbol": "S",

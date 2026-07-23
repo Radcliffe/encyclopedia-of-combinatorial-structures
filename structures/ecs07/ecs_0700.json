@@ -1,7 +1,7 @@
 {
     "id": 700,
-    "name": "E.g.f. x*(1-2*x-2*x^2-sqrt(1-4*x-4*x^2))/ (2*(1+x)^2)",
-    "description": "E.g.f. x*(1-2*x-2*x^2-sqrt(1-4*x-4*x^2))/ (2*(1+x)^2)",
+    "name": "EGF: x*(1-2*x-2*x^2-sqrt(1-4*x-4*x^2))/ (2*(1+x)^2)",
+    "description": "EGF: x*(1-2*x-2*x^2-sqrt(1-4*x-4*x^2))/ (2*(1+x)^2)",
     "specification": "{B = Prod(C,C), C =Union(B,S,Z), S = Prod(B,Z)}",
     "labeled": true,
     "symbol": "S",

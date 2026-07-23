@@ -1,7 +1,7 @@
 {
     "id": 677,
-    "name": "Expansion of e.g.f. x*(1-2*x)*(1 - 2*x - sqrt(1-4*x))/2 - x^3",
-    "description": "Expansion of e.g.f. x*(1-2*x)*(1 - 2*x - sqrt(1-4*x))/2 - x^3",
+    "name": "Expansion of EGF: x*(1-2*x)*(1 - 2*x - sqrt(1-4*x))/2 - x^3",
+    "description": "Expansion of EGF: x*(1-2*x)*(1 - 2*x - sqrt(1-4*x))/2 - x^3",
     "specification": "{B = Prod(C,C), C = Union(B,Z), S = Prod(B,B,Z)}",
     "labeled": true,
     "symbol": "S",

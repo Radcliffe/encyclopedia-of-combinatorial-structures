@@ -1,7 +1,7 @@
 {
     "id": 154,
-    "name": "Expansion of e.g.f. (2 - e^x)^(-2)",
-    "description": "Expansion of e.g.f. (2 - e^x)^(-2)",
+    "name": "Expansion of EGF: (2 - e^x)^(-2)",
+    "description": "Expansion of EGF: (2 - e^x)^(-2)",
     "specification": "{B = Sequence(C), C = Set(Z,1 <= card), S = Prod(B,B)}",
     "labeled": true,
     "symbol": "S",

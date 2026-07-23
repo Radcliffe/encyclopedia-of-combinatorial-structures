@@ -1,6 +1,6 @@
 {
     "id": 21,
-    "name": "derangements",
+    "name": "Derangements",
     "description": "Cycles >=2, permutations of n element with no fixed points; derangements (subfactorial or rencontre numbers)",
     "specification": "{S = Set(Cycle(Z,2 <= card))}",
     "labeled": true,

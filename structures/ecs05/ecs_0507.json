@@ -1,7 +1,7 @@
 {
     "id": 507,
-    "name": "E.g.f. (1+x^3-x^4)/(1-x)",
-    "description": "E.g.f. (1+x^3-x^4)/(1-x)",
+    "name": "EGF: (1+x^3-x^4)/(1-x)",
+    "description": "EGF: (1+x^3-x^4)/(1-x)",
     "specification": "{S = Union(Sequence(Z),Prod(Z,Z,Z))}",
     "labeled": true,
     "symbol": "S",

@@ -1,7 +1,7 @@
 {
     "id": 45,
-    "name": "Unlabelled Non Plane Binary Trees",
-    "description": "Unlabelled Non Plane Binary Trees",
+    "name": "Unlabeled non-plane binary trees",
+    "description": "Unlabeled non-plane binary trees",
     "specification": "{S = Union(Z,Prod(Z,Set(S,card = 2)))}",
     "labeled": false,
     "symbol": "S",

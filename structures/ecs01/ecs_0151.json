@@ -1,7 +1,7 @@
 {
     "id": 151,
-    "name": "Expansion of g.f. (1+x)/(1-2*x)",
-    "description": "Expansion of g.f. (1+x)/(1-2*x)",
+    "name": "Expansion of OGF: (1+x)/(1-2*x)",
+    "description": "Expansion of OGF: (1+x)/(1-2*x)",
     "specification": "{B = Sequence(Z), C = Sequence(E,1 <= card), E = Sequence(Z,1 <= card), S = Prod(B,C)}",
     "labeled": false,
     "symbol": "S",

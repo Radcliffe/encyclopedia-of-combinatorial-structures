@@ -1,7 +1,7 @@
 {
     "id": 750,
-    "name": "Expansion of e.g.f. x^4*exp(x)^2-2*x^4*exp(x)+x^4",
-    "description": "Expansion of e.g.f. x^4*exp(x)^2-2*x^4*exp(x)+x^4",
+    "name": "Expansion of EGF: x^4*exp(x)^2-2*x^4*exp(x)+x^4",
+    "description": "Expansion of EGF: x^4*exp(x)^2-2*x^4*exp(x)+x^4",
     "specification": "{B = Set(Z,1 <= card), S = Prod(Z,Z,Z,Z,B,B)}",
     "labeled": true,
     "symbol": "S",

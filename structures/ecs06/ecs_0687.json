@@ -1,7 +1,7 @@
 {
     "id": 687,
-    "name": "E.g.f. [1-x -sqrt(1-2x-3x^2)]/(2x) - [1+x-sqrt(1-2x-3x^2)]/2 ",
-    "description": "E.g.f. [1-x -sqrt(1-2x-3x^2)]/(2x) - [1+x-sqrt(1-2x-3x^2)]/2 ",
+    "name": "EGF: [1-x -sqrt(1-2x-3x^2)]/(2x) - [1+x-sqrt(1-2x-3x^2)]/2",
+    "description": "EGF: [1-x -sqrt(1-2x-3x^2)]/(2x) - [1+x-sqrt(1-2x-3x^2)]/2",
     "specification": "{B = Union(S,Z,C),C = Prod(B,Z), S = Prod(B,C)}",
     "labeled": true,
     "symbol": "S",

@@ -1,7 +1,7 @@
 {
     "id": 819,
-    "name": "Expansion of e.g.f. 1/2 - (1/2)*(1+4*log(1-x))^(1/2)",
-    "description": "Expansion of e.g.f. 1/2 - (1/2)*(1+4*log(1-x))^(1/2)",
+    "name": "Expansion of EGF: 1/2 - (1/2)*(1+4*log(1-x))^(1/2)",
+    "description": "Expansion of EGF: 1/2 - (1/2)*(1+4*log(1-x))^(1/2)",
     "specification": "{B =Cycle(Z), C = Sequence(S), S = Prod(B,C)}",
     "labeled": true,
     "symbol": "S",

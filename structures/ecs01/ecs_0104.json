@@ -1,7 +1,7 @@
 {
     "id": 104,
-    "name": "Expansion of e.g.f. exp(-x^2/2) / (1-x)",
-    "description": "Expansion of e.g.f. exp(-x^2/2) / (1-x)",
+    "name": "Expansion of EGF: exp(-x^2/2) / (1-x)",
+    "description": "Expansion of EGF: exp(-x^2/2) / (1-x)",
     "specification": "{B = Cycle(Z,3 <= card), C = Union(B,Z), S = Set(C)}",
     "labeled": true,
     "symbol": "S",

@@ -1,7 +1,7 @@
 {
     "id": 776,
     "name": "Power sets of pairs of sequences",
-    "description": "PowerSet of pairs of Sequences",
+    "description": "PowerSet of pairs of sequences",
     "specification": "{B = Sequence(Z,1 <= card), C = Prod(B,B), S = PowerSet(C)}",
     "labeled": false,
     "symbol": "S",

@@ -1,7 +1,7 @@
 {
     "id": 906,
-    "name": "Base-3 digits are, in order, the first n terms of the periodic sequence with initial period 1,0",
-    "description": "Base-3 digits are, in order, the first n terms of the periodic sequence with initial period 1,0",
+    "name": "Base-3 digits are, in order, the first n terms of the periodic sequence with initial period 1, 0",
+    "description": "Base-3 digits are, in order, the first n terms of the periodic sequence with initial period 1, 0",
     "specification": "{S = Prod(Sequence(Prod(Z,Z)),Sequence(Union(Z,Z,Z)))}",
     "labeled": false,
     "symbol": "S",

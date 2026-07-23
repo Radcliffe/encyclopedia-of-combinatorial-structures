@@ -1,6 +1,6 @@
 {
     "id": 76,
-    "name": "Ways of parenthezing a product",
+    "name": "Ways of parenthesizing a product",
     "description": "Number of ways of completely parenthesizing a product of n letters; Catalan numbers",
     "specification": "{S = Union(Prod(Z,Z),Prod(Z,S),Prod(S,Z),Prod(S,S))}",
     "labeled": false,

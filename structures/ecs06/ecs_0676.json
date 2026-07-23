@@ -1,7 +1,7 @@
 {
     "id": 676,
-    "name": "Expansion of e.g.f.: (1 - 4*x + 3*x^2)*(1 - 2*x - sqrt(1-4*x))/2 - x^2 + 2*x^3",
-    "description": "Expansion of e.g.f.: (1 - 4*x + 3*x^2)*(1 - 2*x - sqrt(1-4*x))/2 - x^2 + 2*x^3",
+    "name": "Expansion of EGF: (1 - 4*x + 3*x^2)*(1 - 2*x - sqrt(1-4*x))/2 - x^2 + 2*x^3",
+    "description": "Expansion of EGF: (1 - 4*x + 3*x^2)*(1 - 2*x - sqrt(1-4*x))/2 - x^2 + 2*x^3",
     "specification": "{B = Union(Z,C), C= Prod(B,B), S = Prod(C,C,C)}",
     "labeled": true,
     "symbol": "S",

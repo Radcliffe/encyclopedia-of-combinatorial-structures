@@ -1,7 +1,7 @@
 {
     "id": 610,
-    "name": "E.g.f. x^4*(1+x-x^2)/(1-x)",
-    "description": "E.g.f. x^4*(1+x-x^2)/(1-x)",
+    "name": "EGF: x^4*(1+x-x^2)/(1-x)",
+    "description": "EGF: x^4*(1+x-x^2)/(1-x)",
     "specification": "{S = Prod(Z,Z,Z,Z,Union(Z,Sequence(Z)))}",
     "labeled": true,
     "symbol": "S",

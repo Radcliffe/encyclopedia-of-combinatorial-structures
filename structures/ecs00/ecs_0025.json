@@ -1,7 +1,7 @@
 {
     "id": 25,
     "name": "Permutations of order dividing 4",
-    "description": "permutations Sigma such that Sigma^4=Id; degree n permutations of order dividing 4",
+    "description": "Permutations Sigma such that Sigma^4=Id; degree n permutations of order dividing 4",
     "specification": "{S = Set(Union(Cycle(Z,card =1),Cycle(Z,card = 2),Cycle(Z,card = 4)))}",
     "labeled": true,
     "symbol": "S",

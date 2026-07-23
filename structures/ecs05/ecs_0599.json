@@ -1,7 +1,7 @@
 {
     "id": 599,
-    "name": "E.g.f. x^4/(1-2x)",
-    "description": "E.g.f. x^4/(1-2x)",
+    "name": "EGF: x^4/(1-2x)",
+    "description": "EGF: x^4/(1-2x)",
     "specification": "{S = Prod(Z,Z,Z,Z,Sequence(Union(Z,Z)))}",
     "labeled": true,
     "symbol": "S",

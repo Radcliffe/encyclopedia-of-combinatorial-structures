@@ -1,7 +1,7 @@
 {
     "id": 400,
-    "name": "a(n) = Sum_{k=0..n} (k+1)! binomial(n,k)",
-    "description": "a(n) = Sum_{k=0..n} (k+1)! binomial(n,k)",
+    "name": "a(n) = Sum_{k=0..n} (k+1)! binomial(n, k)",
+    "description": "a(n) = Sum_{k=0..n} (k+1)! binomial(n, k)",
     "specification": "{B = Sequence(Z), C = Set(Z), S = Prod(C,B,B)}",
     "labeled": true,
     "symbol": "S",
