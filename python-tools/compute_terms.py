@@ -2,8 +2,8 @@
 """Compatibility entry point for the packaged term evaluator.
 
 New code should import :mod:`combstruct` or run the ``combstruct`` command.
-This wrapper keeps the repository's historical invocation working while the
-remaining scripts in ``python-tools`` are migrated in a later milestone.
+This wrapper keeps the repository's historical invocation working after the
+package-consuming ``python-tools`` scripts were migrated to the public API.
 """
 
 from __future__ import annotations

@@ -581,6 +581,6 @@ The historical `python-tools/compute_terms.py` file is now a thin wrapper over
 `combstruct.terms`. Its original declared classes, functions, type aliases,
 and token expression are listed explicitly in `combstruct.terms.__all__` and
 covered by installed-distribution tests. This compatibility surface exists so
-the other maintenance scripts can be migrated after a package release; it is
-not a promise that every evaluator implementation detail will become a
-long-term top-level API.
+historical repository invocations continue to work after the maintenance-tool
+migration; it is not a promise that every evaluator implementation detail will
+become a long-term top-level API.
