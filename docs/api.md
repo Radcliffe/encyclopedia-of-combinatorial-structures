@@ -395,12 +395,14 @@ zero-delay cycles and non-assignment square implicit systems, the evaluator
 instead applies formal directional differentiation, constructs the exact
 coefficient Jacobian, and solves a rational linear system in each degree. This
 includes degree zero when exact constant-term iteration does not stabilize, so
-affine systems may select a nonzero constant term. The path requires every
-Jacobian to be nonsingular and named-series composition arguments to be
-independent of the unknown series. Sample values are not used as a proof of
-affinity or uniqueness. Equation results receive the same negative-power check
-as standalone expressions. In a multi-equation system, `symbol` is required to
-select the returned series:
+outputs with structurally affine constant equations may select a nonzero
+constant term. Nonlinear constant equations retain the zero branch; selecting
+any other root requires an explicit branch selector and remains unsupported.
+The path requires every Jacobian to be nonsingular and named-series composition
+arguments to be independent of the unknown series. Sample values are not used
+as a proof of affinity or uniqueness. Equation results receive the same
+negative-power check as standalone expressions. In a multi-equation system,
+`symbol` is required to select the returned series:
 
 ```python
 from combstruct import generating_function_coefficients
