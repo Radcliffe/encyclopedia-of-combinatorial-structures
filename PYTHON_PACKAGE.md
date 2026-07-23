@@ -521,9 +521,9 @@ The packaging and first maintenance-tool adoption foundations are now in place:
 - source and installed-wheel tests cover Python 3.12, 3.13, and 3.14; and
 - CI builds and metadata-checks both source and wheel distributions.
 
-Version `0.1.0a0` was published to
-[PyPI](https://pypi.org/project/combstruct/0.1.0a0/) on 2026-07-22. The next
-milestones remain deliberately incremental:
+Version `0.1.0a0` was the first published pre-alpha. The current release is
+[`0.1.0a1`](https://pypi.org/project/combstruct/0.1.0a1/), published on
+2026-07-22. The next milestones remain deliberately incremental:
 
 1. extend equation solving beyond recursive components reducible through one
    linear or quadratic feedback symbol and represent infinite unlabelled
@@ -563,5 +563,5 @@ Contributor setup and quality checks are in
 [`docs/development.md`](https://github.com/Radcliffe/encyclopedia-of-combinatorial-structures/blob/main/docs/development.md).
 The first release record is in
 [`docs/release-readiness.md`](https://github.com/Radcliffe/encyclopedia-of-combinatorial-structures/blob/main/docs/release-readiness.md).
-The current second-alpha release-candidate audit is in
+The second-alpha release record is in
 [`docs/release-readiness-0.1.0a1.md`](https://github.com/Radcliffe/encyclopedia-of-combinatorial-structures/blob/main/docs/release-readiness-0.1.0a1.md).

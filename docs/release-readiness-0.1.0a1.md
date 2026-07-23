@@ -1,11 +1,11 @@
-# `combstruct` 0.1.0a1 release-candidate audit
+# `combstruct` 0.1.0a1 release record
 
 Audit date: 2026-07-22
 
-This document records the evidence for preparing the second `combstruct`
-pre-release. The maintainer confirmed version `0.1.0a1`; the exact artifacts
-for publication must be built and validated once from the merged release
-commit.
+This document records the evidence and publication outcome for the second
+`combstruct` pre-release. Version `0.1.0a1` was built once from the merged
+release commit, validated through both package indexes, and published without
+rebuilding.
 
 ## Scope completed since 0.1.0a0
 
@@ -47,15 +47,46 @@ Those pre-merge artifacts are disposable. Their hashes must not be reused as
 release evidence; the upload candidates must be built once from the merged
 release commit.
 
-## Gates before publication
+## Exact merged-commit candidate
 
-1. Confirm a successful GitHub Actions run on the release pull request and
-   merge it without additional source changes.
-2. Build once from the clean merged release commit and validate the exact wheel
-   and source distribution according to `docs/releasing.md`.
-3. Because packaging metadata and public capabilities have changed
-   substantially since 0.1.0a0, upload those exact artifacts to TestPyPI and
-   repeat the clean-install tests before production publication.
-4. After maintainer confirmation, upload the unchanged candidate artifacts to
-   PyPI, verify fresh installs, create the matching signed tag, and record the
-   published hashes and CI evidence here.
+The publication candidate was built once from clean merge commit
+`5343c694a806b496a220e734e7c242529c547f64`. Its fixed artifacts are:
+
+| Artifact | SHA-256 |
+| --- | --- |
+| `combstruct-0.1.0a1-py3-none-any.whl` | `109510509417b801e1bd0075bcb3370abc8d99afdbe769ebc142c21acdbf325b` |
+| `combstruct-0.1.0a1.tar.gz` | `b00ca0cbf468170727d287d42ff338a47958efa00ad7f39ac0848025c0ef2803` |
+
+The artifact contract checker, `twine check`, and `check-wheel-contents`
+passed these exact files. Fresh installations of the exact wheel passed all
+28 installed-distribution tests, both command forms, and `pip check` on Python
+3.12, 3.13, and 3.14.
+
+## TestPyPI outcome
+
+The exact candidate artifacts were uploaded successfully to
+[TestPyPI](https://test.pypi.org/project/combstruct/0.1.0a1/). TestPyPI's JSON
+API and simple index reported the same filenames and SHA-256 hashes recorded
+above. Fresh, uncached installations from TestPyPI passed all 28 installed-
+distribution tests, both command forms, and `pip check` on Python 3.12, 3.13,
+and 3.14.
+
+## Production outcome
+
+The unchanged candidate artifacts were published successfully to
+[PyPI](https://pypi.org/project/combstruct/0.1.0a1/). PyPI's JSON API and
+simple index report the same filenames and SHA-256 hashes recorded above.
+Fresh, uncached production-index installations passed all 28 installed-
+distribution tests, both command forms, and `pip check` on Python 3.12, 3.13,
+and 3.14.
+
+Signed source tag `v0.1.0a1` identifies merge commit
+`5343c694a806b496a220e734e7c242529c547f64`. Its SSH signature was verified
+against the maintainer's RSA public key, and the
+[tag-triggered GitHub Actions run](https://github.com/Radcliffe/encyclopedia-of-combinatorial-structures/actions/runs/29973171402)
+passed static checks, all three source and maintenance-tool test jobs, artifact
+validation, installed-wheel tests, and both command-line smoke tests.
+
+The [GitHub prerelease](https://github.com/Radcliffe/encyclopedia-of-combinatorial-structures/releases/tag/v0.1.0a1)
+attaches the exact published wheel and source distribution plus `SHA256SUMS`.
+GitHub's recorded asset digests match the PyPI and local hashes above.
