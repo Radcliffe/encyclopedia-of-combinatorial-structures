@@ -62,6 +62,9 @@ or date section and leave this section in place for subsequent work.
 
 ### Fixed
 
+- Required a structural affine proof before coefficient recursion accepts
+  nonzero constant terms, preventing its degree-zero Jacobian from selecting an
+  arbitrary root of a nonlinear implicit system.
 - Solved non-stabilizing affine constant-term equations through the exact
   coefficient Jacobian, allowing nonsingular implicit systems to select nonzero
   constant terms.

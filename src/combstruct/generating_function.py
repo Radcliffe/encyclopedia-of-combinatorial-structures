@@ -1953,16 +1953,46 @@ def _zero_delay_dependencies(
     return dependencies
 
 
-def _require_contractive_assignments(
+def _assignment_zero_delay_graph(
     assignments: Mapping[str, GFExpression],
     values: Mapping[str, tuple[Fraction, ...]],
-) -> None:
+) -> dict[str, frozenset[str]]:
     series_values = {name: _truncated_series(coefficients) for name, coefficients in values.items()}
     zero_delay_graph: dict[str, frozenset[str]] = {}
     for name, expression in assignments.items():
         result = _evaluate_series(expression, series_values=series_values)
         _require_formal_power_series(result, context=f"Equation for named series {name!r}")
         zero_delay_graph[name] = _zero_delay_dependencies(expression, series_values)
+    return zero_delay_graph
+
+
+def _dependency_cycle_names(
+    graph: Mapping[str, frozenset[str]],
+) -> frozenset[str]:
+    """Return exactly the graph vertices belonging to directed cycles."""
+
+    def reaches_start(start: str, current: str, visited: frozenset[str]) -> bool:
+        for dependency in graph[current]:
+            if dependency not in graph:
+                continue
+            if dependency == start:
+                return True
+            if dependency not in visited and reaches_start(
+                start,
+                dependency,
+                visited | {dependency},
+            ):
+                return True
+        return False
+
+    return frozenset(name for name in graph if reaches_start(name, name, frozenset({name})))
+
+
+def _require_contractive_assignments(
+    assignments: Mapping[str, GFExpression],
+    values: Mapping[str, tuple[Fraction, ...]],
+) -> None:
+    zero_delay_graph = _assignment_zero_delay_graph(assignments, values)
 
     remaining = set(assignments)
     while remaining:
@@ -2061,10 +2091,205 @@ def _solve_linear_system(
     return tuple(row[-1] for row in augmented)
 
 
+def _constant_affine_form(
+    expression: GFExpression,
+    series_values: Mapping[str, _FormalSeries],
+    index_values: dict[int, int] | None = None,
+) -> tuple[Fraction, dict[str, Fraction]] | None:
+    """Return the exact affine dependence of degree zero on named constants."""
+
+    if index_values is None:
+        index_values = {}
+    if not _series_call_names(expression):
+        value = _evaluate_series(expression, index_values).coefficient(0)
+        return value, {}
+    if isinstance(expression, GFSeriesCall):
+        if _series_call_names(expression.argument):
+            return None
+        argument = _evaluate_series(expression.argument, index_values)
+        _require_formal_power_series(
+            argument,
+            context=f"Argument of named series {expression.name!r}",
+        )
+        if argument.coefficient(0) != 0:
+            raise GeneratingFunctionEvaluationError(
+                "Named-series composition requires an argument with constant coefficient 0",
+            )
+        return Fraction(), {expression.name: Fraction(1)}
+    if isinstance(expression, GFUnary):
+        form = _constant_affine_form(expression.operand, series_values, index_values)
+        if form is None:
+            return None
+        constant, unary_coefficients = form
+        if expression.operator == "+":
+            return constant, unary_coefficients
+        return -constant, {name: -coefficient for name, coefficient in unary_coefficients.items()}
+    if isinstance(expression, GFFunction):
+        form = _constant_affine_form(expression.argument, series_values, index_values)
+        if form is None or form[1]:
+            return None
+        return (
+            _evaluate_series(expression, index_values, series_values).coefficient(0),
+            {},
+        )
+    if isinstance(expression, GFInfiniteSum):
+        nested_values = index_values | {expression.index.level: expression.lower_bound}
+        summand = _constant_affine_form(
+            expression.summand,
+            series_values,
+            nested_values,
+        )
+        if summand == (Fraction(), {}):
+            return summand
+        return None
+    if not isinstance(expression, GFBinary):
+        return None
+
+    if expression.operator in {"+", "-"}:
+        constant = Fraction()
+        coefficients: dict[str, Fraction] = {}
+        for term, weight in _additive_term_weights(expression).items():
+            form = _constant_affine_form(term, series_values, index_values)
+            if form is None:
+                return None
+            term_constant, term_coefficients = form
+            constant += weight * term_constant
+            for name, coefficient in term_coefficients.items():
+                coefficients[name] = coefficients.get(name, Fraction()) + weight * coefficient
+        return constant, {
+            name: coefficient for name, coefficient in coefficients.items() if coefficient
+        }
+
+    left = _constant_affine_form(expression.left, series_values, index_values)
+    if left is None:
+        return None
+    left_constant, left_coefficients = left
+    if expression.operator == "^":
+        if _series_call_names(expression.right):
+            return None
+        exponent = _constant_expression_value(expression.right, index_values)
+        if exponent == 0:
+            return Fraction(1), {}
+        if exponent == 1:
+            return left
+        if left_coefficients:
+            return None
+        return (
+            _evaluate_series(expression, index_values, series_values).coefficient(0),
+            {},
+        )
+
+    right = _constant_affine_form(expression.right, series_values, index_values)
+    if right is None:
+        return None
+    right_constant, right_coefficients = right
+    if expression.operator == "*":
+        if left_coefficients and right_coefficients:
+            return None
+        product_coefficients = {
+            name: right_constant * coefficient for name, coefficient in left_coefficients.items()
+        }
+        for name, coefficient in right_coefficients.items():
+            product_coefficients[name] = (
+                product_coefficients.get(name, Fraction()) + left_constant * coefficient
+            )
+        return left_constant * right_constant, {
+            name: coefficient for name, coefficient in product_coefficients.items() if coefficient
+        }
+    if right_coefficients:
+        return None
+    if right_constant == 0:
+        return None
+    return (
+        left_constant / right_constant,
+        {name: coefficient / right_constant for name, coefficient in left_coefficients.items()},
+    )
+
+
+def _nonaffine_constant_names(
+    assignments: Mapping[str, GFExpression],
+) -> frozenset[str]:
+    """Return outputs whose degree-zero assignments are structurally nonlinear."""
+
+    zero_values = {name: _constant_series(0) for name in assignments}
+    return frozenset(
+        name
+        for name, expression in assignments.items()
+        if _constant_affine_form(expression, zero_values) is None
+    )
+
+
+def _raise_nonlinear_constant_branch_error() -> None:
+    raise GeneratingFunctionEvaluationError(
+        "Coefficient recursion only supports nonzero constant terms when their "
+        "equations are affine; nonlinear constant systems require an explicit "
+        "branch selector",
+    )
+
+
+def _constant_dependency_names(
+    expression: GFExpression,
+    zero_series_values: Mapping[str, _FormalSeries],
+    index_values: dict[int, int] | None = None,
+) -> frozenset[str]:
+    """Return named constants that can structurally affect degree zero."""
+
+    if index_values is None:
+        index_values = {}
+    affine = _constant_affine_form(expression, zero_series_values, index_values)
+    if affine is not None:
+        return frozenset(affine[1])
+    if isinstance(expression, GFSeriesCall):
+        return frozenset({expression.name}) | _series_call_names(expression.argument)
+    if isinstance(expression, GFUnary):
+        return _constant_dependency_names(expression.operand, zero_series_values, index_values)
+    if isinstance(expression, GFFunction):
+        return _constant_dependency_names(expression.argument, zero_series_values, index_values)
+    if isinstance(expression, GFInfiniteSum):
+        nested_values = index_values | {expression.index.level: expression.lower_bound}
+        return _constant_dependency_names(
+            expression.summand,
+            zero_series_values,
+            nested_values,
+        )
+    if isinstance(expression, GFBinary) and expression.operator in {"+", "-"}:
+        dependencies: set[str] = set()
+        for term in _additive_term_weights(expression):
+            dependencies.update(_constant_dependency_names(term, zero_series_values, index_values))
+        return frozenset(dependencies)
+    if isinstance(expression, GFBinary):
+        if expression.operator == "^":
+            exponent = _try_constant_expression_value(expression.right, index_values)
+            if exponent == 0:
+                return frozenset()
+        return _constant_dependency_names(
+            expression.left,
+            zero_series_values,
+            index_values,
+        ) | _constant_dependency_names(
+            expression.right,
+            zero_series_values,
+            index_values,
+        )
+    return _series_call_names(expression)
+
+
+def _constant_dependency_graph(
+    assignments: Mapping[str, GFExpression],
+    zero_series_values: Mapping[str, _FormalSeries],
+) -> dict[str, frozenset[str]]:
+    return {
+        name: _constant_dependency_names(expression, zero_series_values)
+        for name, expression in assignments.items()
+    }
+
+
 def _solve_coefficient_degree(
     assignments: Mapping[str, GFExpression],
     lower_values: Mapping[str, tuple[Fraction, ...]],
     degree: int,
+    *,
+    zero_branch_names: frozenset[str] = frozenset(),
 ) -> tuple[Fraction, ...]:
     """Solve and verify one affine coefficient system at ``degree``."""
 
@@ -2092,6 +2317,10 @@ def _solve_coefficient_degree(
         [base[name] for name in names],
         degree=degree,
     )
+    if degree == 0 and any(
+        solution[index] != 0 for index, name in enumerate(names) if name in zero_branch_names
+    ):
+        _raise_nonlinear_constant_branch_error()
     solved_values = {
         name: (*base_values[name][:-1], solution[index]) for index, name in enumerate(names)
     }
@@ -2109,12 +2338,13 @@ def _coefficient_recursive_values(
 ) -> dict[str, tuple[Fraction, ...]]:
     """Solve a formally affine implicit system one exact coefficient at a time.
 
-    Once lower coefficients are fixed, degree ``n`` of every supported analytic
-    series operation is affine in the unknown degree-``n`` inputs: a product of
-    two such perturbations starts in degree ``2*n``, and named-series
-    composition arguments are required to be independent of the unknowns.
-    Formal directional differentiation therefore obtains the exact Jacobian,
-    rather than inferring it from sampled values.
+    Once lower coefficients are fixed, every positive degree ``n`` of a
+    supported analytic series operation is affine in the unknown degree-``n``
+    inputs: a product of two such perturbations starts in degree ``2*n``. A
+    separate structural proof is required before solving nonzero constants at
+    degree zero. Named-series composition arguments must be independent of the
+    unknowns. Formal directional differentiation therefore obtains the exact
+    Jacobian rather than inferring it from sampled values.
     """
 
     names = tuple(assignments)
@@ -2130,6 +2360,7 @@ def _coefficient_recursive_values(
             assignments,
             {name: () for name in names},
             0,
+            zero_branch_names=_nonaffine_constant_names(assignments),
         )
         constant_values = {name: (constants[index],) for index, name in enumerate(names)}
     _require_coefficient_recursive_assignments(assignments, constant_values)
@@ -2151,8 +2382,22 @@ def _fixed_point_iteration(
     assignments: Mapping[str, GFExpression],
     initial_values: Mapping[str, tuple[Fraction, ...]],
     coefficient_count: int,
+    *,
+    reject_nonlinear_nonzero_cycles: bool = False,
 ) -> dict[str, tuple[Fraction, ...]]:
     values = dict(initial_values)
+    zero_series_values = {name: _constant_series(0) for name in assignments}
+    nonlinear_names = (
+        _nonaffine_constant_names(assignments) if reject_nonlinear_nonzero_cycles else frozenset()
+    )
+    nonlinear_cycle_names = (
+        _dependency_cycle_names(
+            _constant_dependency_graph(assignments, zero_series_values),
+        )
+        & nonlinear_names
+        if nonlinear_names
+        else frozenset()
+    )
     maximum_iterations = max(
         12,
         (coefficient_count + 1) * len(assignments) + 8,
@@ -2165,6 +2410,16 @@ def _fixed_point_iteration(
         for name, expression in assignments.items():
             series = _evaluate_series(expression, series_values=series_values)
             updated[name] = tuple(series.coefficient(degree) for degree in range(coefficient_count))
+        if nonlinear_names:
+            updated_constants = {name: coefficients[0] for name, coefficients in updated.items()}
+            for expression in assignments.values():
+                _require_supported_evaluation(
+                    expression,
+                    series_names=frozenset(assignments),
+                    series_constants=updated_constants,
+                )
+            if any(updated[name][0] != 0 for name in nonlinear_cycle_names):
+                _raise_nonlinear_constant_branch_error()
         if updated == values:
             return updated
         values = updated
@@ -2209,6 +2464,7 @@ def _fixed_point_coefficients(
             assignments,
             {name: zero for name in names},
             validation_count,
+            reject_nonlinear_nonzero_cycles=True,
         )
     except _FixedPointIterationFailure:
         pass
