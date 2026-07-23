@@ -604,6 +604,17 @@ class GeneratingFunctionCoefficientTests(unittest.TestCase):
             tuple(Fraction(term) for term in (0, 1, 1, 1, 1, 1, 1, 1)),
         )
 
+    def test_additive_cancellation_preserves_contractivity(self):
+        for source in (
+            "A(x)=x+A(x)-A(x)",
+            "A(x)=x+A(A(x))-A(A(x))",
+        ):
+            with self.subTest(source=source):
+                self.assertEqual(
+                    generating_function_coefficients(source, 6),
+                    tuple(Fraction(term) for term in (0, 1, 0, 0, 0, 0)),
+                )
+
     def test_coefficient_recursive_and_implicit_equations(self):
         self.assertEqual(
             generating_function_coefficients("A(x)=x/2+A(x)/2", 6),

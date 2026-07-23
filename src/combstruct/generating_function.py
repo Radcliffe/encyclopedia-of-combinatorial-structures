@@ -1819,6 +1819,25 @@ def _require_formal_power_series(
         )
 
 
+def _additive_term_weights(expression: GFExpression) -> dict[GFExpression, int]:
+    """Flatten adjacent sums and differences into exact integer term weights."""
+
+    weights: dict[GFExpression, int] = {}
+
+    def collect(term: GFExpression, weight: int) -> None:
+        if isinstance(term, GFUnary):
+            collect(term.operand, weight if term.operator == "+" else -weight)
+            return
+        if isinstance(term, GFBinary) and term.operator in {"+", "-"}:
+            collect(term.left, weight)
+            collect(term.right, weight if term.operator == "+" else -weight)
+            return
+        weights[term] = weights.get(term, 0) + weight
+
+    collect(expression, 1)
+    return {term: weight for term, weight in weights.items() if weight}
+
+
 def _zero_delay_dependencies(
     expression: GFExpression,
     series_values: Mapping[str, _FormalSeries],
@@ -1874,8 +1893,13 @@ def _zero_delay_dependencies(
             "Contractivity proof encountered an unsupported symbolic expression",
         )
 
-    if expression.operator == "-" and expression.left == expression.right:
-        return frozenset()
+    if expression.operator in {"+", "-"}:
+        additive_dependencies: set[str] = set()
+        for term in _additive_term_weights(expression):
+            additive_dependencies.update(
+                _zero_delay_dependencies(term, series_values, index_values),
+            )
+        return frozenset(additive_dependencies)
     if expression.operator == "^":
         exponent = _constant_expression_value(expression.right, index_values)
         if exponent == 0:
@@ -1906,9 +1930,6 @@ def _zero_delay_dependencies(
         series_values,
         index_values,
     )
-    if expression.operator in {"+", "-"}:
-        return left_dependencies | right_dependencies
-
     left = _evaluate_series(expression.left, index_values, series_values)
     right = _evaluate_series(expression.right, index_values, series_values)
     _require_formal_power_series(left, context="Left arithmetic operand")
