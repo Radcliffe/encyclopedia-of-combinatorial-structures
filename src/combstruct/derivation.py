@@ -6,8 +6,8 @@ exponential-generating-function rules and unlabelled constructions use
 ordinary-generating-function rules. A recursive component is solved in closed
 form when removing one feedback symbol leaves an acyclic system whose expansion
 is linear or quadratic in that symbol. More general recursive systems and
-constructions whose unlabelled cycle-index expansion is inherently infinite
-remain explicit later milestones.
+closed-form solving remain explicit later milestones; ``gfeqns`` represents
+unrestricted unlabelled cycle-index constructions as symbolic infinite sums.
 """
 
 from __future__ import annotations
@@ -19,6 +19,8 @@ from math import factorial, isqrt
 from .generating_function import (
     GFBinary,
     GFComplex,
+    GFEquation,
+    GFEquationSystem,
     GFExpression,
     GFFunction,
     GFIndex,
@@ -39,12 +41,268 @@ from .specification import (
     Expression,
     Reference,
     SpecificationError,
+    expand_substitutions,
     parse_specification,
 )
 
 
 class UnsupportedGeneratingFunctionDerivation(SpecificationError):
     """A valid specification has no supported finite GF derivation yet."""
+
+
+class _GeneratingFunctionEquationBuilder:
+    def __init__(
+        self,
+        equations: Mapping[str, Expression],
+        labelled: bool,
+        tags: Mapping[str, str | Iterable[str]] | None = None,
+    ):
+        self.equations = dict(equations)
+        self.labelled = labelled
+        self.next_index = 1
+        self.tags_by_symbol = self._normalize_tags(tags)
+        # Expansion performs Maple's Subst nullability and arity validation.
+        expand_substitutions(self.equations)
+
+    def _normalize_tags(
+        self,
+        tags: Mapping[str, str | Iterable[str]] | None,
+    ) -> dict[str, GFExpression]:
+        if tags is None:
+            return {}
+        if not isinstance(tags, Mapping):
+            raise TypeError("tags must be a mapping from variable names to Epsilon symbols")
+
+        result: dict[str, GFExpression] = {}
+        for variable_name, tagged_symbols in tags.items():
+            if not isinstance(variable_name, str) or not variable_name:
+                raise TypeError("tag variable names must be nonempty strings")
+            if variable_name in {"x", "_x", "_Z"}:
+                raise ValueError(f"tag variable name {variable_name!r} is reserved")
+            symbols: tuple[str, ...]
+            if isinstance(tagged_symbols, str):
+                symbols = (tagged_symbols,)
+            else:
+                try:
+                    symbols = tuple(tagged_symbols)
+                except TypeError as error:
+                    raise TypeError("tagged Epsilon symbols must be strings or iterables") from error
+            for symbol in symbols:
+                if not isinstance(symbol, str) or not symbol:
+                    raise TypeError("tagged Epsilon symbols must be nonempty strings")
+                if symbol not in self.equations:
+                    raise SpecificationError(f"Tagged Epsilon symbol {symbol!r} is undefined")
+                if self.equations[symbol] != Reference("Epsilon"):
+                    raise SpecificationError(
+                        f"Tagged symbol {symbol!r} must be defined directly as Epsilon",
+                    )
+                variable = GFVariable(variable_name)
+                result[symbol] = (
+                    GFBinary("*", result[symbol], variable)
+                    if symbol in result
+                    else variable
+                )
+        return result
+
+    def build(self) -> GFEquationSystem:
+        variable = GFVariable()
+        built: list[GFEquation] = []
+        for name, expression in self.equations.items():
+            right = (
+                self.tags_by_symbol[name]
+                if name in self.tags_by_symbol
+                else self._expression(expression, variable)
+            )
+            built.append(GFEquation(GFSeriesCall(name, variable), right))
+        return GFEquationSystem(tuple(built))
+
+    def _index(self) -> GFIndex:
+        index = GFIndex(self.next_index)
+        self.next_index += 1
+        return index
+
+    def _reference(self, name: str, variable: GFExpression) -> GFExpression:
+        if name in self.tags_by_symbol:
+            return self.tags_by_symbol[name]
+        if name == "Epsilon":
+            return GFInteger(1)
+        if name in ("Atom", "Z") and name not in self.equations:
+            return variable
+        if name not in self.equations:
+            raise SpecificationError(f"Undefined symbol {name!r}")
+        return GFSeriesCall(name, variable)
+
+    def _expression(
+        self,
+        expression: Expression,
+        variable: GFExpression,
+    ) -> GFExpression:
+        if isinstance(expression, Reference):
+            return self._reference(expression.name, variable)
+
+        name = expression.name.lower()
+        if name == "subst":
+            if expression.cardinality is not None:
+                raise SpecificationError("Subst does not accept a cardinality constraint")
+            if len(expression.arguments) != 2:
+                raise SpecificationError("Subst requires exactly two arguments")
+            inner, outer = expression.arguments
+            return self._expression(outer, self._expression(inner, variable))
+
+        arguments = [
+            self._expression(argument, variable) for argument in expression.arguments
+        ]
+        if name == "union":
+            if expression.cardinality is not None:
+                raise SpecificationError("Union does not accept a cardinality constraint")
+            return _sum(arguments)
+        if name == "prod":
+            if expression.cardinality is not None:
+                raise SpecificationError("Prod does not accept a cardinality constraint")
+            return _product(arguments)
+        if name not in {"sequence", "set", "cycle", "powerset"}:
+            raise UnsupportedGeneratingFunctionDerivation(
+                f"Unsupported constructor {expression.name!r}",
+            )
+        if len(arguments) != 1:
+            raise SpecificationError(f"{expression.name} requires exactly one component argument")
+
+        component_expression = expression.arguments[0]
+        component = arguments[0]
+        minimum, maximum = _GeneratingFunctionDeriver._bounds(
+            expression.cardinality,
+            default_minimum=1 if name == "cycle" else 0,
+        )
+        if name == "sequence":
+            return _GeneratingFunctionDeriver._sequence(component, minimum, maximum)
+        if name == "set":
+            if self.labelled:
+                return _GeneratingFunctionDeriver._labelled_set(
+                    component,
+                    minimum,
+                    maximum,
+                )
+            return self._unlabelled_selection(
+                component_expression,
+                variable,
+                minimum,
+                maximum,
+                distinct=False,
+            )
+        if name == "cycle":
+            if self.labelled:
+                return _GeneratingFunctionDeriver._labelled_cycle(
+                    component,
+                    minimum,
+                    maximum,
+                )
+            return self._unlabelled_cycle(
+                component_expression,
+                variable,
+                minimum,
+                maximum,
+            )
+        if self.labelled:
+            raise UnsupportedGeneratingFunctionDerivation(
+                "PowerSet is only defined for unlabelled structures",
+            )
+        return self._unlabelled_selection(
+            component_expression,
+            variable,
+            minimum,
+            maximum,
+            distinct=True,
+        )
+
+    def _unlabelled_selection(
+        self,
+        component: Expression,
+        variable: GFExpression,
+        minimum: int,
+        maximum: int | None,
+        *,
+        distinct: bool,
+    ) -> GFExpression:
+        fixed_values: dict[int, GFExpression] = {0: GFInteger(1)}
+
+        def fixed(count: int) -> GFExpression:
+            if count not in fixed_values:
+                terms: list[GFExpression] = []
+                for part in range(1, count + 1):
+                    substituted_variable = _power(variable, part)
+                    substituted_component = self._expression(
+                        component,
+                        substituted_variable,
+                    )
+                    term = _product((substituted_component, fixed(count - part)))
+                    if distinct and part % 2 == 0:
+                        term = GFUnary("-", term)
+                    terms.append(term)
+                fixed_values[count] = _scale(_sum(terms), Fraction(1, count))
+            return fixed_values[count]
+
+        if maximum is not None:
+            return _sum(fixed(count) for count in range(minimum, maximum + 1))
+
+        index = self._index()
+        substituted_component = self._expression(
+            component,
+            _power(variable, index),
+        )
+        summand: GFExpression = _divide(substituted_component, index)
+        if distinct:
+            sign = _power(_integer(-1), GFBinary("-", index, GFInteger(1)))
+            summand = _product((sign, summand))
+        unrestricted = GFFunction(
+            "exp",
+            GFInfiniteSum(summand, index),
+        )
+        excluded = _sum(fixed(count) for count in range(minimum))
+        return _subtract(unrestricted, excluded)
+
+    def _unlabelled_cycle(
+        self,
+        component: Expression,
+        variable: GFExpression,
+        minimum: int,
+        maximum: int | None,
+    ) -> GFExpression:
+        def fixed(count: int) -> GFExpression:
+            return _sum(
+                _scale(
+                    _power(
+                        self._expression(component, _power(variable, divisor)),
+                        count // divisor,
+                    ),
+                    Fraction(_euler_totient(divisor), count),
+                )
+                for divisor in _divisors(count)
+            )
+
+        if maximum is not None:
+            return _sum(fixed(count) for count in range(minimum, maximum + 1))
+
+        index = self._index()
+        substituted_component = self._expression(
+            component,
+            _power(variable, index),
+        )
+        logarithm = GFFunction(
+            "ln",
+            _divide(
+                GFInteger(1),
+                _subtract(GFInteger(1), substituted_component),
+            ),
+        )
+        summand = _product(
+            (
+                _divide(GFTotient(index), index),
+                logarithm,
+            ),
+        )
+        unrestricted = GFInfiniteSum(summand, index)
+        excluded = _sum(fixed(count) for count in range(1, minimum))
+        return _subtract(unrestricted, excluded)
 
 
 def _integer(value: int) -> GFExpression:
@@ -88,12 +346,14 @@ def _divide(numerator: GFExpression, denominator: GFExpression) -> GFExpression:
     return numerator if _is_integer(denominator, 1) else GFBinary("/", numerator, denominator)
 
 
-def _power(base: GFExpression, exponent: int) -> GFExpression:
-    if exponent == 0:
-        return GFInteger(1)
-    if exponent == 1:
-        return base
-    return GFBinary("^", base, GFInteger(exponent))
+def _power(base: GFExpression, exponent: int | GFExpression) -> GFExpression:
+    if isinstance(exponent, int):
+        if exponent == 0:
+            return GFInteger(1)
+        if exponent == 1:
+            return base
+        exponent = GFInteger(exponent)
+    return GFBinary("^", base, exponent)
 
 
 def _square_root(expression: GFExpression) -> GFExpression:
@@ -247,7 +507,7 @@ def _recursive_component_map(
 
 class _GeneratingFunctionDeriver:
     def __init__(self, equations: Mapping[str, Expression], labelled: bool):
-        self.equations = dict(equations)
+        self.equations = expand_substitutions(equations)
         self.labelled = labelled
         self.memo: dict[str, GFExpression] = {}
         self.active: list[str] = []
@@ -806,7 +1066,36 @@ def derive_generating_function(
     return _GeneratingFunctionDeriver(equations, labelled).derive(symbol)
 
 
+def gfeqns(
+    specification: str | Mapping[str, Expression],
+    *,
+    labelled: bool,
+    tags: Mapping[str, str | Iterable[str]] | None = None,
+) -> GFEquationSystem:
+    """Return unsolved generating-function equations for every grammar symbol.
+
+    Named references remain :class:`GFSeriesCall` nodes. Unrestricted
+    unlabelled Set, Cycle, and PowerSet constructions use exact symbolic
+    infinite cycle-index sums. ``tags`` maps an independent generating-function
+    variable name to one named production, or an iterable of productions, each
+    defined directly as ``Epsilon``. Tagged systems are symbolic multivariate
+    equations; the univariate coefficient evaluator does not evaluate them.
+    """
+
+    if not isinstance(labelled, bool):
+        raise TypeError("labelled must be a boolean")
+    equations: Mapping[str, Expression]
+    if isinstance(specification, str):
+        equations = parse_specification(specification)
+    elif isinstance(specification, Mapping):
+        equations = specification
+    else:
+        raise TypeError("specification must be text or a mapping of equations")
+    return _GeneratingFunctionEquationBuilder(equations, labelled, tags).build()
+
+
 __all__ = [
     "UnsupportedGeneratingFunctionDerivation",
     "derive_generating_function",
+    "gfeqns",
 ]

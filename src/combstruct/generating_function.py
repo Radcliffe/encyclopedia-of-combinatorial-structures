@@ -53,9 +53,9 @@ class GFInteger:
 
 @dataclass(frozen=True, slots=True)
 class GFVariable:
-    """The generating variable or Maple-local ``RootOf`` variable."""
+    """A generating, marker, or Maple-local ``RootOf`` variable."""
 
-    name: Literal["_x", "_Z"] = "_x"
+    name: str = "_x"
 
 
 @dataclass(frozen=True, slots=True)
@@ -89,6 +89,14 @@ class GFSeriesCall:
 
     name: str
     argument: GFExpression
+
+
+@dataclass(frozen=True, slots=True)
+class GFMultivariateSeriesCall:
+    """A named formal series evaluated at size and attribute arguments."""
+
+    name: str
+    arguments: tuple[GFExpression, ...]
 
 
 @dataclass(frozen=True, slots=True)
@@ -1389,6 +1397,10 @@ def _evaluate_series(
             raise GeneratingFunctionEvaluationError(
                 "Root variable '_Z' can only be evaluated through a selected RootOf branch",
             )
+        if expression.name != "_x":
+            raise GeneratingFunctionEvaluationError(
+                f"Independent variable {expression.name!r} requires multivariate evaluation",
+            )
         return _FormalSeries(
             1,
             lambda degree: Fraction(1) if degree == 1 else Fraction(),
@@ -2551,6 +2563,7 @@ __all__ = [
     "GFInfiniteProduct",
     "GFInfiniteSum",
     "GFInteger",
+    "GFMultivariateSeriesCall",
     "GFParseResult",
     "GFRootOf",
     "GFSeriesCall",

@@ -28,6 +28,7 @@ from .specification import (
     Expression,
     Reference,
     SpecificationError,
+    expand_substitutions,
     parse_specification,
 )
 
@@ -56,6 +57,7 @@ __all__ = [
     "Evaluator",
     "ExpNode",
     "Expression",
+    "FixedPowerSetNode",
     "InverseOneMinusNode",
     "LiteralNode",
     "LogOneMinusNode",
@@ -234,10 +236,9 @@ def unlabelled_selection_series(
     degree = len(component) - 1
     coefficients = require_nonnegative_integers(component, "PowerSet" if distinct else "Set")
     if coefficients[0]:
-        if not distinct:
-            raise UnsupportedConstruction("An unlabelled Set cannot contain size-zero objects")
-        if cardinality is not None:
-            raise UnsupportedConstruction("Cardinality constraints on PowerSet are not supported")
+        raise UnsupportedConstruction(
+            f"An unlabelled {'PowerSet' if distinct else 'Set'} cannot contain size-zero objects"
+        )
 
     minimum, maximum = component_bounds(cardinality, degree)
     table = [zero_series(degree) for _ in range(maximum + 1)]
@@ -327,7 +328,7 @@ def unlabelled_cycle_series(component: Series, cardinality: Cardinality | None) 
 
 class Evaluator:
     def __init__(self, equations: dict[str, Expression], degree: int, labelled: bool):
-        self.equations = equations
+        self.equations = expand_substitutions(equations)
         self.degree = degree
         self.labelled = labelled
 
@@ -391,9 +392,11 @@ class Evaluator:
         if name == "powerset":
             if self.labelled:
                 raise UnsupportedConstruction("PowerSet is only defined for unlabelled structures")
-            if expression.cardinality is not None:
-                raise UnsupportedConstruction("PowerSet cardinality constraints are not supported")
-            return unlabelled_selection_series(component, None, distinct=True)
+            return unlabelled_selection_series(
+                component,
+                expression.cardinality,
+                distinct=True,
+            )
         raise UnsupportedConstruction(f"Unsupported constructor {expression.name!r}")
 
 
@@ -643,10 +646,13 @@ class EulerSelectionNode(CoefficientNode):
             raise UnsupportedConstruction(
                 "Unlabelled selections require nonnegative integer coefficients"
             )
-        if constant and not self.distinct:
-            raise UnsupportedConstruction("An unlabelled Set cannot contain size-zero objects")
+        if constant:
+            construction = "PowerSet" if self.distinct else "Set"
+            raise UnsupportedConstruction(
+                f"An unlabelled {construction} cannot contain size-zero objects"
+            )
         if degree == 0:
-            return 2 ** integer_value(constant) if self.distinct else 1
+            return 1
 
         logarithm: ExactNumber = 0
         for divisor in divisors(degree):
@@ -666,6 +672,54 @@ class EulerSelectionNode(CoefficientNode):
             0,
         )
         return divide_exact(total, degree)
+
+
+class FixedPowerSetNode(CoefficientNode):
+    """Distinct selections containing exactly ``count`` component objects."""
+
+    def __init__(
+        self,
+        compiler: CoefficientCompiler,
+        child: CoefficientNode,
+        count: int,
+    ):
+        self.child = child
+        self.count = count
+        super().__init__(compiler)
+
+    def value(self, degree: int) -> ExactNumber:
+        constant = self.child.coefficients[0]
+        if constant:
+            raise UnsupportedConstruction(
+                "An unlabelled PowerSet cannot contain size-zero objects"
+            )
+
+        table = [[0 for _ in range(degree + 1)] for _ in range(self.count + 1)]
+        table[0][0] = 1
+        for component_size in range(1, degree + 1):
+            type_count = self.child.coefficients[component_size]
+            if not is_nonnegative_integer(type_count):
+                raise UnsupportedConstruction(
+                    "Unlabelled PowerSet requires nonnegative integer "
+                    "component coefficients",
+                )
+            available = integer_value(type_count)
+            updated = [[0 for _ in range(degree + 1)] for _ in range(self.count + 1)]
+            for old_count in range(self.count + 1):
+                for old_degree, old_value in enumerate(table[old_count]):
+                    if not old_value:
+                        continue
+                    limit = min(
+                        available,
+                        self.count - old_count,
+                        (degree - old_degree) // component_size,
+                    )
+                    for chosen in range(limit + 1):
+                        updated[old_count + chosen][
+                            old_degree + chosen * component_size
+                        ] += old_value * math.comb(available, chosen)
+            table = updated
+        return table[self.count][degree]
 
 
 class UnlabelledCycleNode(CoefficientNode):
@@ -688,7 +742,7 @@ class UnlabelledCycleNode(CoefficientNode):
 
 class CoefficientCompiler:
     def __init__(self, equations: dict[str, Expression], degree: int, labelled: bool):
-        self.equations = equations
+        self.equations = expand_substitutions(equations)
         self.degree = degree
         self.labelled = labelled
         self.nodes: list[CoefficientNode] = []
@@ -809,9 +863,7 @@ class CoefficientCompiler:
         if name == "powerset":
             if self.labelled:
                 raise UnsupportedConstruction("PowerSet is only defined for unlabelled structures")
-            if expression.cardinality is not None:
-                raise UnsupportedConstruction("PowerSet cardinality constraints are not supported")
-            return EulerSelectionNode(self, child, distinct=True)
+            return self.powerset(child, expression.cardinality)
         raise UnsupportedConstruction(f"Unsupported constructor {expression.name!r}")
 
     def sum(self, children: Sequence[CoefficientNode]) -> CoefficientNode:
@@ -901,6 +953,25 @@ class CoefficientCompiler:
             )
         unrestricted = EulerSelectionNode(self, child, distinct=False)
         excluded = self.sum([self.fixed_mset(child, count) for count in range(minimum)])
+        return self.sum([unrestricted, self.scale(excluded, Fraction(-1))])
+
+    def powerset(
+        self,
+        child: CoefficientNode,
+        cardinality: Cardinality | None,
+    ) -> CoefficientNode:
+        minimum, maximum = self.bounds(cardinality)
+        if maximum is not None:
+            return self.sum(
+                [
+                    FixedPowerSetNode(self, child, count)
+                    for count in range(minimum, maximum + 1)
+                ]
+            )
+        unrestricted = EulerSelectionNode(self, child, distinct=True)
+        excluded = self.sum(
+            [FixedPowerSetNode(self, child, count) for count in range(minimum)]
+        )
         return self.sum([unrestricted, self.scale(excluded, Fraction(-1))])
 
     def fixed_cycle(self, child: CoefficientNode, count: int) -> CoefficientNode:

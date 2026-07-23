@@ -9,6 +9,44 @@ do not have a corresponding package release are grouped by date.
 
 ## Unreleased
 
+- Add the first Maple `combstruct` parity slice: public `count`, `gfseries`,
+  and `gfsolve` operations with explicit labeled/EGF versus unlabeled/OGF
+  semantics, plus a dependency-ordered parity matrix.
+- Add immutable combinatorial object values, exact-size `allstructs`
+  enumeration for grammar-defined classes, and the `iterstructs`,
+  `nextstruct`, and `finished` iterator family.
+- Support exact and bounded cardinality constraints on unlabeled `PowerSet`
+  in both counting and exhaustive generation.
+- Add predefined `Combination`/`Subset`, `Permutation`, `Partition`, and
+  `Composition` families to `count`, `allstructs`, and the iterator command
+  family, including Maple-compatible defaults and `allsizes` behavior.
+- Add uniform `draw` for grammar-defined and predefined classes with injectable
+  seeded randomness and an explicit empty-class error.
+- Support Maple's `Subst(A,B)` constructor across counting,
+  generating-function derivation, exhaustive iteration, and random drawing by
+  cloning outer productions and replacing their atoms at the grammar level.
+- Add `gfeqns` for unsolved named OGF/EGF systems, including exact finite
+  cycle-index formulas, symbolic infinite Set/Cycle/PowerSet sums, and formal
+  `Subst` composition.
+- Preserve named Epsilon productions as tags in generated objects and support
+  independent or multiplied Epsilon marker variables in symbolic `gfeqns`
+  systems.
+- Add linear attribute-grammar parsing, symbolic multivariate `agfeqns`, exact
+  joint OGF/EGF prefixes through `agfseries`, and truncated mixed factorial
+  moments through `agfmomentsolve`.
+- Support atomic symbolic constants and linear coefficients in attribute
+  equations, with validated integer parameter binding for exact series and
+  moment extraction.
+- Add exact count-directed `draw` for recursive Union/Prod/Sequence grammars,
+  substitution-expanded forms, labeled Set/Cycle, and every predefined family,
+  with explicit algorithm selection and a uniform exhaustive fallback for
+  remaining symmetries.
+- Add grouped component-type unranking for unlabeled Set and PowerSet drawing,
+  including recursively defined multiset classes without top-level
+  materialization.
+- Add exact cycle-index-weighted drawing for unlabeled Cycle, with orbit-size
+  rejection correction so periodic and aperiodic necklaces are uniform.
+
 Add production-bound changes here under `Added`, `Changed`, `Fixed`, or `Removed`.
 When a package is released or `prod` is deployed, move the entries into a version
 or date section and leave this section in place for subsequent work.
