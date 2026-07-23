@@ -3,6 +3,10 @@
 These repository scripts curate ECS data and generate assets for the website.
 They are not part of the public `combstruct` distribution.
 
+Migration of the package-consuming tools is complete. Read-only catalogue,
+term-evaluation, Maple-generation, and OEIS-reporting workflows use the public
+package API; source-data creation and mutation retain raw JSON access by design.
+
 ## Environment
 
 The tools require Python 3.12 or newer. From the repository root, create an

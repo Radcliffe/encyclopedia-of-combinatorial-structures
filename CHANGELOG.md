@@ -59,6 +59,9 @@ or date section and leave this section in place for subsequent work.
   added an explicit smoke test for the historical script entry point.
 - Migrated the legacy OEIS report to typed catalogue records and documented why
   source-data serializers and mutators intentionally retain raw JSON access.
+- Completed migration of every read-only `python-tools` consumer to the public
+  package API; source-data serializers and mutators retain raw JSON access as
+  the intentional producer boundary.
 
 ### Fixed
 

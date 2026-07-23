@@ -104,6 +104,7 @@ def check_sdist(path: Path) -> None:
             "PYTHON_PACKAGE.md",
             "docs/api.md",
             "docs/development.md",
+            "docs/release-readiness-0.1.0a1.md",
             "docs/release-readiness.md",
             "docs/releasing.md",
             "pyproject.toml",

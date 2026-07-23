@@ -104,5 +104,6 @@ file inclusion; they do not constitute legal review.
 
 Future releases must follow `docs/releasing.md` against a clean release commit
 and must use a new version because PyPI artifacts are immutable. The released
-public API is now available for incremental migration of the remaining
-`python-tools` scripts.
+public API subsequently became the integration boundary for every read-only
+`python-tools` consumer. The source-data serializers and mutators intentionally
+retain raw JSON access because they create the records exposed by that API.
