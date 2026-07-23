@@ -31,6 +31,7 @@
     "references": [
         "EIS A052915"
     ],
+    "gf_type": "ordinary",
     "gf": "-(-1+_x)/(3*_x^4-3*_x^3-_x^2-_x+1)",
     "rec": "{3*_f(_n)-3*_f(_n+1)-_f(_n+2)-_f(_n+3)+_f(_n+4), _f(0) =1, _f(1) = 0, _f(2) = 1, _f(3) = 4}",
     "closedform": "Sum(-1/2857*(351*_alpha^3+240*_alpha^2-885*_alpha-142)*_alpha^(-1-_n),_alpha = RootOf(3*_Z^4-3*_Z^3-_Z^2-_Z+1))",

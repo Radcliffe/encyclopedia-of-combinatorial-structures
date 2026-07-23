@@ -32,5 +32,6 @@
         "EIS A000031",
         "Same as ECS 2"
     ],
+    "gf_type": "ordinary",
     "gf": "(Sum(numtheory:-phi(j[1])/j[1]*ln((_x^j[1]-1)/(2*_x^j[1]-1)),j[1] = 1 .. infinity)*_x-Sum(numtheory:-phi(j[1])/j[1]*ln((_x^j[1]-1)/(2*_x^j[1]-1)),j[1] = 1 .. infinity)-_x)/(-1+_x)"
 }

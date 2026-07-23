@@ -31,6 +31,7 @@
     "references": [
         "EIS A002293"
     ],
+    "gf_type": "ordinary",
     "gf": "RootOf(_Z^4*_x-_Z+1)",
     "rec": "{(256*_n^3+384*_n^2+176*_n+24)*_f(_n)+(-27*_n^3-81*_n^2-78*_n-24)*_f(_n+1), _f(0) = 1}",
     "closedform": "2/9*3^(1/2)*GAMMA(2*_n+1/2)*GAMMA(_n+1/2)/GAMMA(_n+4/3)/GAMMA(_n+2/3)*64^_n*27^(-_n)/GAMMA(_n+1)",

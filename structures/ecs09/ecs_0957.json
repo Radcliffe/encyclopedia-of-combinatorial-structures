@@ -31,6 +31,7 @@
     "references": [
         "EIS A017089"
     ],
+    "gf_type": "ordinary",
     "gf": "-2*_x*(-5+_x)/(-1+_x)^2",
     "rec": "{_f(_n)-8*_n-2, _f(0) = 0, _f(1) = 10, _f(2) = 18}",
     "closedform": "2+8*_n+piecewise(_n = 0,-2,0)",

@@ -31,6 +31,7 @@
     "references": [
         "EIS A030019"
     ],
+    "gf_type": "exponential",
     "gf": "exp(RootOf(_Z-exp(exp(_Z)*_x)+1))",
     "equiv": "-1/2/Pi^(1/2)*exp(exp(LambertW(1)*exp(RootOf(_Z-exp(exp((_Z*LambertW(1)+LambertW(1)-1)/LambertW(1))*LambertW(1))+1)-1/LambertW(1)+1))-1)*(-exp(LambertW(1)*exp(RootOf(_Z-exp(exp((_Z*LambertW(1)+LambertW(1)-1)/LambertW(1))*LambertW(1))+1)-1/LambertW(1)+1))+1)*(exp(1/LambertW(1)*(-1+LambertW(1)))*LambertW(1)*exp(exp(LambertW(1)*exp(RootOf(_Z-exp(exp((_Z*LambertW(1)+LambertW(1)-1)/LambertW(1))*LambertW(1))+1)-1/LambertW(1)+1))-1)/(1/2*exp(1/LambertW(1)*(-1+LambertW(1)))*LambertW(1)*exp(exp(LambertW(1)*exp(RootOf(_Z-exp(exp((_Z*LambertW(1)+LambertW(1)-1)/LambertW(1))*LambertW(1))+1)-1/LambertW(1)+1))-1)*(-exp(LambertW(1)*exp(RootOf(_Z-exp(exp((_Z*LambertW(1)+LambertW(1)-1)/LambertW(1))*LambertW(1))+1)-1/LambertW(1)+1))+1)^2+1/2/exp(LambertW(1)*exp(RootOf(_Z-exp(exp((_Z*LambertW(1)+LambertW(1)-1)/LambertW(1))*LambertW(1))+1)-1/LambertW(1)+1))^2*(-exp(LambertW(1)*exp(RootOf(_Z-exp(exp((_Z*LambertW(1)+LambertW(1)-1)/LambertW(1))*LambertW(1))+1)-1/LambertW(1)+1))+1)^2))^(1/2)*(1/_n)^(3/2)*(1/LambertW(1)*exp((1-LambertW(1))/LambertW(1)))^(-ln(exp(-_n)))"
 }

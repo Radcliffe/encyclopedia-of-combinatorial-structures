@@ -31,6 +31,7 @@
     "references": [
         "EIS A008599"
     ],
+    "gf_type": "ordinary",
     "gf": "17*_x/(-1+_x)^2",
     "rec": "{_f(_n)-17*_n, _f(0) = 0,_f(1) = 17}",
     "closedform": "17*_n",

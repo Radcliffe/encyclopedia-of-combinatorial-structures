@@ -31,6 +31,7 @@
     "references": [
         "EIS A001705"
     ],
+    "gf_type": "exponential",
     "gf": "ln(-1/(-1+_x))/(-1+_x)^2",
     "rec": "{(_n^2+4*_n+4)*_f(_n)+(-2*_n-5)*_f(_n+1)+_f(_n+2), _f(0) = 0, _f(1) = 1, _f(2) = 5}",
     "closedform": "GAMMA(_n+2)*(-1+Psi(_n+2)+gamma)",

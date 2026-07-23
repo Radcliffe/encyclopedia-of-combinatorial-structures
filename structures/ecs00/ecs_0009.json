@@ -33,6 +33,7 @@
         "EIS A000045",
         "http://www.ee.surrey.ac.uk/Personal/R.Knott/Fibonacci/fib.html"
     ],
+    "gf_type": "ordinary",
     "gf": "-(1+_x)/(_x^2+_x-1)",
     "rec": "{_f(_n)+_f(_n+1)-_f(_n+2), _f(0) = 1, _f(1) = 2}",
     "closedform": "Sum(1/5*(_alpha+3)*_alpha^(-1-_n),_alpha = RootOf(_Z^2+_Z-1))",

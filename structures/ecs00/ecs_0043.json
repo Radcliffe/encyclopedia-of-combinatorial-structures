@@ -31,5 +31,6 @@
     "references": [
         "EIS A001190"
     ],
+    "gf_type": "ordinary",
     "gf": "A(x) = x + (1/2)*(A(x)^2 + A(x^2))"
 }

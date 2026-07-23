@@ -15,6 +15,9 @@ or date section and leave this section in place for subsequent work.
 
 ### Changed
 
+- Distinguished every stored ordinary and exponential generating function with
+  an explicit `gf_type`, exposed that classification through the Python API,
+  and added OGF/EGF labels and filtering to the website.
 - Recorded the successful `0.1.0a1` publication, updated the maintenance-tools
   lock to that release, and started the `0.1.0a2` development cycle.
 - Updated the Python test workflow to `actions/checkout` and

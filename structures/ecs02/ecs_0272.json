@@ -31,6 +31,7 @@
     "references": [
         "EIS A000420"
     ],
+    "gf_type": "exponential",
     "gf": "exp(_x)^7",
     "rec": "{_f(_n+1)-7*_f(_n), _f(0) = 1}",
     "closedform": "7^_n",

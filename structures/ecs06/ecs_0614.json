@@ -31,6 +31,7 @@
     "references": [
         "EIS A051188"
     ],
+    "gf_type": "exponential",
     "gf": "-1/(-1+7*_x)",
     "rec": "{(-7*_n-7)*_f(_n)+_f(_n+1),_f(0) = 1}",
     "closedform": "7^_n*_n!",

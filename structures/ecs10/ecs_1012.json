@@ -31,6 +31,7 @@
     "references": [
         "EIS A010709"
     ],
+    "gf_type": "ordinary",
     "gf": "-4*_x/(-1+_x)",
     "rec": "{-_f(_n)+4, _f(0) = 0, _f(1) =4}",
     "closedform": "4+piecewise(_n = 0,-4,0)",

@@ -31,6 +31,7 @@
     "references": [
         "EIS A005709"
     ],
+    "gf_type": "ordinary",
     "gf": "(_x^7-1)/(_x^7+_x-1)",
     "rec": "{_f(_n)+_f(_n+6)-_f(_n+7), _f(0)= 1, _f(1) = 1, _f(2) = 1, _f(3) = 1, _f(4) = 1, _f(5) = 1, _f(6) = 1, _f(7) =1}",
     "closedform": "Sum(1/870199*(63504*_alpha^6+74088*_alpha^5+86436*_alpha^4+100842*_alpha^3+117649*_alpha^2-7776*_alpha+54432)*_alpha^(-1-_n),_alpha = RootOf(_Z^7+_Z-1))+piecewise(_n = 0,1,0)",

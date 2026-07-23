@@ -31,5 +31,6 @@
     "references": [
         "EIS A000081"
     ],
+    "gf_type": "ordinary",
     "gf": "A(x) = x*exp(A(x)+A(x^2)/2+A(x^3)/3+A(x^4)/4+...)"
 }

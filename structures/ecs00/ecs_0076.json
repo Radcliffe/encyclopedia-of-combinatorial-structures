@@ -33,6 +33,7 @@
         "http://mathworld.wolfram.com/CatalanNumber.html",
         "http://forum.swarthmore.edu/advanced/robertd/catalan.html"
     ],
+    "gf_type": "ordinary",
     "gf": "1/2-_x-1/2*(1-4*_x)^(1/2)",
     "rec": "{(-2+4*_n)*_f(_n)+(-1-_n)*_f(_n+1), _f(0) = 0, _f(1) = 0, _f(2) = 1}",
     "closedform": "4/Pi^(1/2)*2^(2*_n-4)*GAMMA(_n-1/2)/GAMMA(_n+1)",

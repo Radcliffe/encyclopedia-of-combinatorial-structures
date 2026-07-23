@@ -31,6 +31,7 @@
     "references": [
         "EIS A052992"
     ],
+    "gf_type": "ordinary",
     "gf": "1/(4*_x^2-1)/(-1+_x)",
     "rec": "{-4*_f(_n)+_f(_n+2)-1, _f(0) = 1, _f(1) = 1}",
     "closedform": "-1/3+Sum(1/6*(4*_alpha+1)*_alpha^(-1-_n),_alpha = RootOf(4*_Z^2-1))",

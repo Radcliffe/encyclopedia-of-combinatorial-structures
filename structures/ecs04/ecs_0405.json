@@ -31,6 +31,7 @@
     "references": [
         "EIS A001687"
     ],
+    "gf_type": "ordinary",
     "gf": "-1/(_x^5+_x^2-1)",
     "rec": "{_f(_n)+_f(_n+3)-_f(_n+5), _f(0) = 1, _f(1) = 0, _f(2) = 1, _f(3) = 0, _f(4) = 1}",
     "closedform": "Sum(-1/3017*(54*_alpha^4-375*_alpha^3+90*_alpha^2-571*_alpha-225)*_alpha^(-1-_n),_alpha = RootOf(_Z^5+_Z^2-1))",

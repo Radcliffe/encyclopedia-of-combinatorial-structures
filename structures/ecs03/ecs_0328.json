@@ -31,6 +31,7 @@
     "references": [
         "EIS A008598"
     ],
+    "gf_type": "ordinary",
     "gf": "16*_x/(-1+_x)^2",
     "rec": "{_f(_n)-16*_n, _f(0) = 0, _f(1) = 16}",
     "closedform": "16*_n",

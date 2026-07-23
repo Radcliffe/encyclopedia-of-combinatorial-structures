@@ -31,5 +31,6 @@
     "references": [
         "EIS A032203"
     ],
+    "gf_type": "ordinary",
     "gf": "B(x) = x/2 - (1/2)*Sum_{j=1..inf} phi(j)/j * log(1 - B(x^j))"
 }

@@ -31,6 +31,7 @@
     "references": [
         "EIS A000400"
     ],
+    "gf_type": "exponential",
     "gf": "exp(_x)^6",
     "rec": "{_f(_n+1)-6*_f(_n), _f(0) = 1}",
     "closedform": "6^_n",

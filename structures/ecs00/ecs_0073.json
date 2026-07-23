@@ -33,5 +33,6 @@
         "EIS A000110",
         "Same terms as ECS 15 and ECS 65"
     ],
+    "gf_type": "exponential",
     "gf": "exp(exp(_x)-1)"
 }

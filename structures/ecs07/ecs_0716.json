@@ -31,6 +31,7 @@
     "references": [
         "EIS A052759"
     ],
+    "gf_type": "exponential",
     "gf": "ln(-1/(-1+_x))*_x^3",
     "rec": "{(-_n^2+2*_n+3)*_f(_n)+(_n-2)*_f(_n+1), _f(0) = 0, _f(1) = 0, _f(2) = 0, _f(3) = 0, _f(4) = 24, _f(5) = 60}",
     "closedform": "GAMMA(_n+1)/(_n-3)",

@@ -37,6 +37,11 @@ export function ResultsList({ items, onSelect, nameQuery }) {
           <div className="flex flex-wrap items-center gap-2 text-xs">
             {item.symbol && <Badge variant="secondary">symbol: {item.symbol}</Badge>}
             <Badge variant="secondary">labeled: {item.labeled ? "yes" : "no"}</Badge>
+            {item.generating_function_type && (
+              <Badge variant="outline">
+                {item.generating_function_type === "exponential" ? "EGF" : "OGF"}
+              </Badge>
+            )}
             {item.terms.length > 0 && (
               <span className="opacity-70">
                 terms: {item.terms.slice(0, 8).join(", ")}{item.terms.length > 8 ? "…" : ""}

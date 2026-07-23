@@ -31,6 +31,7 @@
     "references": [
         "EIS A052951"
     ],
+    "gf_type": "ordinary",
     "gf": "-(2*_x^2-_x-1)/(-1+2*_x)^2",
     "rec": "{4*_f(_n)-4*_f(_n+1)+_f(_n+2), _f(0) = 1, _f(1) = 5, _f(2) = 14}",
     "closedform": "2^_n*_n+2^(_n-1)+2^_n+piecewise(_n = 0,-1/2,0)",

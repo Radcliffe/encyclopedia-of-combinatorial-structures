@@ -33,5 +33,6 @@
         "http://sue.csc.uvic.ca/~cos/inf/neck/NecklaceInfo.html",
         "Same as ECS 130"
     ],
+    "gf_type": "ordinary",
     "gf": "Sum(numtheory:-phi(j[1])/j[1]*ln(-1/(-1+2*_x^j[1])),j[1] = 1 .. infinity)"
 }

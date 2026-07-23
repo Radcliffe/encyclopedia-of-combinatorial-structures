@@ -31,6 +31,7 @@
     "references": [
         "EIS A001764"
     ],
+    "gf_type": "ordinary",
     "gf": "RootOf(_Z^3*_x-_Z+1)",
     "rec": "{(27*_n^2+27*_n+6)*_f(_n)+(-4*_n^2-10*_n-6)*_f(_n+1), _f(0) = 1}",
     "closedform": "1/2*3^(1/2)*27^_n/Pi/GAMMA(2+2*_n)*GAMMA(_n+2/3)*GAMMA(_n+1/3)",

@@ -31,6 +31,7 @@
     "references": [
         "EIS A052787"
     ],
+    "gf_type": "exponential",
     "gf": "_x^5*exp(_x)",
     "rec": "{(-1-_n)*_f(_n)+(_n-4)*_f(_n+1), _f(0) = 0, _f(1) = 0, _f(2) = 0, _f(3) = 0,_f(4) = 0, _f(5) = 120}",
     "closedform": "GAMMA(_n+1)/GAMMA(_n-4)",

@@ -31,6 +31,7 @@
     "references": [
         "EIS A052978"
     ],
+    "gf_type": "ordinary",
     "gf": "-(-1+2*_x)/(4*_x^3-2*_x^2-4*_x+1)",
     "rec": "{4*_f(_n)-2*_f(_n+1)-4*_f(_n+2)+_f(_n+3), _f(0) = 1, _f(1) = 2, _f(2) = 10}",
     "closedform": "Sum(-1/158*(24*_alpha^2-42*_alpha-11)*_alpha^(-1-_n),_alpha = RootOf(4*_Z^3-2*_Z^2-4*_Z+1))",

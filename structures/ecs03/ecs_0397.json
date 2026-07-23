@@ -31,6 +31,7 @@
     "references": [
         "EIS A001047"
     ],
+    "gf_type": "exponential",
     "gf": "exp(_x)^3-exp(_x)^2",
     "rec": "{6*_f(_n)-5*_f(_n+1)+_f(_n+2), _f(0) = 0, _f(1) = 1}",
     "closedform": "-2^_n+3^_n",

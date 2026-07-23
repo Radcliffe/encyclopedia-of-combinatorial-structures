@@ -31,6 +31,7 @@
     "references": [
         "EIS A000166"
     ],
+    "gf_type": "exponential",
     "gf": "exp(ln(1/(1-_x))-_x)",
     "rec": "{(-1-_n)*_f(_n)+(-1-_n)*_f(_n+1)+_f(_n+2), _f(0) = 1, _f(1) = 0}",
     "closedform": "-exp(1)*exp(-1)*GAMMA(_n)*_n+exp(-1)*GAMMA(_n+1,-1)+GAMMA(_n+1)",

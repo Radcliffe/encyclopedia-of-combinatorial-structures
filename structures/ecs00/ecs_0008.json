@@ -32,6 +32,7 @@
         "EIS A000302",
         "Same terms as ECS 269"
     ],
+    "gf_type": "ordinary",
     "gf": "-1/(-1+4*_x)",
     "rec": "{4*_f(_n)-_f(_n+1), _f(0) = 1}",
     "closedform": "4^_n",

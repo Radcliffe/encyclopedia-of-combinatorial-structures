@@ -31,6 +31,7 @@
     "references": [
         "EIS A052950"
     ],
+    "gf_type": "ordinary",
     "gf": "(_x^3-_x^2-3*_x+2)/(-1+2*_x)/(_x^2-1)",
     "rec": "{-2*_f(_n)-_f(_n+1)+_f(_n+2)+1, _f(0) = 2, _f(1) = 1, _f(2) = 3, _f(3) = 4}",
     "closedform": "Sum(1/2*_alpha^(-_n),_alpha = RootOf(_Z^2-1))+2^(_n-1)+piecewise(_n = 0,1/2,0)",

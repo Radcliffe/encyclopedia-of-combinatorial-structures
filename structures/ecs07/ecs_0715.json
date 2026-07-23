@@ -31,6 +31,7 @@
     "references": [
         "EIS A027471"
     ],
+    "gf_type": "exponential",
     "gf": "exp(_x)^3*_x",
     "rec": "{(-3*_n-3)*_f(_n)+_f(_n+1)*_n, _f(0) = 0, _f(1) = 1}",
     "closedform": "3^(_n-1)*_n",

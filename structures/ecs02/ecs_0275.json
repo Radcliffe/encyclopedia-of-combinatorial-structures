@@ -31,6 +31,7 @@
     "references": [
         "EIS A001020"
     ],
+    "gf_type": "exponential",
     "gf": "exp(_x)^11",
     "rec": "{_f(_n+1)-11*_f(_n), _f(0) = 1}",
     "closedform": "11^_n",

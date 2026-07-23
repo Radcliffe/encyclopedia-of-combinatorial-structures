@@ -31,6 +31,7 @@
     "references": [
         "EIS A010722"
     ],
+    "gf_type": "ordinary",
     "gf": "-6*_x/(-1+_x)",
     "rec": "{-_f(_n)+6, _f(0) = 0, _f(1) = 6}",
     "closedform": "6+piecewise(_n = 0,-6,0)",

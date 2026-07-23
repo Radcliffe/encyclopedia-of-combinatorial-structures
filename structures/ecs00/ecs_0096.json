@@ -31,5 +31,6 @@
     "references": [
         "EIS A052526"
     ],
+    "gf_type": "exponential",
     "gf": "RootOf(-_Z^2+2*exp(_Z)-4*_Z+2*_x-2)-_x"
 }

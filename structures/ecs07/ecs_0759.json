@@ -31,6 +31,7 @@
     "references": [
         "EIS A052801"
     ],
+    "gf_type": "exponential",
     "gf": "1/(-1+ln(-1/(-1+_x)))^2",
     "equiv": "1/(1-(exp(1)-1)/exp(1))^2/(1-exp(1))^2*((exp(1)-1)/exp(1)-1)^2*_n*exp(-_n)^(ln(exp(1)-1)-1)"
 }

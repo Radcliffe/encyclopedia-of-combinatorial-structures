@@ -31,5 +31,6 @@
     "references": [
         "EIS A001861"
     ],
+    "gf_type": "exponential",
     "gf": "exp(2*exp(_x)-2)"
 }

@@ -31,6 +31,7 @@
     "references": [
         "EIS A052771"
     ],
+    "gf_type": "exponential",
     "gf": "exp(_x)^2*_x^3",
     "rec": "{(-2*_n-2)*_f(_n)+(_n-2)*_f(_n+1), _f(0)= 0, _f(1) = 0, _f(2) = 0, _f(3) = 6}",
     "closedform": "2^(_n-3)*(_n-2)*(_n-1)*_n",

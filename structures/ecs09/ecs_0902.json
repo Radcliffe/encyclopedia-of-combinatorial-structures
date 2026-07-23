@@ -31,6 +31,7 @@
     "references": [
         "EIS A052919"
     ],
+    "gf_type": "ordinary",
     "gf": "(_x^2-5*_x+2)/(-1+_x)/(-1+3*_x)",
     "rec": "{_f(_n+1)-3*_f(_n)+2, _f(0) = 2, _f(1) = 3, _f(2) = 7}",
     "closedform": "1+2*3^(_n-1)+piecewise(_n = 0,1/3,0)",

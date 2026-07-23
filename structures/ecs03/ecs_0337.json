@@ -31,6 +31,7 @@
     "references": [
         "EIS A008607"
     ],
+    "gf_type": "ordinary",
     "gf": "25*_x/(-1+_x)^2",
     "rec": "{_f(_n)-25*_n, _f(0) = 0, _f(1) = 25}",
     "closedform": "25*_n",

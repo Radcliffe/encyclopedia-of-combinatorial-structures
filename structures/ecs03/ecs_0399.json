@@ -31,6 +31,7 @@
     "references": [
         "EIS A001286"
     ],
+    "gf_type": "exponential",
     "gf": "-1/(-1+_x)^3*_x",
     "rec": "{(-_n^2-3*_n-2)*_f(_n)+_f(_n+1)*_n, _f(0) = 0, _f(1) = 1, _f(2) = 6}",
     "closedform": "(1/2*_n^2+1/2*_n)*_n!",

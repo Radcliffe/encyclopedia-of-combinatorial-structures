@@ -35,6 +35,7 @@
         "http://forum.swarthmore.edu/advanced/robertd/catalan.html",
         "Same terms as ECS 48"
     ],
+    "gf_type": "ordinary",
     "gf": "1/2-1/2*(1-4*_x)^(1/2)",
     "rec": "{(-2+4*_n)*_f(_n)+(-1-_n)*_f(_n+1), _f(0) = 0, _f(1) = 1}",
     "closedform": "1/Pi^(1/2)*2^(2*_n-2)*GAMMA(_n-1/2)/GAMMA(_n+1)",

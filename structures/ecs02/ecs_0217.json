@@ -31,6 +31,7 @@
     "references": [
         "EIS A008676"
     ],
+    "gf_type": "ordinary",
     "gf": "1/(_x^3-1)/(_x^5-1)",
     "rec": "{_f(_n)+2*_f(_n+1)+3*_f(_n+2)+3*_f(_n+3)+3*_f(_n+4)+2*_f(_n+5)+_f(_n+6)-7-_n, _f(0) = 1, _f(1) = 0, _f(2) = 0, _f(3) = 1, _f(4) = 0, _f(5)= 1}",
     "closedform": "4/15+1/15*_n+Sum(1/9*(1+2*_alpha)*_alpha^(-1-_n),_alpha = RootOf(_Z^2+_Z+1))+Sum(-1/25*(3*_alpha^3+_alpha^2-_alpha+2)*_alpha^(-1-_n),_alpha = RootOf(_Z^4+_Z^3+_Z^2+_Z+1))",

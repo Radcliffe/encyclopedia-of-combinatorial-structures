@@ -32,6 +32,7 @@
         "EIS A003713",
         "Same terms as ECS 34"
     ],
+    "gf_type": "exponential",
     "gf": "ln(-1/(-1+ln(-1/(-1+_x))))",
     "equiv": "1/_n*exp(-_n)^(ln(exp(1)-1)-1)"
 }

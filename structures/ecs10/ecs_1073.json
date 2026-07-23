@@ -31,6 +31,7 @@
     "references": [
         "EIS A010694"
     ],
+    "gf_type": "ordinary",
     "gf": "-2*(_x+2)*_x/(_x^2-1)",
     "rec": "{-_f(_n)-_f(_n+1)+6, _f(0) = 0, _f(1) =4, _f(2) = 2}",
     "closedform": "Sum((_alpha+2)*_alpha^(-1-_n),_alpha = RootOf(_Z^2-1))+piecewise(_n = 0,-2,0)",

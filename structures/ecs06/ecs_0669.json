@@ -31,6 +31,7 @@
     "references": [
         "EIS A052713"
     ],
+    "gf_type": "exponential",
     "gf": "1/2-1/2*(1-8*_x)^(1/2)",
     "rec": "{(-8*_n+4)*_f(_n)+_f(_n+1), _f(0) = 0, _f(1) = 2}",
     "closedform": "2^(-2+3*_n)/Pi^(1/2)*GAMMA(_n-1/2)",

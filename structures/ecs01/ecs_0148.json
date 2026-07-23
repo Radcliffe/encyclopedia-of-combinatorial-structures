@@ -31,5 +31,6 @@
     "references": [
         "EIS A001970"
     ],
+    "gf_type": "ordinary",
     "gf": "exp(Sum((exp(Sum(-(_x^j[2])^j[1]/((_x^j[2])^j[1]-1)/j[1],j[1] = 1 .. infinity))-1)/j[2],j[2] = 1 .. infinity))-1"
 }

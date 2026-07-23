@@ -31,6 +31,7 @@
     "references": [
         "EIS A052988"
     ],
+    "gf_type": "ordinary",
     "gf": "-(_x^2-1)/(_x^4+_x^3-2*_x^2-2*_x+1)",
     "rec": "{_f(_n)+_f(_n+1)-2*_f(_n+2)-2*_f(_n+3)+_f(_n+4), _f(0) = 1, _f(1) = 2, _f(2) = 5, _f(3) = 13}",
     "closedform": "Sum(-1/331*(76*_alpha^3+25*_alpha^2-147*_alpha-49)*_alpha^(-1-_n),_alpha = RootOf(_Z^4+_Z^3-2*_Z^2-2*_Z+1))",

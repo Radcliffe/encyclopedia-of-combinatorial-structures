@@ -32,6 +32,7 @@
         "EIS A008619",
         "Same terms as ECS 120 and ECS 351"
     ],
+    "gf_type": "ordinary",
     "gf": "1/(-1+_x)/(_x^2-1)",
     "rec": "{_f(_n)+_f(_n+1)-_n-2, _f(0) = 1}",
     "closedform": "3/4+1/4*(-1)^(-_n)+1/2*_n",

@@ -31,6 +31,7 @@
     "references": [
         "EIS A052552"
     ],
+    "gf_type": "ordinary",
     "gf": "-(2*_x^2+_x-2)/(2*_x^2-1)/(-1+_x)",
     "rec": "{-2*_f(_n)+_f(_n+2)+1, _f(0) = 2, _f(1) = 1, _f(2) = 3}",
     "closedform": "1+Sum(1/2*_alpha^(-_n),_alpha = RootOf(2*_Z^2-1))",

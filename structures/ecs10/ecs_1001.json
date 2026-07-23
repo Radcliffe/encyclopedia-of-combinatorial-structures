@@ -31,6 +31,7 @@
     "references": [
         "EIS A052944"
     ],
+    "gf_type": "ordinary",
     "gf": "(-2+3*_x)/(-1+_x)^2/(-1+2*_x)",
     "rec": "{2*_f(_n)-_f(_n+1)+1-_n, _f(0) = 2, _f(1) = 5}",
     "closedform": "_n+2^(_n+1)",

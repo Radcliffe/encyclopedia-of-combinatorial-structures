@@ -31,6 +31,7 @@
     "references": [
         "EIS A052634"
     ],
+    "gf_type": "exponential",
     "gf": "1/(2*_x^2-1)/(-1+_x)",
     "rec": "{(2*_n^3+12*_n^2+22*_n+12)*_f(_n)+(-2*_n^2-10*_n-12)*_f(_n+1)+(-_n-3)*_f(_n+2)+_f(_n+3), _f(0) = 1, _f(1) = 1, _f(2) = 6}",
     "closedform": "(-1+Sum(1/2*(1+2*_alpha)*_alpha^(-1-_n),_alpha = RootOf(2*_Z^2-1)))*_n!",

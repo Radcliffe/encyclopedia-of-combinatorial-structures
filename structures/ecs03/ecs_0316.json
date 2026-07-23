@@ -31,6 +31,7 @@
     "references": [
         "EIS A008586"
     ],
+    "gf_type": "ordinary",
     "gf": "4*_x/(-1+_x)^2",
     "rec": "{_f(_n)-4*_n, _f(0) = 0, _f(1) = 4}",
     "closedform": "4*_n",

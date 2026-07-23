@@ -31,6 +31,7 @@
     "references": [
         "EIS A052894"
     ],
+    "gf_type": "exponential",
     "gf": "RootOf(_Z*exp(_Z*_x)-2*_Z+1)",
     "equiv": "1/2/Pi^(1/2)*RootOf(_Z*exp(2*(LambertW(2*exp(1))-1)^2*_Z/LambertW(2*exp(1)))-2*_Z+1)*2^(1/2)*((LambertW(2*exp(1))^2-2*LambertW(2*exp(1))+1)*RootOf(_Z*exp(2*(LambertW(2*exp(1))-1)^2*_Z/LambertW(2*exp(1)))-2*_Z+1)/LambertW(2*exp(1))/(1/2/(-1+2*RootOf(_Z*exp(2*(LambertW(2*exp(1))-1)^2*_Z/LambertW(2*exp(1)))-2*_Z+1))^2*RootOf(_Z*exp(2*(LambertW(2*exp(1))-1)^2*_Z/LambertW(2*exp(1)))-2*_Z+1)^2*(-2+(-1+2*RootOf(_Z*exp(2*(LambertW(2*exp(1))-1)^2*_Z/LambertW(2*exp(1)))-2*_Z+1))/RootOf(_Z*exp(2*(LambertW(2*exp(1))-1)^2*_Z/LambertW(2*exp(1)))-2*_Z+1))^2+1/(-1+2*RootOf(_Z*exp(2*(LambertW(2*exp(1))-1)^2*_Z/LambertW(2*exp(1)))-2*_Z+1))))^(1/2)*(1/_n)^(3/2)*exp(-_n)^(2*ln(LambertW(2*exp(1))-1)-1+LambertW(2*exp(1)))"
 }

@@ -31,5 +31,6 @@
     "references": [
         "EIS A003239"
     ],
+    "gf_type": "ordinary",
     "gf": "Sum(numtheory:-phi(j[1])/j[1]*ln(2/(1+(1-4*_x^j[1])^(1/2))),j[1] = 1 .. infinity)"
 }

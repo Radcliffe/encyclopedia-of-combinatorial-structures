@@ -31,6 +31,7 @@
     "references": [
         "EIS A001021"
     ],
+    "gf_type": "exponential",
     "gf": "exp(_x)^12",
     "rec": "{_f(_n+1)-12*_f(_n),_f(0) = 1}",
     "closedform": "12^_n",

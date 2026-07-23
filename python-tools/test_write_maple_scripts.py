@@ -31,6 +31,11 @@ STRUCTURE = Structure(
     references=("EIS A000012",),
     generating_function="1/(1-x)",
 )
+LABELLED_STRUCTURE = replace(
+    STRUCTURE,
+    labeled=True,
+    generating_function_type="exponential",
+)
 
 
 class MapleToolsTests(unittest.TestCase):
@@ -48,7 +53,7 @@ class MapleToolsTests(unittest.TestCase):
             "spec := [S, {S = Sequence(Z)}]: seq(combstruct[count](spec, size = n), n = 0 ..2);\n",
         )
         self.assertEqual(
-            convert_data_to_maple_code(replace(STRUCTURE, labeled=True)),
+            convert_data_to_maple_code(LABELLED_STRUCTURE),
             "spec := [S, {S = Sequence(Z)}, labeled]: "
             "seq(combstruct[count](spec, size = n), n = 0 ..2);\n",
         )
@@ -57,7 +62,7 @@ class MapleToolsTests(unittest.TestCase):
             "lprint(rhs(gfsolve({S = Sequence(Z)}, unlabeled, z)[1]))",
         )
         self.assertEqual(
-            convert_gf_to_maple_code(replace(STRUCTURE, labeled=True)),
+            convert_gf_to_maple_code(LABELLED_STRUCTURE),
             "lprint(rhs(gfsolve({S = Sequence(Z)}, labeled, z)[1]))",
         )
 

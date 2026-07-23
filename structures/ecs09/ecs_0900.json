@@ -31,6 +31,7 @@
     "references": [
         "EIS A052917"
     ],
+    "gf_type": "ordinary",
     "gf": "-1/(_x^4+3*_x-1)",
     "rec": "{_f(_n)+3*_f(_n+3)-_f(_n+4), _f(0) =1, _f(1) = 3, _f(2) = 9, _f(3) = 27}",
     "closedform": "Sum(1/2443*(324*_alpha^3+144*_alpha^2+64*_alpha+729)*_alpha^(-1-_n),_alpha = RootOf(_Z^4+3*_Z-1))",

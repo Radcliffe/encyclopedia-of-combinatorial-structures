@@ -31,6 +31,7 @@
     "references": [
         "EIS A052780"
     ],
+    "gf_type": "exponential",
     "gf": "_x^2*exp(_x)^4",
     "rec": "{(-4*_n-4)*_f(_n)+_f(_n+1)*(_n-1), _f(0) = 0, _f(1) = 0, _f(2) = 2}",
     "closedform": "2^(2*_n-4)*_n*(_n-1)",

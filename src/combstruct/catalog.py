@@ -8,7 +8,9 @@ from collections.abc import Iterator, Mapping
 from dataclasses import dataclass
 from functools import cached_property
 from pathlib import Path
-from typing import Any, Self
+from typing import Any, Literal, Self
+
+GeneratingFunctionType = Literal["ordinary", "exponential"]
 
 
 class CatalogError(ValueError):
@@ -40,6 +42,21 @@ class Structure:
     recurrence: str | None = None
     closed_form: str | None = None
     asymptotic_equivalent: str | None = None
+    generating_function_type: GeneratingFunctionType | None = None
+
+    def __post_init__(self) -> None:
+        if self.generating_function is None:
+            if self.generating_function_type is not None:
+                raise CatalogError("A generating function type requires a generating function")
+            return
+
+        expected: GeneratingFunctionType = "exponential" if self.labeled else "ordinary"
+        if self.generating_function_type is None:
+            object.__setattr__(self, "generating_function_type", expected)
+        elif self.generating_function_type != expected:
+            raise CatalogError(
+                f"Generating function type must be {expected!r} when labeled is {self.labeled!r}",
+            )
 
     @classmethod
     def from_record(cls, record: Mapping[str, Any]) -> Self:
@@ -53,6 +70,13 @@ class Structure:
         if not isinstance(labeled, bool):
             raise CatalogError("ECS field 'labeled' must be a boolean")
 
+        generating_function = _optional_string(record, "gf")
+        generating_function_type = _generating_function_type(
+            record,
+            generating_function=generating_function,
+            labeled=labeled,
+        )
+
         return cls(
             id=structure_id,
             name=_nonempty_string(record, "name"),
@@ -62,7 +86,8 @@ class Structure:
             symbol=_nonempty_string(record, "symbol"),
             terms=_terms(record),
             references=_references(record),
-            generating_function=_optional_string(record, "gf"),
+            generating_function=generating_function,
+            generating_function_type=generating_function_type,
             recurrence=_optional_string(record, "rec"),
             closed_form=_optional_string(record, "closedform"),
             asymptotic_equivalent=_optional_string(record, "equiv"),
@@ -82,6 +107,7 @@ class Structure:
             "references": list(self.references),
         }
         optional_fields = {
+            "gf_type": self.generating_function_type,
             "gf": self.generating_function,
             "rec": self.recurrence,
             "closedform": self.closed_form,
@@ -201,6 +227,36 @@ def _optional_string(record: Mapping[str, Any], field: str) -> str | None:
     if not isinstance(value, str) or not value:
         raise CatalogError(f"ECS field {field!r} must be a nonempty string when present")
     return value
+
+
+def _generating_function_type(
+    record: Mapping[str, Any],
+    *,
+    generating_function: str | None,
+    labeled: bool,
+) -> GeneratingFunctionType | None:
+    value = record.get("gf_type")
+    if generating_function is None:
+        if value is not None:
+            raise CatalogError("ECS field 'gf_type' requires field 'gf'")
+        return None
+
+    expected: GeneratingFunctionType = "exponential" if labeled else "ordinary"
+    # Historical consolidated datasets did not carry gf_type. Keep them
+    # readable while ensuring all newly serialized records are explicit.
+    if value is None:
+        return expected
+    if value == "ordinary":
+        result: GeneratingFunctionType = "ordinary"
+    elif value == "exponential":
+        result = "exponential"
+    else:
+        raise CatalogError("ECS field 'gf_type' must be 'ordinary' or 'exponential'")
+    if result != expected:
+        raise CatalogError(
+            f"ECS field 'gf_type' must be {expected!r} when 'labeled' is {labeled!r}",
+        )
+    return result
 
 
 def _terms(record: Mapping[str, Any]) -> tuple[int, ...]:

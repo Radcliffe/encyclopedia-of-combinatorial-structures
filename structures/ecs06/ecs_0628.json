@@ -31,6 +31,7 @@
     "references": [
         "EIS A052680"
     ],
+    "gf_type": "exponential",
     "gf": "-(-1+2*_x)/(2*_x^2-4*_x+1)",
     "rec": "{(2*_n^2+6*_n+4)*_f(_n)+(-4*_n-8)*_f(_n+1)+_f(_n+2), _f(0) = 1, _f(1) = 2}",
     "closedform": "Sum(1/2*_alpha^(-_n),_alpha = RootOf(2*_Z^2-4*_Z+1))*_n!",

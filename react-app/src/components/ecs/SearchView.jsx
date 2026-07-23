@@ -23,6 +23,7 @@ const filtersPropType = PropTypes.shape({
   name: PropTypes.string.isRequired,
   terms: PropTypes.string.isRequired,
   generatingFunction: PropTypes.string.isRequired,
+  generatingFunctionType: PropTypes.oneOf(["", "ordinary", "exponential"]).isRequired,
   closedForm: PropTypes.string.isRequired,
   sortBy: PropTypes.oneOf(["id", "name"]).isRequired,
 });
@@ -105,6 +106,19 @@ export function SearchView({
                 value={filters.generatingFunction}
                 onChange={(event) => onFilterChange("generatingFunction", event.target.value)}
               />
+            </SearchField>
+            <SearchField icon={Filter} label="Generating function type">
+              <select
+                className="h-10 w-full rounded-md border px-3"
+                value={filters.generatingFunctionType}
+                onChange={(event) =>
+                  onFilterChange("generatingFunctionType", event.target.value)
+                }
+              >
+                <option value="">All types</option>
+                <option value="ordinary">Ordinary (OGF)</option>
+                <option value="exponential">Exponential (EGF)</option>
+              </select>
             </SearchField>
             <SearchField icon={BookOpen} label="Closed form contains">
               <Input
