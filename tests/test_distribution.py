@@ -414,6 +414,7 @@ class CatalogTests(unittest.TestCase):
         structure = get_structure(123)
 
         self.assertIsNone(structure.generating_function)
+        self.assertIsNone(structure.generating_function_type)
         self.assertIsNone(structure.recurrence)
         self.assertIsNone(structure.closed_form)
         self.assertIsNone(structure.asymptotic_equivalent)
@@ -423,6 +424,7 @@ class CatalogTests(unittest.TestCase):
         record = structure.as_record()
 
         self.assertEqual(record["labeled"], structure.labeled)
+        self.assertEqual(record["gf_type"], structure.generating_function_type)
         self.assertEqual(record["gf"], structure.generating_function)
         self.assertEqual(record["closedform"], structure.closed_form)
         self.assertEqual(Structure.from_record(record), structure)
@@ -436,6 +438,14 @@ class CatalogTests(unittest.TestCase):
         structures = list(Catalog())
 
         self.assertEqual(sum(item.generating_function is not None for item in structures), 1028)
+        self.assertEqual(
+            sum(item.generating_function_type == "ordinary" for item in structures),
+            577,
+        )
+        self.assertEqual(
+            sum(item.generating_function_type == "exponential" for item in structures),
+            451,
+        )
         self.assertEqual(sum(item.recurrence is not None for item in structures), 867)
         self.assertEqual(sum(item.closed_form is not None for item in structures), 792)
         self.assertEqual(

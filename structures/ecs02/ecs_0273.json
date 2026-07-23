@@ -31,6 +31,7 @@
     "references": [
         "EIS A001018"
     ],
+    "gf_type": "exponential",
     "gf": "exp(_x)^8",
     "rec": "{_f(_n+1)-8*_f(_n), _f(0) =1}",
     "closedform": "8^_n",

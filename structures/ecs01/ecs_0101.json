@@ -31,6 +31,7 @@
     "references": [
         "EIS A001048"
     ],
+    "gf_type": "exponential",
     "gf": "(ln(-1/(-1+_x))*_x-ln(-1/(-1+_x))-_x)/(-1+_x)",
     "rec": "{(-_n^2-4*_n-3)*_f(_n+1)+(_n+2)*_f(_n+2), _f(0) = 0, _f(1) = 2, _f(2) = 3, _f(3) = 8}",
     "closedform": "1/_n*GAMMA(_n+2)",

@@ -31,6 +31,7 @@
     "references": [
         "EIS A008587"
     ],
+    "gf_type": "ordinary",
     "gf": "5*_x/(-1+_x)^2",
     "rec": "{_f(_n)-5*_n, _f(0) = 0, _f(1) = 5}",
     "closedform": "5*_n",

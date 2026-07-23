@@ -31,5 +31,6 @@
     "references": [
         "EIS A009199"
     ],
+    "gf_type": "exponential",
     "gf": "exp(ln(-1/(-1+_x))^2)"
 }

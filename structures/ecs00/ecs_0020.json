@@ -33,6 +33,7 @@
         "Stirling, 1730",
         "EIS A000142"
     ],
+    "gf_type": "exponential",
     "gf": "-1/(-1+_x)",
     "rec": "{(-1-_n)*_f(_n)+_f(_n+1), _f(0) = 1, _f(1) = 1}",
     "closedform": "_n!",

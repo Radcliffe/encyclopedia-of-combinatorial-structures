@@ -31,6 +31,7 @@
     "references": [
         "EIS A001048"
     ],
+    "gf_type": "exponential",
     "gf": "ln(-1/(-1+_x))*_x",
     "rec": "{(-_n^2+1)*_f(_n)+_f(_n+1)*_n, _f(0) = 0, _f(1) = 0, _f(2) = 2, _f(3) = 3}",
     "closedform": "1/(_n-1)*GAMMA(_n+1)",

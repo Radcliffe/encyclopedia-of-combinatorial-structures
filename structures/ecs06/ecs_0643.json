@@ -31,6 +31,7 @@
     "references": [
         "EIS A052694"
     ],
+    "gf_type": "exponential",
     "gf": "(2*_x^4-_x^3-1)/(-1+2*_x)",
     "rec": "{(-2*_n-2)*_f(_n)+_f(_n+1), _f(0) = 1, _f(1) = 2, _f(2) = 8, _f(3) = 54, _f(4) = 384}",
     "closedform": "(2^_n+piecewise(_n = 0,1,0))*_n!",

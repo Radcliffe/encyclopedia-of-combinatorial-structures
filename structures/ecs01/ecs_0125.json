@@ -31,6 +31,7 @@
     "references": [
         "EIS A009444"
     ],
+    "gf_type": "exponential",
     "gf": "ln(-1/(_x*exp(_x)-1))",
     "equiv": "1/_n*(1/LambertW(0,1))^(-ln(exp(-_n)))"
 }

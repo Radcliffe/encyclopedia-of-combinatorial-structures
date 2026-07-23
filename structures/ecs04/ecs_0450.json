@@ -32,5 +32,6 @@
         "EIS A008763",
         "Same terms as ECS 232"
     ],
+    "gf_type": "ordinary",
     "gf": "exp(Sum(_x^j[1]*((_x^j[1])^2+2*_x^j[1]+1)/j[1],j[1] = 1 .. infinity))"
 }

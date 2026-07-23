@@ -31,6 +31,7 @@
     "references": [
         "EIS A001147"
     ],
+    "gf_type": "exponential",
     "gf": "1-(1-2*_x)^(1/2)",
     "rec": "{(-2*_n+1)*_f(_n)+_f(_n+1), _f(0) = 0, _f(1) = 1}",
     "closedform": "1/Pi^(1/2)*2^(_n-1)*GAMMA(_n-1/2)",

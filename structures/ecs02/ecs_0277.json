@@ -31,6 +31,7 @@
     "references": [
         "EIS A001022"
     ],
+    "gf_type": "exponential",
     "gf": "exp(_x)^13",
     "rec": "{_f(_n+1)-13*_f(_n), _f(0) = 1}",
     "closedform": "13^_n",

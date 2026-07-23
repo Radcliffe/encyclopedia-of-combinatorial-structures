@@ -31,6 +31,7 @@
     "references": [
         "EIS A052914"
     ],
+    "gf_type": "ordinary",
     "gf": "-(-1+_x)/(2*_x^5-2*_x^4-_x^3-_x+1)",
     "rec": "{2*_f(_n)-2*_f(_n+1)-_f(_n+2)-_f(_n+4)+_f(_n+5), _f(0) = 1, _f(1) = 0, _f(2) = 0, _f(3) = 1, _f(4) = 3}",
     "closedform": "Sum(-1/19913*(542*_alpha^4+1048*_alpha^3+599*_alpha^2-4709*_alpha-418)*_alpha^(-1-_n),_alpha = RootOf(2*_Z^5-2*_Z^4-_Z^3-_Z+1))",

@@ -31,6 +31,7 @@
     "references": [
         "EIS A208529"
     ],
+    "gf_type": "exponential",
     "gf": "-2/(-1+_x)",
     "rec": "{(-1-_n)*_f(_n)+_f(_n+1),_f(0) = 2, _f(1) = 2}",
     "closedform": "2*_n!",

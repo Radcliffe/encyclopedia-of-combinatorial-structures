@@ -19,6 +19,7 @@ const INITIAL_FILTERS = {
   name: "",
   terms: "",
   generatingFunction: "",
+  generatingFunctionType: "",
   closedForm: "",
   sortBy: "id",
 };
@@ -94,6 +95,12 @@ export default function App() {
         if (
           generatingFunctionQuery &&
           !normalizeText(item.generating_function).includes(generatingFunctionQuery)
+        ) {
+          return false;
+        }
+        if (
+          filters.generatingFunctionType &&
+          item.generating_function_type !== filters.generatingFunctionType
         ) {
           return false;
         }

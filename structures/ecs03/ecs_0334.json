@@ -31,6 +31,7 @@
     "references": [
         "EIS A008604"
     ],
+    "gf_type": "ordinary",
     "gf": "22*_x/(-1+_x)^2",
     "rec": "{_f(_n)-22*_n, _f(0) = 0, _f(1) = 22}",
     "closedform": "22*_n",

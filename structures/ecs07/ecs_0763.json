@@ -31,6 +31,7 @@
     "references": [
         "EIS A038507"
     ],
+    "gf_type": "exponential",
     "gf": "(_x*exp(_x)-exp(_x)-1)/(-1+_x)",
     "rec": "{(_n^2+2*_n+1)*_f(_n)+(-_n^2-3*_n-1)*_f(_n+1)+_f(_n+2)*_n, _f(0) = 2, _f(1) = 2, _f(2) = 3, _f(3) = 7}",
     "closedform": "1+GAMMA(_n+1)",

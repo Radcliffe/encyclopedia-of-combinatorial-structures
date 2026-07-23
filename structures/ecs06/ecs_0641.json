@@ -31,6 +31,7 @@
     "references": [
         "EIS A001048"
     ],
+    "gf_type": "exponential",
     "gf": "-(_x^3-_x^2-1)/(-1+_x)^2",
     "rec": "{(-_n^2-4*_n-3)*_f(_n)+(_n+2)*_f(_n+1), _f(0) = 1, _f(1) = 2, _f(2) = 8, _f(3) = 30, _f(4) = 144}",
     "closedform": "(_n+2+piecewise(_n = 0,-1,_n = 1,-1,0))*_n!",

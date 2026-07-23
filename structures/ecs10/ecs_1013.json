@@ -31,6 +31,7 @@
     "references": [
         "EIS A010716"
     ],
+    "gf_type": "ordinary",
     "gf": "-5*_x/(-1+_x)",
     "rec": "{-_f(_n)+5, _f(0) = 0, _f(1) = 5}",
     "closedform": "5+piecewise(_n = 0,-5,0)",

@@ -31,6 +31,7 @@
     "references": [
         "EIS A000290"
     ],
+    "gf_type": "ordinary",
     "gf": "-(1+_x)/(-1+_x)^3",
     "rec": "{-_f(_n)+_n^2+2*_n+1, _f(0) = 1, _f(1) = 4}",
     "closedform": "(_n+1)^2",

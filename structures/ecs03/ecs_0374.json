@@ -31,6 +31,7 @@
     "references": [
         "EIS A003463"
     ],
+    "gf_type": "ordinary",
     "gf": "1/(-1+_x)/(-1+5*_x)",
     "rec": "{_f(_n+1)-5*_f(_n)-1, _f(0) = 1}",
     "closedform": "-1/4+1/4*5^(_n+1)",

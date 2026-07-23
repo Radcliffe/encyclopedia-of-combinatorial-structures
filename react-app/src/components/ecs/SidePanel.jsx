@@ -115,7 +115,15 @@ function StructureDetails({ structure, onClose, onOpenTerms }) {
             b{String(structure.id).padStart(6, "0")}.txt
           </a>
         </FieldRow>
-        <FieldRow label="Generating function">
+        <FieldRow
+          label={
+            structure.generating_function_type === "exponential"
+              ? "Exponential generating function (EGF)"
+              : structure.generating_function_type === "ordinary"
+                ? "Ordinary generating function (OGF)"
+                : "Generating function"
+          }
+        >
           {structure.generating_function ? (
             <code className="break-words text-sm">{structure.generating_function}</code>
           ) : (

@@ -31,5 +31,6 @@
     "references": [
         "EIS A052804"
     ],
+    "gf_type": "exponential",
     "gf": "ln(-1/(-1+ln(-1/(-1+_x))*_x))"
 }

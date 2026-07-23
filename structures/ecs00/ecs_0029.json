@@ -31,6 +31,7 @@
     "references": [
         "EIS A052504"
     ],
+    "gf_type": "exponential",
     "gf": "exp(1/5*_x^5)",
     "rec": "{(-_n^4-10*_n^3-35*_n^2-50*_n-24)*_f(_n)+_f(_n+5), _f(0) = 1, _f(1) = 0, _f(2) = 0, _f(3)= 0, _f(4) = 0}",
     "closedform": "piecewise(irem(_n,5) = 0,1/2*5^(4/5*_n)*GAMMA(1/5*_n+1/5)*GAMMA(1/5*_n+2/5)*GAMMA(1/5*_n+3/5)*GAMMA(1/5*_n+4/5)*(cos(1/5*Pi)+cos(2/5*Pi))/Pi^2,irem(_n-1,5) = 0,0,irem(_n-2,5) = 0,0,irem(_n-3,5) = 0,0,irem(_n-4,5) =0,0)",

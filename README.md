@@ -5,6 +5,8 @@ structures and their associated integer sequences, with an emphasis on sequences
 that arise in the context of decomposable combinatorial structures. 
 
 The database can be searched by the first terms in the sequence, keywords, generating functions, or closed forms.
+Every stored generating function has an explicit `gf_type`: `ordinary` (OGF)
+for an unlabelled structure or `exponential` (EGF) for a labelled structure.
 
 The ECS is currently deployed at http://combstruct.netlify.app.
 ## Getting Started (Developer Installation)

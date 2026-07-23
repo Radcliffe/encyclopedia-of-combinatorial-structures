@@ -31,6 +31,7 @@
     "references": [
         "EIS A052632"
     ],
+    "gf_type": "exponential",
     "gf": "-1/(_x^5+_x-1)",
     "rec": "{(-_n^5-15*_n^4-85*_n^3-225*_n^2-274*_n-120)*_f(_n)+(-_n-5)*_f(_n+4)+_f(_n+5), _f(0) = 1, _f(1)= 1, _f(2) = 2, _f(3) = 6, _f(4) = 24}",
     "closedform": "Sum(1/3381*(320*_alpha^4+400*_alpha^3+500*_alpha^2+625*_alpha+256)*_alpha^(-1-_n),_alpha = RootOf(_Z^5+_Z-1))*_n!",

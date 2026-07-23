@@ -31,6 +31,7 @@
     "references": [
         "EIS A017817"
     ],
+    "gf_type": "ordinary",
     "gf": "-1/(_x^4+_x^3-1)",
     "rec": "{_f(_n)+_f(_n+1)-_f(_n+4), _f(0) = 1, _f(1) = 0, _f(2) = 0, _f(3) = 1}",
     "closedform": "Sum(-1/283*(12*_alpha^3+3*_alpha^2-73*_alpha-16)*_alpha^(-1-_n),_alpha = RootOf(_Z^4+_Z^3-1))",

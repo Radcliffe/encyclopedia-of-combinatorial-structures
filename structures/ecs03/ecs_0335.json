@@ -31,6 +31,7 @@
     "references": [
         "EIS A008605"
     ],
+    "gf_type": "ordinary",
     "gf": "23*_x/(-1+_x)^2",
     "rec": "{_f(_n)-23*_n, _f(0) = 0, _f(1) = 23}",
     "closedform": "23*_n",

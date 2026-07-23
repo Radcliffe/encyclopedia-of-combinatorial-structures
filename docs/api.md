@@ -526,13 +526,17 @@ are:
 | `terms` | `tuple[int, ...]` | Stored counting terms |
 | `references` | `tuple[str, ...]` | ECS bibliography and sequence references |
 | `generating_function` | `str | None` | Stored ECS `gf` text |
+| `generating_function_type` | `"ordinary" | "exponential" | None` | Explicit OGF/EGF classification from `gf_type` |
 | `recurrence` | `str | None` | Stored ECS `rec` text |
 | `closed_form` | `str | None` | Stored ECS `closedform` text |
 | `asymptotic_equivalent` | `str | None` | Stored ECS `equiv` text |
 
 `Structure.from_record(mapping)` validates and converts a canonical or
 web-encoded record. `structure.as_record()` returns a mutable dictionary using
-the original ECS field names.
+the ECS field names. Current records pair every `gf` with `gf_type`, whose value
+is `ordinary` for unlabelled structures and `exponential` for labelled
+structures. Historical records without `gf_type` remain readable and are
+classified from their `labeled` field.
 
 ### `Catalog(dataset=None)`
 

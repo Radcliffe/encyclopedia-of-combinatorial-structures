@@ -48,6 +48,8 @@ export function prefixMatchesSequence(sequence, prefix) {
 
 export function normalizeRecord(record) {
   const id = Number(record.id);
+  const generatingFunctionType =
+    record.gf_type ?? (record.gf ? (record.labeled ? "exponential" : "ordinary") : "");
   return {
     id,
     key: String(id),
@@ -58,6 +60,7 @@ export function normalizeRecord(record) {
     symbol: record.symbol ?? "",
     terms: Array.isArray(record.terms) ? record.terms.map(parseSequenceTerm) : [],
     generating_function: record.gf ?? "",
+    generating_function_type: generatingFunctionType,
     closed_form: record.closedform ?? "",
     references: Array.isArray(record.references) ? record.references : [],
   };

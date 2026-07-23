@@ -31,5 +31,6 @@
     "references": [
         "EIS A052522"
     ],
+    "gf_type": "exponential",
     "gf": "(exp(RootOf(2*_Z*exp(_Z)^2+2*_x*exp(_Z)^2-5*exp(_Z)^2+6*exp(_Z)-1))-1)/exp(RootOf(2*_Z*exp(_Z)^2+2*_x*exp(_Z)^2-5*exp(_Z)^2+6*exp(_Z)-1))"
 }

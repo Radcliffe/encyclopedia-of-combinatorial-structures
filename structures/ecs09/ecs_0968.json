@@ -31,6 +31,7 @@
     "references": [
         "EIS A017233"
     ],
+    "gf_type": "ordinary",
     "gf": "-3*_x*(2*_x-5)/(-1+_x)^2",
     "rec": "{_f(_n)-9*_n-6, _f(0) = 0, _f(1) = 15, _f(2) = 24}",
     "closedform": "6+9*_n+piecewise(_n = 0,-6,0)",

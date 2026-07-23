@@ -31,6 +31,7 @@
     "references": [
         "EIS A000566"
     ],
+    "gf_type": "ordinary",
     "gf": "-(4*_x+1)/(-1+_x)^3",
     "rec": "{-2*_f(_n)+5*_n^2+7*_n+2, _f(0) = 1, _f(1) = 7}",
     "closedform": "5/2*_n^2+7/2*_n+1",

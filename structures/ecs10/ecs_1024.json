@@ -31,6 +31,7 @@
     "references": [
         "EIS A052953"
     ],
+    "gf_type": "ordinary",
     "gf": "-2*(_x^2+_x-1)/(2*_x^2+_x-1)/(-1+_x)",
     "rec": "{-2*_f(_n)-_f(_n+1)+_f(_n+2)+2, _f(0) = 2, _f(1) = 2, _f(2) = 4}",
     "closedform": "1+Sum(1/9*(4*_alpha+1)*_alpha^(-1-_n),_alpha= RootOf(2*_Z^2+_Z-1))",

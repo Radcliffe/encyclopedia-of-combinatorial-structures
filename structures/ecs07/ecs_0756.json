@@ -31,6 +31,7 @@
     "references": [
         "EIS A053464"
     ],
+    "gf_type": "exponential",
     "gf": "exp(_x)^5*_x",
     "rec": "{(-5*_n-5)*_f(_n)+_f(_n+1)*_n, _f(0) = 0, _f(1) = 1}",
     "closedform": "5^(_n-1)*_n",

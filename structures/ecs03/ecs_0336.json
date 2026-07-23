@@ -31,6 +31,7 @@
     "references": [
         "EIS A008606"
     ],
+    "gf_type": "ordinary",
     "gf": "24*_x/(-1+_x)^2",
     "rec": "{_f(_n)-24*_n, _f(0) = 0, _f(1) = 24}",
     "closedform": "24*_n",

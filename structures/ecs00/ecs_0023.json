@@ -32,6 +32,7 @@
         "even number",
         "EIS A001147"
     ],
+    "gf_type": "exponential",
     "gf": "exp(1/2*_x^2)",
     "rec": "{(-1-_n)*_f(_n)+_f(_n+2), _f(0) = 1, _f(1) = 0}",
     "closedform": "piecewise(_n::even,1/Pi^(1/2)*2^(1/2*_n)*GAMMA(1/2*_n+1/2),_n::odd,0)",

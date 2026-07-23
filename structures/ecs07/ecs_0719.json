@@ -31,6 +31,7 @@
     "references": [
         "EIS A052762"
     ],
+    "gf_type": "exponential",
     "gf": "_x^4*exp(_x)",
     "rec": "{(-1-_n)*_f(_n)+(_n-3)*_f(_n+1), _f(0) = 0, _f(1) = 0, _f(2) = 0, _f(3) = 0, _f(4) = 24}",
     "closedform": "GAMMA(_n+1)/GAMMA(_n-3)",

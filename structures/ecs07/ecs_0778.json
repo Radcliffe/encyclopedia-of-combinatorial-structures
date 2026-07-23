@@ -31,6 +31,7 @@
     "references": [
         "EIS A052813"
     ],
+    "gf_type": "exponential",
     "gf": "-1/ln(-1/(-1+_x))*LambertW(-ln(-1/(-1+_x)))",
     "equiv": "1/2/Pi^(1/2)/ln(-1/(-1+(exp(1/exp(1))-1)/exp(1/exp(1))))*2^(1/2)*exp(1)^(1/2)*((1-(exp(1/exp(1))-1)/exp(1/exp(1)))*(-exp(1/exp(1))+1)/(-1+(exp(1/exp(1))-1)/exp(1/exp(1))))^(1/2)*(1/_n)^(3/2)*exp(-_n)^(ln(exp(exp(-1))-1)-exp(-1))"
 }

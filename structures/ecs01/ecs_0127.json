@@ -31,6 +31,7 @@
     "references": [
         "EIS A001519"
     ],
+    "gf_type": "ordinary",
     "gf": "-(-1+_x)/(_x^2-3*_x+1)",
     "rec": "{_f(_n)-3*_f(_n+1)+_f(_n+2), _f(0) = 1, _f(1) = 2}",
     "closedform": "Sum(1/5*(1+_alpha)*_alpha^(-1-_n),_alpha = RootOf(_Z^2-3*_Z+1))",

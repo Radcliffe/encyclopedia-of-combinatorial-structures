@@ -31,6 +31,7 @@
     "references": [
         "EIS A052707"
     ],
+    "gf_type": "ordinary",
     "gf": "1/4-1/4*(-16*_x+1)^(1/2)",
     "rec": "{(-8+16*_n)*_f(_n)+(-1-_n)*_f(_n+1), _f(0) = 0, _f(1) = 2}",
     "closedform": "2^(-3+4*_n)/Pi^(1/2)*GAMMA(_n-1/2)/GAMMA(_n+1)",

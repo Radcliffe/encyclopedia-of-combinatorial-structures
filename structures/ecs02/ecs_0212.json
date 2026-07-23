@@ -32,6 +32,7 @@
         "EIS A008615",
         "Same terms as ECS 448"
     ],
+    "gf_type": "ordinary",
     "gf": "1/(_x^2-1)/(_x^3-1)",
     "rec": "{_f(_n)+2*_f(_n+1)+2*_f(_n+2)+_f(_n+3)-_n-4, _f(0) = 1, _f(1) = 0, _f(2) = 1}",
     "closedform": "5/12+1/6*_n+Sum(1/9*(1+2*_alpha)*_alpha^(-1-_n),_alpha = RootOf(_Z^2+_Z+1))+1/4*(-1)^(-_n)",

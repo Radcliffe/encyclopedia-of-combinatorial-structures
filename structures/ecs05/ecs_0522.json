@@ -31,6 +31,7 @@
     "references": [
         "EIS A052578"
     ],
+    "gf_type": "exponential",
     "gf": "-4*_x/(-1+_x)",
     "rec": "{(-1-_n)*_f(_n)+_f(_n+1), _f(0) = 0, _f(1) = 4, _f(2) = 8}",
     "closedform": "(4+piecewise(_n = 0,-4,0))*_n!",

@@ -32,6 +32,7 @@
         "EIS A000225",
         "Same terms as ECS 138"
     ],
+    "gf_type": "ordinary",
     "gf": "1/(-1+_x)*_x/(-1+2*_x)",
     "rec": "{-2*_f(_n)+_f(_n+1)-1, _f(0)= 0, _f(1) = 1}",
     "closedform": "-1+2^_n",

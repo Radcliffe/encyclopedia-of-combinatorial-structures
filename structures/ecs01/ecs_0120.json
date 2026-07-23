@@ -32,5 +32,6 @@
         "EIS A008619",
         "Same terms as ECS 209 and ECS 351"
     ],
+    "gf_type": "ordinary",
     "gf": "exp(Sum(_x^j[1]*(_x^j[1]+1)/j[1],j[1] = 1 .. infinity))"
 }

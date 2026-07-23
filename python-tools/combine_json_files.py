@@ -56,7 +56,8 @@ WEB_DATA_PATH = PROJECT_DIR / 'react-app' / 'public' / 'ecs.json'
 #          'symbol': 1075,
 #          'terms': 1075,
 #          'references': 1075,
-#          'gf': 1017,
+#          'gf_type': 1028,
+#          'gf': 1028,
 #          'equiv': 938,
 #          'rec': 867,
 #          'closedform': 792})
@@ -80,7 +81,7 @@ def validate_json(struct):
         raise ValueError("Symbol must be a non-empty string")
     if not isinstance(struct['terms'], list) or not all(isinstance(x, int) and x >= 0 for x in struct['terms']):
         raise ValueError("Terms must be a list of non-negative integers")
-    optional_keys = {'gf', 'rec', 'closedform', 'equiv'}
+    optional_keys = {'gf_type', 'gf', 'rec', 'closedform', 'equiv'}
     for key in struct:
         if key not in required_keys and key not in optional_keys:
             raise ValueError(f"Unexpected key: {key}")
@@ -89,6 +90,14 @@ def validate_json(struct):
             raise ValueError("References must be a list of non-empty strings")
     if 'gf' in struct and (not isinstance(struct['gf'], str) or not struct['gf']):
         raise ValueError("GF must be a non-empty string")
+    if ('gf' in struct) != ('gf_type' in struct):
+        raise ValueError("GF and GF type must be provided together")
+    if 'gf_type' in struct:
+        expected_gf_type = 'exponential' if struct['labeled'] else 'ordinary'
+        if struct['gf_type'] != expected_gf_type:
+            raise ValueError(
+                f"GF type must be {expected_gf_type!r} when labeled is {struct['labeled']!r}"
+            )
     if 'rec' in struct and (not isinstance(struct['rec'], str) or not struct['rec']):
         raise ValueError("Rec must be a non-empty string")
     if 'closedform' in struct and (not isinstance(struct['closedform'], str) or not struct['closedform']):
@@ -147,6 +156,7 @@ def convert_to_spreadsheet(data):
             'Symbol': struct['symbol'],
             'Terms': ', '.join(map(str, struct['terms'])),
             'References': '; '.join(struct.get('references', [])),
+            'GF Type': struct.get('gf_type', ''),
             'GF': struct.get('gf', ''),
             'Recurrence': struct.get('rec', ''),
             'Closed Form': struct.get('closedform', ''),

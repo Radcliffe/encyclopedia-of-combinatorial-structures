@@ -31,6 +31,7 @@
     "references": [
         "EIS A052782"
     ],
+    "gf_type": "exponential",
     "gf": "exp(-1/5*LambertW(-5*_x))",
     "equiv": "1/10/Pi^(1/2)*exp(1/5)*2^(1/2)*exp(1)^(1/2)*exp(-1)^(1/2)*(1/_n)^(3/2)*exp(-_n)^(-1-ln(5))"
 }

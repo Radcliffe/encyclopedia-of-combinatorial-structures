@@ -31,6 +31,7 @@
     "references": [
         "EIS A002294"
     ],
+    "gf_type": "ordinary",
     "gf": "RootOf(_Z^5*_x-_Z+1)",
     "rec": "{(3125*_n^4+6250*_n^3+4375*_n^2+1250*_n+120)*_f(_n)+(-256*_n^4-896*_n^3-1136*_n^2-616*_n-120)*_f(_n+1), _f(0) = 1}",
     "closedform": "1/4*GAMMA(_n+1/5)*GAMMA(_n+2/5)*GAMMA(_n+3/5)*GAMMA(_n+4/5)*(cos(1/5*Pi)+cos(2/5*Pi))/Pi/GAMMA(3/2+2*_n)/GAMMA(_n+1/2)*3125^_n*64^(-_n)/GAMMA(_n+1)",

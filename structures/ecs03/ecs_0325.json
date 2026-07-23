@@ -31,6 +31,7 @@
     "references": [
         "EIS A008595"
     ],
+    "gf_type": "ordinary",
     "gf": "13*_x/(-1+_x)^2",
     "rec": "{_f(_n)-13*_n, _f(0) = 0, _f(1) = 13}",
     "closedform": "13*_n",

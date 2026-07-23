@@ -32,6 +32,7 @@
         "Odd terms are the Catalan numbers",
         "EIS A000108"
     ],
+    "gf_type": "ordinary",
     "gf": "-1/2*(-1+(-4*_x^2+1)^(1/2))/_x",
     "rec": "{4*_f(_n)*_n+(-_n-3)*_f(_n+2), _f(0) = 0, _f(1) = 1}",
     "closedform": "piecewise(_n::even,0,_n::odd,1/Pi^(1/2)*2^(_n-1)*GAMMA(1/2*_n)/GAMMA(1/2*_n+3/2))",
