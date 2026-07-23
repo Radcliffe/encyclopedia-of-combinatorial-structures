@@ -30,13 +30,26 @@ from combstruct import (
     StructureNotFoundError,
     UnsupportedGeneratingFunctionDerivation,
     __version__,
+    agfeqns,
+    agfmomentsolve,
+    agfseries,
+    allstructs,
     compute_terms,
+    count,
     default_dataset,
     derive_generating_function,
+    draw,
+    finished,
     generating_function_coefficients,
     get_structure,
+    gfeqns,
+    gfseries,
+    gfsolve,
     iter_structures,
+    iterstructs,
     load_record,
+    nextstruct,
+    parse_attribute_specification,
     parse_generating_function,
     parse_specification,
 )
@@ -47,10 +60,31 @@ from combstruct.terms import Parser as LegacyTermsParser
 class PublicApiTests(unittest.TestCase):
     def test_top_level_exports_are_an_explicit_public_surface(self):
         expected = {
+            "AtomObject",
+            "AttributeBinary",
+            "AttributeCall",
+            "AttributeConstructor",
+            "AttributeEquationSystem",
+            "AttributeExpression",
+            "AttributeInteger",
+            "AttributeMomentSystem",
+            "AttributeParser",
+            "AttributeSeries",
+            "AttributeSpecification",
+            "AttributeSpecificationError",
+            "AttributeSymbol",
             "Cardinality",
             "Catalog",
             "CatalogError",
+            "Combination",
+            "CombinatorialObject",
+            "Composition",
+            "CountDirectedSampler",
             "Constructor",
+            "ConstructionObject",
+            "DrawAlgorithm",
+            "EpsilonObject",
+            "EmptyStructureClassError",
             "Expression",
             "GFBinary",
             "GFComplex",
@@ -63,6 +97,7 @@ class PublicApiTests(unittest.TestCase):
             "GFInfiniteProduct",
             "GFInfiniteSum",
             "GFInteger",
+            "GFMultivariateSeriesCall",
             "GFParseResult",
             "GFRootOf",
             "GFSeriesCall",
@@ -73,28 +108,65 @@ class PublicApiTests(unittest.TestCase):
             "GeneratingFunctionEvaluationError",
             "GeneratingFunctionParser",
             "Parser",
+            "Partition",
+            "Permutation",
+            "PredefinedObject",
+            "PredefinedStructure",
             "Reference",
+            "SizeCall",
             "Specification",
             "SpecificationError",
             "Structure",
+            "StructureIterator",
             "StructureNotFoundError",
+            "StructureSize",
+            "StructureValue",
+            "Subset",
             "UnsupportedConstruction",
+            "UnsupportedCountDirectedSampling",
             "UnsupportedGeneratingFunction",
             "UnsupportedGeneratingFunctionDerivation",
             "__version__",
+            "agfeqns",
+            "agfmomentsolve",
+            "agfseries",
+            "allstructs",
             "compute_terms",
+            "count",
             "default_dataset",
             "derive_generating_function",
+            "draw",
+            "expand_substitutions",
+            "finished",
+            "gfseries",
+            "gfsolve",
+            "gfeqns",
             "generating_function_coefficients",
             "get_structure",
             "iter_structures",
+            "iterstructs",
             "load_record",
+            "nextstruct",
             "parse_generating_function",
+            "parse_attribute_specification",
             "parse_specification",
         }
 
         self.assertEqual(set(combstruct.__all__), expected)
         self.assertTrue(all(hasattr(combstruct, name) for name in expected))
+        self.assertIs(combstruct.count, count)
+        self.assertIs(combstruct.gfseries, gfseries)
+        self.assertIs(combstruct.gfsolve, gfsolve)
+        self.assertIs(combstruct.allstructs, allstructs)
+        self.assertIs(combstruct.iterstructs, iterstructs)
+        self.assertIs(combstruct.nextstruct, nextstruct)
+        self.assertIs(combstruct.finished, finished)
+        self.assertIs(combstruct.draw, draw)
+        self.assertIs(combstruct.gfeqns, gfeqns)
+        self.assertIs(combstruct.agfeqns, agfeqns)
+        self.assertIs(combstruct.agfseries, agfseries)
+        self.assertIs(combstruct.agfmomentsolve, agfmomentsolve)
+        self.assertIs(combstruct.parse_attribute_specification, parse_attribute_specification)
 
     def test_generating_function_parser_is_available_from_package(self):
         expression = GeneratingFunctionParser("exp(_x)/(1-_x)^2").parse()
@@ -260,6 +332,7 @@ class PublicApiTests(unittest.TestCase):
             "EulerSelectionNode",
             "Evaluator",
             "ExpNode",
+            "FixedPowerSetNode",
             "Expression",
             "InverseOneMinusNode",
             "LiteralNode",

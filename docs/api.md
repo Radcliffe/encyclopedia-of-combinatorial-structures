@@ -53,7 +53,7 @@ catalogue:
   `A[1]`;
 - expressions are symbol references or constructor calls;
 - the term evaluator recognizes `Union`, `Prod`, `Sequence`, `Set`, `Cycle`,
-  and `PowerSet`; and
+  `PowerSet`, and `Subst`; and
 - cardinality constraints use `card = n`, `card <= n`, `card < n`,
   `n <= card`, or `n < card`.
 
@@ -80,7 +80,47 @@ is the alias `dict[str, Expression]`.
 `Parser(source)` exposes the stateful parser object used by
 `parse_specification`. Most callers should prefer the function API.
 
+### `expand_substitutions(specification)`
+
+Return an equivalent parsed specification with every `Subst(A,B)` expanded.
+Referenced B productions are cloned under private generated names so recursive
+outer grammars remain recursive and do not alter their original definitions.
+The returned mapping can be passed to the counting, derivation, and exhaustive
+generation APIs.
+
+Most callers do not need to invoke this function directly: all high-level
+operations expand substitutions automatically.
+
 ## Generating-function derivation
+
+### `gfeqns(specification, *, labelled)`
+
+Return a `GFEquationSystem` containing one unsolved equation for every named
+grammar production. Named references remain `GFSeriesCall` nodes, so recursive
+systems are represented directly rather than prematurely selecting a
+solution.
+
+```python
+from combstruct import GFSeriesCall, GFVariable, gfeqns
+
+system = gfeqns(
+    "{A = Sequence(Z), S = Prod(Z,A)}",
+    labelled=False,
+)
+
+assert system.equations[0].left == GFSeriesCall("A", GFVariable())
+```
+
+Labeled classes use EGF constructor rules and unlabeled classes use OGF rules.
+Unrestricted unlabeled Set, Cycle, and PowerSet produce symbolic
+`GFInfiniteSum` cycle-index expressions; Cycle sums contain `GFTotient`.
+`Subst(A,B)` becomes the formal-series composition `B(A(x))`.
+
+Every bundled catalog grammar builds successfully. Exact equation-system
+expansion reproduces all stored terms for 1,050 of 1,075 records. The remaining
+25 have nonlinear nonzero constant branches requiring an explicit branch
+selector in the generic equation evaluator; `count` and `gfseries` still
+compute their terms through the grammar engine.
 
 ### `derive_generating_function(specification, *, labelled, symbol="S")`
 
@@ -133,6 +173,8 @@ The supported finite rules are:
   with exact finite corrections for cardinality bounds; and
 - bounded unlabelled `Set` and `Cycle` use exact finite cycle-index formulas and
   substitutions `_x -> _x^k`.
+- `Subst(A,B)` clones B's referenced productions and replaces their atoms with
+  A, preserving Set, PowerSet, and Cycle symmetries before derivation.
 
 Named acyclic equations are expanded and memoized. A recursive component under
 `Union` and `Prod` is solved when removing one feedback symbol makes its other
@@ -468,6 +510,315 @@ imaginary value `I*x`; see the official
 [`Complex` constructor documentation](https://www.maplesoft.com/support/help/Maple/view.aspx?path=complex).
 
 ## Computing terms
+
+### Maple-compatible operations
+
+For a grammar, `count(specification, *, size, labelled, symbol="S")` returns
+the integer number of objects at one nonnegative size. It accepts either
+specification text or the mapping returned by `parse_specification`.
+
+```python
+from combstruct import count
+
+assert count(
+    "{S = Union(Epsilon,Prod(Z,S,S))}",
+    size=7,
+    labelled=False,
+) == 429
+```
+
+`gfseries(specification, *, labelled, term_count)` returns a dictionary
+containing a truncated coefficient tuple for every named equation. For an
+unlabeled class the tuple contains OGF coefficients `a(n)`. For a labeled
+class it contains EGF coefficients `a(n) / n!`.
+
+```python
+from fractions import Fraction
+
+from combstruct import gfseries
+
+assert gfseries("{S = Set(Z)}", labelled=True, term_count=5)["S"] == (
+    Fraction(1),
+    Fraction(1),
+    Fraction(1, 2),
+    Fraction(1, 6),
+    Fraction(1, 24),
+)
+```
+
+`gfsolve(specification, *, labelled, symbol="S")` is the command-level name
+corresponding to Maple's `gfsolve`. It returns the same `GFExpression` as
+`derive_generating_function` and therefore has the same documented solver
+coverage and explicit unsupported cases.
+
+All grammar invocations of these operations require an explicit Boolean
+`labelled` argument. This keeps ordinary and exponential generating functions
+distinct at the API boundary.
+
+Predefined structures instead use `count(structure, *, size=None)`. They do
+not accept `labelled`, because they are finite structures rather than a choice
+between OGF and EGF grammar semantics. Their defaults and `"allsizes"` behavior
+are described below.
+
+## Attribute grammars
+
+### `parse_attribute_specification(source)`
+
+Parse Maple-style attribute equations such as:
+
+```python
+from combstruct import parse_attribute_specification
+
+path = parse_attribute_specification(
+    "{path(T)=Union(0,"
+    "Prod(0,path(T)+size(T),path(T)+size(T)))}",
+)
+```
+
+An attribute equation is keyed by `(attribute_name, structure_symbol)`.
+`AttributeInteger`, `AttributeSymbol`, `AttributeCall`, `SizeCall`,
+`AttributeBinary`, and `AttributeConstructor` preserve its syntax. Rules must
+mirror the corresponding structure production. Values may be linear
+combinations of integer or atomic symbolic constants, substructure attributes,
+and the predefined `size`; `size` cannot be redefined. A missing
+attribute/structure rule uses Maple's recursive default.
+
+### `agfeqns`
+
+`agfeqns(specification, attribute_specification, *, labelled, attributes)`
+returns an `AttributeEquationSystem`. `attributes` maps one unique marker
+variable to each attribute:
+
+```python
+from combstruct import agfeqns
+
+equations = agfeqns(
+    "{T=Union(Z,Prod(Z,T,T))}",
+    "{leaf(T)=Union(1,Prod(0,leaf(T),leaf(T)))}",
+    labelled=False,
+    attributes={"u": "leaf"},
+)
+```
+
+The equations use `GFMultivariateSeriesCall`. Recursive linear dependencies
+become argument substitutions: for example, `path(T)+size(T)` produces
+`T(x*u,u)`. Labeled equations use EGF rules; unlabeled Set, Cycle, and
+PowerSet equations raise every size and attribute variable in their
+cycle-index substitutions. Atomic costs remain symbolic in exponents, so a
+rule containing `sq+mul` produces factors such as `u^(sq+mul)`.
+
+### `agfseries`
+
+`agfseries(..., term_count=n)` returns one `AttributeSeries` per grammar
+symbol. Its exact coefficient keys are exponent tuples in
+`(size, attribute_1, ...)` order. `AttributeSeries.variables` records that
+order, and `coefficient(size, **values)` provides named lookup.
+When rules contain atomic constants, pass exact integer bindings with
+`parameters={"sq": 1, "mul": 2}`. Missing, unknown, or noninteger bindings are
+rejected.
+
+```python
+from combstruct import agfseries
+
+series = agfseries(
+    "{T=Union(Z,Prod(Z,T,T))}",
+    "{leaf(T)=Union(1,Prod(0,leaf(T),leaf(T)))}",
+    labelled=False,
+    term_count=10,
+    attributes={"u": "leaf"},
+)["T"]
+
+assert series.coefficient(7, u=4) == 5
+```
+
+Unlabeled results are OGF coefficients. Labeled results are EGF coefficients
+divided by `size!`. The current exact implementation enumerates the finite
+prefix, so large expansions need a future direct multivariate recurrence.
+Attribute-rule expansion through `Subst` remains an explicit unsupported case.
+
+### `agfmomentsolve`
+
+`agfmomentsolve(equations, num, *, term_count, parameters=None)`
+differentiates every attribute marker from order zero through `num` and
+evaluates the markers at one. It returns an `AttributeMomentSystem` containing
+exact truncated mixed factorial moment series. The same integer `parameters`
+bindings required by `agfseries` apply to atomic costs:
+
+```python
+from combstruct import agfmomentsolve
+
+moments = agfmomentsolve(equations, 2, term_count=10)
+assert moments.series("T", 0)[7] == 5   # number of trees
+assert moments.series("T", 1)[7] == 20  # total leaves
+assert moments.series("T", 2)[7] == 60  # second factorial moment
+```
+
+This provides the coefficient data needed for averages and variances. Unlike
+Maple's solver, it currently returns truncated series rather than attempting
+closed-form univariate solutions.
+
+## Exhaustive generation
+
+### Object values
+
+`AtomObject(label=None)` represents a size-one atom. In labeled enumeration,
+`label` is one of the integers from `1` through the requested size.
+`EpsilonObject(tag=None)` is a size-zero elementary object. A direct
+`Epsilon` occurrence has no tag. A named production defined directly as
+`Epsilon` preserves that production name in `tag`, so generated objects retain
+the marker used in their derivation.
+
+`ConstructionObject(constructor, children, branch=None)` stores the derivation
+through a grammar constructor. Prod and Sequence children are ordered. Set and
+PowerSet children and Cycle rotations are canonicalized. A Union object uses
+`branch` to retain the selected disjoint alternative.
+
+All object values are immutable and hashable and expose a read-only `size`
+property.
+
+### Epsilon markers in `gfeqns`
+
+`gfeqns(specification, *, labelled, tags=None)` accepts a mapping from an
+independent variable name to either one named Epsilon production or an
+iterable of them:
+
+```python
+from combstruct import gfeqns
+
+equations = gfeqns(
+    "{leaf = Epsilon, internal = Epsilon, "
+    "T = Union(Prod(leaf,Z),Prod(internal,Z,T,T))}",
+    labelled=False,
+    tags={"u": "leaf", "v": "internal"},
+)
+```
+
+The resulting symbolic equation system uses `u` and `v` in place of the
+corresponding size-zero markers. A marker production must be defined directly
+as `Epsilon`. Assigning the same marker under several variables multiplies
+their weights, so `tags={"u": "node2", "v": ("node2", "node3")}` gives
+`node2` the documented `u*v` weight. The current coefficient engine is
+univariate, so tagged equation systems are representational; their
+multivariate expansion belongs to the attribute-generating-function layer.
+
+### `allstructs(specification, *, size, labelled, symbol="S")`
+
+Return a tuple containing every distinct object of the requested exact size.
+Source text and parsed equation mappings are accepted.
+
+```python
+from combstruct import allstructs
+
+binary_trees = allstructs(
+    "{S = Union(Epsilon,Prod(Z,S,S))}",
+    size=4,
+    labelled=False,
+)
+
+assert len(binary_trees) == 14
+assert all(tree.size == 4 for tree in binary_trees)
+```
+
+Labeled enumeration distributes labels among partitional-product components.
+Unlabeled Set uses multisets, PowerSet uses distinct selections, and Cycle
+identifies rotations but not reflections. PowerSet cardinality constraints
+are supported. Constructors whose component generates a size-zero object,
+non-well-founded specifications, and labeled PowerSet raise
+`UnsupportedConstruction`.
+
+`Subst(A,B)` is expanded by cloning B's referenced productions and replacing
+their atoms with A. This supports nested substitutions and recursive named
+outer grammars without reducing unlabeled substitution to naïve OGF
+composition. Maple's restriction that neither argument may produce a
+size-zero object is validated and reported as `SpecificationError`.
+
+### Iterator command family
+
+`iterstructs(...)` accepts the same arguments as `allstructs` and returns a
+`StructureIterator`. It implements Python's iterator protocol.
+`nextstruct(iterator)` consumes and returns one object; `finished(iterator)`
+reports whether all objects have been consumed. Calling `nextstruct` after
+completion raises `StopIteration`.
+
+```python
+from combstruct import finished, iterstructs, nextstruct
+
+iterator = iterstructs("{S = Union(Z,Z)}", size=1, labelled=False)
+while not finished(iterator):
+    nextstruct(iterator)
+```
+
+## Predefined structures
+
+`Combination(elements)` (also exported as `Subset`) and
+`Permutation(elements)` accept a finite iterable of hashable elements or a
+nonnegative integer `n`, which represents the elements `1` through `n`.
+Repeated iterable elements use multiset semantics.
+
+`Partition(total)` and `Composition(total)` accept a positive integer. Their
+`size` is the number of positive summands, not the integer being decomposed.
+
+All four families work with `count`, `allstructs`, and `iterstructs`.
+Combination, Partition, and Composition default to all possible sizes.
+Permutation defaults to the full input length. The explicit string
+`size="allsizes"` selects all possible sizes for every family.
+
+```python
+from combstruct import Combination, Partition, Permutation, allstructs, count
+
+assert count(Combination(4)) == 16
+assert count(Permutation(3)) == 6
+assert count(Permutation(3), size="allsizes") == 16
+assert count(Partition(95), size=40) == 450768
+assert allstructs(Partition(5), size=2) == ((4, 1), (3, 2))
+```
+
+## Uniform random generation
+
+`draw(...)` accepts the same grammar/predefined structure, size, labeling, and
+symbol arguments as `allstructs`. It chooses uniformly among all returned
+objects. An optional seeded `random.Random` instance provides reproducible
+sampling.
+
+```python
+from random import Random
+
+from combstruct import Combination, draw
+
+sample = draw(Combination(8), size=3, rng=Random(2026))
+assert len(sample) == 3
+```
+
+If the requested class is empty, `draw` raises
+`EmptyStructureClassError`.
+
+`algorithm` controls how a grammar object is selected:
+
+- `"auto"` (the default) uses exact count-directed recursive sampling when
+  supported and otherwise selects an exhaustive rank;
+- `"counted"` requires count-directed sampling and raises
+  `UnsupportedCountDirectedSampling` for an invalid or non-well-founded
+  count-directed construction; and
+- `"enumerate"` always materializes `allstructs` before choosing a rank.
+
+The count-directed sampler covers terminals, named recursive productions,
+Union, Prod, Sequence, Set, Cycle, PowerSet, substitution-expanded grammars,
+and predefined structures. It chooses constructor branches, size
+compositions, and label partitions using the exact coefficient compiler,
+allowing large recursive product grammars to be sampled without constructing
+every object. Predefined Combination/Subset, Permutation, Partition, and
+Composition structures also have direct count-weighted samplers, including
+duplicate elements, default sizes, and `"allsizes"`.
+
+Unlabeled Set and PowerSet use grouped component-type counts, binomial
+multiplicity weights, uniform support selection, and recursive component
+sampling; they do not enumerate the resulting selection class. For a multiset,
+the sampler first chooses the number of distinct component types and then a
+uniform positive multiplicity composition, avoiding the bias caused by
+sorting independent draws. Unlabeled Cycle uses exact cycle-index counts and
+orbit-corrected rejection sampling, so periodic and aperiodic necklaces remain
+uniform. These rules compose, including an unlabeled Cycle nested inside Set
+or PowerSet.
 
 ### `compute_terms(specification, *, labelled, term_count, symbol="S", max_digits=None)`
 

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import re
+from collections.abc import Mapping
 from dataclasses import dataclass
 
 
@@ -178,3 +179,164 @@ def parse_specification(specification: str) -> Specification:
     """Parse an ECS specification into named immutable expression trees."""
 
     return Parser(specification).parse()
+
+
+def _nullable_expressions(equations: Specification) -> dict[str, bool]:
+    nullable = {name: False for name in equations}
+
+    def expression_nullable(expression: Expression) -> bool:
+        if isinstance(expression, Reference):
+            if expression.name == "Epsilon":
+                return True
+            if expression.name in ("Atom", "Z") and expression.name not in equations:
+                return False
+            return nullable.get(expression.name, False)
+
+        name = expression.name.lower()
+        if name == "union":
+            return any(expression_nullable(argument) for argument in expression.arguments)
+        if name == "prod":
+            return all(expression_nullable(argument) for argument in expression.arguments)
+        if name == "subst":
+            if len(expression.arguments) != 2:
+                return False
+            inner, outer = expression.arguments
+            return expression_nullable(inner) or expression_nullable(outer)
+        if len(expression.arguments) != 1:
+            return False
+        component_nullable = expression_nullable(expression.arguments[0])
+        minimum = expression.cardinality.minimum if expression.cardinality is not None else 0
+        if name == "cycle":
+            minimum = max(1, minimum)
+        if name in {"sequence", "set", "powerset", "cycle"}:
+            return minimum == 0 or component_nullable
+        return False
+
+    for _ in range(max(1, len(equations) + 1)):
+        changed = False
+        for name, expression in equations.items():
+            value = expression_nullable(expression)
+            if value and not nullable[name]:
+                nullable[name] = True
+                changed = True
+        if not changed:
+            break
+    return nullable
+
+
+class _SubstitutionExpander:
+    def __init__(self, equations: Specification):
+        self.equations = dict(equations)
+        self.nullable = _nullable_expressions(self.equations)
+        self.output: Specification = {}
+        self.counter = 0
+
+    def expand(self) -> Specification:
+        for name, expression in self.equations.items():
+            self.output[name] = self._transform(expression)
+        return self.output
+
+    def _fresh_name(self, source_name: str) -> str:
+        while True:
+            candidate = f"_subst_{self.counter}_{source_name}"
+            self.counter += 1
+            if candidate not in self.equations and candidate not in self.output:
+                return candidate
+
+    def _expression_nullable(self, expression: Expression) -> bool:
+        if isinstance(expression, Reference):
+            if expression.name == "Epsilon":
+                return True
+            if expression.name in ("Atom", "Z") and expression.name not in self.equations:
+                return False
+            return self.nullable.get(expression.name, False)
+
+        name = expression.name.lower()
+        if name == "union":
+            return any(self._expression_nullable(argument) for argument in expression.arguments)
+        if name == "prod":
+            return all(self._expression_nullable(argument) for argument in expression.arguments)
+        if name == "subst":
+            if len(expression.arguments) != 2:
+                return False
+            return any(self._expression_nullable(argument) for argument in expression.arguments)
+        if len(expression.arguments) != 1:
+            return False
+        minimum = expression.cardinality.minimum if expression.cardinality is not None else 0
+        if name == "cycle":
+            minimum = max(1, minimum)
+        return minimum == 0 or self._expression_nullable(expression.arguments[0])
+
+    def _validate_substitution(self, expression: Constructor) -> tuple[Expression, Expression]:
+        if expression.cardinality is not None:
+            raise SpecificationError("Subst does not accept a cardinality constraint")
+        if len(expression.arguments) != 2:
+            raise SpecificationError("Subst requires exactly two arguments")
+        inner, outer = expression.arguments
+        if self._expression_nullable(inner):
+            raise SpecificationError("The first argument of Subst cannot produce size-zero objects")
+        if self._expression_nullable(outer):
+            raise SpecificationError(
+                "The second argument of Subst cannot produce size-zero objects"
+            )
+        return inner, outer
+
+    def _transform(self, expression: Expression) -> Expression:
+        if isinstance(expression, Reference):
+            return expression
+        if expression.name.lower() == "subst":
+            inner, outer = self._validate_substitution(expression)
+            replacement = self._transform(inner)
+            return self._substitute(replacement, outer, {})
+        return Constructor(
+            expression.name,
+            tuple(self._transform(argument) for argument in expression.arguments),
+            expression.cardinality,
+        )
+
+    def _substitute(
+        self,
+        replacement: Expression,
+        outer: Expression,
+        clones: dict[str, str],
+    ) -> Expression:
+        if isinstance(outer, Reference):
+            if outer.name in ("Atom", "Z") and outer.name not in self.equations:
+                return replacement
+            if outer.name == "Epsilon" or outer.name not in self.equations:
+                return outer
+            if outer.name in clones:
+                return Reference(clones[outer.name])
+
+            clone_name = self._fresh_name(outer.name)
+            clones[outer.name] = clone_name
+            self.output[clone_name] = Reference("Epsilon")
+            self.output[clone_name] = self._substitute(
+                replacement,
+                self.equations[outer.name],
+                clones,
+            )
+            return Reference(clone_name)
+
+        if outer.name.lower() == "subst":
+            inner, nested_outer = self._validate_substitution(outer)
+            nested_replacement = self._substitute(replacement, inner, clones)
+            return self._substitute(nested_replacement, nested_outer, {})
+        return Constructor(
+            outer.name,
+            tuple(self._substitute(replacement, argument, clones) for argument in outer.arguments),
+            outer.cardinality,
+        )
+
+
+def expand_substitutions(specification: Mapping[str, Expression]) -> Specification:
+    """Replace every ``Subst(A,B)`` with an equivalent cloned grammar.
+
+    Maple defines this constructor as B-objects whose atoms are replaced by
+    A-objects. Cloning referenced B productions preserves their recursive
+    constructor structure and therefore their unlabeled symmetries.
+    """
+
+    if not isinstance(specification, Mapping):
+        raise TypeError("specification must be a mapping of equations")
+    return _SubstitutionExpander(dict(specification)).expand()
