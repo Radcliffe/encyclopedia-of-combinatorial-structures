@@ -1,11 +1,11 @@
-# `combstruct` 0.1.0a1 development baseline audit
+# `combstruct` 0.1.0a1 release-candidate audit
 
 Audit date: 2026-07-22
 
-This document records the local evidence for preparing the second
-`combstruct` pre-release. It is a development-baseline audit, not a release
-record: the project version remains `0.1.0a1.dev0`, and no artifacts from this
-audit should be uploaded.
+This document records the evidence for preparing the second `combstruct`
+pre-release. The maintainer confirmed version `0.1.0a1`; the exact artifacts
+for publication must be built and validated once from the merged release
+commit.
 
 ## Scope completed since 0.1.0a0
 
@@ -38,26 +38,24 @@ and 3.14:
 - `pip check` with no broken requirements on each version.
 
 Ruff formatting and lint checks and strict mypy checks also passed. A Python
-3.12 audit build produced both `0.1.0a1.dev0` distributions, and the artifact
-contract checker, `twine check`, and `check-wheel-contents` all passed. The
-wheel contained all 1,075 catalogue records and the required licensing files.
+3.12 pre-merge candidate build produced both `0.1.0a1` distributions, and the
+artifact contract checker, `twine check`, and `check-wheel-contents` all
+passed. The wheel contained all 1,075 catalogue records and the required
+licensing files.
 
-These audit artifacts are disposable. Their development version and hashes
-must not be reused as release evidence after any source or metadata change.
+Those pre-merge artifacts are disposable. Their hashes must not be reused as
+release evidence; the upload candidates must be built once from the merged
+release commit.
 
 ## Gates before publication
 
-1. Merge the migration-completion documentation and confirm a successful
-   GitHub Actions run on the resulting commit.
-2. Confirm that `0.1.0a1` is the intended release version.
-3. Change `project.version` from `0.1.0a1.dev0` to `0.1.0a1`, move the
-   unreleased changelog entries under a dated version heading, and update the
-   installation example.
-4. Build once from a clean release commit and validate the exact wheel and
-   source distribution according to `docs/releasing.md`.
-5. Because packaging metadata and public capabilities have changed
+1. Confirm a successful GitHub Actions run on the release pull request and
+   merge it without additional source changes.
+2. Build once from the clean merged release commit and validate the exact wheel
+   and source distribution according to `docs/releasing.md`.
+3. Because packaging metadata and public capabilities have changed
    substantially since 0.1.0a0, upload those exact artifacts to TestPyPI and
    repeat the clean-install tests before production publication.
-6. After maintainer confirmation, upload the unchanged candidate artifacts to
+4. After maintainer confirmation, upload the unchanged candidate artifacts to
    PyPI, verify fresh installs, create the matching signed tag, and record the
    published hashes and CI evidence here.

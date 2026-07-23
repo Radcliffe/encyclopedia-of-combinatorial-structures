@@ -25,6 +25,10 @@ dist-ssr
 
 oeisdata
 
+# Local package-index credentials
+pypi-api-token.txt
+testpypi-api-token.txt
+
 # Python build and test artifacts
 __pycache__/
 *.py[cod]
