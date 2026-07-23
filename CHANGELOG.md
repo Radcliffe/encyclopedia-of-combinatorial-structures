@@ -13,6 +13,8 @@ Add production-bound changes here under `Added`, `Changed`, `Fixed`, or `Removed
 When a package is released or `prod` is deployed, move the entries into a version
 or date section and leave this section in place for subsequent work.
 
+## 0.1.0a1 - 2026-07-22
+
 ### Added
 
 - Added an immutable AST and parser for the finite elementary, `LambertW`,
@@ -62,6 +64,8 @@ or date section and leave this section in place for subsequent work.
 - Completed migration of every read-only `python-tools` consumer to the public
   package API; source-data serializers and mutators retain raw JSON access as
   the intentional producer boundary.
+- Ignored the conventional local PyPI and TestPyPI token filenames and
+  documented their safe handling during manual releases.
 
 ### Fixed
 

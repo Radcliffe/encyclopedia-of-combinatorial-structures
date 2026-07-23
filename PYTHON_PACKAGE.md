@@ -33,7 +33,7 @@ further closed forms remain later milestones.
 Install the released pre-alpha from PyPI:
 
 ```console
-python -m pip install "combstruct==0.1.0a0"
+python -m pip install "combstruct==0.1.0a1"
 ```
 
 The initial package requires Python 3.12 or newer and has no runtime
@@ -563,5 +563,5 @@ Contributor setup and quality checks are in
 [`docs/development.md`](https://github.com/Radcliffe/encyclopedia-of-combinatorial-structures/blob/main/docs/development.md).
 The first release record is in
 [`docs/release-readiness.md`](https://github.com/Radcliffe/encyclopedia-of-combinatorial-structures/blob/main/docs/release-readiness.md).
-The current second-alpha baseline audit is in
+The current second-alpha release-candidate audit is in
 [`docs/release-readiness-0.1.0a1.md`](https://github.com/Radcliffe/encyclopedia-of-combinatorial-structures/blob/main/docs/release-readiness-0.1.0a1.md).

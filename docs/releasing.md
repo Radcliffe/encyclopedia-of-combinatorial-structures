@@ -5,7 +5,7 @@ Python distribution. Publishing is deliberately separate from test CI:
 the test workflow builds and validates artifacts but never uploads them.
 The confirmed first-release choices and outcome are recorded in
 [`release-readiness.md`](release-readiness.md). The current second-alpha
-baseline audit is recorded in
+release-candidate audit is recorded in
 [`release-readiness-0.1.0a1.md`](release-readiness-0.1.0a1.md).
 
 ## Established release choices
@@ -15,6 +15,8 @@ The maintainers confirmed these project-level choices for the first release on
 
 - The PyPI distribution name is `combstruct`.
 - The first pre-release version is `0.1.0a0`.
+- The maintainer confirmed `0.1.0a1` as the second pre-release version on
+  2026-07-22.
 - The complete canonical catalogue remains bundled. Python code and the base
   ECS data are LGPL-2.1-only; OEIS-derived text and its adaptations are CC
   BY-SA 4.0. The package uses the SPDX expression
@@ -95,7 +97,10 @@ are confirmed. Keep publishing permissions in that dedicated workflow; the
 existing test workflow must remain read-only.
 
 For a manual upload, use a project-scoped API token and never store it in the
-repository or shell history:
+repository or shell history. The conventional local filenames
+`pypi-api-token.txt` and `testpypi-api-token.txt` are ignored as a final guard
+against accidental staging; keep their permissions restricted and delete them
+after use:
 
 ```console
 .venv-release/bin/python -m twine upload dist/*
