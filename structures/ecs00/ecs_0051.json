@@ -1,6 +1,6 @@
 {
     "id": 51,
-    "name": "Labeled Plane Binary Trees",
+    "name": "Labeled plane binary trees",
     "description": "Binary trees of n leaves (external nodes)",
     "specification": "{S = Union(Z,Prod(S,S))}",
     "labeled": true,

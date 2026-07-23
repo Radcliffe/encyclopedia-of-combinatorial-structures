@@ -1,7 +1,7 @@
 {
     "id": 903,
-    "name": "a(n) = a(n-3) + a(n-5) with initial values 1,0,0,1,0",
-    "description": "a(n) = a(n-3) + a(n-5) with initial values 1,0,0,1,0",
+    "name": "a(n) = a(n-3) + a(n-5) with initial values 1, 0, 0, 1, 0",
+    "description": "a(n) = a(n-3) + a(n-5) with initial values 1, 0, 0, 1, 0",
     "specification": "{S = Sequence(Prod(Union(Z,Prod(Z,Z,Z)),Z,Z))}",
     "labeled": false,
     "symbol": "S",

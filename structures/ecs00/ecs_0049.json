@@ -1,7 +1,7 @@
 {
     "id": 49,
-    "name": "Labeled Plane General Trees",
-    "description": "Labelled General Plane Trees of n elements",
+    "name": "Labeled plane general trees",
+    "description": "Labeled general plane trees of n elements",
     "specification": "{S = Prod(Z,Sequence(S))}",
     "labeled": true,
     "symbol": "S",

@@ -1,7 +1,7 @@
 {
     "id": 746,
-    "name": "Expansion of e.g.f. -(1/5)*LambertW(-5*x)",
-    "description": "Expansion of e.g.f. -(1/5)*LambertW(-5*x)",
+    "name": "Expansion of EGF: -(1/5)*LambertW(-5*x)",
+    "description": "Expansion of EGF: -(1/5)*LambertW(-5*x)",
     "specification": "{B = Set(S), S = Prod(Z,B,B,B,B,B)}",
     "labeled": true,
     "symbol": "S",

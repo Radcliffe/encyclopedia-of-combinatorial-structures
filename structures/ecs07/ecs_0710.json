@@ -1,7 +1,7 @@
 {
     "id": 710,
-    "name": "Expansion of e.g.f.: (log(1-x))^2*x^2",
-    "description": "Expansion of e.g.f.: (log(1-x))^2*x^2",
+    "name": "Expansion of EGF: (log(1-x))^2*x^2",
+    "description": "Expansion of EGF: (log(1-x))^2*x^2",
     "specification": "{B = Cycle(Z), S = Prod(B,B,Z,Z)}",
     "labeled": true,
     "symbol": "S",

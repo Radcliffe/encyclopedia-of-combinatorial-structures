@@ -1,7 +1,7 @@
 {
     "id": 529,
-    "name": "Expansion of e.g.f. (2 - 4*x + x^2)/((1 - x)*(1 - 2*x))",
-    "description": "Expansion of e.g.f. (2 - 4*x + x^2)/((1 - x)*(1 - 2*x))",
+    "name": "Expansion of EGF: (2 - 4*x + x^2)/((1 - x)*(1 - 2*x))",
+    "description": "Expansion of EGF: (2 - 4*x + x^2)/((1 - x)*(1 - 2*x))",
     "specification": "{S = Union(Sequence(Prod(Z,Sequence(Z))),Sequence(Z))}",
     "labeled": true,
     "symbol": "S",

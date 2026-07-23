@@ -1,7 +1,7 @@
 {
     "id": 560,
-    "name": "E.g.f. x^3*(1+2x-2x^2)/(1-x)",
-    "description": "E.g.f. x^3*(1+2x-2x^2)/(1-x)",
+    "name": "EGF: x^3*(1+2x-2x^2)/(1-x)",
+    "description": "EGF: x^3*(1+2x-2x^2)/(1-x)",
     "specification": "{S= Prod(Z,Z,Z,Union(Z,Z,Sequence(Z)))}",
     "labeled": true,
     "symbol": "S",

@@ -1,7 +1,7 @@
 {
     "id": 97,
     "name": "Centered cycles",
-    "description": "Centered labelled cycles",
+    "description": "Centered labeled cycles",
     "specification": "{B = Cycle(Z), S = Prod(B,Z)}",
     "labeled": true,
     "symbol": "S",

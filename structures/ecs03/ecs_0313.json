@@ -1,7 +1,7 @@
 {
     "id": 313,
-    "name": "Expansion of g.f.: (1+x)/(1-11*x)",
-    "description": "Expansion of g.f.: (1+x)/(1-11*x)",
+    "name": "Expansion of OGF: (1+x)/(1-11*x)",
+    "description": "Expansion of OGF: (1+x)/(1-11*x)",
     "specification": "{S = Prod(Union(Epsilon,Z),Sequence(Union(Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z)))}",
     "labeled": false,
     "symbol": "S",

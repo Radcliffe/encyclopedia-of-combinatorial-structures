@@ -1,7 +1,7 @@
 {
     "id": 770,
-    "name": "E.g.f.: -log(1-x+log(1-x))",
-    "description": "E.g.f.: -log(1-x+log(1-x))",
+    "name": "EGF: -log(1-x+log(1-x))",
+    "description": "EGF: -log(1-x+log(1-x))",
     "specification": "{B = Union(C,Z), C = Cycle(Z), S = Cycle(B)}",
     "labeled": true,
     "symbol": "S",

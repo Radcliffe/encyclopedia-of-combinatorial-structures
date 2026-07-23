@@ -1,7 +1,7 @@
 {
     "id": 802,
-    "name": "E.g.f.: 1/(1+log(1-x))-log(1-x)",
-    "description": "E.g.f.: 1/(1+log(1-x))-log(1-x)",
+    "name": "EGF: 1/(1+log(1-x))-log(1-x)",
+    "description": "EGF: 1/(1+log(1-x))-log(1-x)",
     "specification": "{B = Cycle(Z), C = Sequence(B), S = Union(B,C)}",
     "labeled": true,
     "symbol": "S",

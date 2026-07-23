@@ -1,7 +1,7 @@
 {
     "id": 52,
-    "name": "Unlabelled plane binary trees counted by leaves",
-    "description": "Unlabelled binary trees of n leaves (external nodes)",
+    "name": "Unlabeled plane binary trees counted by leaves",
+    "description": "Unlabeled binary trees of n leaves (external nodes)",
     "specification": "{S = Union(Z,Prod(S,S))}",
     "labeled": false,
     "symbol": "S",

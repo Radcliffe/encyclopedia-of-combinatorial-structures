@@ -1,7 +1,7 @@
 {
     "id": 911,
-    "name": "Pisot sequences E(5,7), P(5,7)",
-    "description": "Pisot sequences E(5,7), P(5,7)",
+    "name": "Pisot sequences E(5, 7), P(5, 7)",
+    "description": "Pisot sequences E(5, 7), P(5, 7)",
     "specification": "{S= Union(Sequence(Z),Sequence(Union(Z,Prod(Z,Z,Z))))}",
     "labeled": false,
     "symbol": "S",

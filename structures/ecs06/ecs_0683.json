@@ -1,7 +1,7 @@
 {
     "id": 683,
-    "name": "Expansion of e.g.f. 1/2-1/2*(1-4*x-4*x^2)^(1/2)",
-    "description": "Expansion of e.g.f. 1/2-1/2*(1-4*x-4*x^2)^(1/2)",
+    "name": "Expansion of EGF: 1/2-1/2*(1-4*x-4*x^2)^(1/2)",
+    "description": "Expansion of EGF: 1/2-1/2*(1-4*x-4*x^2)^(1/2)",
     "specification": "{B = Prod(S,S), C =Prod(Z,Z), S = Union(B,Z,C)}",
     "labeled": true,
     "symbol": "S",

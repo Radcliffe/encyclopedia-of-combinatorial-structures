@@ -1,7 +1,7 @@
 {
     "id": 833,
-    "name": "E.g.f.: log(-1/(-1+x))^2 / (-1 + log(-1/(-1+x)))^2",
-    "description": "E.g.f.: log(-1/(-1+x))^2 / (-1 + log(-1/(-1+x)))^2",
+    "name": "EGF: log(-1/(-1+x))^2 / (-1 + log(-1/(-1+x)))^2",
+    "description": "EGF: log(-1/(-1+x))^2 / (-1 + log(-1/(-1+x)))^2",
     "specification": "{B = Sequence(C,1 <= card), C = Cycle(Z), S = Prod(B,B)}",
     "labeled": true,
     "symbol": "S",

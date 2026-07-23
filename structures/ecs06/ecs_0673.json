@@ -1,7 +1,7 @@
 {
     "id": 673,
-    "name": "Expansion of e.g.f. x*(1 - sqrt(1 - 4*x))/2",
-    "description": "Expansion of e.g.f. x*(1 - sqrt(1 - 4*x))/2",
+    "name": "Expansion of EGF: x*(1 - sqrt(1 - 4*x))/2",
+    "description": "Expansion of EGF: x*(1 - sqrt(1 - 4*x))/2",
     "specification": "{B = Prod(C,C), C =Union(B,Z), S = Prod(Z,C)}",
     "labeled": true,
     "symbol": "S",

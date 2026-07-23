@@ -1,7 +1,7 @@
 {
     "id": 669,
     "name": "Factorial-weighted powers of 2 times Catalan numbers",
-    "description": "square root singularity",
+    "description": "Square root singularity",
     "specification": "{B = Prod(S,S), C =Union(B,Z), S = Union(Z,C)}",
     "labeled": true,
     "symbol": "S",

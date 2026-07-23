@@ -1,7 +1,7 @@
 {
     "id": 18,
     "name": "Set partitions with blocks of size at most 3",
-    "description": "Set partitions with all blocks of size <=3; the partition function G(n,3)",
+    "description": "Set partitions with all blocks of size <=3; the partition function G(n, 3)",
     "specification": "{S = Set(Union(Set(Z,card = 1),Set(Z,card = 2),Set(Z,card = 3)))}",
     "labeled": true,
     "symbol": "S",

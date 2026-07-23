@@ -1,7 +1,7 @@
 {
     "id": 23,
     "name": "Fixed-point-free involutions",
-    "description": "involution without fixed points of n elements even numbers are double factorials",
+    "description": "Involution without fixed points of n elements even numbers are double factorials",
     "specification": "{S = Set(Cycle(Z,card = 2))}",
     "labeled": true,
     "symbol": "S",

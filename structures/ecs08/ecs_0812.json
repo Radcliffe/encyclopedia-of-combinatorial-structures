@@ -1,7 +1,7 @@
 {
     "id": 812,
-    "name": "E.g.f.: exp(x*(2-x)/(1-x))",
-    "description": "E.g.f.: exp(x*(2-x)/(1-x))",
+    "name": "EGF: exp(x*(2-x)/(1-x))",
+    "description": "EGF: exp(x*(2-x)/(1-x))",
     "specification": "{B = Sequence(Z,1 <= card), C = Union(Z,B), S = Set(C)}",
     "labeled": true,
     "symbol": "S",

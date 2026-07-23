@@ -1,7 +1,7 @@
 {
     "id": 103,
-    "name": "a(n) = binomial(n,2) * 2^(n-1)",
-    "description": "a(n) = binomial(n,2) * 2^(n-1)",
+    "name": "a(n) = binomial(n, 2) * 2^(n-1)",
+    "description": "a(n) = binomial(n, 2) * 2^(n-1)",
     "specification": "{B = Prod(Z,Set(Z)), S = Prod(B,B)}",
     "labeled": true,
     "symbol": "S",

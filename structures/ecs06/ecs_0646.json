@@ -1,7 +1,7 @@
 {
     "id": 646,
-    "name": "Expansion of e.g.f. 1/(1-x^3-x^4)",
-    "description": "Expansion of e.g.f. 1/(1-x^3-x^4)",
+    "name": "Expansion of EGF: 1/(1-x^3-x^4)",
+    "description": "Expansion of EGF: 1/(1-x^3-x^4)",
     "specification": "{S = Sequence(Prod(Z,Z,Union(Z,Prod(Z,Z))))}",
     "labeled": true,
     "symbol": "S",

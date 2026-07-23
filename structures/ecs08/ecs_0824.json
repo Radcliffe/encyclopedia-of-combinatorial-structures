@@ -1,7 +1,7 @@
 {
     "id": 824,
-    "name": "E.g.f.: (1-3*exp(x)+exp(2*x))/(exp(x)-2)",
-    "description": "E.g.f.: (1-3*exp(x)+exp(2*x))/(exp(x)-2)",
+    "name": "EGF: (1-3*exp(x)+exp(2*x))/(exp(x)-2)",
+    "description": "EGF: (1-3*exp(x)+exp(2*x))/(exp(x)-2)",
     "specification": "{B = Sequence(C), C =Set(Z,1 <= card), S = Union(B,C)}",
     "labeled": true,
     "symbol": "S",

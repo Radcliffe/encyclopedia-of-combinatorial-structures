@@ -1,7 +1,7 @@
 {
     "id": 44,
-    "name": "Non plane trees",
-    "description": "Unlabelled non plane trees with degree >=2 (series-reduced planted trees)",
+    "name": "Non-plane trees",
+    "description": "Unlabeled non-plane trees with degree >=2 (series-reduced planted trees)",
     "specification": "{S = Union(Z,Set(S,2 <=card))}",
     "labeled": false,
     "symbol": "S",

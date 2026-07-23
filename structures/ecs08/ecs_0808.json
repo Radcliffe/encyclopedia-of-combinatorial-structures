@@ -1,7 +1,7 @@
 {
     "id": 808,
-    "name": "Expansion of e.g.f.: 1/(exp(x)*(2-exp(x)))",
-    "description": "Expansion of e.g.f.: 1/(exp(x)*(2-exp(x)))",
+    "name": "Expansion of EGF: 1/(exp(x)*(2-exp(x)))",
+    "description": "Expansion of EGF: 1/(exp(x)*(2-exp(x)))",
     "specification": "{B = Prod(C,C), C = Set(Z,1 <= card), S = Sequence(B)}",
     "labeled": true,
     "symbol": "S",

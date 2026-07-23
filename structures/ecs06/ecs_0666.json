@@ -1,7 +1,7 @@
 {
     "id": 666,
-    "name": "Generalized Catalan Numbers x^3*A(x)^2 + (x-1)*A(x) + 1 =0",
-    "description": "Generalized Catalan Numbers x^3*A(x)^2 + (x-1)*A(x) + 1 =0",
+    "name": "Generalized Catalan numbers x^3*A(x)^2 + (x-1)*A(x) + 1 =0",
+    "description": "Generalized Catalan numbers x^3*A(x)^2 + (x-1)*A(x) + 1 =0",
     "specification": "{B = Prod(C,C), C = Prod(S,Z), S =Union(B,C,Z)}",
     "labeled": false,
     "symbol": "S",

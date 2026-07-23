@@ -1,7 +1,7 @@
 {
     "id": 791,
     "name": "Products of cycles and cycles of cycles",
-    "description": "Product of Cycles and Cycles of Cycles",
+    "description": "Product of cycles and cycles of cycles",
     "specification": "{B = Cycle(C), C = Cycle(Z), S = Prod(C,B)}",
     "labeled": true,
     "symbol": "S",

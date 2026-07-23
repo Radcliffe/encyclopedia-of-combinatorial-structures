@@ -1,7 +1,7 @@
 {
     "id": 832,
-    "name": "E.g.f.: (log(1-x))^2/(1+log(1-x))",
-    "description": "E.g.f.: (log(1-x))^2/(1+log(1-x))",
+    "name": "EGF: (log(1-x))^2/(1+log(1-x))",
+    "description": "EGF: (log(1-x))^2/(1+log(1-x))",
     "specification": "{B = Sequence(C,1 <= card), C = Cycle(Z), S = Prod(B,C)}",
     "labeled": true,
     "symbol": "S",

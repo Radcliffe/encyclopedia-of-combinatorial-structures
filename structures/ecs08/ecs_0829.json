@@ -1,7 +1,7 @@
 {
     "id": 829,
-    "name": "E.g.f.: log((1-x)/(1-2*x))*x/(1-x)",
-    "description": "E.g.f.: log((1-x)/(1-2*x))*x/(1-x)",
+    "name": "EGF: log((1-x)/(1-2*x))*x/(1-x)",
+    "description": "EGF: log((1-x)/(1-2*x))*x/(1-x)",
     "specification": "{B = Sequence(Z,1 <= card), C = Cycle(B), S = Prod(B,C)}",
     "labeled": true,
     "symbol": "S",

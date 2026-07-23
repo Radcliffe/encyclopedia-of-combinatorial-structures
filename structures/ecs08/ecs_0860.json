@@ -1,7 +1,7 @@
 {
     "id": 860,
-    "name": "Expansion of e.g.f.: exp(x^2/(1 - x)^2)",
-    "description": "Expansion of e.g.f.: exp(x^2/(1 - x)^2)",
+    "name": "Expansion of EGF: exp(x^2/(1 - x)^2)",
+    "description": "Expansion of EGF: exp(x^2/(1 - x)^2)",
     "specification": "{B = Sequence(Z,1 <= card), C = Prod(B,B), S = Set(C)}",
     "labeled": true,
     "symbol": "S",

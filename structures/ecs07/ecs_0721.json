@@ -1,7 +1,7 @@
 {
     "id": 721,
-    "name": "E.g.f.: -1/4*LambertW(-4*x)",
-    "description": "E.g.f.: -1/4*LambertW(-4*x)",
+    "name": "EGF: -1/4*LambertW(-4*x)",
+    "description": "EGF: -1/4*LambertW(-4*x)",
     "specification": "{B = Set(S), S = Prod(Z,B,B,B,B)}",
     "labeled": true,
     "symbol": "S",

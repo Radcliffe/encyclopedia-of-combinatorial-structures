@@ -1,7 +1,7 @@
 {
     "id": 37,
     "name": "Connected functional graphs",
-    "description": "Connected Functional graphs; Connected graphs by points",
+    "description": "Connected functional graphs; connected graphs by points",
     "specification": "{K = Cycle(Tree), S = Set(K,card = 1), Tree = Prod(Z,Set(Tree))}",
     "labeled": true,
     "symbol": "S",

@@ -1,7 +1,7 @@
 {
     "id": 831,
-    "name": "Expansion of e.g.f. log(-1/(-1+x))*exp(x) - log(-1/(-1+x))",
-    "description": "Expansion of e.g.f. log(-1/(-1+x))*exp(x) - log(-1/(-1+x))",
+    "name": "Expansion of EGF: log(-1/(-1+x))*exp(x) - log(-1/(-1+x))",
+    "description": "Expansion of EGF: log(-1/(-1+x))*exp(x) - log(-1/(-1+x))",
     "specification": "{B = Set(Z,1 <= card), C = Cycle(Z), S = Prod(B,C)}",
     "labeled": true,
     "symbol": "S",

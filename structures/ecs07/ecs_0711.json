@@ -1,7 +1,7 @@
 {
     "id": 711,
-    "name": "G.f. A(x) satisfies: A(x) = exp( Sum_{k>=1} (-1)^(k+1) * A(x^k)^3 * x^k / k )",
-    "description": "G.f. A(x) satisfies: A(x) = exp( Sum_{k>=1} (-1)^(k+1) * A(x^k)^3 * x^k / k )",
+    "name": "OGF: A(x) satisfies: A(x) = exp( Sum_{k>=1} (-1)^(k+1) * A(x^k)^3 * x^k / k )",
+    "description": "OGF: A(x) satisfies: A(x) = exp( Sum_{k>=1} (-1)^(k+1) * A(x^k)^3 * x^k / k )",
     "specification": "{B = Prod(S,S,S,Z), S = PowerSet(B)}",
     "labeled": false,
     "symbol": "S",

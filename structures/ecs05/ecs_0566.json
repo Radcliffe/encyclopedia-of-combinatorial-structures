@@ -1,7 +1,7 @@
 {
     "id": 566,
-    "name": "E.g.f. (1-x)^2/(1-3x+x^3)",
-    "description": "E.g.f. (1-x)^2/(1-3x+x^3)",
+    "name": "EGF: (1-x)^2/(1-3x+x^3)",
+    "description": "EGF: (1-x)^2/(1-3x+x^3)",
     "specification": "{S = Sequence(Prod(Z,Sequence(Z),Union(Z,Sequence(Z))))}",
     "labeled": true,
     "symbol": "S",

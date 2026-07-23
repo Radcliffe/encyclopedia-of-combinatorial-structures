@@ -1,7 +1,7 @@
 {
     "id": 753,
-    "name": "Expansion of e.g.f. x^4*exp(x)^2",
-    "description": "Expansion of e.g.f. x^4*exp(x)^2",
+    "name": "Expansion of EGF: x^4*exp(x)^2",
+    "description": "Expansion of EGF: x^4*exp(x)^2",
     "specification": "{B = Set(Z), S = Prod(Z,Z,Z,Z,B,B)}",
     "labeled": true,
     "symbol": "S",

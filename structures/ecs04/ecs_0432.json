@@ -1,7 +1,7 @@
 {
     "id": 432,
-    "name": "a(n) = binomial(3*n+1,n)/(n+1)",
-    "description": "a(n) = binomial(3*n+1,n)/(n+1)",
+    "name": "a(n) = binomial(3*n+1, n)/(n+1)",
+    "description": "a(n) = binomial(3*n+1, n)/(n+1)",
     "specification": "{B= Sequence(S), S = Prod(Z,B,B)}",
     "labeled": false,
     "symbol": "S",

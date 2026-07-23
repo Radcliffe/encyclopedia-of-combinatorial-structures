@@ -1,7 +1,7 @@
 {
     "id": 740,
-    "name": "Expansion of e.g.f. x*log(-1/(-1+x))^5",
-    "description": "Expansion of e.g.f. x*log(-1/(-1+x))^5",
+    "name": "Expansion of EGF: x*log(-1/(-1+x))^5",
+    "description": "Expansion of EGF: x*log(-1/(-1+x))^5",
     "specification": "{B = Cycle(Z), S = Prod(Z,B,B,B,B,B)}",
     "labeled": true,
     "symbol": "S",

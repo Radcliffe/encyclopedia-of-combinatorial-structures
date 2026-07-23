@@ -1,7 +1,7 @@
 {
     "id": 728,
-    "name": "E.g.f.: x^3*exp(x)^2",
-    "description": "E.g.f.: x^3*exp(x)^2",
+    "name": "EGF: x^3*exp(x)^2",
+    "description": "EGF: x^3*exp(x)^2",
     "specification": "{B = Set(Z), S = Prod(Z,Z,Z,B,B)}",
     "labeled": true,
     "symbol": "S",

@@ -1,7 +1,7 @@
 {
     "id": 130,
     "name": "Number of n-bead necklaces with 2 colors when turning over is not allowed",
-    "description": "Necklaces of 2 colours; binary irreducible polynomials whose degree divides n",
+    "description": "Necklaces of 2 colors; binary irreducible polynomials whose degree divides n",
     "specification": "{B = Cycle(C), C = Sequence(Z,0 < card), S = Union(C,B)}",
     "labeled": false,
     "symbol": "S",

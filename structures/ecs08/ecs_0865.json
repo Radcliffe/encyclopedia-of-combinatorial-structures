@@ -1,7 +1,7 @@
 {
     "id": 865,
     "name": "Rooted set partitions",
-    "description": "rooted set partitions",
+    "description": "Rooted set partitions",
     "specification": "{B = Set(C), C = Set(Z,1 <= card), S = Prod(Z,B)}",
     "labeled": true,
     "symbol": "S",

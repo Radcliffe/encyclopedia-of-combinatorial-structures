@@ -1,7 +1,7 @@
 {
     "id": 755,
-    "name": "G.f. A(x) satisfies: A(x) = exp( Sum_{k>=1} (-1)^(k+1) * A(x^k)^5 * x^k / k )",
-    "description": "G.f. A(x) satisfies: A(x) = exp( Sum_{k>=1} (-1)^(k+1) * A(x^k)^5 * x^k / k )",
+    "name": "OGF: A(x) satisfies: A(x) = exp( Sum_{k>=1} (-1)^(k+1) * A(x^k)^5 * x^k / k )",
+    "description": "OGF: A(x) satisfies: A(x) = exp( Sum_{k>=1} (-1)^(k+1) * A(x^k)^5 * x^k / k )",
     "specification": "{B = Prod(Z,S,S,S,S,S), S = PowerSet(B)}",
     "labeled": false,
     "symbol": "S",

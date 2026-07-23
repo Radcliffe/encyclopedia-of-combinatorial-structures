@@ -1,7 +1,7 @@
 {
     "id": 844,
-    "name": "E.g.f. A(x) satisfies A(x) = exp(x*A(x)/(1 - x*A(x)))",
-    "description": "E.g.f. A(x) satisfies A(x) = exp(x*A(x)/(1 - x*A(x)))",
+    "name": "EGF: A(x) satisfies A(x) = exp(x*A(x)/(1 - x*A(x)))",
+    "description": "EGF: A(x) satisfies A(x) = exp(x*A(x)/(1 - x*A(x)))",
     "specification": "{B = Prod(Z,S), C = Sequence(B,1 <= card), S = Set(C)}",
     "labeled": true,
     "symbol": "S",

@@ -1,7 +1,7 @@
 {
     "id": 855,
     "name": "Rooted ordered set partitions",
-    "description": "rooted ordered set partitions",
+    "description": "Rooted ordered set partitions",
     "specification": "{B = Set(Z,1 <= card), C = Sequence(B), S = Prod(Z,C)}",
     "labeled": true,
     "symbol": "S",

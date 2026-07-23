@@ -1,7 +1,7 @@
 {
     "id": 848,
-    "name": "E.g.f.: exp(x)-1+log(-1/(-2+exp(x)))",
-    "description": "E.g.f.: exp(x)-1+log(-1/(-2+exp(x)))",
+    "name": "EGF: exp(x)-1+log(-1/(-2+exp(x)))",
+    "description": "EGF: exp(x)-1+log(-1/(-2+exp(x)))",
     "specification": "{B = Set(Z,1 <= card), C = Cycle(B), S = Union(B,C)}",
     "labeled": true,
     "symbol": "S",

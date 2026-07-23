@@ -1,7 +1,7 @@
 {
     "id": 549,
-    "name": "E.g.f. (1-x)/(1-2x-x^3+x^4)",
-    "description": "E.g.f. (1-x)/(1-2x-x^3+x^4)",
+    "name": "EGF: (1-x)/(1-2x-x^3+x^4)",
+    "description": "EGF: (1-x)/(1-2x-x^3+x^4)",
     "specification": "{S = Sequence(Prod(Z,Union(Sequence(Z),Prod(Z,Z))))}",
     "labeled": true,
     "symbol": "S",

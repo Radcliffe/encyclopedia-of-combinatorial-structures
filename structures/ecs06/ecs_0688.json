@@ -1,7 +1,7 @@
 {
     "id": 688,
-    "name": "E.g.f.: (1-2x-sqrt(1-4*x))*x^2/2",
-    "description": "E.g.f.: (1-2x-sqrt(1-4*x))*x^2/2",
+    "name": "EGF: (1-2x-sqrt(1-4*x))*x^2/2",
+    "description": "EGF: (1-2x-sqrt(1-4*x))*x^2/2",
     "specification": "{B = Union(Z,C), C= Prod(B,B), S = Prod(Z,Z,C)}",
     "labeled": true,
     "symbol": "S",

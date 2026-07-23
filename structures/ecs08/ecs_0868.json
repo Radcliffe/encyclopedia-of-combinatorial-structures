@@ -1,7 +1,7 @@
 {
     "id": 868,
-    "name": "E.g.f. is series reversion of log(1+x)*(1-x)",
-    "description": "E.g.f. is series reversion of log(1+x)*(1-x)",
+    "name": "EGF is series reversion of log(1+x)*(1-x)",
+    "description": "EGF is series reversion of log(1+x)*(1-x)",
     "specification": "{B = Sequence(S), C = Prod(Z,B), S = Set(C,1 <= card)}",
     "labeled": true,
     "symbol": "S",

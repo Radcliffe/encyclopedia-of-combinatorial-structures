@@ -1,7 +1,7 @@
 {
     "id": 50,
     "name": "Unary-binary trees",
-    "description": "Unlabelled unary-binary trees; Motzkin numbers (Generalized ballot numbers)",
+    "description": "Unlabeled unary-binary trees; Motzkin numbers (generalized ballot numbers)",
     "specification": "{S = Prod(Z,Sequence(S,card <= 2))}",
     "labeled": false,
     "symbol": "S",

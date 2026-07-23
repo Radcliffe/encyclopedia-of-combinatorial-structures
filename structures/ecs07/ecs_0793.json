@@ -1,7 +1,7 @@
 {
     "id": 793,
     "name": "Unions of cycles and cycles of cycles",
-    "description": "Union of Cycles and Cycles of Cycles",
+    "description": "Union of cycles and cycles of cycles",
     "specification": "{B = Cycle(C), C = Cycle(Z), S = Union(C,B)}",
     "labeled": true,
     "symbol": "S",

@@ -1,7 +1,7 @@
 {
     "id": 40,
     "name": "Sets of segments",
-    "description": "Sets of segments; Forest of greatest height; Acyclic injective partial maps",
+    "description": "Sets of segments; forest of greatest height; acyclic injective partial maps",
     "specification": "{S =Set(Prod(Z,Sequence(Z)))}",
     "labeled": true,
     "symbol": "S",

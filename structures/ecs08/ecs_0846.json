@@ -1,7 +1,7 @@
 {
     "id": 846,
-    "name": "E.g.f.: (exp(x)-1)^2/(2-exp(x))",
-    "description": "E.g.f.: (exp(x)-1)^2/(2-exp(x))",
+    "name": "EGF: (exp(x)-1)^2/(2-exp(x))",
+    "description": "EGF: (exp(x)-1)^2/(2-exp(x))",
     "specification": "{B = Set(Z,1 <=card), C = Sequence(B,1 <= card), S = Prod(B,C)}",
     "labeled": true,
     "symbol": "S",

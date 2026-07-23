@@ -1,7 +1,7 @@
 {
     "id": 43,
-    "name": "Non plane rooted binary trees",
-    "description": "unlabelled binary rooted trees with n endpoints inequivalent under reflections in vertical axes. (Wedderburn-Etherington numbers)",
+    "name": "Non-plane rooted binary trees",
+    "description": "Unlabeled binary rooted trees with n endpoints inequivalent under reflections in vertical axes. (Wedderburn-Etherington numbers)",
     "specification": "{S = Union(Z,Set(S,card = 2))}",
     "labeled": false,
     "symbol": "S",

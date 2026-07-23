@@ -1,7 +1,7 @@
 {
     "id": 1057,
-    "name": "Expansion of g.f. (1-x^2)/(1-x-2*x^2+x^3)",
-    "description": "Expansion of g.f. (1-x^2)/(1-x-2*x^2+x^3)",
+    "name": "Expansion of OGF: (1-x^2)/(1-x-2*x^2+x^3)",
+    "description": "Expansion of OGF: (1-x^2)/(1-x-2*x^2+x^3)",
     "specification": "{S = Sequence(Union(Prod(Sequence(Prod(Z,Z)),Z,Z),Z))}",
     "labeled": false,
     "symbol": "S",

@@ -1,7 +1,7 @@
 {
     "id": 61,
-    "name": "Unlabelled trees of height 2",
-    "description": "Unlabelled trees of height 2",
+    "name": "Unlabeled trees of height 2",
+    "description": "Unlabeled trees of height 2",
     "specification": "{S = Prod(Z,Set(T1)), T1 = Prod(Z,Set(T2)), T2 = Z}",
     "labeled": false,
     "symbol": "S",

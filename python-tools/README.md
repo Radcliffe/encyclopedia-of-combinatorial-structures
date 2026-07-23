@@ -62,8 +62,12 @@ The historical `main.py` report script now reads the web catalogue through
 OEIS CSV/name-augmentation workflow. Its defaults are resolved relative to the
 script rather than the invoking directory.
 
-`combine_json_files.py`, `split-ecs-data.py`, and
-`curate_structure_names.py` intentionally continue to operate on raw JSON.
+`combine_json_files.py`, `split-ecs-data.py`, `curate_structure_names.py`, and
+`normalize_structure_text.py` intentionally continue to operate on raw JSON.
 They create or mutate the canonical catalogue and derived web representation,
 so routing them through the package's read-only consumer API would discard
 their stricter source-schema and serialization responsibilities.
+
+Run `normalize_structure_text.py` without arguments to preview pending
+punctuation, capitalization, American-spelling, and OGF/EGF-label changes.
+Pass `--write` to update both canonical records and the generated web dataset.

@@ -1,7 +1,7 @@
 {
     "id": 4,
-    "name": "Necklaces of 4 colours",
-    "description": "Necklaces of 4 colours",
+    "name": "Necklaces of 4 colors",
+    "description": "Necklaces of 4 colors",
     "specification": "{S = Cycle(Union(c1,c2,c3,c4)), c1 = Atom, c2 = Atom, c3 = Atom, c4 = Atom}",
     "labeled": false,
     "symbol": "S",

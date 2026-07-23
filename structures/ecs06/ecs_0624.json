@@ -1,7 +1,7 @@
 {
     "id": 624,
-    "name": "Expansion of e.g.f. 3*x/(1 - 2*x)",
-    "description": "Expansion of e.g.f. 3*x/(1 - 2*x)",
+    "name": "Expansion of EGF: 3*x/(1 - 2*x)",
+    "description": "Expansion of EGF: 3*x/(1 - 2*x)",
     "specification": "{S = Prod(Sequence(Union(Z,Z)),Union(Z,Z,Z))}",
     "labeled": true,
     "symbol": "S",

@@ -1,7 +1,7 @@
 {
     "id": 1073,
-    "name": "Period 2: repeat (2,4)",
-    "description": "Period 2: repeat (2,4)",
+    "name": "Period 2: repeat (2, 4)",
+    "description": "Period 2: repeat (2, 4)",
     "specification": "{S = Prod(Union(Sequence(Prod(Z,Z)),Sequence(Z)),Union(Z,Z))}",
     "labeled": false,
     "symbol": "S",

@@ -1,7 +1,7 @@
 {
     "id": 424,
-    "name": "a(n) = Sum_{k=0..floor(n/4)} binomial(n-2k,2k)",
-    "description": "a(n) = Sum_{k=0..floor(n/4)} binomial(n-2k,2k)",
+    "name": "a(n) = Sum_{k=0..floor(n/4)} binomial(n-2k, 2k)",
+    "description": "a(n) = Sum_{k=0..floor(n/4)} binomial(n-2k, 2k)",
     "specification": "{S = Sequence(Union(Z,Prod(Z,Z,Z,Z,Sequence(Z))))}",
     "labeled": false,
     "symbol": "S",

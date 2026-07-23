@@ -1,7 +1,7 @@
 {
     "id": 38,
-    "name": "Labelled 3-constrained functional graphs",
-    "description": "Labelled 3-constrained functional graphs",
+    "name": "Labeled 3-constrained functional graphs",
+    "description": "Labeled 3-constrained functional graphs",
     "specification": "{S = Set(Cycle(Prod(Z,Set(g,card = 2)))), g = Union(Z,Prod(Z,Set(g,card = 3)))}",
     "labeled": true,
     "symbol": "S",

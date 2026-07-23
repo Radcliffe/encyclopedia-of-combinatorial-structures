@@ -1,7 +1,7 @@
 {
     "id": 640,
-    "name": "Expansion of e.g.f. (1-x^4)/(1-x-x^4)",
-    "description": "Expansion of e.g.f. (1-x^4)/(1-x-x^4)",
+    "name": "Expansion of EGF: (1-x^4)/(1-x-x^4)",
+    "description": "Expansion of EGF: (1-x^4)/(1-x-x^4)",
     "specification": "{S = Sequence(Prod(Z,Sequence(Prod(Z,Z,Z,Z))))}",
     "labeled": true,
     "symbol": "S",

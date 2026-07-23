@@ -1,7 +1,7 @@
 {
     "id": 41,
-    "name": "Ordered set partitions, Balls and Urns",
-    "description": "Ordered set partitions; surjections (Preferential arrangements);Ways to place balls into urns: distinguishable balls and distinguishable urns",
+    "name": "Ordered set partitions, balls and urns",
+    "description": "Ordered set partitions; surjections (preferential arrangements); ways to place balls into urns: distinguishable balls and distinguishable urns",
     "specification": "{S = Sequence(Set(Z,1 <= card))}",
     "labeled": true,
     "symbol": "S",

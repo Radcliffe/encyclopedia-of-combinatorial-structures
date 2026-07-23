@@ -1,7 +1,7 @@
 {
     "id": 842,
-    "name": "Expansion of e.g.f. -LambertW(x/(-1+x))",
-    "description": "Expansion of e.g.f. -LambertW(x/(-1+x))",
+    "name": "Expansion of EGF: -LambertW(x/(-1+x))",
+    "description": "Expansion of EGF: -LambertW(x/(-1+x))",
     "specification": "{B = Set(S), C = Sequence(Z,1 <= card), S = Prod(B,C)}",
     "labeled": true,
     "symbol": "S",

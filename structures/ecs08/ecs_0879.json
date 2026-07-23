@@ -1,7 +1,7 @@
 {
     "id": 879,
-    "name": "Define the sequence S(a(0),a(1)) by a(n+2) is the least integer such that a(n+2)/a(n+1) > a(n+1)/a(n) for n >= 0. This is S(1,5)",
-    "description": "Define the sequence S(a(0),a(1)) by a(n+2) is the least integer such that a(n+2)/a(n+1) > a(n+1)/a(n) for n >= 0. This is S(1,5)",
+    "name": "Define the sequence S(a(0), a(1)) by a(n+2) is the least integer such that a(n+2)/a(n+1) > a(n+1)/a(n) for n >= 0. This is S(1, 5)",
+    "description": "Define the sequence S(a(0), a(1)) by a(n+2) is the least integer such that a(n+2)/a(n+1) > a(n+1)/a(n) for n >= 0. This is S(1, 5)",
     "specification": "{S = Sequence(Union(Prod(Sequence(Z),Z),Z,Z,Z,Z))}",
     "labeled": false,
     "symbol": "S",

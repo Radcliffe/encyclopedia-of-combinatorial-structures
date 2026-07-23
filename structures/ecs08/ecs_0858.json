@@ -1,7 +1,7 @@
 {
     "id": 858,
-    "name": "E.g.f. A(x) is inverse to F(x) = x*exp(-x)/(1+x)",
-    "description": "E.g.f. A(x) is inverse to F(x) = x*exp(-x)/(1+x)",
+    "name": "EGF: A(x) is inverse to F(x) = x*exp(-x)/(1+x)",
+    "description": "EGF: A(x) is inverse to F(x) = x*exp(-x)/(1+x)",
     "specification": "{B = Prod(Z,C), C = Set(S), S = Sequence(B,1 <= card)}",
     "labeled": true,
     "symbol": "S",

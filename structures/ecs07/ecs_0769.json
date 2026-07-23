@@ -1,7 +1,7 @@
 {
     "id": 769,
-    "name": "Expansion of e.g.f. -LambertW(log(1-x))",
-    "description": "Expansion of e.g.f. -LambertW(log(1-x))",
+    "name": "Expansion of EGF: -LambertW(log(1-x))",
+    "description": "Expansion of EGF: -LambertW(log(1-x))",
     "specification": "{B = Cycle(Z),C = Set(S), S = Prod(C,B)}",
     "labeled": true,
     "symbol": "S",

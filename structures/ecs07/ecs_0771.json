@@ -1,7 +1,7 @@
 {
     "id": 771,
     "name": "Rooted cycles of cycles",
-    "description": "Cycles of Cycles",
+    "description": "Cycles of cycles",
     "specification": "{B = Cycle(C), C = Cycle(Z), S = Prod(B,Z)}",
     "labeled": true,
     "symbol": "S",

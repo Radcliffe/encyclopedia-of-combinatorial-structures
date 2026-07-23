@@ -1,7 +1,7 @@
 {
     "id": 717,
-    "name": "Expansion of e.g.f.: x^2*(exp(x)-1)^2",
-    "description": "Expansion of e.g.f.: x^2*(exp(x)-1)^2",
+    "name": "Expansion of EGF: x^2*(exp(x)-1)^2",
+    "description": "Expansion of EGF: x^2*(exp(x)-1)^2",
     "specification": "{B = Set(Z,1 <= card),S = Prod(B,B,Z,Z)}",
     "labeled": true,
     "symbol": "S",

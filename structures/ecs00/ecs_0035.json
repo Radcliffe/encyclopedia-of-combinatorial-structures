@@ -1,7 +1,7 @@
 {
     "id": 35,
     "name": "Partial permutations (arrangements)",
-    "description": "Arrangements; partial permutations (Permutations of n thing)",
+    "description": "Arrangements; partial permutations (permutations of n things)",
     "specification": "{S = Prod(Sequence(Z),Set(Z))}",
     "labeled": true,
     "symbol": "S",

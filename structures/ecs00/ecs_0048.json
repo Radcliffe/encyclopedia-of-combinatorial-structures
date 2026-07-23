@@ -1,7 +1,7 @@
 {
     "id": 48,
     "name": "General plane trees",
-    "description": "Unlabelled general rooted plane trees; Catalan numbers",
+    "description": "Unlabeled general rooted plane trees; Catalan numbers",
     "specification": "{S = Prod(Z,Sequence(S))}",
     "labeled": false,
     "symbol": "S",

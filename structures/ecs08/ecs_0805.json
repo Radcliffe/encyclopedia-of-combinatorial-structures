@@ -1,7 +1,7 @@
 {
     "id": 805,
-    "name": "Expansion of e.g.f.: (exp(x/(1-x)) - 1)^2",
-    "description": "Expansion of e.g.f.: (exp(x/(1-x)) - 1)^2",
+    "name": "Expansion of EGF: (exp(x/(1-x)) - 1)^2",
+    "description": "Expansion of EGF: (exp(x/(1-x)) - 1)^2",
     "specification": "{B = Set(C,1 <=card), C = Sequence(Z,1 <= card), S = Prod(B,B)}",
     "labeled": true,
     "symbol": "S",

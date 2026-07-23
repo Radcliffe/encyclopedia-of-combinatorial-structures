@@ -1,7 +1,7 @@
 {
     "id": 24,
     "name": "Permutations of order dividing 3",
-    "description": "permutations Sigma such that Sigma^3=Id; degree n permutations of order dividing 3",
+    "description": "Permutations Sigma such that Sigma^3=Id; degree n permutations of order dividing 3",
     "specification": "{S = Set(Union(Cycle(Z,card = 1),Cycle(Z,card = 3)))}",
     "labeled": true,
     "symbol": "S",

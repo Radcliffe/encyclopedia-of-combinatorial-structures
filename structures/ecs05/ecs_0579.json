@@ -1,7 +1,7 @@
 {
     "id": 579,
-    "name": "E.g.f. x^2*(1+x-x^2)/(1-x)^2",
-    "description": "E.g.f. x^2*(1+x-x^2)/(1-x)^2",
+    "name": "EGF: x^2*(1+x-x^2)/(1-x)^2",
+    "description": "EGF: x^2*(1+x-x^2)/(1-x)^2",
     "specification": "{S = Prod(Z,Z,Sequence(Z),Union(Z,Sequence(Z)))}",
     "labeled": true,
     "symbol": "S",

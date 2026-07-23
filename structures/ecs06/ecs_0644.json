@@ -1,7 +1,7 @@
 {
     "id": 644,
-    "name": "Expansion of e.g.f. (2-5*x)/((1-x)*(1-4*x))",
-    "description": "Expansion of e.g.f. (2-5*x)/((1-x)*(1-4*x))",
+    "name": "Expansion of EGF: (2-5*x)/((1-x)*(1-4*x))",
+    "description": "Expansion of EGF: (2-5*x)/((1-x)*(1-4*x))",
     "specification": "{S = Union(Sequence(Z),Sequence(Union(Z,Z,Z,Z)))}",
     "labeled": true,
     "symbol": "S",

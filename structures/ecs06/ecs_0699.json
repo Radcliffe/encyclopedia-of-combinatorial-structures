@@ -1,7 +1,7 @@
 {
     "id": 699,
-    "name": "E.g.f. ( 1-x-sqrt(1-2*x+x^2-4*x^3) )/(2*x^2)",
-    "description": "E.g.f. ( 1-x-sqrt(1-2*x+x^2-4*x^3) )/(2*x^2)",
+    "name": "EGF: ( 1-x-sqrt(1-2*x+x^2-4*x^3) )/(2*x^2)",
+    "description": "EGF: ( 1-x-sqrt(1-2*x+x^2-4*x^3) )/(2*x^2)",
     "specification": "{B = Prod(C,C), C= Prod(S,Z), S = Union(B,Z,C)}",
     "labeled": true,
     "symbol": "S",

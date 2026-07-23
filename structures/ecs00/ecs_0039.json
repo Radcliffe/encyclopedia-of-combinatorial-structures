@@ -1,7 +1,7 @@
 {
     "id": 39,
     "name": "Idempotent maps (trees of height at most 1)",
-    "description": "Maps of f^2=f;Trees of height at most 1",
+    "description": "Maps of f^2=f; trees of height at most 1",
     "specification": "{S = Set(Tree), Tree = Prod(Z,Set(Z,0 < card))}",
     "labeled": true,
     "symbol": "S",

@@ -1,7 +1,7 @@
 {
     "id": 1,
-    "name": "Alcohols or Unlabelled Non Plane Ternary Trees",
-    "description": "Alcohols or unlabelled non plane ternary Trees",
+    "name": "Alcohols or unlabeled non-plane ternary trees",
+    "description": "Alcohols or unlabeled non-plane ternary trees",
     "specification": "{S = Union(Z,Prod(Z,Set(S,card = 3))), Z = Atom}",
     "labeled": false,
     "symbol": "S",
