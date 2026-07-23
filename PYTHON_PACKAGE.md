@@ -342,12 +342,15 @@ simultaneous fixed-point iteration from zero series, followed by a structural
 proof that the graph of same-coefficient dependencies is acyclic. When that
 graph has a cycle, the solver instead differentiates the formal-series
 operations symbolically in each degree, forms the exact coefficient Jacobian,
-and solves the resulting rational linear system. This coefficient-recursive
-path accepts assignments and square implicit systems only when each Jacobian is
-nonsingular and every named-series composition argument is independent of the
-unknown series. Agreement between sampled starting values is never used as a
-proof. Equation results containing negative powers are rejected. Pass `symbol`
-to choose the result from an equation system:
+and solves the resulting rational linear system. If exact constant-term
+iteration does not stabilize, the same Jacobian method solves degree zero; this
+supports affine systems with nonzero constant terms instead of requiring a
+zero-constant branch. This coefficient-recursive path accepts assignments and
+square implicit systems only when each Jacobian is nonsingular and every
+named-series composition argument is independent of the unknown series.
+Agreement between sampled starting values is never used as a proof. Equation
+results containing negative powers are rejected. Pass `symbol` to choose the
+result from an equation system:
 
 ```python
 coefficients = generating_function_coefficients(

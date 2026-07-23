@@ -62,6 +62,11 @@ or date section and leave this section in place for subsequent work.
 
 ### Fixed
 
+- Solved non-stabilizing affine constant-term equations through the exact
+  coefficient Jacobian, allowing nonsingular implicit systems to select nonzero
+  constant terms.
+- Preserved exact additive cancellations while constructing the zero-delay
+  dependency graph, avoiding false recursion cycles in contractive equations.
 - Replaced the named-series solver's empirical second starting-value check with
   a structural proof that its same-coefficient dependency graph is acyclic, and
   rejected equation solutions containing negative powers instead of silently

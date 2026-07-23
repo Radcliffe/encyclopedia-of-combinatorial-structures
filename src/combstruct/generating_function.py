@@ -1819,6 +1819,25 @@ def _require_formal_power_series(
         )
 
 
+def _additive_term_weights(expression: GFExpression) -> dict[GFExpression, int]:
+    """Flatten adjacent sums and differences into exact integer term weights."""
+
+    weights: dict[GFExpression, int] = {}
+
+    def collect(term: GFExpression, weight: int) -> None:
+        if isinstance(term, GFUnary):
+            collect(term.operand, weight if term.operator == "+" else -weight)
+            return
+        if isinstance(term, GFBinary) and term.operator in {"+", "-"}:
+            collect(term.left, weight)
+            collect(term.right, weight if term.operator == "+" else -weight)
+            return
+        weights[term] = weights.get(term, 0) + weight
+
+    collect(expression, 1)
+    return {term: weight for term, weight in weights.items() if weight}
+
+
 def _zero_delay_dependencies(
     expression: GFExpression,
     series_values: Mapping[str, _FormalSeries],
@@ -1874,8 +1893,13 @@ def _zero_delay_dependencies(
             "Contractivity proof encountered an unsupported symbolic expression",
         )
 
-    if expression.operator == "-" and expression.left == expression.right:
-        return frozenset()
+    if expression.operator in {"+", "-"}:
+        additive_dependencies: set[str] = set()
+        for term in _additive_term_weights(expression):
+            additive_dependencies.update(
+                _zero_delay_dependencies(term, series_values, index_values),
+            )
+        return frozenset(additive_dependencies)
     if expression.operator == "^":
         exponent = _constant_expression_value(expression.right, index_values)
         if exponent == 0:
@@ -1906,9 +1930,6 @@ def _zero_delay_dependencies(
         series_values,
         index_values,
     )
-    if expression.operator in {"+", "-"}:
-        return left_dependencies | right_dependencies
-
     left = _evaluate_series(expression.left, index_values, series_values)
     right = _evaluate_series(expression.right, index_values, series_values)
     _require_formal_power_series(left, context="Left arithmetic operand")
@@ -2040,6 +2061,48 @@ def _solve_linear_system(
     return tuple(row[-1] for row in augmented)
 
 
+def _solve_coefficient_degree(
+    assignments: Mapping[str, GFExpression],
+    lower_values: Mapping[str, tuple[Fraction, ...]],
+    degree: int,
+) -> tuple[Fraction, ...]:
+    """Solve and verify one affine coefficient system at ``degree``."""
+
+    names = tuple(assignments)
+    base_values = {name: (*lower_values[name], Fraction()) for name in names}
+    base = _assignment_coefficients(assignments, base_values, degree)
+    derivatives = {
+        input_name: _assignment_directional_coefficients(
+            assignments,
+            base_values,
+            input_name,
+            degree,
+        )
+        for input_name in names
+    }
+    matrix = [
+        [
+            Fraction(row == column) - derivatives[input_name][output_name]
+            for column, input_name in enumerate(names)
+        ]
+        for row, output_name in enumerate(names)
+    ]
+    solution = _solve_linear_system(
+        matrix,
+        [base[name] for name in names],
+        degree=degree,
+    )
+    solved_values = {
+        name: (*base_values[name][:-1], solution[index]) for index, name in enumerate(names)
+    }
+    solved = _assignment_coefficients(assignments, solved_values, degree)
+    if any(solved[name] != solution[index] for index, name in enumerate(names)):
+        raise GeneratingFunctionEvaluationError(
+            f"Named-series coefficient solution failed verification at degree {degree}",
+        )
+    return solution
+
+
 def _coefficient_recursive_values(
     assignments: Mapping[str, GFExpression],
     coefficient_count: int,
@@ -2056,46 +2119,28 @@ def _coefficient_recursive_values(
 
     names = tuple(assignments)
     zero_constant = (Fraction(),)
-    constant_values = _fixed_point_iteration(
-        assignments,
-        {name: zero_constant for name in names},
-        1,
-    )
+    try:
+        constant_values = _fixed_point_iteration(
+            assignments,
+            {name: zero_constant for name in names},
+            1,
+        )
+    except _FixedPointIterationFailure:
+        constants = _solve_coefficient_degree(
+            assignments,
+            {name: () for name in names},
+            0,
+        )
+        constant_values = {name: (constants[index],) for index, name in enumerate(names)}
     _require_coefficient_recursive_assignments(assignments, constant_values)
     values = {name: list(constant_values[name]) for name in names}
 
     for degree in range(1, coefficient_count):
-        base_values = {name: (*coefficients, Fraction()) for name, coefficients in values.items()}
-        base = _assignment_coefficients(assignments, base_values, degree)
-        derivatives = {
-            input_name: _assignment_directional_coefficients(
-                assignments,
-                base_values,
-                input_name,
-                degree,
-            )
-            for input_name in names
-        }
-        matrix = [
-            [
-                Fraction(row == column) - derivatives[input_name][output_name]
-                for column, input_name in enumerate(names)
-            ]
-            for row, output_name in enumerate(names)
-        ]
-        solution = _solve_linear_system(
-            matrix,
-            [base[name] for name in names],
-            degree=degree,
+        solution = _solve_coefficient_degree(
+            assignments,
+            {name: tuple(coefficients) for name, coefficients in values.items()},
+            degree,
         )
-        solved_values = {
-            name: (*base_values[name][:-1], solution[index]) for index, name in enumerate(names)
-        }
-        solved = _assignment_coefficients(assignments, solved_values, degree)
-        if any(solved[name] != solution[index] for index, name in enumerate(names)):
-            raise GeneratingFunctionEvaluationError(
-                f"Named-series coefficient solution failed verification at degree {degree}",
-            )
         for index, name in enumerate(names):
             values[name].append(solution[index])
 
