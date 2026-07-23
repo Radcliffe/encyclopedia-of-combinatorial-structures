@@ -4,8 +4,8 @@ This checklist describes the intended release process for the `combstruct`
 Python distribution. Publishing is deliberately separate from test CI:
 the test workflow builds and validates artifacts but never uploads them.
 The confirmed first-release choices and outcome are recorded in
-[`release-readiness.md`](release-readiness.md). The current second-alpha
-release-candidate audit is recorded in
+[`release-readiness.md`](release-readiness.md). The second-alpha release record
+is in
 [`release-readiness-0.1.0a1.md`](release-readiness-0.1.0a1.md).
 
 ## Established release choices

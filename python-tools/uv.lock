@@ -4,11 +4,11 @@ requires-python = ">=3.12"
 
 [[package]]
 name = "combstruct"
-version = "0.1.0a0"
+version = "0.1.0a1"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/54/06/de20944c274f4799a917cb2e3b6a9684580195b81005e353939ccaf3337c/combstruct-0.1.0a0.tar.gz", hash = "sha256:229ac0efc687c65f681c7b20610079249134ad5c809aa8052b86e404f2e74c2d", size = 342358, upload-time = "2026-07-22T15:06:52.625Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/6c/65/3e4ee1fa48b31e6b8bcff6976f8b830ecd3586fe23e8937e1845acbed400/combstruct-0.1.0a1.tar.gz", hash = "sha256:b00ca0cbf468170727d287d42ff338a47958efa00ad7f39ac0848025c0ef2803", size = 398077, upload-time = "2026-07-23T01:41:34.974Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/ff/30/9ae80c09ae837f99577a21df72b88413527bfdc22a36f32eb212f5abb465/combstruct-0.1.0a0-py3-none-any.whl", hash = "sha256:cdf462a4fda4b7bdef92cf11a09d7d31ef66ab1abf0138b4bafceac5ff7b12cf", size = 770987, upload-time = "2026-07-22T15:06:51.032Z" },
+    { url = "https://files.pythonhosted.org/packages/58/dd/6f4ccc59dd2956a034be832be2626f6f0b5177ec5aa7bdf2d056bc2e3e38/combstruct-0.1.0a1-py3-none-any.whl", hash = "sha256:109510509417b801e1bd0075bcb3370abc8d99afdbe769ebc142c21acdbf325b", size = 799570, upload-time = "2026-07-23T01:41:33.512Z" },
 ]
 
 [[package]]
