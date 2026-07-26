@@ -11,6 +11,24 @@ class SpecificationError(ValueError):
     """A combinatorial specification is malformed or incomplete."""
 
 
+def resolve_labelled(
+    *,
+    labeled: bool | None = None,
+    labelled: bool | None = None,
+) -> bool | None:
+    """Reconcile the ``labeled``/``labelled`` spellings for one call.
+
+    ``labeled`` is the preferred spelling; ``labelled`` remains accepted for
+    backward compatibility. Passing both requires them to agree. Returns
+    ``None`` when neither is supplied, so callers that treat ``labelled``
+    as optional keep working unchanged.
+    """
+
+    if labeled is not None and labelled is not None and labeled != labelled:
+        raise TypeError("labeled and labelled disagree; pass only one")
+    return labeled if labeled is not None else labelled
+
+
 @dataclass(frozen=True)
 class Cardinality:
     """Inclusive lower and optional upper bounds on constructor cardinality."""

@@ -24,25 +24,25 @@ from combstruct import (
 
 
 class MapleCompatibleOperationTests(unittest.TestCase):
-    def test_count_returns_one_requested_unlabelled_size(self):
+    def test_count_returns_one_requested_unlabeled_size(self):
         self.assertEqual(
             count(
                 "{S = Union(Epsilon,Prod(Z,S,S))}",
-                labelled=False,
+                labeled=False,
                 size=7,
             ),
             429,
         )
 
-    def test_count_accepts_parsed_equations_and_labelled_semantics(self):
+    def test_count_accepts_parsed_equations_and_labeled_semantics(self):
         equations = parse_specification("{S = Set(Z)}")
 
-        self.assertEqual(count(equations, labelled=True, size=8), 1)
+        self.assertEqual(count(equations, labeled=True, size=8), 1)
 
     def test_gfseries_returns_every_ogf(self):
         result = gfseries(
             "{A = Sequence(Z), S = Prod(Z,A)}",
-            labelled=False,
+            labeled=False,
             term_count=5,
         )
 
@@ -57,7 +57,7 @@ class MapleCompatibleOperationTests(unittest.TestCase):
     def test_gfseries_distinguishes_egf_coefficients_from_counts(self):
         result = gfseries(
             "{S = Set(Z)}",
-            labelled=True,
+            labeled=True,
             term_count=6,
         )
 
@@ -65,11 +65,11 @@ class MapleCompatibleOperationTests(unittest.TestCase):
             result["S"],
             tuple(Fraction(1, factorial) for factorial in (1, 1, 2, 6, 24, 120)),
         )
-        self.assertEqual(count("{S = Set(Z)}", labelled=True, size=5), 1)
+        self.assertEqual(count("{S = Set(Z)}", labeled=True, size=5), 1)
 
     def test_gfsolve_uses_the_existing_formal_series_branch_solver(self):
         self.assertEqual(
-            gfsolve("{S = Union(Z,Prod(Z,S))}", labelled=False),
+            gfsolve("{S = Union(Z,Prod(Z,S))}", labeled=False),
             GFBinary(
                 "/",
                 GFVariable(),
@@ -80,34 +80,32 @@ class MapleCompatibleOperationTests(unittest.TestCase):
     def test_operation_inputs_are_validated(self):
         for invalid in (-1, True, 1.5):
             with self.subTest(size=invalid), self.assertRaises((TypeError, ValueError)):
-                count("{S = Z}", labelled=False, size=invalid)
+                count("{S = Z}", labeled=False, size=invalid)
 
         for invalid in (0, -1, True, 1.5):
             with self.subTest(term_count=invalid), self.assertRaises((TypeError, ValueError)):
-                gfseries("{S = Z}", labelled=False, term_count=invalid)
+                gfseries("{S = Z}", labeled=False, term_count=invalid)
 
         with self.assertRaises(TypeError):
-            count("{S = Z}", labelled=0, size=1)
+            count("{S = Z}", labeled=0, size=1)
         with self.assertRaises(TypeError):
-            gfseries("{S = Z}", labelled="unlabelled", term_count=2)
+            gfseries("{S = Z}", labeled="unlabeled", term_count=2)
         with self.assertRaises(TypeError):
-            count(1, labelled=False, size=1)
+            count(1, labeled=False, size=1)
         with self.assertRaisesRegex(SpecificationError, "does not define"):
-            count("{A = Z}", labelled=False, size=1)
+            count("{A = Z}", labeled=False, size=1)
 
     def test_draw_is_uniform_by_exact_object_rank_and_reproducible(self):
         specification = "{S = Union(Z,Z)}"
         first_rng = Random(12345)
-        first = [draw(specification, labelled=False, size=1, rng=first_rng) for _ in range(3)]
+        first = [draw(specification, labeled=False, size=1, rng=first_rng) for _ in range(3)]
         second_rng = Random(12345)
-        second = [draw(specification, labelled=False, size=1, rng=second_rng) for _ in range(3)]
+        second = [draw(specification, labeled=False, size=1, rng=second_rng) for _ in range(3)]
 
         self.assertEqual(first, second)
 
         rng = Random(8675309)
-        branches = [
-            draw(specification, labelled=False, size=1, rng=rng).branch for _ in range(4000)
-        ]
+        branches = [draw(specification, labeled=False, size=1, rng=rng).branch for _ in range(4000)]
         self.assertLess(abs(branches.count(0) - branches.count(1)), 200)
 
     def test_draw_supports_predefined_defaults(self):
@@ -173,7 +171,7 @@ class MapleCompatibleOperationTests(unittest.TestCase):
         ):
             value = draw(
                 specification,
-                labelled=False,
+                labeled=False,
                 size=30,
                 rng=Random(17),
                 algorithm="counted",
@@ -183,12 +181,12 @@ class MapleCompatibleOperationTests(unittest.TestCase):
 
     def test_counted_draw_distributes_labels_uniformly(self):
         specification = "{S=Prod(Z,Z)}"
-        expected = set(allstructs(specification, labelled=True, size=2))
+        expected = set(allstructs(specification, labeled=True, size=2))
         rng = Random(2026)
         samples = [
             draw(
                 specification,
-                labelled=True,
+                labeled=True,
                 size=2,
                 rng=rng,
                 algorithm="counted",
@@ -209,14 +207,14 @@ class MapleCompatibleOperationTests(unittest.TestCase):
                 expected = set(
                     allstructs(
                         specification,
-                        labelled=True,
+                        labeled=True,
                         size=size,
                     ),
                 )
                 actual = {
                     draw(
                         specification,
-                        labelled=True,
+                        labeled=True,
                         size=size,
                         rng=Random(seed),
                         algorithm="counted",
@@ -234,7 +232,7 @@ class MapleCompatibleOperationTests(unittest.TestCase):
         ):
             value = draw(
                 specification,
-                labelled=False,
+                labeled=False,
                 size=15,
                 symbol="T",
                 rng=Random(1),
@@ -250,11 +248,11 @@ class MapleCompatibleOperationTests(unittest.TestCase):
                     "{color=Union(red,blue,green),red=Atom,blue=Atom,green=Atom,"
                     f"S={constructor}(color,card=2)}}"
                 )
-                expected = set(allstructs(specification, labelled=False, size=2))
+                expected = set(allstructs(specification, labeled=False, size=2))
                 actual = {
                     draw(
                         specification,
-                        labelled=False,
+                        labeled=False,
                         size=2,
                         rng=Random(seed),
                         algorithm="counted",
@@ -266,7 +264,7 @@ class MapleCompatibleOperationTests(unittest.TestCase):
 
     def test_counted_draw_samples_unlabeled_cycles_without_materializing(self):
         specification = "{bead=Union(red,blue),red=Atom,blue=Atom,S=Cycle(bead,card=4)}"
-        expected = set(allstructs(specification, labelled=False, size=4))
+        expected = set(allstructs(specification, labeled=False, size=4))
 
         rng = Random(20260723)
         with patch(
@@ -276,7 +274,7 @@ class MapleCompatibleOperationTests(unittest.TestCase):
             samples = [
                 draw(
                     specification,
-                    labelled=False,
+                    labeled=False,
                     size=4,
                     rng=rng,
                     algorithm="counted",
@@ -298,7 +296,7 @@ class MapleCompatibleOperationTests(unittest.TestCase):
                     "C=Cycle(bead,card=3),"
                     f"S={constructor}(C,card=2)}}"
                 )
-                expected = set(allstructs(specification, labelled=False, size=6))
+                expected = set(allstructs(specification, labeled=False, size=6))
                 rng = Random(314159)
                 with patch(
                     "combstruct.operations.allstructs",
@@ -307,7 +305,7 @@ class MapleCompatibleOperationTests(unittest.TestCase):
                     samples = [
                         draw(
                             specification,
-                            labelled=False,
+                            labeled=False,
                             size=6,
                             rng=rng,
                             algorithm="counted",

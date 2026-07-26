@@ -1,13 +1,13 @@
 """Derive finite generating-function expressions from ECS specifications.
 
 This module translates finite specifications into the generating-function AST
-defined by :mod:`combstruct.generating_function`. Labelled constructions use
-exponential-generating-function rules and unlabelled constructions use
+defined by :mod:`combstruct.generating_function`. Labeled constructions use
+exponential-generating-function rules and unlabeled constructions use
 ordinary-generating-function rules. A recursive component is solved in closed
 form when removing one feedback symbol leaves an acyclic system whose expansion
 is linear or quadratic in that symbol. More general recursive systems and
 closed-form solving remain explicit later milestones; ``gfeqns`` represents
-unrestricted unlabelled cycle-index constructions as symbolic infinite sums.
+unrestricted unlabeled cycle-index constructions as symbolic infinite sums.
 """
 
 from __future__ import annotations
@@ -43,6 +43,7 @@ from .specification import (
     SpecificationError,
     expand_substitutions,
     parse_specification,
+    resolve_labelled,
 )
 
 
@@ -54,11 +55,11 @@ class _GeneratingFunctionEquationBuilder:
     def __init__(
         self,
         equations: Mapping[str, Expression],
-        labelled: bool,
+        labeled: bool,
         tags: Mapping[str, str | Iterable[str]] | None = None,
     ):
         self.equations = dict(equations)
-        self.labelled = labelled
+        self.labeled = labeled
         self.next_index = 1
         self.tags_by_symbol = self._normalize_tags(tags)
         # Expansion performs Maple's Subst nullability and arity validation.
@@ -174,13 +175,13 @@ class _GeneratingFunctionEquationBuilder:
         if name == "sequence":
             return _GeneratingFunctionDeriver._sequence(component, minimum, maximum)
         if name == "set":
-            if self.labelled:
-                return _GeneratingFunctionDeriver._labelled_set(
+            if self.labeled:
+                return _GeneratingFunctionDeriver._labeled_set(
                     component,
                     minimum,
                     maximum,
                 )
-            return self._unlabelled_selection(
+            return self._unlabeled_selection(
                 component_expression,
                 variable,
                 minimum,
@@ -188,23 +189,23 @@ class _GeneratingFunctionEquationBuilder:
                 distinct=False,
             )
         if name == "cycle":
-            if self.labelled:
-                return _GeneratingFunctionDeriver._labelled_cycle(
+            if self.labeled:
+                return _GeneratingFunctionDeriver._labeled_cycle(
                     component,
                     minimum,
                     maximum,
                 )
-            return self._unlabelled_cycle(
+            return self._unlabeled_cycle(
                 component_expression,
                 variable,
                 minimum,
                 maximum,
             )
-        if self.labelled:
+        if self.labeled:
             raise UnsupportedGeneratingFunctionDerivation(
-                "PowerSet is only defined for unlabelled structures",
+                "PowerSet is only defined for unlabeled structures",
             )
-        return self._unlabelled_selection(
+        return self._unlabeled_selection(
             component_expression,
             variable,
             minimum,
@@ -212,7 +213,7 @@ class _GeneratingFunctionEquationBuilder:
             distinct=True,
         )
 
-    def _unlabelled_selection(
+    def _unlabeled_selection(
         self,
         component: Expression,
         variable: GFExpression,
@@ -258,7 +259,7 @@ class _GeneratingFunctionEquationBuilder:
         excluded = _sum(fixed(count) for count in range(minimum))
         return _subtract(unrestricted, excluded)
 
-    def _unlabelled_cycle(
+    def _unlabeled_cycle(
         self,
         component: Expression,
         variable: GFExpression,
@@ -504,9 +505,9 @@ def _recursive_component_map(
 
 
 class _GeneratingFunctionDeriver:
-    def __init__(self, equations: Mapping[str, Expression], labelled: bool):
+    def __init__(self, equations: Mapping[str, Expression], labeled: bool):
         self.equations = expand_substitutions(equations)
-        self.labelled = labelled
+        self.labeled = labeled
         self.memo: dict[str, GFExpression] = {}
         self.active: list[str] = []
         self.recursive_components = _recursive_component_map(self.equations)
@@ -594,27 +595,27 @@ class _GeneratingFunctionDeriver:
             return self._sequence(component, minimum, maximum)
         if name == "set":
             return (
-                self._labelled_set(component, minimum, maximum)
-                if self.labelled
-                else self._unlabelled_set(component, minimum, maximum)
+                self._labeled_set(component, minimum, maximum)
+                if self.labeled
+                else self._unlabeled_set(component, minimum, maximum)
             )
         if name == "cycle":
             return (
-                self._labelled_cycle(component, minimum, maximum)
-                if self.labelled
-                else self._unlabelled_cycle(component, minimum, maximum)
+                self._labeled_cycle(component, minimum, maximum)
+                if self.labeled
+                else self._unlabeled_cycle(component, minimum, maximum)
             )
         if name == "powerset":
-            if self.labelled:
+            if self.labeled:
                 raise UnsupportedGeneratingFunctionDerivation(
-                    "PowerSet is only defined for unlabelled structures",
+                    "PowerSet is only defined for unlabeled structures",
                 )
             if expression.cardinality is not None:
                 raise UnsupportedGeneratingFunctionDerivation(
                     "PowerSet cardinality constraints are not supported",
                 )
             raise UnsupportedGeneratingFunctionDerivation(
-                "An unlabelled PowerSet requires an infinite cycle-index expansion",
+                "An unlabeled PowerSet requires an infinite cycle-index expansion",
             )
         raise UnsupportedGeneratingFunctionDerivation(
             f"Unsupported constructor {expression.name!r}",
@@ -942,7 +943,7 @@ class _GeneratingFunctionDeriver:
         )
 
     @staticmethod
-    def _labelled_set(
+    def _labeled_set(
         component: GFExpression,
         minimum: int,
         maximum: int | None,
@@ -956,14 +957,14 @@ class _GeneratingFunctionDeriver:
         return _subtract(GFFunction("exp", component), excluded)
 
     @staticmethod
-    def _unlabelled_set(
+    def _unlabeled_set(
         component: GFExpression,
         minimum: int,
         maximum: int | None,
     ) -> GFExpression:
         if maximum is None:
             raise UnsupportedGeneratingFunctionDerivation(
-                "An unrestricted unlabelled Set requires an infinite cycle-index expansion",
+                "An unrestricted unlabeled Set requires an infinite cycle-index expansion",
             )
 
         fixed_values: dict[int, GFExpression] = {0: GFInteger(1)}
@@ -987,7 +988,7 @@ class _GeneratingFunctionDeriver:
         return _sum(fixed(count) for count in range(minimum, maximum + 1))
 
     @staticmethod
-    def _labelled_cycle(
+    def _labeled_cycle(
         component: GFExpression,
         minimum: int,
         maximum: int | None,
@@ -1008,14 +1009,14 @@ class _GeneratingFunctionDeriver:
         return _subtract(unrestricted, excluded)
 
     @staticmethod
-    def _unlabelled_cycle(
+    def _unlabeled_cycle(
         component: GFExpression,
         minimum: int,
         maximum: int | None,
     ) -> GFExpression:
         if maximum is None:
             raise UnsupportedGeneratingFunctionDerivation(
-                "An unrestricted unlabelled Cycle requires an infinite cycle-index expansion",
+                "An unrestricted unlabeled Cycle requires an infinite cycle-index expansion",
             )
 
         def fixed(count: int) -> GFExpression:
@@ -1036,20 +1037,24 @@ class _GeneratingFunctionDeriver:
 def derive_generating_function(
     specification: str | Mapping[str, Expression],
     *,
-    labelled: bool,
+    labeled: bool | None = None,
+    labelled: bool | None = None,
     symbol: str = "S",
 ) -> GFExpression:
     """Derive a finite OGF or EGF expression from a supported specification.
 
     Source text and the mapping returned by :func:`parse_specification` are both
-    accepted. ``labelled=True`` applies exponential-generating-function rules;
-    ``False`` applies ordinary-generating-function rules. A recursive
+    accepted. ``labeled=True`` (or the equivalent ``labelled=True``) applies
+    exponential-generating-function rules; ``False`` applies
+    ordinary-generating-function rules. ``labeled`` is the preferred spelling;
+    ``labelled`` is accepted for backward compatibility. A recursive
     ``Union``/``Prod`` component reducible to one linear or quadratic equation
     is returned as a rational or square-root closed form.
     """
 
-    if not isinstance(labelled, bool):
-        raise TypeError("labelled must be a boolean")
+    labeled = resolve_labelled(labeled=labeled, labelled=labelled)
+    if not isinstance(labeled, bool):
+        raise TypeError("labeled must be a boolean")
     if not isinstance(symbol, str):
         raise TypeError("symbol must be a string")
     if not symbol:
@@ -1061,27 +1066,31 @@ def derive_generating_function(
         equations = specification
     else:
         raise TypeError("specification must be text or a mapping of equations")
-    return _GeneratingFunctionDeriver(equations, labelled).derive(symbol)
+    return _GeneratingFunctionDeriver(equations, labeled).derive(symbol)
 
 
 def gfeqns(
     specification: str | Mapping[str, Expression],
     *,
-    labelled: bool,
+    labeled: bool | None = None,
+    labelled: bool | None = None,
     tags: Mapping[str, str | Iterable[str]] | None = None,
 ) -> GFEquationSystem:
     """Return unsolved generating-function equations for every grammar symbol.
 
     Named references remain :class:`GFSeriesCall` nodes. Unrestricted
-    unlabelled Set, Cycle, and PowerSet constructions use exact symbolic
+    unlabeled Set, Cycle, and PowerSet constructions use exact symbolic
     infinite cycle-index sums. ``tags`` maps an independent generating-function
     variable name to one named production, or an iterable of productions, each
     defined directly as ``Epsilon``. Tagged systems are symbolic multivariate
     equations; the univariate coefficient evaluator does not evaluate them.
+    ``labeled`` is the preferred spelling for the labeling flag; ``labelled``
+    is accepted for backward compatibility.
     """
 
-    if not isinstance(labelled, bool):
-        raise TypeError("labelled must be a boolean")
+    labeled = resolve_labelled(labeled=labeled, labelled=labelled)
+    if not isinstance(labeled, bool):
+        raise TypeError("labeled must be a boolean")
     equations: Mapping[str, Expression]
     if isinstance(specification, str):
         equations = parse_specification(specification)
@@ -1089,7 +1098,7 @@ def gfeqns(
         equations = specification
     else:
         raise TypeError("specification must be text or a mapping of equations")
-    return _GeneratingFunctionEquationBuilder(equations, labelled, tags).build()
+    return _GeneratingFunctionEquationBuilder(equations, labeled, tags).build()
 
 
 __all__ = [

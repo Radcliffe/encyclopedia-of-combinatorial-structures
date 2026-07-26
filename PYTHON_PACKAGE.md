@@ -204,9 +204,7 @@ one-argument `Complex(value)` represents the purely imaginary value `I*value`.
 ```python
 from combstruct import GFInfiniteSum, parse_generating_function
 
-indexed_sum = parse_generating_function(
-    "Sum(_x^j[1]/j[1],j[1]=1..infinity)"
-)
+indexed_sum = parse_generating_function("Sum(_x^j[1]/j[1],j[1]=1..infinity)")
 
 assert isinstance(indexed_sum, GFInfiniteSum)
 assert indexed_sum.index.level == 1
@@ -245,9 +243,7 @@ equation = parse_generating_function("A(x)=x+(A(x)^2+A(x^2))/2")
 assert isinstance(equation, GFEquation)
 assert isinstance(equation.left, GFSeriesCall)
 
-patterned = parse_generating_function(
-    "A(x)=x*exp(A(x)+A(x^2)/2+A(x^3)/3+A(x^4)/4+...)"
-)
+patterned = parse_generating_function("A(x)=x*exp(A(x)+A(x^2)/2+A(x^3)/3+A(x^4)/4+...)")
 
 assert isinstance(patterned, GFEquation)
 assert isinstance(patterned.right, GFBinary)

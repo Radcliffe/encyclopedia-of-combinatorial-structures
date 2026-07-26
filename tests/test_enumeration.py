@@ -20,19 +20,19 @@ class ExhaustiveGenerationTests(unittest.TestCase):
         self,
         specification: str,
         *,
-        labelled: bool,
+        labeled: bool,
         sizes: range,
         symbol: str = "S",
     ):
         for size in sizes:
             with self.subTest(
                 specification=specification,
-                labelled=labelled,
+                labeled=labeled,
                 size=size,
             ):
                 objects = allstructs(
                     specification,
-                    labelled=labelled,
+                    labeled=labeled,
                     size=size,
                     symbol=symbol,
                 )
@@ -40,7 +40,7 @@ class ExhaustiveGenerationTests(unittest.TestCase):
                     len(objects),
                     count(
                         specification,
-                        labelled=labelled,
+                        labeled=labeled,
                         size=size,
                         symbol=symbol,
                     ),
@@ -61,7 +61,7 @@ class ExhaustiveGenerationTests(unittest.TestCase):
     def test_named_epsilon_productions_preserve_derivation_tags(self):
         objects = allstructs(
             "{mark = Epsilon, S = Prod(mark,Z)}",
-            labelled=False,
+            labeled=False,
             size=1,
         )
 
@@ -71,20 +71,20 @@ class ExhaustiveGenerationTests(unittest.TestCase):
         assert isinstance(root, ConstructionObject)
         self.assertEqual(root.children[0], EpsilonObject("mark"))
 
-    def test_unlabelled_recursive_binary_trees_match_catalan_counts(self):
+    def test_unlabeled_recursive_binary_trees_match_catalan_counts(self):
         specification = "{S = Union(Epsilon,Prod(Z,S,S))}"
 
         self.assert_enumeration_matches_count(
             specification,
-            labelled=False,
+            labeled=False,
             sizes=range(7),
         )
         self.assertEqual(
-            [len(allstructs(specification, labelled=False, size=size)) for size in range(6)],
+            [len(allstructs(specification, labeled=False, size=size)) for size in range(6)],
             [1, 1, 2, 5, 14, 42],
         )
 
-    def test_labelled_product_sequence_set_and_cycle_match_counts(self):
+    def test_labeled_product_sequence_set_and_cycle_match_counts(self):
         for specification in (
             "{S = Prod(Z,Z)}",
             "{S = Sequence(Z)}",
@@ -94,11 +94,11 @@ class ExhaustiveGenerationTests(unittest.TestCase):
             with self.subTest(specification=specification):
                 self.assert_enumeration_matches_count(
                     specification,
-                    labelled=True,
+                    labeled=True,
                     sizes=range(6),
                 )
 
-    def test_unlabelled_multisets_powersets_and_cycles_are_canonical(self):
+    def test_unlabeled_multisets_powersets_and_cycles_are_canonical(self):
         for specification in (
             "{A = Sequence(Z,1 <= card), S = Set(A)}",
             "{A = Sequence(Z,1 <= card), S = PowerSet(A)}",
@@ -107,7 +107,7 @@ class ExhaustiveGenerationTests(unittest.TestCase):
             with self.subTest(specification=specification):
                 self.assert_enumeration_matches_count(
                     specification,
-                    labelled=False,
+                    labeled=False,
                     sizes=range(7),
                 )
 
@@ -116,16 +116,16 @@ class ExhaustiveGenerationTests(unittest.TestCase):
 
         self.assert_enumeration_matches_count(
             specification,
-            labelled=False,
+            labeled=False,
             sizes=range(7),
         )
         self.assertEqual(
-            [count(specification, labelled=False, size=size) for size in range(7)],
+            [count(specification, labeled=False, size=size) for size in range(7)],
             [0, 0, 0, 1, 0, 0, 0],
         )
 
     def test_union_branches_remain_disjoint(self):
-        objects = allstructs("{S = Union(Z,Z)}", labelled=False, size=1)
+        objects = allstructs("{S = Union(Z,Z)}", labeled=False, size=1)
 
         self.assertEqual(len(objects), 2)
         self.assertEqual(
@@ -137,7 +137,7 @@ class ExhaustiveGenerationTests(unittest.TestCase):
 
         objects = allstructs(
             equations,
-            labelled=True,
+            labeled=True,
             size=3,
             symbol="A",
         )
@@ -165,34 +165,34 @@ class ExhaustiveGenerationTests(unittest.TestCase):
                 self.subTest(specification=specification),
                 self.assertRaisesRegex(UnsupportedConstruction, message),
             ):
-                allstructs(specification, labelled=False, size=2)
+                allstructs(specification, labeled=False, size=2)
 
         with self.assertRaisesRegex(UnsupportedConstruction, "only defined for unlabeled"):
-            allstructs("{S = PowerSet(Z)}", labelled=True, size=2)
+            allstructs("{S = PowerSet(Z)}", labeled=True, size=2)
 
     def test_non_well_founded_generation_is_rejected(self):
         with self.assertRaisesRegex(UnsupportedConstruction, "finite fixed point"):
-            allstructs("{S = Union(Z,S)}", labelled=False, size=1)
+            allstructs("{S = Union(Z,S)}", labeled=False, size=1)
 
     def test_inputs_are_validated(self):
         for invalid in (-1, True, 1.5):
             with self.subTest(size=invalid), self.assertRaises((TypeError, ValueError)):
-                allstructs("{S = Z}", labelled=False, size=invalid)
+                allstructs("{S = Z}", labeled=False, size=invalid)
 
         with self.assertRaises(TypeError):
-            allstructs("{S = Z}", labelled=0, size=1)
+            allstructs("{S = Z}", labeled=0, size=1)
         with self.assertRaises(TypeError):
-            allstructs(1, labelled=False, size=1)
+            allstructs(1, labeled=False, size=1)
         with self.assertRaises(TypeError):
-            allstructs("{S = Z}", labelled=False, size=1, symbol=1)
+            allstructs("{S = Z}", labeled=False, size=1, symbol=1)
         with self.assertRaises(ValueError):
-            allstructs("{S = Z}", labelled=False, size=1, symbol="")
+            allstructs("{S = Z}", labeled=False, size=1, symbol="")
 
 
 class StructureIteratorTests(unittest.TestCase):
     def test_iterator_command_family_tracks_consumption(self):
-        expected = allstructs("{S = Union(Z,Z)}", labelled=False, size=1)
-        iterator = iterstructs("{S = Union(Z,Z)}", labelled=False, size=1)
+        expected = allstructs("{S = Union(Z,Z)}", labeled=False, size=1)
+        iterator = iterstructs("{S = Union(Z,Z)}", labeled=False, size=1)
 
         self.assertIsInstance(iterator, StructureIterator)
         self.assertFalse(finished(iterator))
@@ -204,7 +204,7 @@ class StructureIteratorTests(unittest.TestCase):
             nextstruct(iterator)
 
     def test_structure_iterator_supports_python_iteration(self):
-        iterator = iterstructs("{S = Sequence(Z)}", labelled=True, size=3)
+        iterator = iterstructs("{S = Sequence(Z)}", labeled=True, size=3)
 
         self.assertEqual(tuple(iterator), iterator.objects)
         self.assertTrue(finished(iterator))

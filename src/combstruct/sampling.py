@@ -22,6 +22,7 @@ from .specification import (
     Reference,
     SpecificationError,
     expand_substitutions,
+    resolve_labelled,
 )
 from .terms import (
     CoefficientCompiler,
@@ -78,15 +79,20 @@ class CountDirectedSampler:
         self,
         equations: Mapping[str, Expression],
         *,
-        labelled: bool,
+        labeled: bool | None = None,
+        labelled: bool | None = None,
         size: int,
         rng: Random,
     ):
+        self.labelled = None  # TODO: Is this needed?
+        labeled = resolve_labelled(labeled=labeled, labelled=labelled)
+        if not isinstance(labeled, bool):
+            raise TypeError("labeled must be a boolean")
         self.equations = expand_substitutions(equations)
-        self.labelled = labelled
+        self.labeled = labeled
         self.size = size
         self.rng = rng
-        self.compiler = CoefficientCompiler(dict(self.equations), size, labelled)
+        self.compiler = CoefficientCompiler(dict(self.equations), size, labeled)
         self.count_cache: dict[tuple[Expression, int], int] = {}
         self.selection_cache: dict[tuple[Expression, int, int, bool, int], int] = {}
 
@@ -97,7 +103,7 @@ class CountDirectedSampler:
         counts = self.compiler.compute(symbol)
         if integer_value(counts[self.size]) == 0:
             raise LookupError("No objects exist at the requested size")
-        labels = tuple(range(1, self.size + 1)) if self.labelled else None
+        labels = tuple(range(1, self.size + 1)) if self.labeled else None
         return self._sample_symbol(symbol, self.size, labels)
 
     def _require_supported_symbol(self, symbol: str, active: set[str]) -> None:
@@ -117,7 +123,7 @@ class CountDirectedSampler:
                 self._require_supported_symbol(expression.name, active)
             return
         name = expression.name.lower()
-        if name == "powerset" and self.labelled:
+        if name == "powerset" and self.labeled:
             raise UnsupportedCountDirectedSampling(
                 "PowerSet is only defined for unlabeled structures",
             )
@@ -167,7 +173,7 @@ class CountDirectedSampler:
     ) -> int:
         total = 0
         for sizes in _weak_compositions(size, len(arguments)):
-            weight = _multinomial(size, sizes) if self.labelled else 1
+            weight = _multinomial(size, sizes) if self.labeled else 1
             for argument, child_size in zip(arguments, sizes, strict=True):
                 weight *= self._count_expression(argument, child_size)
                 if not weight:
@@ -204,13 +210,13 @@ class CountDirectedSampler:
 
         result: list[tuple[int, int]] = []
         for count in range(minimum, maximum + 1):
-            if not self.labelled and name == "cycle":
-                weight = self._unlabelled_cycle_fixed_count(
+            if not self.labeled and name == "cycle":
+                weight = self._unlabeled_cycle_fixed_count(
                     component,
                     size,
                     count,
                 )
-            elif not self.labelled and name in {"set", "powerset"}:
+            elif not self.labeled and name in {"set", "powerset"}:
                 weight = self._selection_exact_count(
                     component,
                     size,
@@ -227,7 +233,7 @@ class CountDirectedSampler:
                 result.append((count, weight))
         return result
 
-    def _unlabelled_cycle_fixed_count(
+    def _unlabeled_cycle_fixed_count(
         self,
         component: Expression,
         total_size: int,
@@ -325,8 +331,8 @@ class CountDirectedSampler:
             return ConstructionObject("Prod", children)
 
         component = expression.arguments[0]
-        if not self.labelled and name in {"set", "powerset"}:
-            return self._sample_unlabelled_selection(
+        if not self.labeled and name in {"set", "powerset"}:
+            return self._sample_unlabeled_selection(
                 component,
                 expression.cardinality,
                 size,
@@ -340,8 +346,8 @@ class CountDirectedSampler:
         )
         choice = _weighted_index([weight for _, weight in choices], self.rng)
         count = choices[choice][0]
-        if name == "cycle" and not self.labelled:
-            return self._sample_unlabelled_cycle(component, count, size)
+        if name == "cycle" and not self.labeled:
+            return self._sample_unlabeled_cycle(component, count, size)
         children = self._sample_ordered_product((component,) * count, size, labels)
         if name == "sequence":
             return ConstructionObject("Sequence", children)
@@ -351,7 +357,7 @@ class CountDirectedSampler:
             return ConstructionObject("Cycle", _canonical_cycle(children))
         raise AssertionError("unsupported collection passed validation")
 
-    def _sample_unlabelled_cycle(
+    def _sample_unlabeled_cycle(
         self,
         component: Expression,
         count: int,
@@ -368,7 +374,7 @@ class CountDirectedSampler:
             if self.rng.randrange(orbit_size) == 0:
                 return ConstructionObject("Cycle", _canonical_cycle(children))
 
-    def _sample_unlabelled_selection(
+    def _sample_unlabeled_selection(
         self,
         component: Expression,
         cardinality: Cardinality | None,
@@ -524,7 +530,7 @@ class CountDirectedSampler:
         compositions: list[tuple[int, ...]] = []
         weights: list[int] = []
         for sizes in _weak_compositions(size, len(arguments)):
-            weight = _multinomial(size, sizes) if self.labelled else 1
+            weight = _multinomial(size, sizes) if self.labeled else 1
             for argument, child_size in zip(arguments, sizes, strict=True):
                 weight *= self._count_expression(argument, child_size)
                 if not weight:

@@ -5,8 +5,8 @@ from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 PROJECT_DIR = SCRIPT_DIR.parent
-STRUCTURES_DIR = PROJECT_DIR / 'structures'
-WEB_DATA_PATH = PROJECT_DIR / 'react-app' / 'public' / 'ecs.json'
+STRUCTURES_DIR = PROJECT_DIR / "structures"
+WEB_DATA_PATH = PROJECT_DIR / "react-app" / "public" / "ecs.json"
 
 # ## Example file:
 # {
@@ -62,47 +62,63 @@ WEB_DATA_PATH = PROJECT_DIR / 'react-app' / 'public' / 'ecs.json'
 #          'rec': 867,
 #          'closedform': 792})
 
+
 def validate_json(struct):
-    required_keys = {'id', 'name', 'description', 'specification', 'labeled', 'symbol', 'terms', 'references'}
+    required_keys = {
+        "id",
+        "name",
+        "description",
+        "specification",
+        "labeled",
+        "symbol",
+        "terms",
+        "references",
+    }
     for key in required_keys:
         if key not in struct:
             raise ValueError(f"Missing required key: {key}")
-    if not isinstance(struct['id'], int):
+    if not isinstance(struct["id"], int):
         raise ValueError("ID must be an integer")
-    if not isinstance(struct['name'], str) or not struct['name']:
+    if not isinstance(struct["name"], str) or not struct["name"]:
         raise ValueError("Name must be a non-empty string")
-    if not isinstance(struct['description'], str) or not struct['description']:
+    if not isinstance(struct["description"], str) or not struct["description"]:
         raise ValueError("Description must be a non-empty string")
-    if not isinstance(struct['specification'], str) or not struct['specification']:
+    if not isinstance(struct["specification"], str) or not struct["specification"]:
         raise ValueError("Specification must be a non-empty string")
-    if not isinstance(struct['labeled'], bool):
+    if not isinstance(struct["labeled"], bool):
         raise ValueError("Labeled must be a boolean")
-    if not isinstance(struct['symbol'], str) or not struct['symbol']:
+    if not isinstance(struct["symbol"], str) or not struct["symbol"]:
         raise ValueError("Symbol must be a non-empty string")
-    if not isinstance(struct['terms'], list) or not all(isinstance(x, int) and x >= 0 for x in struct['terms']):
+    if not isinstance(struct["terms"], list) or not all(
+        isinstance(x, int) and x >= 0 for x in struct["terms"]
+    ):
         raise ValueError("Terms must be a list of non-negative integers")
-    optional_keys = {'gf_type', 'gf', 'rec', 'closedform', 'equiv'}
+    optional_keys = {"gf_type", "gf", "rec", "closedform", "equiv"}
     for key in struct:
         if key not in required_keys and key not in optional_keys:
             raise ValueError(f"Unexpected key: {key}")
-    if 'references' in struct:
-        if not isinstance(struct['references'], list) or not all(isinstance(x, str) and x for x in struct['references']):
+    if "references" in struct:
+        if not isinstance(struct["references"], list) or not all(
+            isinstance(x, str) and x for x in struct["references"]
+        ):
             raise ValueError("References must be a list of non-empty strings")
-    if 'gf' in struct and (not isinstance(struct['gf'], str) or not struct['gf']):
+    if "gf" in struct and (not isinstance(struct["gf"], str) or not struct["gf"]):
         raise ValueError("GF must be a non-empty string")
-    if ('gf' in struct) != ('gf_type' in struct):
+    if ("gf" in struct) != ("gf_type" in struct):
         raise ValueError("GF and GF type must be provided together")
-    if 'gf_type' in struct:
-        expected_gf_type = 'exponential' if struct['labeled'] else 'ordinary'
-        if struct['gf_type'] != expected_gf_type:
+    if "gf_type" in struct:
+        expected_gf_type = "exponential" if struct["labeled"] else "ordinary"
+        if struct["gf_type"] != expected_gf_type:
             raise ValueError(
                 f"GF type must be {expected_gf_type!r} when labeled is {struct['labeled']!r}"
             )
-    if 'rec' in struct and (not isinstance(struct['rec'], str) or not struct['rec']):
+    if "rec" in struct and (not isinstance(struct["rec"], str) or not struct["rec"]):
         raise ValueError("Rec must be a non-empty string")
-    if 'closedform' in struct and (not isinstance(struct['closedform'], str) or not struct['closedform']):
+    if "closedform" in struct and (
+        not isinstance(struct["closedform"], str) or not struct["closedform"]
+    ):
         raise ValueError("Closedform must be a non-empty string")
-    if 'equiv' in struct and (not isinstance(struct['equiv'], str) or not struct['equiv']):
+    if "equiv" in struct and (not isinstance(struct["equiv"], str) or not struct["equiv"]):
         raise ValueError("Equiv must be a non-empty string")
 
 
@@ -113,14 +129,14 @@ def encode_for_web(struct):
     outside JavaScript's safe-integer range must be serialized as strings.
     """
     encoded = struct.copy()
-    encoded['terms'] = [str(term) for term in struct['terms']]
+    encoded["terms"] = [str(term) for term in struct["terms"]]
     return encoded
 
 
 def decode_from_web(struct):
     """Return a canonical record with sequence terms restored to integers."""
     decoded = struct.copy()
-    decoded['terms'] = [int(term) for term in struct['terms']]
+    decoded["terms"] = [int(term) for term in struct["terms"]]
     return decoded
 
 
@@ -133,12 +149,12 @@ def main():
             print(fullpath)
             struct = json.load(open(fullpath))
             validate_json(struct)
-            key = str(struct['id'])
+            key = str(struct["id"])
             obj[key] = struct
             web_obj[key] = encode_for_web(struct)
-    with open(WEB_DATA_PATH, 'w', encoding='utf-8') as f:
+    with open(WEB_DATA_PATH, "w", encoding="utf-8") as f:
         json.dump(web_obj, f, indent=2)
-        f.write('\n')
+        f.write("\n")
     convert_to_spreadsheet(obj)
 
 
@@ -148,26 +164,27 @@ def convert_to_spreadsheet(data):
     records = []
     for key, struct in data.items():
         record = {
-            'ID': struct['id'],
-            'Name': struct['name'],
-            'Description': struct['description'],
-            'Specification': struct['specification'],
-            'Labeled': struct['labeled'],
-            'Symbol': struct['symbol'],
-            'Terms': ', '.join(map(str, struct['terms'])),
-            'References': '; '.join(struct.get('references', [])),
-            'GF Type': struct.get('gf_type', ''),
-            'GF': struct.get('gf', ''),
-            'Recurrence': struct.get('rec', ''),
-            'Closed Form': struct.get('closedform', ''),
-            'Equivalence': struct.get('equiv', ''),
+            "ID": struct["id"],
+            "Name": struct["name"],
+            "Description": struct["description"],
+            "Specification": struct["specification"],
+            "Labeled": struct["labeled"],
+            "Symbol": struct["symbol"],
+            "Terms": ", ".join(map(str, struct["terms"])),
+            "References": "; ".join(struct.get("references", [])),
+            "GF Type": struct.get("gf_type", ""),
+            "GF": struct.get("gf", ""),
+            "Recurrence": struct.get("rec", ""),
+            "Closed Form": struct.get("closedform", ""),
+            "Equivalence": struct.get("equiv", ""),
         }
         records.append(record)
 
     df = pd.DataFrame(records)
-    df = df.sort_values(by='ID')
-    df.to_csv('ecs-new.csv', index=False)
-    df.to_excel('ecs-new.xlsx', index=False)
+    df = df.sort_values(by="ID")
+    df.to_csv("ecs-new.csv", index=False)
+    df.to_excel("ecs-new.xlsx", index=False)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()
