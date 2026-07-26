@@ -20,6 +20,7 @@ from .specification import (
     SpecificationError,
     expand_substitutions,
     parse_specification,
+    resolve_labelled,
 )
 from .terms import UnsupportedConstruction
 
@@ -163,11 +164,11 @@ class _Enumerator:
         self,
         equations: Mapping[str, Expression],
         *,
-        labelled: bool,
+        labeled: bool,
         size: int,
     ):
         self.equations = expand_substitutions(equations)
-        self.labelled = labelled
+        self.labeled = labeled
         self.size = size
         self.keys = self._keys()
         self.values: dict[str, dict[_SizeKey, set[CombinatorialObject]]] = {
@@ -175,7 +176,7 @@ class _Enumerator:
         }
 
     def _keys(self) -> tuple[_SizeKey, ...]:
-        if not self.labelled:
+        if not self.labeled:
             return tuple(range(self.size + 1))
         labels = tuple(range(1, self.size + 1))
         return tuple(
@@ -210,7 +211,7 @@ class _Enumerator:
                     self.values[name][key].update(candidates)
                     changed = changed or len(self.values[name][key]) != before
             if not changed:
-                target: _SizeKey = tuple(range(1, self.size + 1)) if self.labelled else self.size
+                target: _SizeKey = tuple(range(1, self.size + 1)) if self.labeled else self.size
                 return tuple(sorted(self.values[symbol][target], key=_object_key))
 
         raise UnsupportedConstruction(
@@ -256,7 +257,7 @@ class _Enumerator:
             constraint = Cardinality(max(1, supplied.minimum), supplied.maximum)
             return self._collection("Cycle", expression.arguments[0], constraint, key)
         if name == "powerset":
-            if self.labelled:
+            if self.labeled:
                 raise UnsupportedConstruction("PowerSet is only defined for unlabeled structures")
             return self._collection(
                 "PowerSet",
@@ -322,7 +323,7 @@ class _Enumerator:
         cardinality: Cardinality | None,
         key: _SizeKey,
     ) -> set[CombinatorialObject]:
-        empty_key: _SizeKey = () if self.labelled else 0
+        empty_key: _SizeKey = () if self.labeled else 0
         if self._evaluate(component, empty_key):
             raise UnsupportedConstruction(
                 f"{constructor} cannot contain size-zero objects",
@@ -360,45 +361,52 @@ def _validate_size(size: int) -> None:
         raise ValueError("size must be nonnegative")
 
 
-def _validate_universe(labelled: bool) -> None:
-    if not isinstance(labelled, bool):
-        raise TypeError("labelled must be a boolean")
+def _validate_universe(labeled: bool) -> None:
+    if not isinstance(labeled, bool):
+        raise TypeError("labeled must be a boolean")
 
 
 def allstructs(
     specification: str | Mapping[str, Expression] | PredefinedStructure,
     *,
     size: StructureSize = None,
+    labeled: bool | None = None,
     labelled: bool | None = None,
     symbol: str = "S",
 ) -> tuple[StructureValue, ...]:
-    """Return objects from a grammar-defined or predefined finite class."""
+    """Return objects from a grammar-defined or predefined finite class.
 
+    ``labeled`` is the preferred spelling for the labeling flag; ``labelled``
+    is accepted for backward compatibility.
+    """
+
+    labeled = resolve_labelled(labeled=labeled, labelled=labelled)
     if is_predefined(specification):
-        if labelled is not None:
-            raise TypeError("labelled does not apply to predefined structures")
+        if labeled is not None:
+            raise TypeError("labeled does not apply to predefined structures")
         if symbol != "S":
             raise ValueError("symbol does not apply to predefined structures")
         return enumerate_predefined(specification, size=size)
     if size is None or isinstance(size, str):
         raise TypeError("grammar-defined structures require an integer size")
     _validate_size(size)
-    if labelled is None:
-        raise TypeError("grammar-defined structures require labelled=True or labelled=False")
-    _validate_universe(labelled)
+    if labeled is None:
+        raise TypeError("grammar-defined structures require labeled=True or labeled=False")
+    _validate_universe(labeled)
     if isinstance(specification, str):
         equations = parse_specification(specification)
     elif isinstance(specification, Mapping):
         equations = dict(specification)
     else:
         raise TypeError("specification must be text or a mapping of equations")
-    return _Enumerator(equations, labelled=labelled, size=size).enumerate(symbol)
+    return _Enumerator(equations, labeled=labeled, size=size).enumerate(symbol)
 
 
 def iterstructs(
     specification: str | Mapping[str, Expression] | PredefinedStructure,
     *,
     size: StructureSize = None,
+    labeled: bool | None = None,
     labelled: bool | None = None,
     symbol: str = "S",
 ) -> StructureIterator:
@@ -408,7 +416,7 @@ def iterstructs(
         allstructs(
             specification,
             size=size,
-            labelled=labelled,
+            labeled=resolve_labelled(labeled=labeled, labelled=labelled),
             symbol=symbol,
         ),
     )
