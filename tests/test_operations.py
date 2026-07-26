@@ -105,9 +105,7 @@ class MapleCompatibleOperationTests(unittest.TestCase):
         self.assertEqual(first, second)
 
         rng = Random(8675309)
-        branches = [
-            draw(specification, labeled=False, size=1, rng=rng).branch for _ in range(4000)
-        ]
+        branches = [draw(specification, labeled=False, size=1, rng=rng).branch for _ in range(4000)]
         self.assertLess(abs(branches.count(0) - branches.count(1)), 200)
 
     def test_draw_supports_predefined_defaults(self):

@@ -289,9 +289,7 @@ assert root == GFRootOf(GFBinary("-", GFVariable("_Z"), GFVariable()))
 ```python
 from combstruct import GFInfiniteSum, GFTotient, parse_generating_function
 
-indexed_sum = parse_generating_function(
-    "Sum(numtheory:-phi(j[1])*_x^j[1]/j[1],j[1]=1..infinity)"
-)
+indexed_sum = parse_generating_function("Sum(numtheory:-phi(j[1])*_x^j[1]/j[1],j[1]=1..infinity)")
 
 assert isinstance(indexed_sum, GFInfiniteSum)
 assert indexed_sum.index.level == 1
@@ -331,9 +329,7 @@ equation = parse_generating_function("A(x)=x+(A(x)^2+A(x^2))/2")
 assert isinstance(equation, GFEquation)
 assert equation.left == GFSeriesCall("A", GFVariable())
 
-patterned = parse_generating_function(
-    "A(x)=x*exp(A(x)-A(x^2)/2+A(x^3)/3-A(x^4)/4+...)"
-)
+patterned = parse_generating_function("A(x)=x*exp(A(x)-A(x^2)/2+A(x^3)/3-A(x^4)/4+...)")
 
 assert isinstance(patterned, GFEquation)
 assert isinstance(patterned.right, GFBinary)
@@ -520,11 +516,14 @@ specification text or the mapping returned by `parse_specification`.
 ```python
 from combstruct import count
 
-assert count(
-    "{S = Union(Epsilon,Prod(Z,S,S))}",
-    size=7,
-    labelled=False,
-) == 429
+assert (
+    count(
+        "{S = Union(Epsilon,Prod(Z,S,S))}",
+        size=7,
+        labelled=False,
+    )
+    == 429
+)
 ```
 
 `gfseries(specification, *, labelled, term_count)` returns a dictionary
@@ -570,8 +569,7 @@ Parse Maple-style attribute equations such as:
 from combstruct import parse_attribute_specification
 
 path = parse_attribute_specification(
-    "{path(T)=Union(0,"
-    "Prod(0,path(T)+size(T),path(T)+size(T)))}",
+    "{path(T)=Union(0,Prod(0,path(T)+size(T),path(T)+size(T)))}",
 )
 ```
 
@@ -648,7 +646,7 @@ bindings required by `agfseries` apply to atomic costs:
 from combstruct import agfmomentsolve
 
 moments = agfmomentsolve(equations, 2, term_count=10)
-assert moments.series("T", 0)[7] == 5   # number of trees
+assert moments.series("T", 0)[7] == 5  # number of trees
 assert moments.series("T", 1)[7] == 20  # total leaves
 assert moments.series("T", 2)[7] == 60  # second factorial moment
 ```
@@ -686,8 +684,7 @@ iterable of them:
 from combstruct import gfeqns
 
 equations = gfeqns(
-    "{leaf = Epsilon, internal = Epsilon, "
-    "T = Union(Prod(leaf,Z),Prod(internal,Z,T,T))}",
+    "{leaf = Epsilon, internal = Epsilon, T = Union(Prod(leaf,Z),Prod(internal,Z,T,T))}",
     labelled=False,
     tags={"u": "leaf", "v": "internal"},
 )

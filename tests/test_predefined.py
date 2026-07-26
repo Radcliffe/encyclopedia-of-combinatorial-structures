@@ -126,10 +126,10 @@ class PredefinedStructureTests(unittest.TestCase):
         self.assertEqual(tuple(actual), expected)
 
     def test_predefined_structures_do_not_accept_grammar_options(self):
-        with self.assertRaisesRegex(TypeError, "labelled does not apply"):
+        with self.assertRaisesRegex(TypeError, "labeled does not apply"):
             count(Combination(3), size=2, labelled=False)
-        with self.assertRaisesRegex(TypeError, "labelled does not apply"):
-            allstructs(Combination(3), size=2, labelled=False)
+        with self.assertRaisesRegex(TypeError, "labeled does not apply"):
+            allstructs(Combination(3), size=2, labeled=False)
         with self.assertRaisesRegex(ValueError, "symbol does not apply"):
             count(Combination(3), size=2, symbol="A")
 

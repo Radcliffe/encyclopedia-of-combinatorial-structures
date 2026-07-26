@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Parse ECS specifications and compute their sequence terms.
 
-The evaluator uses truncated ordinary generating functions for unlabelled
-structures and exponential generating functions for labelled structures.
+The evaluator uses truncated ordinary generating functions for unlabeled
+structures and exponential generating functions for labeled structures.
 All arithmetic is exact.
 """
 
@@ -30,6 +30,7 @@ from .specification import (
     SpecificationError,
     expand_substitutions,
     parse_specification,
+    resolve_labelled,
 )
 
 # Historical imports from ``compute_terms.py`` remain available while the
@@ -70,7 +71,7 @@ __all__ = [
     "SpecificationError",
     "SubstituteNode",
     "SumNode",
-    "UnlabelledCycleNode",
+    "UnlabeledCycleNode",
     "UnsupportedConstruction",
     "add_series",
     "atom_series",
@@ -86,8 +87,8 @@ __all__ = [
     "euler_totient",
     "integer_value",
     "is_nonnegative_integer",
-    "labelled_cycle_series",
-    "labelled_set_series",
+    "labeled_cycle_series",
+    "labeled_set_series",
     "load_record",
     "main",
     "multiply_series",
@@ -98,8 +99,8 @@ __all__ = [
     "scale_series",
     "sequence_series",
     "substitute_power",
-    "unlabelled_cycle_series",
-    "unlabelled_selection_series",
+    "unlabeled_cycle_series",
+    "unlabeled_selection_series",
     "zero_series",
 ]
 
@@ -194,12 +195,12 @@ def sequence_series(component: Series, cardinality: Cardinality | None) -> Serie
     return result
 
 
-def labelled_set_series(component: Series, cardinality: Cardinality | None) -> Series:
+def labeled_set_series(component: Series, cardinality: Cardinality | None) -> Series:
     degree = len(component) - 1
     minimum, maximum = component_bounds(cardinality, degree)
     if component[0] and (cardinality is None or cardinality.maximum is None):
         raise UnsupportedConstruction(
-            "An unrestricted labelled Set cannot contain size-zero objects"
+            "An unrestricted labeled Set cannot contain size-zero objects"
         )
 
     result = zero_series(degree)
@@ -219,25 +220,25 @@ def require_nonnegative_integers(component: Series, construction: str) -> list[i
     for coefficient in component:
         if coefficient.denominator != 1 or coefficient < 0:
             raise UnsupportedConstruction(
-                f"Unlabelled {construction} requires nonnegative integer component coefficients",
+                f"Unlabeled {construction} requires nonnegative integer component coefficients",
             )
         coefficients.append(coefficient.numerator)
     return coefficients
 
 
-def unlabelled_selection_series(
+def unlabeled_selection_series(
     component: Series,
     cardinality: Cardinality | None,
     *,
     distinct: bool,
 ) -> Series:
-    """Evaluate an unlabelled multiset (Set) or distinct selection (PowerSet)."""
+    """Evaluate an unlabeled multiset (Set) or distinct selection (PowerSet)."""
 
     degree = len(component) - 1
     coefficients = require_nonnegative_integers(component, "PowerSet" if distinct else "Set")
     if coefficients[0]:
         raise UnsupportedConstruction(
-            f"An unlabelled {'PowerSet' if distinct else 'Set'} cannot contain size-zero objects"
+            f"An unlabeled {'PowerSet' if distinct else 'Set'} cannot contain size-zero objects"
         )
 
     minimum, maximum = component_bounds(cardinality, degree)
@@ -285,13 +286,13 @@ def euler_totient(value: int) -> int:
     return result
 
 
-def labelled_cycle_series(component: Series, cardinality: Cardinality | None) -> Series:
+def labeled_cycle_series(component: Series, cardinality: Cardinality | None) -> Series:
     degree = len(component) - 1
     minimum, maximum = component_bounds(cardinality or Cardinality(1), degree)
     minimum = max(1, minimum)
     if component[0] and (cardinality is None or cardinality.maximum is None):
         raise UnsupportedConstruction(
-            "An unrestricted labelled Cycle cannot contain size-zero objects"
+            "An unrestricted labeled Cycle cannot contain size-zero objects"
         )
 
     result = zero_series(degree)
@@ -303,10 +304,10 @@ def labelled_cycle_series(component: Series, cardinality: Cardinality | None) ->
     return result
 
 
-def unlabelled_cycle_series(component: Series, cardinality: Cardinality | None) -> Series:
+def unlabeled_cycle_series(component: Series, cardinality: Cardinality | None) -> Series:
     degree = len(component) - 1
     if component[0]:
-        raise UnsupportedConstruction("An unlabelled Cycle cannot contain size-zero objects")
+        raise UnsupportedConstruction("An unlabeled Cycle cannot contain size-zero objects")
     minimum, maximum = component_bounds(cardinality or Cardinality(1), degree)
     minimum = max(1, minimum)
     result = zero_series(degree)
@@ -327,10 +328,10 @@ def unlabelled_cycle_series(component: Series, cardinality: Cardinality | None) 
 
 
 class Evaluator:
-    def __init__(self, equations: dict[str, Expression], degree: int, labelled: bool):
+    def __init__(self, equations: dict[str, Expression], degree: int, labeled: bool):
         self.equations = expand_substitutions(equations)
         self.degree = degree
-        self.labelled = labelled
+        self.labeled = labeled
 
     def compute(self, symbol: str) -> Series:
         if symbol not in self.equations:
@@ -378,21 +379,21 @@ class Evaluator:
         if name == "sequence":
             return sequence_series(component, expression.cardinality)
         if name == "set":
-            if self.labelled:
-                return labelled_set_series(component, expression.cardinality)
-            return unlabelled_selection_series(
+            if self.labeled:
+                return labeled_set_series(component, expression.cardinality)
+            return unlabeled_selection_series(
                 component,
                 expression.cardinality,
                 distinct=False,
             )
         if name == "cycle":
-            if self.labelled:
-                return labelled_cycle_series(component, expression.cardinality)
-            return unlabelled_cycle_series(component, expression.cardinality)
+            if self.labeled:
+                return labeled_cycle_series(component, expression.cardinality)
+            return unlabeled_cycle_series(component, expression.cardinality)
         if name == "powerset":
-            if self.labelled:
-                raise UnsupportedConstruction("PowerSet is only defined for unlabelled structures")
-            return unlabelled_selection_series(
+            if self.labeled:
+                raise UnsupportedConstruction("PowerSet is only defined for unlabeled structures")
+            return unlabeled_selection_series(
                 component,
                 expression.cardinality,
                 distinct=True,
@@ -497,7 +498,7 @@ class ProductNode(CoefficientNode):
         super().__init__(compiler)
 
     def value(self, degree: int) -> ExactNumber:
-        weights = binomial_row(degree) if self.compiler.labelled else None
+        weights = binomial_row(degree) if self.compiler.labeled else None
         return sum(
             (
                 (weights[index] if weights else 1)
@@ -543,7 +544,7 @@ class InverseOneMinusNode(CoefficientNode):
             )
         if degree == 0:
             return 1
-        weights = binomial_row(degree) if self.compiler.labelled else None
+        weights = binomial_row(degree) if self.compiler.labeled else None
         return sum(
             (
                 (weights[index] if weights else 1)
@@ -567,7 +568,7 @@ class ExpNode(CoefficientNode):
             )
         if degree == 0:
             return 1
-        if self.compiler.labelled:
+        if self.compiler.labeled:
             weights = binomial_row(degree - 1)
             return sum(
                 (
@@ -597,7 +598,7 @@ class LogOneMinusNode(CoefficientNode):
     def value(self, degree: int) -> ExactNumber:
         if degree == 0:
             return 0
-        if self.compiler.labelled:
+        if self.compiler.labeled:
             weights = binomial_row(degree - 1)
             return sum(
                 (
@@ -632,7 +633,7 @@ def divisors(value: int) -> list[int]:
 
 
 class EulerSelectionNode(CoefficientNode):
-    """Unrestricted unlabelled Set or PowerSet via its logarithm."""
+    """Unrestricted unlabeled Set or PowerSet via its logarithm."""
 
     def __init__(self, compiler: CoefficientCompiler, child: CoefficientNode, distinct: bool):
         self.child = child
@@ -644,12 +645,12 @@ class EulerSelectionNode(CoefficientNode):
         constant = self.child.coefficients[0]
         if not is_nonnegative_integer(constant):
             raise UnsupportedConstruction(
-                "Unlabelled selections require nonnegative integer coefficients"
+                "Unlabeled selections require nonnegative integer coefficients"
             )
         if constant:
             construction = "PowerSet" if self.distinct else "Set"
             raise UnsupportedConstruction(
-                f"An unlabelled {construction} cannot contain size-zero objects"
+                f"An unlabeled {construction} cannot contain size-zero objects"
             )
         if degree == 0:
             return 1
@@ -659,7 +660,7 @@ class EulerSelectionNode(CoefficientNode):
             coefficient = self.child.coefficients[degree // divisor]
             if not is_nonnegative_integer(coefficient):
                 raise UnsupportedConstruction(
-                    "Unlabelled selections require nonnegative integer component coefficients",
+                    "Unlabeled selections require nonnegative integer component coefficients",
                 )
             sign = -1 if self.distinct and divisor % 2 == 0 else 1
             logarithm += sign * Fraction(integer_value(coefficient), divisor)
@@ -690,7 +691,7 @@ class FixedPowerSetNode(CoefficientNode):
     def value(self, degree: int) -> ExactNumber:
         constant = self.child.coefficients[0]
         if constant:
-            raise UnsupportedConstruction("An unlabelled PowerSet cannot contain size-zero objects")
+            raise UnsupportedConstruction("An unlabeled PowerSet cannot contain size-zero objects")
 
         table = [[0 for _ in range(degree + 1)] for _ in range(self.count + 1)]
         table[0][0] = 1
@@ -698,7 +699,7 @@ class FixedPowerSetNode(CoefficientNode):
             type_count = self.child.coefficients[component_size]
             if not is_nonnegative_integer(type_count):
                 raise UnsupportedConstruction(
-                    "Unlabelled PowerSet requires nonnegative integer component coefficients",
+                    "Unlabeled PowerSet requires nonnegative integer component coefficients",
                 )
             available = integer_value(type_count)
             updated = [[0 for _ in range(degree + 1)] for _ in range(self.count + 1)]
@@ -719,7 +720,7 @@ class FixedPowerSetNode(CoefficientNode):
         return table[self.count][degree]
 
 
-class UnlabelledCycleNode(CoefficientNode):
+class UnlabeledCycleNode(CoefficientNode):
     def __init__(self, compiler: CoefficientCompiler, child: CoefficientNode):
         self.logarithm = LogOneMinusNode(compiler, child)
         super().__init__(compiler)
@@ -738,10 +739,10 @@ class UnlabelledCycleNode(CoefficientNode):
 
 
 class CoefficientCompiler:
-    def __init__(self, equations: dict[str, Expression], degree: int, labelled: bool):
+    def __init__(self, equations: dict[str, Expression], degree: int, labeled: bool):
         self.equations = expand_substitutions(equations)
         self.degree = degree
-        self.labelled = labelled
+        self.labeled = labeled
         self.nodes: list[CoefficientNode] = []
         self.roots: dict[str, CoefficientNode] = {}
         self._powers: dict[tuple[int, int], CoefficientNode] = {}
@@ -848,8 +849,8 @@ class CoefficientCompiler:
             return self.sequence(child, expression.cardinality)
         if name == "set":
             return (
-                self.labelled_set(child, expression.cardinality)
-                if self.labelled
+                self.labeled_set(child, expression.cardinality)
+                if self.labeled
                 else self.mset(
                     child,
                     expression.cardinality,
@@ -858,8 +859,8 @@ class CoefficientCompiler:
         if name == "cycle":
             return self.cycle(child, expression.cardinality)
         if name == "powerset":
-            if self.labelled:
-                raise UnsupportedConstruction("PowerSet is only defined for unlabelled structures")
+            if self.labeled:
+                raise UnsupportedConstruction("PowerSet is only defined for unlabeled structures")
             return self.powerset(child, expression.cardinality)
         raise UnsupportedConstruction(f"Unsupported constructor {expression.name!r}")
 
@@ -907,7 +908,7 @@ class CoefficientCompiler:
         inverse = InverseOneMinusNode(self, child)
         return self.product([self.power(child, minimum), inverse])
 
-    def labelled_set(
+    def labeled_set(
         self, child: CoefficientNode, cardinality: Cardinality | None
     ) -> CoefficientNode:
         minimum, maximum = self.bounds(cardinality)
@@ -967,7 +968,7 @@ class CoefficientCompiler:
         return self.sum([unrestricted, self.scale(excluded, Fraction(-1))])
 
     def fixed_cycle(self, child: CoefficientNode, count: int) -> CoefficientNode:
-        if self.labelled:
+        if self.labeled:
             return self.scale(self.power(child, count), Fraction(1, count))
         terms = []
         for divisor in divisors(count):
@@ -983,7 +984,7 @@ class CoefficientCompiler:
                 [self.fixed_cycle(child, count) for count in range(minimum, maximum + 1)]
             )
         unrestricted = (
-            LogOneMinusNode(self, child) if self.labelled else UnlabelledCycleNode(self, child)
+            LogOneMinusNode(self, child) if self.labeled else UnlabeledCycleNode(self, child)
         )
         excluded = self.sum([self.fixed_cycle(child, count) for count in range(1, minimum)])
         return self.sum([unrestricted, self.scale(excluded, Fraction(-1))])
@@ -992,17 +993,25 @@ class CoefficientCompiler:
 def compute_terms(
     specification: str,
     *,
-    labelled: bool,
+    labeled: bool | None = None,
+    labelled: bool | None = None,
     term_count: int,
     symbol: str = "S",
     max_digits: int | None = None,
 ) -> list[int]:
-    """Return counts a(0) through a(term_count - 1) for a specification."""
+    """Return counts a(0) through a(term_count - 1) for a specification.
 
+    ``labeled`` is the preferred spelling for the labeling flag; ``labeled``
+    is accepted for backward compatibility.
+    """
+
+    labeled = resolve_labelled(labeled=labeled, labelled=labelled)
+    if not isinstance(labeled, bool):
+        raise TypeError("labeled must be a boolean")
     if term_count <= 0:
         raise ValueError("term_count must be positive")
     equations = parse_specification(specification)
-    coefficients = CoefficientCompiler(equations, term_count - 1, labelled).compute(
+    coefficients = CoefficientCompiler(equations, term_count - 1, labeled).compute(
         symbol,
         max_digits=max_digits,
     )
@@ -1039,8 +1048,20 @@ def build_argument_parser() -> argparse.ArgumentParser:
         "--max-digits", type=int, help="stop before a term exceeds this many digits"
     )
     universe = parser.add_mutually_exclusive_group()
-    universe.add_argument("--labelled", action="store_true", help="use labelled/EGF semantics")
-    universe.add_argument("--unlabelled", action="store_true", help="use unlabelled/OGF semantics")
+    universe.add_argument(
+        "--labeled",
+        "--labelled",
+        dest="labeled",
+        action="store_true",
+        help="use labeled/EGF semantics",
+    )
+    universe.add_argument(
+        "--unlabeled",
+        "--unlabelled",
+        dest="unlabeled",
+        action="store_true",
+        help="use unlabeled/OGF semantics",
+    )
     parser.add_argument(
         "--plain", action="store_true", help="print comma-separated integers instead of JSON"
     )
@@ -1055,19 +1076,19 @@ def main(argv: Iterable[str] | None = None) -> int:
     if arguments.id is not None:
         record = load_record(arguments.dataset, arguments.id)
         specification = record["specification"]
-        labelled = bool(record["labeled"])
+        labeled = bool(record["labeled"])
         symbol = record.get("symbol") or arguments.symbol
     else:
-        if not arguments.labelled and not arguments.unlabelled:
-            parser.error("--spec requires either --labelled or --unlabelled")
+        if not arguments.labeled and not arguments.unlabeled:
+            parser.error("--spec requires either --labeled or --unlabeled")
         specification = arguments.spec
-        labelled = arguments.labelled
+        labeled = arguments.labeled
         symbol = arguments.symbol
 
     try:
         terms = compute_terms(
             specification,
-            labelled=labelled,
+            labeled=labeled,
             term_count=arguments.terms,
             symbol=symbol,
             max_digits=arguments.max_digits,
@@ -1082,7 +1103,7 @@ def main(argv: Iterable[str] | None = None) -> int:
     output = {
         "id": arguments.id,
         "symbol": symbol,
-        "labelled": labelled,
+        "labeled": labeled,
         "terms": [str(term) for term in terms],
     }
     if record is not None:
