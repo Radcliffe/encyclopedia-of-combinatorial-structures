@@ -85,7 +85,7 @@ class AttributeGrammarTests(unittest.TestCase):
         series = agfseries(
             "{N=Atom,T=Union(N,Prod(N,T,T))}",
             "{leaf(T)=Union(1,Prod(0,leaf(T),leaf(T)))}",
-            labelled=False,
+            labeled=False,
             term_count=10,
             attributes={"u": "leaf"},
         )
@@ -102,7 +102,7 @@ class AttributeGrammarTests(unittest.TestCase):
         system = agfeqns(
             "{T=Union(Z,Prod(Z,T,T))}",
             "{leaf(T)=Union(1,Prod(0,leaf(T),leaf(T)))}",
-            labelled=False,
+            labeled=False,
             attributes={"u": "leaf"},
         )
 
@@ -132,7 +132,7 @@ class AttributeGrammarTests(unittest.TestCase):
         system = agfeqns(
             "{T=Union(Z,Prod(Z,T,T))}",
             "{path(T)=Union(0,Prod(0,path(T)+size(T),path(T)+size(T)))}",
-            labelled=False,
+            labeled=False,
             attributes={"u": "path"},
         )
 
@@ -154,11 +154,11 @@ class AttributeGrammarTests(unittest.TestCase):
             ),
         )
 
-    def test_unlabelled_set_equations_power_size_and_attribute_variables(self):
+    def test_unlabeled_set_equations_power_size_and_attribute_variables(self):
         system = agfeqns(
             "{T=Set(Z)}",
             "{marks(T)=Set(1)}",
-            labelled=False,
+            labeled=False,
             attributes={"u": "marks"},
         )
 
@@ -170,7 +170,7 @@ class AttributeGrammarTests(unittest.TestCase):
         equations = agfeqns(
             "{T=Union(Z,Prod(Z,T,T))}",
             "{leaf(T)=Union(1,Prod(0,leaf(T),leaf(T)))}",
-            labelled=False,
+            labeled=False,
             attributes={"u": "leaf"},
         )
 
@@ -185,7 +185,7 @@ class AttributeGrammarTests(unittest.TestCase):
             "{bit=Union(zero,one),zero=Atom,one=Atom,S=Sequence(bit,card=2)}",
             "{ones(bit)=Union(0,1),ones(S)=Sequence(ones(bit)),"
             "weight(bit)=Union(2,3),weight(S)=Sequence(weight(bit))}",
-            labelled=False,
+            labeled=False,
             attributes={"u": "ones", "v": "weight"},
         )
 
@@ -202,7 +202,7 @@ class AttributeGrammarTests(unittest.TestCase):
         equations = agfeqns(
             grammar,
             attribute_grammar,
-            labelled=False,
+            labeled=False,
             attributes={"u": "cost"},
         )
 
@@ -214,7 +214,7 @@ class AttributeGrammarTests(unittest.TestCase):
             agfseries(
                 grammar,
                 attribute_grammar,
-                labelled=False,
+                labeled=False,
                 term_count=3,
                 attributes={"u": "cost"},
             )
@@ -222,7 +222,7 @@ class AttributeGrammarTests(unittest.TestCase):
             agfseries(
                 grammar,
                 attribute_grammar,
-                labelled=False,
+                labeled=False,
                 term_count=3,
                 attributes={"u": "cost"},
                 parameters={"sq": 1, "mul": 2, "other": 3},
@@ -231,7 +231,7 @@ class AttributeGrammarTests(unittest.TestCase):
             agfseries(
                 grammar,
                 attribute_grammar,
-                labelled=False,
+                labeled=False,
                 term_count=3,
                 attributes={"u": "cost"},
                 parameters={"sq": 1, "mul": True},
@@ -240,7 +240,7 @@ class AttributeGrammarTests(unittest.TestCase):
         series = agfseries(
             grammar,
             attribute_grammar,
-            labelled=False,
+            labeled=False,
             term_count=3,
             attributes={"u": "cost"},
             parameters={"sq": 1, "mul": 2},
@@ -264,13 +264,13 @@ class AttributeGrammarTests(unittest.TestCase):
         equations = agfeqns(
             grammar,
             attribute_grammar,
-            labelled=False,
+            labeled=False,
             attributes={"u": "cost"},
         )
         series = agfseries(
             grammar,
             attribute_grammar,
-            labelled=False,
+            labeled=False,
             term_count=4,
             attributes={"u": "cost"},
             parameters={"sq": 2, "mul": 3},
@@ -297,7 +297,7 @@ class AttributeGrammarTests(unittest.TestCase):
             agfeqns(
                 grammar,
                 "{cost(T)=Union(u,Prod(0,cost(T)))}",
-                labelled=False,
+                labeled=False,
                 attributes={"u": "cost"},
             )
 
@@ -305,7 +305,7 @@ class AttributeGrammarTests(unittest.TestCase):
         series = agfseries(
             "{T=Prod(Z,Z)}",
             "{marks(T)=Prod(1,1)}",
-            labelled=True,
+            labeled=True,
             term_count=4,
             attributes={"u": "marks"},
         )
@@ -324,7 +324,7 @@ class AttributeGrammarTests(unittest.TestCase):
         series = agfseries(
             "{bit=Union(zero,one),zero=Atom,one=Atom,S=Sequence(bit,card=2)}",
             "{ones(bit)=Union(0,1),ones(S)=Sequence(ones(bit))}",
-            labelled=False,
+            labeled=False,
             term_count=3,
             attributes={"u": "ones"},
         )
@@ -338,7 +338,7 @@ class AttributeGrammarTests(unittest.TestCase):
             "{bit=Union(zero,one),zero=Atom,one=Atom,S=Sequence(bit,card=2)}",
             "{ones(bit)=Union(0,1),ones(S)=Sequence(ones(bit)),"
             "weight(bit)=Union(2,3),weight(S)=Sequence(weight(bit))}",
-            labelled=False,
+            labeled=False,
             term_count=3,
             attributes={"u": "ones", "v": "weight"},
         )
@@ -349,7 +349,7 @@ class AttributeGrammarTests(unittest.TestCase):
         series = agfseries(
             "{bit=Union(zero,one),zero=Atom,one=Atom,S=Sequence(bit,card=2)}",
             "{ones(bit)=Union(0,1)}",
-            labelled=False,
+            labeled=False,
             term_count=3,
             attributes={"u": "ones"},
         )
@@ -366,14 +366,14 @@ class AttributeGrammarTests(unittest.TestCase):
         series = agfseries(
             grammar,
             attribute_grammar,
-            labelled=False,
+            labeled=False,
             term_count=4,
             attributes=attributes,
         )
         equations = agfeqns(
             grammar,
             attribute_grammar,
-            labelled=False,
+            labeled=False,
             attributes=attributes,
         )
 
@@ -428,7 +428,7 @@ class AttributeGrammarTests(unittest.TestCase):
                 agfseries(
                     grammar,
                     attribute_grammar,
-                    labelled=False,
+                    labeled=False,
                     term_count=4,
                     attributes={"u": "cost"},
                 )
@@ -438,7 +438,7 @@ class AttributeGrammarTests(unittest.TestCase):
                 grammar,
                 "{cost(T)=Union(0,Prod(0,cost(T)))+other(T),"
                 "other(T)=Union(0,Prod(0,other(T)))+cost(T)}",
-                labelled=False,
+                labeled=False,
                 term_count=4,
                 attributes={"u": "cost", "v": "other"},
             )

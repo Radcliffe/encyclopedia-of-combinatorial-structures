@@ -50,6 +50,7 @@ from .specification import (
     Reference,
     SpecificationError,
     parse_specification,
+    resolve_labelled,
 )
 
 
@@ -124,7 +125,7 @@ class AttributeSeries:
 
     variables: tuple[str, ...]
     coefficients: Mapping[tuple[int, ...], Fraction]
-    labelled: bool
+    labeled: bool
 
     def coefficient(self, size: int, /, **attribute_values: int) -> Fraction:
         """Return one coefficient, using zero for no absent monomial."""
@@ -144,7 +145,7 @@ class AttributeEquationSystem:
 
     equations: tuple[GFEquation, ...]
     variables: tuple[str, ...]
-    labelled: bool
+    labeled: bool
     structure_specification: Mapping[str, Expression]
     attribute_specification: Mapping[tuple[str, str], AttributeExpression]
     attributes: Mapping[str, str]
@@ -157,7 +158,7 @@ class AttributeMomentSystem:
 
     variables: tuple[str, ...]
     term_count: int
-    labelled: bool
+    labeled: bool
     moments: Mapping[tuple[str, tuple[int, ...]], tuple[Fraction, ...]]
 
     def series(self, symbol: str, /, *orders: int) -> tuple[Fraction, ...]:
@@ -781,12 +782,12 @@ class _AttributeEquationBuilder:
         equations: Mapping[str, Expression],
         attribute_equations: Mapping[tuple[str, str], AttributeExpression],
         *,
-        labelled: bool,
+        labeled: bool,
         attributes: Mapping[str, str],
     ):
         self.equations = equations
         self.attribute_equations = attribute_equations
-        self.labelled = labelled
+        self.labeled = labeled
         self.attributes = attributes
         self.variables = (
             GFVariable("_x"),
@@ -816,7 +817,7 @@ class _AttributeEquationBuilder:
         return AttributeEquationSystem(
             equations,
             tuple(variable.name for variable in self.variables),
-            self.labelled,
+            self.labeled,
             dict(self.equations),
             dict(self.attribute_equations),
             dict(self.attributes),
@@ -1081,24 +1082,24 @@ class _AttributeEquationBuilder:
     ) -> GFExpression:
         if name == "sequence":
             return _GeneratingFunctionDeriver._sequence(component, minimum, maximum)
-        if name == "set" and self.labelled:
-            return _GeneratingFunctionDeriver._labelled_set(component, minimum, maximum)
-        if name == "cycle" and self.labelled:
-            return _GeneratingFunctionDeriver._labelled_cycle(component, minimum, maximum)
-        if name == "powerset" and self.labelled:
+        if name == "set" and self.labeled:
+            return _GeneratingFunctionDeriver._labeled_set(component, minimum, maximum)
+        if name == "cycle" and self.labeled:
+            return _GeneratingFunctionDeriver._labeled_cycle(component, minimum, maximum)
+        if name == "powerset" and self.labeled:
             raise UnsupportedGeneratingFunctionDerivation(
-                "PowerSet is only defined for unlabelled structures",
+                "PowerSet is only defined for unlabeled structures",
             )
         if name == "cycle":
-            return self._unlabelled_cycle(component, minimum, maximum)
-        return self._unlabelled_selection(
+            return self._unlabeled_cycle(component, minimum, maximum)
+        return self._unlabeled_selection(
             component,
             minimum,
             maximum,
             distinct=name == "powerset",
         )
 
-    def _unlabelled_selection(
+    def _unlabeled_selection(
         self,
         component: GFExpression,
         minimum: int,
@@ -1142,7 +1143,7 @@ class _AttributeEquationBuilder:
             _sum(fixed(count) for count in range(minimum)),
         )
 
-    def _unlabelled_cycle(
+    def _unlabeled_cycle(
         self,
         component: GFExpression,
         minimum: int,
@@ -1187,13 +1188,19 @@ def agfeqns(
     specification: str | Mapping[str, Expression],
     attribute_specification: str | Mapping[tuple[str, str], AttributeExpression],
     *,
-    labelled: bool,
+    labeled: bool | None = None,
+    labelled: bool | None = None,
     attributes: Mapping[str, str],
 ) -> AttributeEquationSystem:
-    """Return symbolic multivariate equations for an attribute grammar."""
+    """Return symbolic multivariate equations for an attribute grammar.
 
-    if not isinstance(labelled, bool):
-        raise TypeError("labelled must be a boolean")
+    ``labeled`` is the preferred spelling for the labeling flag; ``labelled``
+    is accepted for backward compatibility.
+    """
+
+    labeled = resolve_labelled(labeled=labeled, labelled=labelled)
+    if not isinstance(labeled, bool):
+        raise TypeError("labeled must be a boolean")
     if not isinstance(attributes, Mapping):
         raise TypeError("attributes must map marker-variable names to attribute names")
     equations = _structure_equations(specification)
@@ -1202,7 +1209,7 @@ def agfeqns(
     return _AttributeEquationBuilder(
         equations,
         attribute_equations,
-        labelled=labelled,
+        labeled=labeled,
         attributes=attributes,
     ).build()
 
@@ -1242,7 +1249,7 @@ def agfmomentsolve(
     joint = agfseries(
         equations.structure_specification,
         equations.attribute_specification,
-        labelled=equations.labelled,
+        labeled=equations.labeled,
         term_count=term_count,
         attributes=equations.attributes,
         parameters=parameters,
@@ -1262,7 +1269,7 @@ def agfmomentsolve(
     return AttributeMomentSystem(
         equations.variables,
         term_count,
-        equations.labelled,
+        equations.labeled,
         result,
     )
 
@@ -1354,7 +1361,8 @@ def agfseries(
     specification: str | Mapping[str, Expression],
     attribute_specification: str | Mapping[tuple[str, str], AttributeExpression],
     *,
-    labelled: bool,
+    labeled: bool | None = None,
+    labelled: bool | None = None,
     term_count: int,
     attributes: Mapping[str, str],
     parameters: Mapping[str, int] | None = None,
@@ -1362,11 +1370,14 @@ def agfseries(
     """Return exact truncated multivariate series for an attribute grammar.
 
     ``attributes`` maps marker-variable names to attribute names.  Exponents
-    are returned in ``(size, *attribute_values)`` order.
+    are returned in ``(size, *attribute_values)`` order. ``labeled`` is the
+    preferred spelling for the labeling flag; ``labelled`` is accepted for
+    backward compatibility.
     """
 
-    if not isinstance(labelled, bool):
-        raise TypeError("labelled must be a boolean")
+    labeled = resolve_labelled(labeled=labeled, labelled=labelled)
+    if not isinstance(labeled, bool):
+        raise TypeError("labeled must be a boolean")
     if isinstance(term_count, bool) or not isinstance(term_count, int):
         raise TypeError("term_count must be an integer")
     if term_count <= 0:
@@ -1384,11 +1395,11 @@ def agfseries(
     for symbol in equations:
         coefficients: dict[tuple[int, ...], Fraction] = {}
         for size in range(term_count):
-            denominator = math.factorial(size) if labelled else 1
+            denominator = math.factorial(size) if labeled else 1
             for obj in allstructs(
                 equations,
                 size=size,
-                labelled=labelled,
+                labeled=labeled,
                 symbol=symbol,
             ):
                 combinatorial_object = cast(CombinatorialObject, obj)
@@ -1403,7 +1414,7 @@ def agfseries(
                     1,
                     denominator,
                 )
-        result[symbol] = AttributeSeries(variables, coefficients, labelled)
+        result[symbol] = AttributeSeries(variables, coefficients, labeled)
     return result
 
 
